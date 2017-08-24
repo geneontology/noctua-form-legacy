@@ -1,0 +1,7 @@
+menu-name: "Simple annoton editor"
+page-name: "Simple annoton editor v0.1.0"
+type: "model"
+help-link: "http://github.com/DoctorBud/simple-annoton-editor/issues"
+javascript:
+  - bundle.js
+css: []
