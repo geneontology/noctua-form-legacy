@@ -485,10 +485,13 @@ export default class GraphService {
 
     let MFe = editingModel.MFe;
     if (!tempMFID) {
-      tempMFID = reqs.add_individual(rootMF);
-      MFe = {
-        id: noDataECO
-      };
+      if (tempBPID) {
+        // create a dummy MF instance to connect to BP;
+        // NOTE: if all we have is a CCID (i.e. no MF, np BP) then
+        // the assumption is the curator is making a weak gp-part-of-cc statement.
+        // we handle this further on
+        tempMFID = reqs.add_individual(rootMF);
+      }
     }
 
     if (tempMFID) {
@@ -530,11 +533,22 @@ export default class GraphService {
     }
 
     if (tempCCID) {
-      var edgeGPCC = reqs.add_fact([
-        tempMFID,
-        tempCCID,
-        PredicateOccursIn
-      ]);
+      var edgeGPCC = null;
+      if (tempMFID) {
+        edgeGPCC = reqs.add_fact([
+          tempMFID,
+          tempCCID,
+          PredicateOccursIn
+        ]);
+      }
+      else {
+        edgeGPCC = reqs.add_fact([
+          tempGPID,
+          tempCCID,
+          PredicatePartOf
+        ]);
+        
+      }
 
       if (editingModel.CCe) {
         var tempEvidenceCCGPID = reqs.add_individual(editingModel.CCe.id);
