@@ -52,7 +52,7 @@ var config = {
     new webpack.DefinePlugin({
       'INCLUDE_ALL_MODULES': function includeAllModulesGlobalFn(modulesArray, application) {
         modulesArray.forEach(function executeModuleIncludesFn(moduleFn) {
-            moduleFn(application);
+          moduleFn(application);
         });
       },
       ENVIRONMENT: JSON.stringify(nodeEnvironment)
@@ -87,9 +87,9 @@ var config = {
         test: /\.js$/,
         loader: 'babel-loader',
         query: {
-            // https://github.com/babel/babel-loader#options
-            cacheDirectory: true,
-            presets: ['env']
+          // https://github.com/babel/babel-loader#options
+          cacheDirectory: true,
+          presets: ['env']
         },
         exclude: /node_modules/,
         include: [app]
@@ -138,13 +138,14 @@ var config = {
     contentBase: dist,
     watchContentBase: true,
     historyApiFallback: true,
-   headers: { "Access-Control-Allow-Origin": "*" }
+    headers: { "Access-Control-Allow-Origin": "*" }
   },
 };
 
 config.plugins.push(
   new CopyWebpackPlugin([
-    { from: 'inject.tmpl' }
+    { from: 'inject.tmpl' },
+    { from: 'grid-templates/**/*' }
   ]));
 
 config.plugins.push(

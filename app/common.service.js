@@ -12,9 +12,7 @@ export default class CommonService {
       width: 200,
       field: 'term',
       resizable: false,
-      cellTemplate: 'uigridActionCell',
-      headerCellTemplate: 'uigridActionHeader',
-      enableCellEdit: true,
+      cellTemplate: 'cellTemplate.html',
       enableCellSelection: false,
       enableCellEditOnFocus: false,
       enableSorting: false,
@@ -27,7 +25,7 @@ export default class CommonService {
       width: 300,
       field: 'description',
       resizable: false,
-      cellTemplate: 'cellTemplate.html',
+      cellTemplate: './grid-templates/textbox-cell-template.html',
       enableCellEdit: true,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -75,7 +73,7 @@ export default class CommonService {
     }];
 
     this.gridOptions = {
-      rowHeight: 120,
+      rowHeight: 40,
       width: 100,
       minWidth: 100,
       enableCellSelection: false,
@@ -102,7 +100,18 @@ export default class CommonService {
     };
   }
 
+  initalizeForm() {
+    let self = this;
+    let data = [{
+      'term': 'Molecular Funtion',
+    }, {
+      'term': 'Biological Proccess',
+    }, {
+      'term': 'Cellular Component',
+    }];
 
+    this.gridOptions.data = data;
+  }
 
 }
 CommonService.$inject = ['$timeout', '$rootScope'];

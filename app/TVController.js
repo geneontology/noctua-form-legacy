@@ -17,6 +17,9 @@ export default class TVController {
     tvc.common = common;
 
     tvc.common.registerApi();
+    tvc.common.initalizeForm();
+    tvc.common.gridOptions.appScopeProvider = tvc;
+
 
     var userNameInfo = document.getElementById('user_name_info');
     if (userNameInfo) {
