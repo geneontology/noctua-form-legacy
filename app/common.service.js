@@ -103,11 +103,14 @@ export default class CommonService {
   initalizeForm() {
     let self = this;
     let data = [{
-      'term': 'Molecular Funtion',
+      'term': 'MF',
+      'description': 'Molecular Funtion',
     }, {
-      'term': 'Biological Proccess',
+      'term': 'BP',
+      'description': 'Biological Proccess'
     }, {
-      'term': 'Cellular Component',
+      'term': 'CC',
+      'description': 'Cellular Component'
     }];
 
     this.gridOptions.data = data;
