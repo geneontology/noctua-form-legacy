@@ -1,58 +1,32 @@
 <!-- {{=<% %>=}} -->
 
 <!-- Main "app". -->
-<div
-  ng-strict-di
-  ng-app="TVApp">
+<div ng-strict-di ng-app="TVApp">
 
-  <div
-    ng-controller="TVController as tvc"
-    ng-form="patternForm"
-    class="container-fluid tv-container">
+  <div ng-controller="TVController as tvc" ng-form="patternForm" class="container-fluid tv-container">
 
-    <div
-      class="row">
+    <div class="row">
       <div class="col-xs-12 text-center">
         <h4>{{tvc.graph.title[0].value()}} ({{tvc.graph.model_id}})</h4>
       </div>
     </div>
 
-    <div
-      ng-if="tvc.graph.loggedIn"
-      class="row">
+    <div ng-if="tvc.graph.loggedIn" class="row">
       <div class="col-xs-12">
         <div class="input-group input-group-sm">
           <span class="input-group-addon" id="igGP">GP</span>
           <div class="typeaheadcontainer">
-            <div
-              style="position:absolute;z-index:100;margin-left:4px;"
-              ng-show="loadingItemsGP">
+            <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItemsGP">
               <i class="fa fa-spinner fa-spin fa-fw"></i>
             </div>
-            <input
-              id="GPFocus"
-              aria-describedby="igGP"
-              type="text"
-              ng-model="tvc.editingModel.GP"
-              ng-trim="false"
-              ng-blur="noResultsGP = false"
-              uib-typeahead="term as term.label for term in tvc.getTerm('GP', $viewValue)"
-              typeahead-append-to-body="true"
-              xtypeahead-focus-on-select="true"
-              xtypeahead-select-on-blur="false"
-              typeahead-loading="loadingItemsGP"
-              typeahead-no-results="noResultsGP"
-              typeahead-template-url="customTemplate.html"
-              typeahead-editable="true"
-              typeahead-min-length=0
-              xtypeahead-is-open="isOpen"
-              typeahead-is-open="'true'"
-              typeahead-on-select="tvc.termSelected('GP', $item, $model, $label, $event)"
-              class="typeaheadcontrol form-control"
+            <input id="GPFocus" aria-describedby="igGP" type="text" ng-model="tvc.editingModel.GP" ng-trim="false" ng-blur="noResultsGP = false"
+              uib-typeahead="term as term.label for term in tvc.getTerm('GP', $viewValue)" typeahead-append-to-body="true"
+              xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP" typeahead-no-results="noResultsGP"
+              typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen"
+              typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected('GP', $item, $model, $label, $event)" class="typeaheadcontrol form-control"
               ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
             </input>
-            <div class="no-results"
-              ng-show="tvc.editingModel.GP.length > 2 && noResultsGP">
+            <div class="no-results" ng-show="tvc.editingModel.GP.length > 2 && noResultsGP">
               No Results Found
             </div>
           </div>
@@ -60,83 +34,156 @@
       </div>
     </div>
 
-    <div
-      ng-if="tvc.graph.loggedIn"
-      ng-repeat="term in ['MF', 'BP', 'CC']" class="row">
+
+
+    <!-- GENE PRODUCT -->
+    <div ng-if="tvc.graph.loggedIn" class="row">
+      <div class="col-xs-12">
+        <div class="input-group input-group-sm">
+          <span class="input-group-addon" id="igGP">Gene Product</span>
+          <div class="typeaheadcontainer">
+            <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItemsGP">
+              <i class="fa fa-spinner fa-spin fa-fw"></i>
+            </div>
+            <input id="GPFocus" aria-describedby="igGP" type="text" ng-model="tvc.editingModel.GP" ng-trim="false" ng-blur="noResultsGP = false"
+              uib-typeahead="term as term.label for term in tvc.getTerm('GP', $viewValue)" typeahead-append-to-body="true"
+              xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP" typeahead-no-results="noResultsGP"
+              typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen"
+              typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected('GP', $item, $model, $label, $event)" class="typeaheadcontrol form-control"
+              ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+            </input>
+            <div class="no-results" ng-show="tvc.editingModel.GP.length > 2 && noResultsGP">
+              No Results Found
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END GENE PRODUCT -->
+
+
+    <div class="row">
+      <div class="col-xs-12">
+        <div id="formGrid1" ui-grid="tvc.common.gridOptions" ui-grid-edit ui-grid-cellNav ui-grid-resize-columns ui-grid-auto-resize
+          ui-grid-tree-view class="grid" style="margin:0;padding:0;height:80%;width:100%;">
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLE FORM  -->
+    <div ng-if="tvc.graph.loggedIn" ng-repeat="term in ['MF', 'BP', 'CC']" class="row">
       <div class="col-xs-3">
         <div class="input-group input-group-sm">
           <span class="input-group-addon" id="ig{{term}}">{{term}}</span>
-
           <div class="typeaheadcontainer">
-            <div
-              style="position:absolute;z-index:100;margin-left:4px;"
-              ng-show="loadingItems[term]">
+            <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[term]">
               <i class="fa fa-spinner fa-spin fa-fw"></i>
             </div>
-            <input
-              aria-describedby="ig{{term}}"
-              type="text"
-              ng-model="tvc.editingModel[term]"
-              ng-trim="false"
-              ng-blur="noResults[term] = false"
-              uib-typeahead="term as term.label for term in tvc.getTerm(term, $viewValue)"
-              typeahead-append-to-body="true"
-              xtypeahead-focus-on-select="true"
-              xtypeahead-select-on-blur="false"
-              typeahead-loading="loadingItems[term]"
-              typeahead-no-results="noResults[term]"
-              typeahead-template-url="customTemplate.html"
-              typeahead-editable="true"
-              typeahead-min-length=0
-              xtypeahead-is-open="isOpen"
-              typeahead-is-open="'true'"
-              typeahead-on-select="tvc.termSelected(term, $item, $model, $label, $event)"
-              class="typeaheadcontrol form-control"
+            <input aria-describedby="ig{{term}}" type="text" ng-model="tvc.editingModel[term]" ng-trim="false" ng-blur="noResults[term] = false"
+              uib-typeahead="term as term.label for term in tvc.getTerm(term, $viewValue)" typeahead-append-to-body="true"
+              xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]" typeahead-no-results="noResults[term]"
+              typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen"
+              typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term, $item, $model, $label, $event)" class="typeaheadcontrol form-control"
               ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
             </input>
-            <div class="no-results"
-              ng-show="tvc.editingModel[term].length > 2 && noResults[term]">
+            <div class="no-results" ng-show="tvc.editingModel[term].length > 2 && noResults[term]">
               No Results Found
             </div>
           </div>
         </div>
       </div>
 
-      <div
-        ng-if="tvc.graph.loggedIn"
-        class="col-xs-3">
+      <div ng-if="tvc.graph.loggedIn" class="col-xs-3">
         <div class="input-group input-group-sm">
           <span class="input-group-addon" id="ig{{term}}eCode">Evidence</span>
 
           <div class="typeaheadcontainer">
-            <div
-              style="position:absolute;z-index:100;margin-left:4px;"
-              ng-show="loadingItems[term + 'e']">
+            <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[term + 'e']">
               <i class="fa fa-spinner fa-spin fa-fw"></i>
             </div>
-            <input
-              aria-describedby="ig{{term}}e"
-              type="text"
-              ng-model="tvc.editingModel[term + 'e']"
-              ng-trim="false"
-              ng-blur="noResults[term + 'e'] = false"
-              uib-typeahead="term as term.label for term in tvc.getTerm(term + 'e', $viewValue)"
-              typeahead-append-to-body="true"
-              xtypeahead-focus-on-select="true"
-              xtypeahead-select-on-blur="false"
-              typeahead-loading="loadingItems[term + 'e']"
-              typeahead-no-results="noResults[term + 'e']"
-              typeahead-template-url="customTemplate.html"
-              typeahead-editable="true"
-              typeahead-min-length=0
-              xtypeahead-is-open="isOpen"
-              typeahead-is-open="'true'"
-              typeahead-on-select="tvc.termSelected(term + 'e', $item, $model, $label, $event)"
-              class="typeaheadcontrol form-control"
+            <input aria-describedby="ig{{term}}e" type="text" ng-model="tvc.editingModel[term + 'e']" ng-trim="false" ng-blur="noResults[term + 'e'] = false"
+              uib-typeahead="term as term.label for term in tvc.getTerm(term + 'e', $viewValue)" typeahead-append-to-body="true"
+              xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
+              typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html" typeahead-editable="true"
+              typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term + 'e', $item, $model, $label, $event)"
+              class="typeaheadcontrol form-control" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+            </input>
+            <div class="no-results" ng-show="tvc.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
+              No Results Found
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-3">
+        <div class="input-group input-group-sm">
+          <span class="input-group-addon" id="ig{{term}}eReference">Reference</span>
+          <input name="reference{{term}}" ng-pattern="/^.+:.+$/" ng-disabled="!tvc.editingModel[term + 'e']" ng-model="tvc.editingModel[term + 'e'].reference"
+            type="text" class="form-control" placeholder="PMID:1234" aria-describedby="ig{{term}}eReference">
+          <div class="no-results" ng-show="patternForm.reference{{term}}.$error.pattern">
+            Please use CURIE format.
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-3">
+        <div class="input-group input-group-sm">
+          <span class="input-group-addon" id="ig{{term}}eWith">With</span>
+          <input name="with{{term}}" ng-pattern="/^.+:.+$/" ng-disabled="!tvc.editingModel[term + 'e']" ng-model="tvc.editingModel[term + 'e'].with"
+            type="text" class="form-control" placeholder="PMID:5678" aria-describedby="ig{{term}}eWith">
+          <div class="no-results" ng-show="patternForm.with{{term}}.$error.pattern">
+            Please use CURIE format.
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END TABLE FORM -->
+
+
+
+
+
+
+
+
+
+    <div ng-if="tvc.graph.loggedIn" ng-repeat="term in ['MF', 'BP', 'CC']" class="row">
+      <div class="col-xs-3">
+        <div class="input-group input-group-sm">
+          <span class="input-group-addon" id="ig{{term}}">{{term}}</span>
+
+          <div class="typeaheadcontainer">
+            <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[term]">
+              <i class="fa fa-spinner fa-spin fa-fw"></i>
+            </div>
+            <input aria-describedby="ig{{term}}" type="text" ng-model="tvc.editingModel[term]" ng-trim="false" ng-blur="noResults[term] = false"
+              uib-typeahead="term as term.label for term in tvc.getTerm(term, $viewValue)" typeahead-append-to-body="true"
+              xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]" typeahead-no-results="noResults[term]"
+              typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen"
+              typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term, $item, $model, $label, $event)" class="typeaheadcontrol form-control"
               ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
             </input>
-            <div class="no-results"
-              ng-show="tvc.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
+            <div class="no-results" ng-show="tvc.editingModel[term].length > 2 && noResults[term]">
+              No Results Found
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div ng-if="tvc.graph.loggedIn" class="col-xs-3">
+        <div class="input-group input-group-sm">
+          <span class="input-group-addon" id="ig{{term}}eCode">Evidence</span>
+
+          <div class="typeaheadcontainer">
+            <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[term + 'e']">
+              <i class="fa fa-spinner fa-spin fa-fw"></i>
+            </div>
+            <input aria-describedby="ig{{term}}e" type="text" ng-model="tvc.editingModel[term + 'e']" ng-trim="false" ng-blur="noResults[term + 'e'] = false"
+              uib-typeahead="term as term.label for term in tvc.getTerm(term + 'e', $viewValue)" typeahead-append-to-body="true"
+              xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
+              typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html" typeahead-editable="true"
+              typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term + 'e', $item, $model, $label, $event)"
+              class="typeaheadcontrol form-control" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+            </input>
+            <div class="no-results" ng-show="tvc.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
               No Results Found
             </div>
           </div>
@@ -147,17 +194,9 @@
       <div class="col-xs-3">
         <div class="input-group input-group-sm">
           <span class="input-group-addon" id="ig{{term}}eReference">Reference</span>
-          <input
-            name="reference{{term}}"
-            ng-pattern="/^.+:.+$/"
-            ng-disabled="!tvc.editingModel[term + 'e']"
-            ng-model="tvc.editingModel[term + 'e'].reference"
-            type="text"
-            class="form-control"
-            placeholder="PMID:1234"
-            aria-describedby="ig{{term}}eReference">
-          <div class="no-results"
-            ng-show="patternForm.reference{{term}}.$error.pattern">
+          <input name="reference{{term}}" ng-pattern="/^.+:.+$/" ng-disabled="!tvc.editingModel[term + 'e']" ng-model="tvc.editingModel[term + 'e'].reference"
+            type="text" class="form-control" placeholder="PMID:1234" aria-describedby="ig{{term}}eReference">
+          <div class="no-results" ng-show="patternForm.reference{{term}}.$error.pattern">
             Please use CURIE format.
           </div>
         </div>
@@ -166,17 +205,9 @@
       <div class="col-xs-3">
         <div class="input-group input-group-sm">
           <span class="input-group-addon" id="ig{{term}}eWith">With</span>
-          <input
-            name="with{{term}}"
-            ng-pattern="/^.+:.+$/"
-            ng-disabled="!tvc.editingModel[term + 'e']"
-            ng-model="tvc.editingModel[term + 'e'].with"
-            type="text"
-            class="form-control"
-            placeholder="PMID:5678"
-            aria-describedby="ig{{term}}eWith">
-          <div class="no-results"
-            ng-show="patternForm.with{{term}}.$error.pattern">
+          <input name="with{{term}}" ng-pattern="/^.+:.+$/" ng-disabled="!tvc.editingModel[term + 'e']" ng-model="tvc.editingModel[term + 'e'].with"
+            type="text" class="form-control" placeholder="PMID:5678" aria-describedby="ig{{term}}eWith">
+          <div class="no-results" ng-show="patternForm.with{{term}}.$error.pattern">
             Please use CURIE format.
           </div>
         </div>
@@ -185,17 +216,11 @@
     </div>
 
     <br>
-    <div
-      ng-if="tvc.graph.loggedIn"
-      class="row">
+    <div ng-if="tvc.graph.loggedIn" class="row">
       <div class="col-xs-8">
-        <div
-          ng-if="tvc.saveRowEnabled(patternForm).length > 0"
-          class="well well-sm"
-          style="margin:0;padding:3px;">
+        <div ng-if="tvc.saveRowEnabled(patternForm).length > 0" class="well well-sm" style="margin:0;padding:3px;">
           <ul>
-            <li
-              ng-repeat="reason in tvc.saveRowEnabled(patternForm)"class="error-reason">
+            <li ng-repeat="reason in tvc.saveRowEnabled(patternForm)" class="error-reason">
               {{reason}}
             </li>
           </ul>
@@ -203,11 +228,7 @@
       </div>
 
       <div class="col-xs-3">
-        <button
-          type="button"
-          ng-disabled="tvc.saveRowEnabled(patternForm).length > 0"
-          ng-click="tvc.saveRow()"
-          class="btn btn-primary btn-sm center-block btn-block"
+        <button type="button" ng-disabled="tvc.saveRowEnabled(patternForm).length > 0" ng-click="tvc.saveRow()" class="btn btn-primary btn-sm center-block btn-block"
           style="margin-top:3px;">
           Save Annoton
         </button>
@@ -216,19 +237,10 @@
 
     <br>
 
-    <div
-      class="row">
+    <div class="row">
       <div class="col-xs-12">
-        <div
-          id="grid1"
-          ui-grid="tvc.gridOptions"
-          ui-grid-edit
-          ui-grid-cellNav
-          ui-grid-resize-columns
-          ui-grid-auto-resize
-          ui-grid-tree-view
-          class="grid"
-          style="margin:0;padding:0;height:80%;width:100%;">
+        <div id="grid1" ui-grid="tvc.gridOptions" ui-grid-edit ui-grid-cellNav ui-grid-resize-columns ui-grid-auto-resize ui-grid-tree-view
+          class="grid" style="margin:0;padding:0;height:80%;width:100%;">
         </div>
       </div>
     </div>
@@ -302,4 +314,3 @@
 
 
 <!-- <%={{ }}=%> -->
-

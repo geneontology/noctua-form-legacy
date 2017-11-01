@@ -6,7 +6,7 @@
 /* global angular */
 
 export default class TVController {
-  constructor($scope, $rootScope, $http, $timeout, uiGridTreeViewConstants, graph, lookup) {
+  constructor($scope, $rootScope, $http, $timeout, uiGridTreeViewConstants, graph, lookup, common) {
     var tvc = this;
     this.$scope = $scope;
     this.$rootScope = $rootScope;
@@ -14,6 +14,9 @@ export default class TVController {
     tvc.$timeout = $timeout;
     tvc.lookup = lookup;
     tvc.graph = graph;
+    tvc.common = common;
+
+    tvc.common.registerApi();
 
     var userNameInfo = document.getElementById('user_name_info');
     if (userNameInfo) {
@@ -124,16 +127,16 @@ export default class TVController {
     });
     tvc.gridOptions.columnDefs = columnDefs;
 
-    tvc.gridOptions.onRegisterApi = function(gridApi) {
+    tvc.gridOptions.onRegisterApi = function (gridApi) {
       tvc.gridApi = gridApi;
       tvc.$scope.gridApi = gridApi;
 
-      tvc.$timeout(function() {
+      tvc.$timeout(function () {
         tvc.gridApi.core.handleWindowResize();
       }, 0);
     };
 
-    $rootScope.$on('rebuilt', function(event, data) {
+    $rootScope.$on('rebuilt', function (event, data) {
       const gridData = data.gridData;
       tvc.clearForm();
 
@@ -165,28 +168,31 @@ export default class TVController {
 
   fillModelWithFakeData() {
     this.loadEditingModel({
-      GP: {id: 'MGI:MGI:4367793', label: 'Sho2 Mmus'},
+      GP: { id: 'MGI:MGI:4367793', label: 'Sho2 Mmus' },
 
-      MF: {id: 'GO:0045551', label: 'cinnamyl-alcohol dehydrogenase activity'},
+      MF: { id: 'GO:0045551', label: 'cinnamyl-alcohol dehydrogenase activity' },
       MFe: {
         id: 'ECO:0006017',
         label: 'traceable author statement from published clinical study used in manual assertion',
         reference: 'PMID:1234',
-        with: 'PMID:5678'},
+        with: 'PMID:5678'
+      },
 
-      BP: {id: 'GO:0046577', label: 'long-chain-alcohol oxidase activity'},
+      BP: { id: 'GO:0046577', label: 'long-chain-alcohol oxidase activity' },
       BPe: {
         id: 'ECO:0000501',
         label: 'evidence used in automatic assertion',
         reference: 'r2',
-        with: 'w2'},
+        with: 'w2'
+      },
 
-      CC: {id: 'GO:0047639', label: 'alcohol oxidase activity'},
+      CC: { id: 'GO:0047639', label: 'alcohol oxidase activity' },
       CCe: {
         id: 'ECO:0005542',
         label: 'biological system reconstruction evidence by exper…ence from single species used in manual assertion',
         reference: 'r3',
-        with: 'w3'}
+        with: 'w3'
+      }
     });
   }
 
@@ -331,4 +337,4 @@ export default class TVController {
     }
   }
 }
-TVController.$inject = ['$scope', '$rootScope', '$http', '$timeout', 'uiGridTreeViewConstants', 'graph', 'lookup'];
+TVController.$inject = ['$scope', '$rootScope', '$http', '$timeout', 'uiGridTreeViewConstants', 'graph', 'lookup', 'common'];
