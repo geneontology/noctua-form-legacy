@@ -3,14 +3,13 @@ export default class CommonService {
   constructor($timeout, $rootScope) {
     this.$timeout = $timeout;
     this.$rootScope = $rootScope;
-    this.test = 'I am working';
 
     this.gridApi = null;
     this.columnDefs = [{
-      name: 'term',
+      name: 'label',
       displayName: '',
       width: 200,
-      field: 'term',
+      field: 'label',
       resizable: false,
       cellTemplate: 'cellTemplate.html',
       enableCellSelection: false,
@@ -73,7 +72,7 @@ export default class CommonService {
     }];
 
     this.gridOptions = {
-      rowHeight: 40,
+      rowHeight: 35,
       width: 100,
       minWidth: 100,
       enableCellSelection: false,
@@ -90,7 +89,7 @@ export default class CommonService {
   }
 
   registerApi() {
-    let self = this;
+    const self = this;
     self.gridOptions.onRegisterApi = function (gridApi) {
       self.gridApi = gridApi;
 
@@ -101,19 +100,47 @@ export default class CommonService {
   }
 
   initalizeForm() {
-    let self = this;
+    const self = this;
     let data = [{
       'term': 'MF',
-      'description': 'Molecular Funtion',
+      'label': 'Molecular Funtion',
+      $$treeLevel: 0
     }, {
       'term': 'BP',
-      'description': 'Biological Proccess'
+      'label': 'Biological Proccess',
+      $$treeLevel: 0
+    }, {
+      'term': 'BP',
+      'label': 'Part Of (BP)',
+      $$treeLevel: 1
+    }, {
+      'term': 'BP',
+      'label': 'Part Of (BP)',
+      $$treeLevel: 2
     }, {
       'term': 'CC',
-      'description': 'Cellular Component'
+      'label': 'Cellular Component',
+      $$treeLevel: 0
+    }, {
+      'term': 'CC',
+      'label': 'Happens During',
+      $$treeLevel: 1
+    }, {
+      'term': 'CC',
+      'label': 'Part Of',
+      $$treeLevel: 2
     }];
 
-    this.gridOptions.data = data;
+    self.gridOptions.data = data;
+
+
+  }
+
+  expandAll() {
+    const self = this;
+    self.$timeout(function () {
+      self.gridApi.treeBase.expandAllRows();
+    });
   }
 
 }

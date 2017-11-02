@@ -18,6 +18,7 @@ export default class TVController {
 
     tvc.common.registerApi();
     tvc.common.initalizeForm();
+    tvc.common.expandAll();
     tvc.common.gridOptions.appScopeProvider = tvc;
 
 
