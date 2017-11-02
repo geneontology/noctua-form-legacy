@@ -11,7 +11,10 @@ export default class CommonService {
       width: 200,
       field: 'label',
       resizable: false,
-      // cellTemplate: './grid-templates/label-cell-template.html',
+      cellTemplate: './grid-templates/label-cell-template.html',
+      cellTooltip: function (row, col) {
+        return row.entity.tooltip ? row.entity.tooltip : row.entity.label;
+      },
       enableCellSelection: false,
       enableCellEditOnFocus: false,
       enableSorting: false,
@@ -85,7 +88,7 @@ export default class CommonService {
       enableCellEdit: false,
       enableCellEditOnFocus: false,
       multiSelect: false,
-      // rowTemplate: 'rowTemplate.html',
+      rowTemplate: './grid-templates/row-template.html',
       showTreeExpandNoChildren: false,
       // keyDownOverrides: [{keyCode: 27}]
       columnDefs: this.columnDefs
@@ -108,11 +111,22 @@ export default class CommonService {
     const self = this;
     let data = [{
       'term': 'MF',
-      'label': 'Molecular Funtion',
+      'termAppender': '',
+      'label': 'Molecular Function',
       $$treeLevel: 0
     }, {
+      'term': 'GP',
+      'termAppender': 'a',
+      'label': 'Has Input (Gene Product/Chemical)',
+      $$treeLevel: 1
+    }, {
       'term': 'BP',
-      'label': 'Biological Proccess',
+      'phase': 'Biological Phase',
+      'label': 'Happens During (Temporal Phase)',
+      $$treeLevel: 1
+    }, {
+      'term': 'BP',
+      'label': 'Biological Process',
       $$treeLevel: 0
     }, {
       'term': 'BP',
@@ -127,12 +141,12 @@ export default class CommonService {
       'label': 'Cellular Component',
       $$treeLevel: 0
     }, {
-      'term': 'CC',
-      'label': 'Happens During',
+      'term': 'CL',
+      'label': 'Part Of (Cell Type)',
       $$treeLevel: 1
     }, {
-      'term': 'CC',
-      'label': 'Part Of',
+      'term': '',
+      'label': 'Part Of (Anatomy)',
       $$treeLevel: 2
     }];
 

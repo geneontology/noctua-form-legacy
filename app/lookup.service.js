@@ -53,7 +53,8 @@ export default class LookupService {
       ],
       fq: [
         'document_category:"ontology_class"',
-        'regulates_closure:"CHEBI:23367"'
+        // 'regulates_closure:"CHEBI:23367"'//Generak Molecule + GP
+        'regulates_closure:"CHEBI:33695"'//GP
       ],
       qf: [
         'annotation_class^3',
@@ -162,6 +163,30 @@ export default class LookupService {
       ],
     });
 
+    var requestParamsCL = Object.assign({}, baseRequestParams, {
+      q: val + '*',
+      'facet.field': [
+        'source',
+        'subset',
+        'regulates_closure_label',
+        'is_obsolete'
+      ],
+      fq: [
+        'document_category:"ontology_class"',
+        'source:"eco"'
+      ],
+      qf: [
+        'annotation_class^3',
+        'annotation_class_label_searchable^5.5',
+        'description_searchable^1',
+        'comment_searchable^0.5',
+        'synonym_searchable^1',
+        'alternate_id^1',
+        'regulates_closure^1',
+        'regulates_closure_label_searchable^1'
+      ],
+    });
+
 
 
 
@@ -171,6 +196,7 @@ export default class LookupService {
       MF: requestParamsMF,
       MFe: requestParamsEvidence,
       BP: requestParamsBP,
+      CL: requestParamsCL,
       BPe: requestParamsEvidence,
       CC: requestParamsCC,
       CCe: requestParamsEvidence
@@ -188,28 +214,28 @@ export default class LookupService {
         params: requestParams
       })
       .then(
-        function(response) {
-          var data = response.data.response.docs;
-          var result = data.map(function(item) {
-            if (false && field === 'GP') {
-              return {
-                id: item.entity,
-                label: item.entity_label
-              };
-            }
-            else {
-              return {
-                id: item.annotation_class,
-                label: item.annotation_class_label
-              };
-            }
-          });
-          // console.log('GOLR success', response, requestParams, data, result);
-          return result;
-        },
-        function(error) {
-          console.log('GOLR error: ', golrURLBase, requestParams, error);
-        }
+      function (response) {
+        var data = response.data.response.docs;
+        var result = data.map(function (item) {
+          if (false && field === 'GP') {
+            return {
+              id: item.entity,
+              label: item.entity_label
+            };
+          }
+          else {
+            return {
+              id: item.annotation_class,
+              label: item.annotation_class_label
+            };
+          }
+        });
+        // console.log('GOLR success', response, requestParams, data, result);
+        return result;
+      },
+      function (error) {
+        console.log('GOLR error: ', golrURLBase, requestParams, error);
+      }
       );
   }
 
@@ -234,15 +260,15 @@ export default class LookupService {
     val = val || '';
     if (val !== null) {
       var valUpper = val.toUpperCase();
-      _.each(terms, function(v) {
+      _.each(terms, function (v) {
         if (v.label.toUpperCase().indexOf(valUpper) >= 0) {
           matches.push(v);
         }
       });
     }
 
-    return new Promise(function(resolve/*, reject */) {
-      setTimeout(function() {
+    return new Promise(function (resolve/*, reject */) {
+      setTimeout(function () {
         resolve(matches);
       }, 20);
     });

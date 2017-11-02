@@ -1,8 +1,8 @@
 <div class="typeaheadcontainer">
-    <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[row.entity.term]">
+    <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[row.entity.term+row.entity.termAppender]">
         <i class="fa fa-spinner fa-spin fa-fw"></i>
     </div>
-    <input aria-describedby="ig{{row.entity.term}}" type="INPUT_TYPE" ng-model="grid.appScope.editingModel[row.entity.term]"
+    <input aria-describedby="ig{{row.entity.term}}" type="INPUT_TYPE" ng-model="grid.appScope.editingModel[row.entity.term+row.entity.termAppender]"
         ng-trim="false" ng-blur="noResults[row.entity.term] = false" uib-typeahead="term as term.label for term in grid.appScope.getTerm(row.entity.term, $viewValue)"
         typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]"
         typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length=0

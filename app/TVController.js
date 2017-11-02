@@ -173,6 +173,7 @@ export default class TVController {
   fillModelWithFakeData() {
     this.loadEditingModel({
       GP: { id: 'MGI:MGI:4367793', label: 'Sho2 Mmus' },
+      GPa: { id: 'UniProtKB:O95477', label: 'Sho2 Mmus' },
 
       MF: { id: 'GO:0045551', label: 'cinnamyl-alcohol dehydrogenase activity' },
       MFe: {
@@ -191,6 +192,7 @@ export default class TVController {
       },
 
       CC: { id: 'GO:0047639', label: 'alcohol oxidase activity' },
+      CL: { id: 'CL:2000054', label: 'alcohol oxidase activity' },
       CCe: {
         id: 'ECO:0005542',
         label: 'biological system reconstruction evidence by exper…ence from single species used in manual assertion',
@@ -203,11 +205,13 @@ export default class TVController {
   clearForm() {
     this.editingModel = {
       GP: null,
+      GPa: null,
       MF: null,
       MFe: null,
       BP: null,
       BPe: null,
       CC: null,
+      CL: null,
       CCe: null
     };
 
