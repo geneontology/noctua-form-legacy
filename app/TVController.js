@@ -6,7 +6,7 @@
 /* global angular */
 
 export default class TVController {
-  constructor($scope, $rootScope, $http, $timeout, uiGridTreeViewConstants, graph, lookup, common) {
+  constructor($scope, $rootScope, $http, $timeout, uiGridTreeViewConstants, graph, lookup, formGrid) {
     var tvc = this;
     this.$scope = $scope;
     this.$rootScope = $rootScope;
@@ -14,12 +14,11 @@ export default class TVController {
     tvc.$timeout = $timeout;
     tvc.lookup = lookup;
     tvc.graph = graph;
-    tvc.common = common;
-
-    tvc.common.registerApi();
-    tvc.common.initalizeForm();
-    tvc.common.expandAll();
-    tvc.common.gridOptions.appScopeProvider = tvc;
+    tvc.formGrid = formGrid;
+    tvc.formGrid.registerApi();
+    tvc.formGrid.initalizeForm();
+    tvc.formGrid.expandAll();
+    tvc.formGrid.gridOptions.appScopeProvider = tvc;
 
 
     var userNameInfo = document.getElementById('user_name_info');
@@ -345,4 +344,4 @@ export default class TVController {
     }
   }
 }
-TVController.$inject = ['$scope', '$rootScope', '$http', '$timeout', 'uiGridTreeViewConstants', 'graph', 'lookup', 'common'];
+TVController.$inject = ['$scope', '$rootScope', '$http', '$timeout', 'uiGridTreeViewConstants', 'graph', 'lookup', 'formGrid'];

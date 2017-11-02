@@ -87,7 +87,7 @@ ul li.error-reason {
 
 /*Tools*/
 .sae-truncate { 
-  width: 250px;
+  width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -103,6 +103,10 @@ ul li.error-reason {
     width:100%;
   }
 
+ .ui-grid-cell-contents {
+    white-space: nowrap!important;
+    }	
+
   .ui-grid-row .ui-grid-cell {
     background-color: inherit !important;
     color: inherit !important;
@@ -115,12 +119,10 @@ ul li.error-reason {
  
  .sae-row-level-0{
    background-color: rgba($primary-color, 0.2);
-  // color: white;
  }
  
  .sae-row-level-1{
    background-color: rgba($primary-color, 0.1);
-  // color: white;
  }
  .sae-row-level-2{
   background-color: rgba($primary-color, 0.05);

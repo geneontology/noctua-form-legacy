@@ -1,9 +1,7 @@
 
-export default class CommonService {
-  constructor($timeout, $rootScope) {
+export default class FormGridService {
+  constructor($timeout) {
     this.$timeout = $timeout;
-    this.$rootScope = $rootScope;
-
     this.gridApi = null;
     this.columnDefs = [{
       name: 'label',
@@ -163,6 +161,6 @@ export default class CommonService {
   }
 
 }
-CommonService.$inject = ['$timeout', '$rootScope'];
+FormGridService.$inject = ['$timeout', '$rootScope'];
 
 

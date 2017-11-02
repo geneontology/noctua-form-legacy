@@ -34,5 +34,5 @@ import GraphService from './graph.service.js';
 app.service('graph', GraphService);
 import LookupService from './lookup.service.js';
 app.service('lookup', LookupService);
-import CommonService from './common.service.js';
-app.service('common', CommonService);
+import FormGridService from './form-grid.service.js';
+app.service('formGrid', FormGridService);
