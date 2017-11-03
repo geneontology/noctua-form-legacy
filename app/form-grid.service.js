@@ -105,21 +105,21 @@ export default class FormGridService {
     };
   }
 
+  /**
+   *  Populates the tree grid with GO Terms, MF, CC, BP as roots
+   */
   initalizeForm() {
     const self = this;
     let data = [{
       'term': 'MF',
-      'termAppender': '',
       'label': 'Molecular Function',
       $$treeLevel: 0
     }, {
       'term': 'GP',
-      'termAppender': 'a',
       'label': 'Has Input (Gene Product/Chemical)',
       $$treeLevel: 1
     }, {
       'term': 'BP',
-      'phase': 'Biological Phase',
       'label': 'Happens During (Temporal Phase)',
       $$treeLevel: 1
     }, {
@@ -153,6 +153,9 @@ export default class FormGridService {
 
   }
 
+  /**
+   * Expands all nodes. Expanded state is the default on initialization 
+   */
   expandAll() {
     const self = this;
     self.$timeout(function () {

@@ -15,16 +15,19 @@ export default class TVController {
     tvc.lookup = lookup;
     tvc.graph = graph;
     tvc.formGrid = formGrid;
-    tvc.formGrid.registerApi();
-    tvc.formGrid.initalizeForm();
-    tvc.formGrid.expandAll();
-    tvc.formGrid.gridOptions.appScopeProvider = tvc;
-
 
     var userNameInfo = document.getElementById('user_name_info');
     if (userNameInfo) {
       userNameInfo.innerHTML = '';
     }
+
+    /* Init the grid form */
+    tvc.formGrid.registerApi();
+    tvc.formGrid.initalizeForm();
+    tvc.formGrid.expandAll();
+
+    /* Attach the tvc to the gridScope */
+    tvc.formGrid.gridOptions.appScopeProvider = tvc;
 
     tvc.clearForm();
 
