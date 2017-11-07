@@ -108,8 +108,10 @@ ul li.error-reason {
     }	
 
   .ui-grid-row .ui-grid-cell {
+    padding: 3px;
     background-color: inherit !important;
     color: inherit !important;
+    border: none;
  }
  
  .ui-grid-row .ui-grid-cell.ui-grid-cell {
@@ -118,14 +120,14 @@ ul li.error-reason {
  }
  
  .sae-row-level-0{
-   background-color: rgba($primary-color, 0.2);
+  // background-color: rgba($primary-color, 0.2);
  }
  
  .sae-row-level-1{
-   background-color: rgba($primary-color, 0.1);
+  // background-color: rgba($primary-color, 0.1);
  }
  .sae-row-level-2{
-  background-color: rgba($primary-color, 0.05);
+  //background-color: rgba($primary-color, 0.05);
  }
     .ui-grid-cell {
       input {

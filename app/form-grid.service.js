@@ -10,6 +10,7 @@ export default class FormGridService {
       field: 'label',
       resizable: false,
       cellTemplate: './grid-templates/label-cell-template.html',
+      headerCellTemplate: './grid-templates/header-cell-template.html',
       cellTooltip: function (row, col) {
         return row.entity.tooltip ? row.entity.tooltip : row.entity.label;
       },
@@ -21,11 +22,12 @@ export default class FormGridService {
       enableColumnMenu: false
     }, {
       name: 'description',
-      displayName: '',
-      width: 300,
+      displayName: 'Term',
+      width: 200,
       field: 'description',
       resizable: false,
       cellTemplate: './grid-templates/description-cell-template.html',
+      headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -38,8 +40,9 @@ export default class FormGridService {
       field: 'Evidence.label',
       originalName: 'Evidence',
       displayName: 'Evidence',
-      minWidth: 250,
+      minWidth: 200,
       cellTemplate: './grid-templates/evidence-cell-template.html',
+      headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -50,10 +53,11 @@ export default class FormGridService {
     }, {
       name: 'reference',
       displayName: 'Reference',
-      width: 300,
+      width: '200',
       field: 'reference',
       resizable: false,
       cellTemplate: './grid-templates/reference-cell-template.html',
+      headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -64,10 +68,11 @@ export default class FormGridService {
     }, {
       name: 'with',
       displayName: 'With',
-      width: 300,
+      width: '10%',
       field: 'with',
       resizable: false,
       cellTemplate: './grid-templates/with-cell-template.html',
+      headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -78,7 +83,7 @@ export default class FormGridService {
     }];
 
     this.gridOptions = {
-      rowHeight: 35,
+      rowHeight: 41,
       width: 100,
       minWidth: 100,
       enableCellSelection: false,
