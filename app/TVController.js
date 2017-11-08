@@ -152,7 +152,18 @@ export default class TVController {
     graph.initialize();
   }
 
-  getTerm(field, term) {
+  getTerm(field) {
+    let result = null;
+    if (field.control.value && field.control.value.length >= 3) {
+      //let oldValue = this.editingModel[field];
+      // console.log('getTerm', field, oldValue, term);
+      result = this.lookup.golrLookup(field); // delete?, this.fieldToRoot[field]);
+      // console.log('result', result);
+    }
+    return result;
+  }
+
+  getTerm2(field, term) {
     let result = null;
     if (term && term.length >= 3) {
       let oldValue = this.editingModel[field];

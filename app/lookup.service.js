@@ -8,9 +8,205 @@ export default class LookupService {
     this.$location = $location;
     this.$sce = $sce;
     this.$rootScope = $rootScope;
+
+    /* global global_golr_neo_server */
+    this.golrURLBase = `${global_golr_neo_server}/select`;
+    this.baseRequestParams = {
+      defType: 'edismax',
+      indent: 'on',
+      qt: 'standard',
+      wt: 'json',
+      rows: '10',
+      start: '0',
+      fl: '*,score',
+      'facet': true,
+      'facet.mincount': 1,
+      'facet.sort': 'count',
+      'facet.limit': '25',
+      'json.nl': 'arrarr',
+      packet: '1',
+      callback_type: 'search',
+      _: Date.now()
+    };
+    this.trusted = this.$sce.trustAsResourceUrl(this.golrURLBase);
+
+    /* Request Params */
+    this.requestParamsGP = Object.assign({}, this.baseRequestParams, {
+      'facet.field': [
+        'source',
+        'subset',
+        'regulates_closure_label',
+        'is_obsolete'
+      ],
+      fq: [
+        'document_category:"ontology_class"',
+        // 'regulates_closure:"CHEBI:23367"'//Generak Molecule + GP
+        'regulates_closure:"CHEBI:33695"'//GP
+      ],
+      qf: [
+        'annotation_class^3',
+        'annotation_class_label_searchable^5.5',
+        'description_searchable^1',
+        'comment_searchable^0.5',
+        'synonym_searchable^1',
+        'alternate_id^1',
+        'regulates_closure^1',
+        'regulates_closure_label_searchable^1'
+      ],
+    });
+
+    this.requestParamsMF = Object.assign({}, this.baseRequestParams, {
+      'facet.field': [
+        'source',
+        'subset',
+        'regulates_closure_label',
+        'is_obsolete'
+      ],
+      fq: [
+        'document_category:"ontology_class"',
+        'regulates_closure_label:"molecular_function"'
+      ],
+      qf: [
+        'annotation_class^3',
+        'annotation_class_label_searchable^5.5',
+        'description_searchable^1',
+        'comment_searchable^0.5',
+        'synonym_searchable^1',
+        'alternate_id^1',
+        'regulates_closure_label_searchable^1'
+      ],
+    });
+
+    this.requestParamsBP = Object.assign({}, this.baseRequestParams, {
+      'facet.field': [
+        'source',
+        'subset',
+        'regulates_closure_label',
+        'is_obsolete'
+      ],
+      fq: [
+        'document_category:"ontology_class"',
+        'regulates_closure_label:"biological_process"'
+      ],
+      qf: [
+        'annotation_class^3',
+        'annotation_class_label_searchable^5.5',
+        'description_searchable^1',
+        'comment_searchable^0.5',
+        'synonym_searchable^1',
+        'alternate_id^1',
+        'regulates_closure_label_searchable^1'
+      ],
+    });
+
+
+    this.requestParamsCC = Object.assign({}, this.baseRequestParams, {
+      'facet.field': [
+        'source',
+        'subset',
+        'regulates_closure_label',
+        'is_obsolete'
+      ],
+      fq: [
+        'document_category:"ontology_class"',
+        'regulates_closure_label:"cellular_component"'
+      ],
+      qf: [
+        'annotation_class^3',
+        'annotation_class_label_searchable^5.5',
+        'description_searchable^1',
+        'comment_searchable^0.5',
+        'synonym_searchable^1',
+        'alternate_id^1',
+        'regulates_closure_label_searchable^1'
+      ],
+    });
+
+
+    this.requestParamsEvidence = Object.assign({}, this.baseRequestParams, {
+      'facet.field': [
+        'source',
+        'subset',
+        'regulates_closure_label',
+        'is_obsolete'
+      ],
+      fq: [
+        'document_category:"ontology_class"',
+        'source:"eco"'
+      ],
+      qf: [
+        'annotation_class^3',
+        'annotation_class_label_searchable^5.5',
+        'description_searchable^1',
+        'comment_searchable^0.5',
+        'synonym_searchable^1',
+        'alternate_id^1',
+        'regulates_closure^1',
+        'regulates_closure_label_searchable^1'
+      ],
+    });
+
+    this.requestParamsCL = Object.assign({}, this.baseRequestParams, {
+      'facet.field': [
+        'source',
+        'subset',
+        'regulates_closure_label',
+        'is_obsolete'
+      ],
+      fq: [
+        'document_category:"ontology_class"',
+        'source:"eco"'
+      ],
+      qf: [
+        'annotation_class^3',
+        'annotation_class_label_searchable^5.5',
+        'description_searchable^1',
+        'comment_searchable^0.5',
+        'synonym_searchable^1',
+        'alternate_id^1',
+        'regulates_closure^1',
+        'regulates_closure_label_searchable^1'
+      ],
+    });
   }
 
-  golrLookup(field, oldValue, val) {
+  golrLookup(field) {
+    const self = this;
+    field.lookup.requestParams.q = field.control.value + '*';
+    console.log('golrLookup', field.control.value, field.lookup.requestParams);
+
+
+    return this.$http.jsonp(
+      self.trusted,
+      {
+        // withCredentials: false,
+        jsonpCallbackParam: 'json.wrf',
+        params: field.lookup.requestParams
+      })
+      .then(function (response) {
+        var data = response.data.response.docs;
+        var result = data.map(function (item) {
+          return {
+            id: item.annotation_class,
+            label: item.annotation_class_label
+          };
+        });
+        // console.log('GOLR success', response, requestParams, data, result);
+        return result;
+      },
+      function (error) {
+        console.log('GOLR error: ', self.golrURLBase, field.lookup.requestParams, error);
+      }
+      );
+  }
+
+
+
+
+
+
+
+  golrLookupOriginal(field, oldValue, val) {
     /* global global_golr_neo_server */
     var golrURLBase = `${global_golr_neo_server}/select`;
 

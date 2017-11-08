@@ -1,7 +1,9 @@
 
 export default class FormGridService {
-  constructor($timeout) {
+  constructor($timeout, lookup) {
     this.$timeout = $timeout;
+    this.lookup = lookup;
+
     this.gridApi = null;
     this.columnDefs = [{
       name: 'label',
@@ -21,12 +23,12 @@ export default class FormGridService {
       enableHiding: false,
       enableColumnMenu: false
     }, {
-      name: 'description',
+      name: 'term',
       displayName: 'Term',
       width: 200,
-      field: 'description',
+      field: 'term',
       resizable: false,
-      cellTemplate: './grid-templates/description-cell-template.html',
+      cellTemplate: './grid-templates/term-cell-template.html',
       headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
@@ -53,7 +55,7 @@ export default class FormGridService {
     }, {
       name: 'reference',
       displayName: 'Reference',
-      width: '200',
+      width: 120,
       field: 'reference',
       resizable: false,
       cellTemplate: './grid-templates/reference-cell-template.html',
@@ -68,7 +70,7 @@ export default class FormGridService {
     }, {
       name: 'with',
       displayName: 'With',
-      width: '10%',
+      width: 120,
       field: 'with',
       resizable: false,
       cellTemplate: './grid-templates/with-cell-template.html',
@@ -116,40 +118,74 @@ export default class FormGridService {
   initalizeForm() {
     const self = this;
     let data = [{
-      'term': 'MF',
       'label': 'Molecular Function',
+      'term': {
+        'control': {
+          'placeholder': '',
+          'value': ''
+        },
+        'lookup': {
+          'requestParams': this.lookup.requestParamsGP
+        }
+      },
+      'evidence': '',
+      'reference': '',
+      'with': '',
+
       $$treeLevel: 0
     }, {
-      'term': 'GP',
       'label': 'Has Input (Gene Product/Chemical)',
+      'term': '',
+      'evidence': '',
+      'reference': '',
+      'with': '',
       $$treeLevel: 1
     }, {
-      'term': 'BP',
       'label': 'Happens During (Temporal Phase)',
+      'term': 'BP',
+      'evidence': '',
+      'reference': '',
+      'with': '',
       $$treeLevel: 1
     }, {
-      'term': 'BP',
       'label': 'Biological Process',
+      'term': 'BP',
+      'evidence': '',
+      'reference': '',
+      'with': '',
       $$treeLevel: 0
     }, {
-      'term': 'BP',
       'label': 'Part Of (BP)',
+      'term': 'BP',
+      'evidence': '',
+      'reference': '',
+      'with': '',
       $$treeLevel: 1
     }, {
-      'term': 'BP',
       'label': 'Part Of (BP)',
+      'term': 'BP',
+      'evidence': '',
+      'reference': '',
+      'with': '',
       $$treeLevel: 2
     }, {
-      'term': 'CC',
       'label': 'Cellular Component',
+      'term': 'CC',
+      'value': '',
       $$treeLevel: 0
     }, {
-      'term': 'CL',
       'label': 'Part Of (Cell Type)',
+      'term': 'CL',
+      'evidence': '',
+      'reference': '',
+      'with': '',
       $$treeLevel: 1
     }, {
-      'term': '',
       'label': 'Part Of (Anatomy)',
+      'term': '',
+      'evidence': '',
+      'reference': '',
+      'with': '',
       $$treeLevel: 2
     }];
 
@@ -169,6 +205,6 @@ export default class FormGridService {
   }
 
 }
-FormGridService.$inject = ['$timeout', '$rootScope'];
+FormGridService.$inject = ['$timeout', '$rootScope', 'lookup'];
 
 
