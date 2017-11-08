@@ -22,12 +22,12 @@
           <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItemsGP">
             <i class="fa fa-spinner fa-spin fa-fw"></i>
           </div>
-          <input id="GPFocus" aria-describedby="igGP" type="text" ng-model="tvc.editingModel.GP" ng-trim="false" ng-blur="noResultsGP = false"
-            uib-typeahead="term as term.label for term in tvc.getTerm('GP', $viewValue)" typeahead-append-to-body="true" xtypeahead-focus-on-select="true"
-            xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP" typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html"
-            typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected('GP', $item, $model, $label, $event)"
+          <input id="GPFocus" aria-describedby="igGP" type="text" ng-model="tvc.formGrid.geneProduct.control.value" ng-trim="false"
+            ng-blur="noResultsGP = false" uib-typeahead="term as term.label for term in tvc.getTerm(tvc.formGrid.geneProduct)"
+            typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP"
+            typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length=0
+            xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected('GP', $item, $model, $label, $event)"
             class="typeaheadcontrol form-control" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
-          </input>
           <div class="no-results" ng-show="tvc.editingModel.GP.length > 2 && noResultsGP">
             No Results Found
           </div>

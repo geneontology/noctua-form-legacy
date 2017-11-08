@@ -30,9 +30,10 @@ app.config(['JSONFormatterConfigProvider', function (JSONFormatterConfigProvider
 import TVController from 'TVController';
 app.controller('TVController', TVController);
 
+import FormGridService from './form-grid.service.js';
+app.service('formGrid', FormGridService);
 import GraphService from './graph.service.js';
 app.service('graph', GraphService);
 import LookupService from './lookup.service.js';
 app.service('lookup', LookupService);
-import FormGridService from './form-grid.service.js';
-app.service('formGrid', FormGridService);
+

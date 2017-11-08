@@ -2,13 +2,12 @@
     <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[row.entity.term + 'e']">
         <i class="fa fa-spinner fa-spin fa-fw"></i>
     </div>
-    <input aria-describedby="ig{{row.entity.term}}e" type="text" ng-model="grid.appScope.editingModel[row.entity.term + 'e']"
-        ng-trim="false" ng-blur="noResults[row.entity.term + 'e'] = false" uib-typeahead="term as term.label for term in grid.appScope.getTerm(row.entity.term + 'e', $viewValue)"
+    <input aria-describedby="ig{{row.entity.term}}e" type="text" ng-model="row.entity.evidence.control.value" ng-trim="false"
+        ng-blur="noResults[row.entity.term + 'e'] = false" uib-typeahead="term as term.label for term in grid.appScope.getTerm(row.entity.evidence)"
         typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
         typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length=0
         xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="grid.appScope.termSelected(term + 'e', $item, $model, $label, $event)"
         class="typeaheadcontrol form-control" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
-    </input>
     <div class="no-results" ng-show="grid.appScope.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
         No Results Found
     </div>

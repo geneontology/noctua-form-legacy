@@ -3,6 +3,38 @@ export default class FormGridService {
   constructor($timeout, lookup) {
     this.$timeout = $timeout;
     this.lookup = lookup;
+    this.baseFormGroup = {
+      'term': {
+        'control': {
+          'placeholder': '',
+          'value': ''
+        },
+        'lookup': {
+          'requestParams': this.lookup.requestParamsGP
+        }
+      },
+      'evidence': {
+        'control': {
+          'placeholder': '',
+          'value': ''
+        },
+        'lookup': {
+          'requestParams': this.lookup.requestParamsEvidence
+        }
+      },
+      'reference': {
+        'control': {
+          'placeholder': '',
+          'value': ''
+        }
+      },
+      'with': {
+        'control': {
+          'placeholder': '',
+          'value': ''
+        }
+      }
+    };
 
     this.gridApi = null;
     this.columnDefs = [{
@@ -117,77 +149,134 @@ export default class FormGridService {
    */
   initalizeForm() {
     const self = this;
-    let data = [{
-      'label': 'Molecular Function',
-      'term': {
-        'control': {
-          'placeholder': '',
-          'value': ''
-        },
-        'lookup': {
-          'requestParams': this.lookup.requestParamsGP
-        }
+    self.geneProduct = {
+      'control': {
+        'placeholder': '',
+        'value': ''
       },
-      'evidence': '',
-      'reference': '',
-      'with': '',
-
-      $$treeLevel: 0
-    }, {
-      'label': 'Has Input (Gene Product/Chemical)',
-      'term': '',
-      'evidence': '',
-      'reference': '',
-      'with': '',
-      $$treeLevel: 1
-    }, {
-      'label': 'Happens During (Temporal Phase)',
-      'term': 'BP',
-      'evidence': '',
-      'reference': '',
-      'with': '',
-      $$treeLevel: 1
-    }, {
-      'label': 'Biological Process',
-      'term': 'BP',
-      'evidence': '',
-      'reference': '',
-      'with': '',
-      $$treeLevel: 0
-    }, {
-      'label': 'Part Of (BP)',
-      'term': 'BP',
-      'evidence': '',
-      'reference': '',
-      'with': '',
-      $$treeLevel: 1
-    }, {
-      'label': 'Part Of (BP)',
-      'term': 'BP',
-      'evidence': '',
-      'reference': '',
-      'with': '',
-      $$treeLevel: 2
-    }, {
-      'label': 'Cellular Component',
-      'term': 'CC',
-      'value': '',
-      $$treeLevel: 0
-    }, {
-      'label': 'Part Of (Cell Type)',
-      'term': 'CL',
-      'evidence': '',
-      'reference': '',
-      'with': '',
-      $$treeLevel: 1
-    }, {
-      'label': 'Part Of (Anatomy)',
-      'term': '',
-      'evidence': '',
-      'reference': '',
-      'with': '',
-      $$treeLevel: 2
-    }];
+      'lookup': {
+        'requestParams': this.lookup.requestParamsGP
+      }
+    };
+    let data = [
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'label': 'Molecular Function',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsGP
+          }
+        },
+        $$treeLevel: 0
+      }),
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'label': 'Has Input (Gene Product/Chemical)',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsGP
+          }
+        },
+        $$treeLevel: 1
+      }),
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'label': 'Happens During (Temporal Phase)',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsGP
+          }
+        },
+        $$treeLevel: 1
+      }),
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'label': 'Biological Process',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsBP
+          }
+        },
+        $$treeLevel: 0
+      }),
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'label': 'Part Of (BP)',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsBP
+          }
+        },
+        $$treeLevel: 1
+      }),
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'label': 'Part Of (BP)',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsGP
+          }
+        },
+        $$treeLevel: 2
+      }),
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'label': 'Cellular Component',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsCC
+          }
+        },
+        $$treeLevel: 0
+      }),
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'label': 'Part Of (Cell Type)',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsGP
+          }
+        },
+        $$treeLevel: 1
+      }),
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'label': 'Part Of (BP)',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsGP
+          }
+        },
+        $$treeLevel: 2
+      })
+    ];
 
     self.gridOptions.data = data;
 
@@ -205,6 +294,6 @@ export default class FormGridService {
   }
 
 }
-FormGridService.$inject = ['$timeout', '$rootScope', 'lookup'];
+FormGridService.$inject = ['$timeout', 'lookup'];
 
 

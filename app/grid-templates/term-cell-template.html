@@ -3,12 +3,11 @@
         <i class="fa fa-spinner fa-spin fa-fw"></i>
     </div>
     <input aria-describedby="ig{{row.entity.term.control.value}}" type="INPUT_TYPE" ng-model="row.entity.term.control.value"
-        ng-trim="false" ng-blur="noResults[row.entity.term] = false" uib-typeahead="term as term.label for term in grid.appScope.lookup.golrLook(row.entity.term)"
+        ng-trim="false" ng-blur="noResults[row.entity.term] = false" uib-typeahead="term as term.label for term in grid.appScope.getTerm(row.entity.term)"
         typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]"
         typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length=0
         xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="grid.appScope.termSelected(term, $item, $model, $label, $event)"
         class="typeaheadcontrol form-control" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
-    </input>
     <div class="no-results" ng-show="grid.appScope.editingModel[term].length > 2 && noResults[term]">
         No Results Found
     </div>

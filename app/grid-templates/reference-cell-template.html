@@ -1,3 +1,2 @@
 <input name="reference{{row.entity.term}}" ng-pattern="/^.+:.+$/" ng-disabled="!grid.appScope.editingModel[row.entity.term + 'e']"
-    ng-model="grid.appScope.editingModel[row.entity.term + 'e'].reference" type="text" class="form-control" placeholder="PMID:1234"
-    aria-describedby="ig{{row.entity.term}}eReference">
+    ng-model="row.entity.reference.control.value" type="text" class="form-control" placeholder="PMID:1234" aria-describedby="ig{{row.entity.term}}eReference">
