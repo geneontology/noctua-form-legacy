@@ -47,7 +47,7 @@
     <!-- END TABLE FORM -->
 
 
-
+    <!--
     <div ng-if="tvc.graph.loggedIn" ng-repeat="term in ['MF', 'BP', 'CC']" class="row">
       <div class="col-xs-3">
         <div class="input-group input-group-sm">
@@ -117,6 +117,7 @@
       </div>
 
     </div>
+  -->
 
     <br>
     <div ng-if="tvc.graph.loggedIn" class="row">
@@ -131,10 +132,10 @@
       </div>
 
       <div class="col-xs-3">
-        <button type="button" ng-disabled="tvc.saveRowEnabled(patternForm).length > 0" ng-click="tvc.saveRow()" class="btn btn-primary btn-sm center-block btn-block"
+        <md-button type="button" ng-disabled="tvc.saveRowEnabled(patternForm).length > 0" ng-click="tvc.saveRow()" class="btn btn-primary btn-sm center-block btn-block"
           style="margin-top:3px;">
           Save Annoton
-        </button>
+          </button>
       </div>
     </div>
 

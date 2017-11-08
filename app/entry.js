@@ -8,13 +8,20 @@ window.tableviewWorkbenchVersion = '0.1.1';
 import angular from 'angular';
 import 'angular-ui-grid/ui-grid.min.js';
 import nguibootstrap from 'angular-ui-bootstrap';
+
+import 'angular-aria/angular-aria.js';
+import 'angular-animate/angular-animate.js';
+import 'angular-material/angular-material.js';
+
+
+import '../node_modules/angular-material/angular-material.css';
 import 'jsonformatter';
 import 'jsonformatter/dist/json-formatter.min.css';
 import '../node_modules/angular-ui-grid/ui-grid.min.css';
 import './index.scss';
 import 'font-awesome/css/font-awesome.min.css';
 
-var app = angular.module('TVApp', [
+var app = angular.module('TVApp', ['ngMaterial',
   nguibootstrap,
   'jsonFormatter',
   'ui.grid', 'ui.grid.edit', 'ui.grid.rowEdit', 'ui.grid.cellNav',
