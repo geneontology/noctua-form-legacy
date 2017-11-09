@@ -145,7 +145,8 @@ var config = {
 config.plugins.push(
   new CopyWebpackPlugin([
     { from: 'inject.tmpl' },
-    { from: 'grid-templates/**/*' }
+    { from: 'grid-templates/**/*' },
+    { from: 'dialogs/**/*' }
   ]));
 
 config.plugins.push(

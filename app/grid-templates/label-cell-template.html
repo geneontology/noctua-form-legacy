@@ -1,3 +1,8 @@
-<div class="ui-grid-cell-contents" title="TOOLTIP" ng-style="{'padding-left':10+ (20*row.treeLevel)+'px'}">
+<div class="ui-grid-cell-contents" title="TOOLTIP">
+    <button class="ui-grid-tree-base-row-header-buttons ng-scope ui-grid-tree-base-header" ng-class="{'ui-grid-tree-base-header': row.treeLevel > -1 }"
+        ng-click="alert();  treeButtonClick(row, $event)" role="button" tabindex="-1">
+        <i ng-class="{'ui-grid-icon-minus-squared': ( ( grid.options.showTreeExpandNoChildren &amp;&amp; row.treeLevel > -1 ) || ( row.treeNode.children &amp;&amp; row.treeNode.children.length > 0 ) ) &amp;&amp; row.treeNode.state === 'expanded', 'ui-grid-icon-plus-squared': ( ( grid.options.showTreeExpandNoChildren &amp;&amp; row.treeLevel > -1 ) || ( row.treeNode.children &amp;&amp; row.treeNode.children.length > 0 ) ) &amp;&amp; row.treeNode.state === 'collapsed'}"
+            ng-style="{'padding-left': grid.options.treeIndent * row.treeLevel + 'px'}" class="ui-grid-icon-minus-squared" style="padding-left: 0px;"></i> &nbsp;
+    </button>
     {{COL_FIELD CUSTOM_FILTERS}}
 </div>

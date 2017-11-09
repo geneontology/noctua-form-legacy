@@ -117,6 +117,7 @@ export default class FormGridService {
     }];
 
     this.gridOptions = {
+      noTabInterference: false,
       rowHeight: 41,
       width: 100,
       minWidth: 100,
@@ -127,6 +128,7 @@ export default class FormGridService {
       multiSelect: false,
       rowTemplate: './grid-templates/row-template.html',
       showTreeExpandNoChildren: false,
+      showTreeRowHeader: false,
       // keyDownOverrides: [{keyCode: 27}]
       columnDefs: this.columnDefs
     };
@@ -167,7 +169,7 @@ export default class FormGridService {
             'value': ''
           },
           'lookup': {
-            'requestParams': this.lookup.requestParamsGP
+            'requestParams': this.lookup.requestParamsMF
           }
         },
         $$treeLevel: 0
@@ -193,7 +195,7 @@ export default class FormGridService {
             'value': ''
           },
           'lookup': {
-            'requestParams': this.lookup.requestParamsGP
+            'requestParams': this.lookup.requestParamsBP
           }
         },
         $$treeLevel: 1
@@ -232,7 +234,7 @@ export default class FormGridService {
             'value': ''
           },
           'lookup': {
-            'requestParams': this.lookup.requestParamsGP
+            'requestParams': this.lookup.requestParamsBP
           }
         },
         $$treeLevel: 2
@@ -258,20 +260,20 @@ export default class FormGridService {
             'value': ''
           },
           'lookup': {
-            'requestParams': this.lookup.requestParamsGP
+            'requestParams': this.lookup.requestParamsBP
           }
         },
         $$treeLevel: 1
       }),
       Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
-        'label': 'Part Of (BP)',
+        'label': 'Part Of (Anatomy)',
         'term': {
           'control': {
             'placeholder': '',
             'value': ''
           },
           'lookup': {
-            'requestParams': this.lookup.requestParamsGP
+            'requestParams': this.lookup.requestParamsBP
           }
         },
         $$treeLevel: 2

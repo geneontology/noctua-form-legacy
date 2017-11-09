@@ -21,6 +21,8 @@ import '../node_modules/angular-ui-grid/ui-grid.min.css';
 import './index.scss';
 import 'font-awesome/css/font-awesome.min.css';
 
+//import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
+
 var app = angular.module('TVApp', ['ngMaterial',
   nguibootstrap,
   'jsonFormatter',
@@ -36,6 +38,9 @@ app.config(['JSONFormatterConfigProvider', function (JSONFormatterConfigProvider
 
 import TVController from 'TVController';
 app.controller('TVController', TVController);
+
+import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
+app.controller('PopulateDialogController', PopulateDialogController);
 
 import FormGridService from './form-grid.service.js';
 app.service('formGrid', FormGridService);

@@ -1,13 +1,14 @@
 import _ from 'lodash';
 
 export default class LookupService {
-  constructor($http, $timeout, $location, $sce, $rootScope) {
+  constructor($http, $timeout, $location, $sce, $rootScope, $mdDialog) {
     this.name = 'DefaultLookupName';
     this.$http = $http;
     this.$timeout = $timeout;
     this.$location = $location;
     this.$sce = $sce;
     this.$rootScope = $rootScope;
+    this.$mdDialog = $mdDialog;
 
     /* global global_golr_neo_server */
     this.golrURLBase = `${global_golr_neo_server}/select`;
@@ -200,7 +201,17 @@ export default class LookupService {
       );
   }
 
-
+  openPopulateDialog(ev) {
+    this.$mdDialog.show({
+      controller: 'PopulateDialogController as p',
+      templateUrl: './dialogs/populate/populate-dialog.html',
+      targetEvent: ev,
+      clickOutsideToClose: true,
+    })
+      .then(function (answer) {
+      }, function () {
+      });
+  }
 
 
 
@@ -435,6 +446,7 @@ export default class LookupService {
       );
   }
 
+
   ensureUnderscores(curie) {
     return curie.replace(/:/, '_');
   }
@@ -472,6 +484,6 @@ export default class LookupService {
     // return matches;
   }
 }
-LookupService.$inject = ['$http', '$timeout', '$location', '$sce', '$rootScope'];
+LookupService.$inject = ['$http', '$timeout', '$location', '$sce', '$rootScope', '$mdDialog'];
 
 
