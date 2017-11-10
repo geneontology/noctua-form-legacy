@@ -5,15 +5,30 @@
 
   <div ng-controller="TVController as tvc" ng-form="patternForm" class="tv-container">
 
-    <div class="sae-subheader">
+    <div class="sae-subheader" layout="row">
       <div class="">
         {{tvc.graph.title[0].value()}} ({{tvc.graph.model_id}})
       </div>
       <span flex></span>
-      <md-button>
-
-      </md-button>
+      <md-menu>
+        <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdMenu.open($event)">
+          Biew
+        </md-button>
+        <md-menu-content width="3">
+          <md-menu-item>
+            <md-button ng-click="tvc.setView(tvc.viewMode.options.grid)">
+              Grid
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button ng-click="tvc.setView(tvc.viewMode.options.linear)">
+              Lionear
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
     </div>
+
     <div class="sae-gp-form">
       <!-- GENE PRODUCT -->
       <div ng-if="tvc.graph.loggedIn" class="row" layout="column" layout-align="center center">
@@ -37,15 +52,18 @@
       <!-- END GENE PRODUCT -->
     </div>
     <!-- TABLE FORM  -->
-    <div class="row">
+
+
+    <!-- TABLE FORM  -->
+    <div ng-show="tvc.viewMode.selected === tvc.viewMode.options.grid" class="row">
       <div class="sae-form-grid col-xs-12">
         <div ui-grid="tvc.formGrid.gridOptions" ui-grid-edit ui-grid-cellNav ui-grid-resize-columns ui-grid-auto-resize ui-grid-tree-view
           class="grid">
         </div>
       </div>
     </div>
-
-    <div class="row">
+    <!-- END TABLE FORM -->
+    <div ng-show="tvc.viewMode.selected === tvc.viewMode.options.linear" class="row">
       <div ng-repeat="entity in tvc.formGrid.gridOptions.data" class="col-sm-4">
         <div class="ui-grid-cell-contents" title="TOOLTIP">
           <button class="ui-grid-tree-base-row-header-buttons ng-scope ui-grid-tree-base-header" ng-class="{'ui-grid-tree-base-header': row.treeLevel > -1 }"
@@ -92,6 +110,7 @@
           ng-model="entity.with.control.value" type="text" class="form-control" placeholder="PMID:5678" aria-describedby="ig{{entity.term}}eWith">
       </div>
     </div>
+
     <!-- END TABLE FORM -->
 
 

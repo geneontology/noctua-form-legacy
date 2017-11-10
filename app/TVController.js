@@ -21,6 +21,14 @@ export default class TVController {
       userNameInfo.innerHTML = '';
     }
 
+    tvc.viewMode = {
+      options: {
+        grid: 1,
+        linear: 2
+      }
+    };
+    tvc.viewMode.selected = tvc.viewMode.options.grid;
+
     /* Init the grid form */
     tvc.formGrid.registerApi();
     tvc.formGrid.initalizeForm();
@@ -150,6 +158,10 @@ export default class TVController {
     });
 
     graph.initialize();
+  }
+
+  setView(view) {
+    this.viewMode.selected = view;
   }
 
   getTerm(field) {
