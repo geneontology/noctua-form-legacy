@@ -130,7 +130,8 @@ export default class FormGridService {
       showTreeExpandNoChildren: false,
       showTreeRowHeader: false,
       // keyDownOverrides: [{keyCode: 27}]
-      columnDefs: this.columnDefs
+      columnDefs: this.columnDefs,
+      data: []
     };
 
   }
