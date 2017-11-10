@@ -42,7 +42,7 @@ export default class LookupService {
       fq: [
         'document_category:"ontology_class"',
         // 'regulates_closure:"CHEBI:23367"'//Generak Molecule + GP
-        'regulates_closure:"CHEBI:33695"'//GP
+        'regulates_closure:"CHEBI:33695"' //GP
       ],
       qf: [
         'annotation_class^3',
@@ -178,39 +178,36 @@ export default class LookupService {
 
 
     return this.$http.jsonp(
-      self.trusted,
-      {
-        // withCredentials: false,
-        jsonpCallbackParam: 'json.wrf',
-        params: field.lookup.requestParams
-      })
+        self.trusted, {
+          // withCredentials: false,
+          jsonpCallbackParam: 'json.wrf',
+          params: field.lookup.requestParams
+        })
       .then(function (response) {
-        var data = response.data.response.docs;
-        var result = data.map(function (item) {
-          return {
-            id: item.annotation_class,
-            label: item.annotation_class_label
-          };
-        });
-        // console.log('GOLR success', response, requestParams, data, result);
-        return result;
-      },
-      function (error) {
-        console.log('GOLR error: ', self.golrURLBase, field.lookup.requestParams, error);
-      }
+          var data = response.data.response.docs;
+          var result = data.map(function (item) {
+            return {
+              id: item.annotation_class,
+              label: item.annotation_class_label
+            };
+          });
+          // console.log('GOLR success', response, requestParams, data, result);
+          return result;
+        },
+        function (error) {
+          console.log('GOLR error: ', self.golrURLBase, field.lookup.requestParams, error);
+        }
       );
   }
 
   openPopulateDialog(ev) {
     this.$mdDialog.show({
-      controller: 'PopulateDialogController as p',
-      templateUrl: './dialogs/populate/populate-dialog.html',
-      targetEvent: ev,
-      clickOutsideToClose: true,
-    })
-      .then(function (answer) {
-      }, function () {
-      });
+        controller: 'PopulateDialogController as populateCtrl',
+        templateUrl: './dialogs/populate/populate-dialog.html',
+        targetEvent: ev,
+        clickOutsideToClose: true,
+      })
+      .then(function (answer) {}, function () {});
   }
 
 
@@ -261,7 +258,7 @@ export default class LookupService {
       fq: [
         'document_category:"ontology_class"',
         // 'regulates_closure:"CHEBI:23367"'//Generak Molecule + GP
-        'regulates_closure:"CHEBI:33695"'//GP
+        'regulates_closure:"CHEBI:33695"' //GP
       ],
       qf: [
         'annotation_class^3',
@@ -414,35 +411,33 @@ export default class LookupService {
 
     var trusted = this.$sce.trustAsResourceUrl(golrURLBase);
     return this.$http.jsonp(
-      trusted,
-      {
-        // withCredentials: false,
-        jsonpCallbackParam: 'json.wrf',
-        params: requestParams
-      })
+        trusted, {
+          // withCredentials: false,
+          jsonpCallbackParam: 'json.wrf',
+          params: requestParams
+        })
       .then(
-      function (response) {
-        var data = response.data.response.docs;
-        var result = data.map(function (item) {
-          if (false && field === 'GP') {
-            return {
-              id: item.entity,
-              label: item.entity_label
-            };
-          }
-          else {
-            return {
-              id: item.annotation_class,
-              label: item.annotation_class_label
-            };
-          }
-        });
-        // console.log('GOLR success', response, requestParams, data, result);
-        return result;
-      },
-      function (error) {
-        console.log('GOLR error: ', golrURLBase, requestParams, error);
-      }
+        function (response) {
+          var data = response.data.response.docs;
+          var result = data.map(function (item) {
+            if (false && field === 'GP') {
+              return {
+                id: item.entity,
+                label: item.entity_label
+              };
+            } else {
+              return {
+                id: item.annotation_class,
+                label: item.annotation_class_label
+              };
+            }
+          });
+          // console.log('GOLR success', response, requestParams, data, result);
+          return result;
+        },
+        function (error) {
+          console.log('GOLR error: ', golrURLBase, requestParams, error);
+        }
       );
   }
 
@@ -455,7 +450,7 @@ export default class LookupService {
     return curie.replace(/_/, ':');
   }
 
-  inlineLookup(colName, oldValue, val/*, acEntry */) {
+  inlineLookup(colName, oldValue, val /*, acEntry */ ) {
     var inlineBlock = this.parsedConfig.inline;
 
     var terms = [];
@@ -475,7 +470,7 @@ export default class LookupService {
       });
     }
 
-    return new Promise(function (resolve/*, reject */) {
+    return new Promise(function (resolve /*, reject */ ) {
       setTimeout(function () {
         resolve(matches);
       }, 20);
@@ -485,5 +480,3 @@ export default class LookupService {
   }
 }
 LookupService.$inject = ['$http', '$timeout', '$location', '$sce', '$rootScope', '$mdDialog'];
-
-

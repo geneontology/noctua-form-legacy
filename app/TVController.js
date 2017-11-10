@@ -24,10 +24,11 @@ export default class TVController {
     tvc.viewMode = {
       options: {
         grid: 1,
-        linear: 2
+        linear: 2,
+        table: 3
       }
     };
-    tvc.viewMode.selected = tvc.viewMode.options.grid;
+    tvc.viewMode.selected = tvc.viewMode.options.table;
 
     /* Init the grid form */
     tvc.formGrid.registerApi();
@@ -186,7 +187,7 @@ export default class TVController {
     return result;
   }
 
-  termSelected(/* field , term */) {
+  termSelected( /* field , term */ ) {
     // console.log('termSelected', field, this.editingModel[field], term);
   }
 
@@ -197,10 +198,19 @@ export default class TVController {
 
   fillModelWithFakeData() {
     this.loadEditingModel({
-      GP: { id: 'MGI:MGI:4367793', label: 'Sho2 Mmus' },
-      GPa: { id: 'UniProtKB:O95477', label: 'Sho2 Mmus' },
+      GP: {
+        id: 'MGI:MGI:4367793',
+        label: 'Sho2 Mmus'
+      },
+      GPa: {
+        id: 'UniProtKB:O95477',
+        label: 'Sho2 Mmus'
+      },
 
-      MF: { id: 'GO:0045551', label: 'cinnamyl-alcohol dehydrogenase activity' },
+      MF: {
+        id: 'GO:0045551',
+        label: 'cinnamyl-alcohol dehydrogenase activity'
+      },
       MFe: {
         id: 'ECO:0006017',
         label: 'traceable author statement from published clinical study used in manual assertion',
@@ -208,7 +218,10 @@ export default class TVController {
         with: 'PMID:5678'
       },
 
-      BP: { id: 'GO:0046577', label: 'long-chain-alcohol oxidase activity' },
+      BP: {
+        id: 'GO:0046577',
+        label: 'long-chain-alcohol oxidase activity'
+      },
       BPe: {
         id: 'ECO:0000501',
         label: 'evidence used in automatic assertion',
@@ -216,8 +229,14 @@ export default class TVController {
         with: 'w2'
       },
 
-      CC: { id: 'GO:0047639', label: 'alcohol oxidase activity' },
-      CL: { id: 'CL:2000054', label: 'alcohol oxidase activity' },
+      CC: {
+        id: 'GO:0047639',
+        label: 'alcohol oxidase activity'
+      },
+      CL: {
+        id: 'CL:2000054',
+        label: 'alcohol oxidase activity'
+      },
       CCe: {
         id: 'ECO:0005542',
         label: 'biological system reconstruction evidence by exper…ence from single species used in manual assertion',
@@ -259,8 +278,7 @@ export default class TVController {
       if (reasons.length === 0 && this.editingModel.MF) {
         if (!this.editingModel.MFe) {
           reasons.push('Select Evidence for the MF.');
-        }
-        else {
+        } else {
           hasAtLeastOneElement = true;
         }
       }
@@ -268,8 +286,7 @@ export default class TVController {
       if (reasons.length === 0 && this.editingModel.BP) {
         if (!this.editingModel.BPe) {
           reasons.push('Select Evidence for the BP');
-        }
-        else {
+        } else {
           hasAtLeastOneElement = true;
         }
       }
@@ -277,8 +294,7 @@ export default class TVController {
       if (reasons.length === 0 && this.editingModel.CC) {
         if (!this.editingModel.CCe) {
           reasons.push('Select Evidence for the CC');
-        }
-        else {
+        } else {
           hasAtLeastOneElement = true;
         }
       }

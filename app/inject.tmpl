@@ -25,10 +25,14 @@
               Lionear
             </md-button>
           </md-menu-item>
+          <md-menu-item>
+            <md-button ng-click="tvc.setView(tvc.viewMode.options.table)">
+              Table
+            </md-button>
+          </md-menu-item>
         </md-menu-content>
       </md-menu>
     </div>
-
     <div class="sae-gp-form">
       <!-- GENE PRODUCT -->
       <div ng-if="tvc.graph.loggedIn" class="row" layout="column" layout-align="center center">
@@ -63,6 +67,56 @@
       </div>
     </div>
     <!-- END TABLE FORM -->
+    <!-- TABLE FORM  -->
+    <div ng-show="tvc.viewMode.selected === tvc.viewMode.options.table" layout="column">
+      <div ng-repeat="entity in tvc.formGrid.gridOptions.data" class="" layout="row">
+        <div class="" flex="20">
+          <button class="ui-grid-tree-base-row-header-buttons ng-scope ui-grid-tree-base-header" ng-class="{'ui-grid-tree-base-header': row.treeLevel > -1 }"
+            ng-click="alert();  treeButtonClick(row, $event)" role="button" tabindex="-1">
+            <i ng-class="{'ui-grid-icon-minus-squared': ( ( grid.options.showTreeExpandNoChildren &amp;&amp; row.treeLevel > -1 ) || ( row.treeNode.children &amp;&amp; row.treeNode.children.length > 0 ) ) &amp;&amp; row.treeNode.state === 'expanded', 'ui-grid-icon-plus-squared': ( ( grid.options.showTreeExpandNoChildren &amp;&amp; row.treeLevel > -1 ) || ( row.treeNode.children &amp;&amp; row.treeNode.children.length > 0 ) ) &amp;&amp; row.treeNode.state === 'collapsed'}"
+              ng-style="{'padding-left': grid.options.treeIndent * row.treeLevel + 'px'}" class="ui-grid-icon-minus-squared"
+              style="padding-left: 0px;"></i> &nbsp;
+          </button>
+          {{entity.label}}
+        </div>
+        <div class="typeaheadcontainer" flex="20">
+          <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term]">
+            <i class="fa fa-spinner fa-spin fa-fw"></i>
+          </div>
+
+          <input aria-describedby="ig{{entity.term.control.value}}" type="INPUT_TYPE" ng-model="entity.term.control.value" tabindex="0"
+            ng-trim="false" ng-blur="noResults[entity.term] = false" uib-typeahead="term as term.label for term in tvc.getTerm(entity.term)"
+            typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]"
+            typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length=0
+            xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term, $item, $model, $label, $event)"
+            class="typeaheadcontrol form-control" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+          <div class="no-results" ng-show="tvc.editingModel[term].length > 2 && noResults[term]">
+            No Results Found
+          </div>
+        </div>
+        <div class="typeaheadcontainer" flex="20">
+          <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term + 'e']">
+            <i class="fa fa-spinner fa-spin fa-fw"></i>
+          </div>
+          <input aria-describedby="ig{{entity.term}}e" type="text" ng-model="entity.evidence.control.value" ng-trim="false" tabindex="0"
+            ng-blur="noResults[entity.term + 'e'] = false" uib-typeahead="term as term.label for term in tvc.getTerm(entity.evidence)"
+            typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
+            typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html" typeahead-editable="true"
+            typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term + 'e', $item, $model, $label, $event)"
+            class="typeaheadcontrol form-control" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+          <div class="no-results" ng-show="tvc.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
+            No Results Found
+          </div>
+        </div>
+        <input flex="20" ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!tvc.editingModel[entity.term + 'e']" ng-model="entity.reference.control.value"
+          type="text" class="form-control" placeholder="PMID:1234" aria-describedby="ig{{entity.term}}eReference">
+        <input flex="20" ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!tvc.editingModel[entity.term + 'e']" ng-model="entity.with.control.value"
+          type="text" class="form-control" placeholder="PMID:5678" aria-describedby="ig{{entity.term}}eWith">
+      </div>
+    </div>
+    <!-- END TABLE FORM -->
+
+    <!-- TABLE FORM  -->
     <div ng-show="tvc.viewMode.selected === tvc.viewMode.options.linear" class="row">
       <div ng-repeat="entity in tvc.formGrid.gridOptions.data" class="col-sm-4">
         <div class="ui-grid-cell-contents" title="TOOLTIP">
@@ -110,7 +164,6 @@
           ng-model="entity.with.control.value" type="text" class="form-control" placeholder="PMID:5678" aria-describedby="ig{{entity.term}}eWith">
       </div>
     </div>
-
     <!-- END TABLE FORM -->
 
 
@@ -218,7 +271,7 @@
   </div>
 
   <script type="text/ng-template" id="uigridActionHeader">
-  <!--     <button
+    <!--     <button
         type="button"
         title="Add Association"
         class="btn btn-primary btn-xs xbtn-compact"
@@ -226,61 +279,40 @@
         <i class="fa fa-plus fa-fw"></i>
       </button>
    -->
-    </script>
+  </script>
 
   <script type="text/ng-template" id="uigridActionCell">
-      <div
-        class="ui-grid-cell-contents"
-        title="TOOLTIP">
-        <div
-          ng-if="grid.appScope.tvc.graph.loggedIn && row.treeLevel === 0"
-          class="text-center action-row">
-          <button
-            type="button"
-            title="Edit Annoton"
-            class="btn btn-default btn-xs btn-compact"
-            ng-click="grid.appScope.tvc.editRow(row.entity)">
-            <i class="fa fa-pencil fa-fw"></i>
-          </button>
-        </div>
-        <div
-          ng-if="grid.appScope.tvc.graph.loggedIn && row.treeLevel === 0"
-          class="text-center action-row">
-          <button
-            type="button"
-            title="Delete Annoton"
-            class="btn btn-default btn-xs btn-compact"
-            ng-click="grid.appScope.tvc.deleteRow(row.entity)">
-            <i class="fa fa-trash-o fa-fw"></i>
-          </button>
-        </div>
+    <div class="ui-grid-cell-contents" title="TOOLTIP">
+      <div ng-if="grid.appScope.tvc.graph.loggedIn && row.treeLevel === 0" class="text-center action-row">
+        <button type="button" title="Edit Annoton" class="btn btn-default btn-xs btn-compact" ng-click="grid.appScope.tvc.editRow(row.entity)">
+          <i class="fa fa-pencil fa-fw"></i>
+        </button>
       </div>
-    </script>
+      <div ng-if="grid.appScope.tvc.graph.loggedIn && row.treeLevel === 0" class="text-center action-row">
+        <button type="button" title="Delete Annoton" class="btn btn-default btn-xs btn-compact" ng-click="grid.appScope.tvc.deleteRow(row.entity)">
+          <i class="fa fa-trash-o fa-fw"></i>
+        </button>
+      </div>
+    </div>
+  </script>
 
   <script type="text/ng-template" id="customTemplate.html">
-      <a>
-        <span style="display:inline-block;width:200px;font-size:0.9em;font-style:italic;" ng-bind-html="match.model.id | uibTypeaheadHighlight:query"></span>
-        <span ng-bind-html="match.model.label | uibTypeaheadHighlight:query"></span>
-      </a>
-    </script>
+    <a>
+      <span style="display:inline-block;width:200px;font-size:0.9em;font-style:italic;" ng-bind-html="match.model.id | uibTypeaheadHighlight:query"></span>
+      <span ng-bind-html="match.model.label | uibTypeaheadHighlight:query"></span>
+    </a>
+  </script>
 
   <script type="text/ng-template" id="rowTemplate.html">
-       <div
-        ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid"
-        ui-grid-one-bind-id-grid="rowRenderIndex + '-' + col.uid + '-cell'"
-        class="ui-grid-cell"
-        ng-class="{'ui-grid-row-header-cell': col.isRowHeader, 'ui-grid-row-summary': row.treeLevel === 0 }"
-        role="{{col.isRowHeader ? 'rowheader' : 'gridcell'}}"
-        ui-grid-cell>
-      </div>
-    </script>
+    <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + '-' + col.uid + '-cell'"
+      class="ui-grid-cell" ng-class="{'ui-grid-row-header-cell': col.isRowHeader, 'ui-grid-row-summary': row.treeLevel === 0 }"
+      role="{{col.isRowHeader ? 'rowheader' : 'gridcell'}}" ui-grid-cell>
+    </div>
+  </script>
 
   <script type="text/ng-template" id="cellTemplate.html">
-      <div
-        style="white-space:pre-line !important;"
-        class="ui-grid-cell-contents"
-        title="TOOLTIP">{{COL_FIELD CUSTOM_FILTERS}}</div>
-    </script>
+    <div style="white-space:pre-line !important;" class="ui-grid-cell-contents" title="TOOLTIP">{{COL_FIELD CUSTOM_FILTERS}}</div>
+  </script>
 </div>
 
 

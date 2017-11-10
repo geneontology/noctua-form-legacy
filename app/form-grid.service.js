@@ -1,4 +1,3 @@
-
 export default class FormGridService {
   constructor($timeout, lookup) {
     this.$timeout = $timeout;
@@ -40,7 +39,7 @@ export default class FormGridService {
     this.columnDefs = [{
       name: 'label',
       displayName: '',
-      width: 200,
+      width: '25%',
       field: 'label',
       resizable: false,
       cellTemplate: './grid-templates/label-cell-template.html',
@@ -298,5 +297,3 @@ export default class FormGridService {
 
 }
 FormGridService.$inject = ['$timeout', 'lookup'];
-
-
