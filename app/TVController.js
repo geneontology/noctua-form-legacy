@@ -25,10 +25,11 @@ export default class TVController {
       options: {
         grid: 1,
         linear: 2,
-        table: 3
+        table: 3,
+        graph: 4
       }
     };
-    tvc.viewMode.selected = tvc.viewMode.options.table;
+    tvc.viewMode.selected = tvc.viewMode.options.grid;
 
     /* Init the grid form */
     tvc.formGrid.registerApi();

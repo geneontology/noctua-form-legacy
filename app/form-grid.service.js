@@ -127,7 +127,7 @@ export default class FormGridService {
       multiSelect: false,
       rowTemplate: './grid-templates/row-template.html',
       showTreeExpandNoChildren: false,
-      showTreeRowHeader: false,
+      showTreeRowHeader: true,
       // keyDownOverrides: [{keyCode: 27}]
       columnDefs: this.columnDefs,
       data: []
