@@ -156,12 +156,14 @@ export default class FormGridService {
     const self = this;
     self.geneProduct = {
       'id': 'gp',
-      'control': {
-        'placeholder': '',
-        'value': ''
-      },
-      'lookup': {
-        'requestParams': this.lookup.requestParamsGP
+      'term': {
+        'control': {
+          'placeholder': '',
+          'value': ''
+        },
+        'lookup': {
+          'requestParams': this.lookup.requestParamsGP
+        }
       }
     };
     let data = [

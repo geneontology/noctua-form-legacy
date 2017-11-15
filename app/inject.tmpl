@@ -46,8 +46,8 @@
             <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItemsGP">
               <i class="fa fa-spinner fa-spin fa-fw"></i>
             </div>
-            <input id="GPFocus" aria-describedby="igGP" type="text" ng-model="tvc.formGrid.geneProduct.control.value" ng-trim="false"
-              placeholder="Gene Product" ng-blur="noResultsGP = false" uib-typeahead="term as term.label for term in tvc.getTerm(tvc.formGrid.geneProduct)"
+            <input id="GPFocus" aria-describedby="igGP" type="text" ng-model="tvc.formGrid.geneProduct.term.control.value" ng-trim="false"
+              placeholder="Gene Product" ng-blur="noResultsGP = false" uib-typeahead="term as term.label for term in tvc.getTerm(tvc.formGrid.geneProduct.term)"
               typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP"
               typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length=0
               xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected('GP', $item, $model, $label, $event)"
@@ -292,7 +292,7 @@
         </div>
 
         <div class="col-xs-3">
-          <md-button type="button" ng-disabled="tvc.saveRowEnabled(patternForm).length > 0" ng-click="tvc.saveRow()" class="btn btn-primary btn-sm center-block btn-block"
+          <md-button type="button" ng-disabled="false&&tvc.saveRowEnabled(patternForm).length > 0" ng-click="tvc.saveRow()" class="btn btn-primary btn-sm center-block btn-block"
             style="margin-top:3px;">
             Save Annoton
             </button>

@@ -330,7 +330,7 @@ export default class TVController {
 
 
   saveRow() {
-    this.graph.saveEditingModel(this.formGrid.gridOptions.data);
+    this.graph.saveEditingModel(this.formGrid.geneProduct, this.formGrid.gridOptions.data);
   }
 
 

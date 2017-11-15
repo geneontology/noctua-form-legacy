@@ -465,8 +465,28 @@ export default class GraphService {
     return result;
   }
 
+  addIndividual(reqs, data) {
+    data.saveMeta = {};
+    data.saveMeta.term = data.term.control.value.id ? reqs.add_individual(data.term.control.value.id) : null
+    // data.saveMeta.evidence = reqs.add_individual(data.evidence.id);
+    //  reqs.add_evidence(data.reference.control.id, data.reference.control.value, data.with.control.value, data.saveMeta.evidence);
 
-  saveEditingModel(editingModel) {
+  }
+
+  addFact(reqs, data) {
+    if (data.saveMeta.term) {
+      data.saveMeta.edge = reqs.add_fact([
+        data.saveMeta.term,
+        data.meta.edge.target.saveMeta.term,
+        data.meta.edge.name
+      ]);
+
+      reqs.add_evidence(data.evidence.control.value.id, [data.reference.control.value], data.with.control.value, data.saveMeta.edge);
+    }
+  }
+
+
+  saveEditingModel(geneProduct, editingModel) {
     console.log('saveEditingModel', editingModel, editingModel.Annoton)
     const manager = this.manager;
 
@@ -477,36 +497,24 @@ export default class GraphService {
     }
 
     if (!this.modelTitle) {
-      const defaultTitle = 'Model involving ' + editingModel.GP.label;
+      const defaultTitle = 'Model involving ' + geneProduct.term.control.value.label;
       reqs.add_annotation_to_model(annotationTitleKey, defaultTitle);
     }
 
-    for (let row in rows) {
-      row.saveMeta = {};
-      row.saveMeta.term = row.id ? reqs.add_individual(row.term.id) : null
-      // row.saveMeta.evidence = reqs.add_individual(row.evidence.id);
-      //  reqs.add_evidence(row.reference.control.id, row.reference.control.value, row.with.control.value, row.saveMeta.evidence);
+    this.addIndividual(reqs, geneProduct);
+
+    for (let row of editingModel) {
+      this.addIndividual(reqs, row);
     }
 
-    for (let row in rows) {
-      row.saveMeta = {};
-
-      if (row.meta.edge) {
-        row.saveMeta.edge = reqs.add_fact([
-          row.saveMeta.term,
-          row.meta.edge.target.saveMeta.term,
-          row.meta.edge.name
-        ]);
-
-
-        reqs.add_evidence(row.reference.control.id, [row.reference.control.value], row.with.control.value, row.saveMeta.edge);
-
-      }
+    for (let row of editingModel) {
+      this.addFact(reqs, row);
     }
 
     console.log('saveEditingModel', editingModel, reqs);
+    console.log('structure', reqs.structure());
     // reqs.store_model();
-    // manager.request_with(reqs);
+    manager.request_with(reqs);
   }
 
   saveEditingModelOld(editingModel) {
