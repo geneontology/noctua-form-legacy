@@ -55,10 +55,12 @@ export default class GraphService {
       this.engine, 'async');
 
     this.manager = manager;
-    function _shields_up(){
+
+    function _shields_up() {
       // console.log('_shields_up');
     }
-    function _shields_down(){
+
+    function _shields_down() {
       // console.log('_shields_down');
     }
 
@@ -66,31 +68,29 @@ export default class GraphService {
     manager.register('prerun', _shields_up);
     manager.register('postrun', _shields_down, 9);
     manager.register('manager_error',
-      function(resp /*, man */){
+      function (resp /*, man */ ) {
         console.log('There was a manager error (' +
           resp.message_type() + '): ' + resp.message());
       }, 10);
 
     // Likely the result of unhappiness on Minerva.
-    manager.register('warning', function(resp /*, man */){
+    manager.register('warning', function (resp /*, man */ ) {
       alert('Warning: ' + resp.message() + '; ' +
         'your operation was likely not performed');
     }, 10);
 
     // Likely the result of serious unhappiness on Minerva.
-    manager.register('error', function(resp /*, man */){
+    manager.register('error', function (resp /*, man */ ) {
       // Do something different if we think that this is a
       // permissions issue.
       var perm_flag = 'InsufficientPermissionsException';
       var token_flag = 'token';
-      if( resp.message() && resp.message().indexOf(perm_flag) !== -1 ){
+      if (resp.message() && resp.message().indexOf(perm_flag) !== -1) {
         alert('Error: it seems like you do not have permission to ' +
-        'perform that operation. Did you remember to login?');
-      }
-      else if( resp.message() && resp.message().indexOf(token_flag) !== -1 ){
+          'perform that operation. Did you remember to login?');
+      } else if (resp.message() && resp.message().indexOf(token_flag) !== -1) {
         alert('Error: it seems like you have a bad token...');
-      }
-      else {
+      } else {
         console.log('error:', resp, resp.message_type(), resp.message());
         // // Generic error.
         // alert('Error (' +
@@ -101,7 +101,7 @@ export default class GraphService {
     }, 10);
 
     // ???
-    manager.register('meta', function(/* resp , man */){
+    manager.register('meta', function ( /* resp , man */ ) {
       console.log('## a meta callback?');
     });
 
@@ -128,10 +128,10 @@ export default class GraphService {
       }, 10);
     }
 
-    manager.register('merge', function(/* resp */) {
+    manager.register('merge', function ( /* resp */ ) {
       manager.get_model(that.model_id);
     });
-    manager.register('rebuild', function(resp) {
+    manager.register('rebuild', function (resp) {
       rebuild(resp);
     }, 10);
 
@@ -142,9 +142,9 @@ export default class GraphService {
   getNodeLabel(node) {
     var label = '';
     if (node) {
-      each(node.types(), function(in_type) {
+      each(node.types(), function (in_type) {
         label += in_type._class_label +
-                  ' (' + in_type._class_id + ')';
+          ' (' + in_type._class_id + ')';
       });
     }
 
@@ -154,7 +154,7 @@ export default class GraphService {
   getNodeId(node) {
     var result = null;
     if (node) {
-      each(node.types(), function(in_type) {
+      each(node.types(), function (in_type) {
         result = in_type._class_id;
       });
     }
@@ -227,7 +227,7 @@ export default class GraphService {
 
     var annotons = [];
 
-    each(graph.all_edges(), function(e) {
+    each(graph.all_edges(), function (e) {
       // console.log('e', e, e.predicate_id(), this.idToPredicateLabel(e.predicate_id()));
       if (e.predicate_id() === PredicateEnabledBy) {
         let mfId = e.subject_id();
@@ -243,7 +243,7 @@ export default class GraphService {
         };
 
         let mfEdgesIn = graph.get_edges_by_subject(mfId);
-        each(mfEdgesIn, function(toMFEdge) {
+        each(mfEdgesIn, function (toMFEdge) {
           let predicateId = toMFEdge.predicate_id();
           let predicateLabel = that.idToPredicateLabel(e.predicate_id());
           let evidence = that.edgeToEvidence(graph, toMFEdge);
@@ -253,18 +253,15 @@ export default class GraphService {
             // console.log('......PredicateEnabledBy GP', toMFObject);
             annoton.GP = toMFObject;
             annoton.MFe = evidence;
-          }
-          else if (predicateId === PredicatePartOf) {
+          } else if (predicateId === PredicatePartOf) {
             // console.log('......PredicatePartOf BP', toMFObject);
             annoton.BP = toMFObject;
             annoton.BPe = evidence;
-          }
-          else if (predicateId === PredicateOccursIn) {
+          } else if (predicateId === PredicateOccursIn) {
             // console.log('......PredicateOccursIn BP', toMFObject);
             annoton.CC = toMFObject;
             annoton.CCe = evidence;
-          }
-          else {
+          } else {
             console.log('......mfEdgesIn UNKNOWN PREDICATE', predicateId, predicateLabel, toMFEdge);
           }
         });
@@ -371,12 +368,24 @@ export default class GraphService {
       Reference: summaryReference,
       With: summaryWith,
       original: {
-        GP: {id: gpID, label: gpLabel},
-        MF: mf ? {id: mfID, label: mfLabel} : null,
+        GP: {
+          id: gpID,
+          label: gpLabel
+        },
+        MF: mf ? {
+          id: mfID,
+          label: mfLabel
+        } : null,
         MFe: annoton.MFe,
-        BP: bp ? {id: bpID, label: bpLabel} : null,
+        BP: bp ? {
+          id: bpID,
+          label: bpLabel
+        } : null,
         BPe: annoton.BPe,
-        CC: cc ? {id: ccID, label: ccLabel} : null,
+        CC: cc ? {
+          id: ccID,
+          label: ccLabel
+        } : null,
         CCe: annoton.CCe
       },
       Annoton: annoton,
@@ -447,7 +456,7 @@ export default class GraphService {
     const that = this;
     let result = [];
 
-    each(annotons, function(annoton) {
+    each(annotons, function (annoton) {
       let annotonRows = that.annotonToTableRows(graph, annoton);
 
       result = result.concat(annotonRows);
@@ -458,6 +467,49 @@ export default class GraphService {
 
 
   saveEditingModel(editingModel) {
+    console.log('saveEditingModel', editingModel, editingModel.Annoton)
+    const manager = this.manager;
+
+    var reqs = new minerva_requests.request_set(manager.user_token(), local_id);
+
+    if (editingModel.Annoton) {
+      this.addDeletionToRequestSet(reqs, editingModel.Annoton);
+    }
+
+    if (!this.modelTitle) {
+      const defaultTitle = 'Model involving ' + editingModel.GP.label;
+      reqs.add_annotation_to_model(annotationTitleKey, defaultTitle);
+    }
+
+    for (let row in rows) {
+      row.saveMeta = {};
+      row.saveMeta.term = row.id ? reqs.add_individual(row.term.id) : null
+      // row.saveMeta.evidence = reqs.add_individual(row.evidence.id);
+      //  reqs.add_evidence(row.reference.control.id, row.reference.control.value, row.with.control.value, row.saveMeta.evidence);
+    }
+
+    for (let row in rows) {
+      row.saveMeta = {};
+
+      if (row.meta.edge) {
+        row.saveMeta.edge = reqs.add_fact([
+          row.saveMeta.term,
+          row.meta.edge.target.saveMeta.term,
+          row.meta.edge.name
+        ]);
+
+
+        reqs.add_evidence(row.reference.control.id, [row.reference.control.value], row.with.control.value, row.saveMeta.edge);
+
+      }
+    }
+
+    console.log('saveEditingModel', editingModel, reqs);
+    // reqs.store_model();
+    // manager.request_with(reqs);
+  }
+
+  saveEditingModelOld(editingModel) {
     // console.log('saveEditingModel', editingModel, editingModel.Annoton)
     const manager = this.manager;
 
@@ -474,14 +526,14 @@ export default class GraphService {
 
     var tempGPID = reqs.add_individual(editingModel.GP.id);
     var tempMFID = editingModel.MF ?
-                    reqs.add_individual(editingModel.MF.id) :
-                    null;
+      reqs.add_individual(editingModel.MF.id) :
+      null;
     var tempBPID = editingModel.BP ?
-                    reqs.add_individual(editingModel.BP.id) :
-                    null;
+      reqs.add_individual(editingModel.BP.id) :
+      null;
     var tempCCID = editingModel.CC ?
-                    reqs.add_individual(editingModel.CC.id) :
-                    null;
+      reqs.add_individual(editingModel.CC.id) :
+      null;
 
     let MFe = editingModel.MFe;
     if (!tempMFID) {
@@ -552,6 +604,7 @@ export default class GraphService {
     // reqs.store_model();
     manager.request_with(reqs);
   }
+
 
   addDeletionToRequestSet(reqs, annoton) {
     reqs.remove_individual(annoton.GP);

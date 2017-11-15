@@ -36,6 +36,16 @@ app.config(['JSONFormatterConfigProvider', function (JSONFormatterConfigProvider
   JSONFormatterConfigProvider.hoverPreviewEnabled = true;
 }]);
 
+app.constant('saeConstants', {
+  'edge': {
+    enabledBy: 'RO:0002333',
+    partOf: 'BFO:0000050',
+    occursIn: 'BFO:0000066',
+  },
+  rootMF: 'GO:0003674',
+  noDataECO: 'ECO:0000035'
+})
+
 import TVController from 'TVController';
 app.controller('TVController', TVController);
 
@@ -48,4 +58,3 @@ import GraphService from './graph.service.js';
 app.service('graph', GraphService);
 import LookupService from './lookup.service.js';
 app.service('lookup', LookupService);
-

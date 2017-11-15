@@ -1,5 +1,8 @@
+import _ from 'lodash';
+
 export default class FormGridService {
-  constructor($timeout, lookup) {
+  constructor(saeConstants, $timeout, lookup) {
+    this.saeConstants = saeConstants
     this.$timeout = $timeout;
     this.lookup = lookup;
     this.baseFormGroup = {
@@ -152,6 +155,7 @@ export default class FormGridService {
   initalizeForm() {
     const self = this;
     self.geneProduct = {
+      'id': 'gp',
       'control': {
         'placeholder': '',
         'value': ''
@@ -162,6 +166,7 @@ export default class FormGridService {
     };
     let data = [
       Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'mf',
         'label': 'Molecular Function',
         'term': {
           'control': {
@@ -170,11 +175,18 @@ export default class FormGridService {
           },
           'lookup': {
             'requestParams': this.lookup.requestParamsMF
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.enabledBy,
+            'target': self.geneProduct,
           }
         },
         $$treeLevel: 0
       }),
       Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'mf-1',
         'label': 'Has Input (Gene Product/Chemical)',
         'term': {
           'control': {
@@ -183,11 +195,18 @@ export default class FormGridService {
           },
           'lookup': {
             'requestParams': this.lookup.requestParamsGP
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.partOf,
+            'targetId': 'mf',
           }
         },
         $$treeLevel: 1
       }),
       Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'mf-2',
         'label': 'Happens During (Temporal Phase)',
         'term': {
           'control': {
@@ -196,11 +215,18 @@ export default class FormGridService {
           },
           'lookup': {
             'requestParams': this.lookup.requestParamsBP
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.partOf,
+            'targetId': 'mf',
           }
         },
         $$treeLevel: 1
       }),
       Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'bp',
         'label': 'Biological Process',
         'term': {
           'control': {
@@ -209,11 +235,18 @@ export default class FormGridService {
           },
           'lookup': {
             'requestParams': this.lookup.requestParamsBP
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.partOf,
+            'targetId': 'mf'
           }
         },
         $$treeLevel: 0
       }),
       Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'bp-1',
         'label': 'Part Of (BP)',
         'term': {
           'control': {
@@ -222,11 +255,18 @@ export default class FormGridService {
           },
           'lookup': {
             'requestParams': this.lookup.requestParamsBP
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.partOf,
+            'targetId': 'bp',
           }
         },
         $$treeLevel: 1
       }),
       Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'bp-1-1',
         'label': 'Part Of (BP)',
         'term': {
           'control': {
@@ -235,11 +275,18 @@ export default class FormGridService {
           },
           'lookup': {
             'requestParams': this.lookup.requestParamsBP
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.partOf,
+            'targetId': 'bp-1'
           }
         },
         $$treeLevel: 2
       }),
       Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'cc',
         'label': 'Cellular Component',
         'term': {
           'control': {
@@ -248,11 +295,18 @@ export default class FormGridService {
           },
           'lookup': {
             'requestParams': this.lookup.requestParamsCC
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.occursIn,
+            'targetId': 'mf'
           }
         },
         $$treeLevel: 0
       }),
       Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'cc-1',
         'label': 'Part Of (Cell Type)',
         'term': {
           'control': {
@@ -261,11 +315,18 @@ export default class FormGridService {
           },
           'lookup': {
             'requestParams': this.lookup.requestParamsBP
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.partOf,
+            'targetId': 'cc',
           }
         },
         $$treeLevel: 1
       }),
       Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'cc-1-1',
         'label': 'Part Of (Anatomy)',
         'term': {
           'control': {
@@ -274,11 +335,25 @@ export default class FormGridService {
           },
           'lookup': {
             'requestParams': this.lookup.requestParamsBP
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.partOf,
+            'targetId': 'cc-1',
           }
         },
         $$treeLevel: 2
       })
     ];
+
+    for (var row of data) {
+      if (row.meta.edge && row.meta.edge.targetId) {
+        row.meta.edge.target = _.find(data, {
+          id: row.meta.edge.targetId
+        });
+      }
+    }
 
     self.gridOptions.data = data;
 
@@ -296,4 +371,4 @@ export default class FormGridService {
   }
 
 }
-FormGridService.$inject = ['$timeout', 'lookup'];
+FormGridService.$inject = ['saeConstants', '$timeout', 'lookup'];
