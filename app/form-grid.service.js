@@ -221,7 +221,7 @@ export default class FormGridService {
         },
         'meta': {
           'edge': {
-            'name': self.saeConstants.edge.partOf,
+            'name': self.saeConstants.edge.happensDuring,
             'targetId': 'mf',
           }
         },

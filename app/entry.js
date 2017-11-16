@@ -41,6 +41,7 @@ app.constant('saeConstants', {
     enabledBy: 'RO:0002333',
     partOf: 'BFO:0000050',
     occursIn: 'BFO:0000066',
+    happensDuring: 'RO:0002092'
   },
   rootMF: 'GO:0003674',
   noDataECO: 'ECO:0000035'
