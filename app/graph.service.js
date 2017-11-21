@@ -196,14 +196,11 @@ export default class GraphService {
   edgeToEvidence(graph, edge) {
     var result = null;
 
-    // console.log('edgeToEvidence', edge);
     var evidenceAnnotations = edge.get_annotations_by_key('evidence');
     if (evidenceAnnotations.length > 0) {
       var firstAnnotationId = evidenceAnnotations[0].value();
       var firstAnnotationNode = graph.get_node(firstAnnotationId);
       if (firstAnnotationNode) {
-        // console.log('...firstAnnotationId', firstAnnotationId);
-        // console.log('...firstAnnotationNode', firstAnnotationNode);
         result = {
           evidence: {
             id: this.getNodeId(firstAnnotationNode),
@@ -215,15 +212,12 @@ export default class GraphService {
 
         let sources = firstAnnotationNode.get_annotations_by_key('source');
         let withs = firstAnnotationNode.get_annotations_by_key('with');
-        // console.log('...sources', sources);
-        // console.log('...withs', withs);
         if (sources.length > 0) {
           result.reference = sources[0].value();
         }
         if (withs.length > 0) {
           result.with = withs[0].value();
         }
-        // console.log('...evidenceLabel', edge, firstAnnotationId, firstAnnotationNode);
       }
     }
 
@@ -232,19 +226,9 @@ export default class GraphService {
 
   graphToAnnotons(graph) {
     var self = this;
-    // graph.fold_evidence();
-    // graph.fold_go_noctua(global_collapsible_relations);
-
-    // First pass through the edges to locate the GPs
-
     var annotons = [];
 
-    // var d = graph.all_edges();
-    //console.log('d', d);
-
-
     each(graph.all_edges(), function (e) {
-      //console.log('e', e, e.predicate_id(), this.idToPredicateLabel(e.predicate_id()));
       if (e.predicate_id() === PredicateEnabledBy) {
         let mfId = e.subject_id();
 
@@ -281,8 +265,6 @@ export default class GraphService {
       }
     });
 
-    // console.log('annotons', annotons);
-
     return annotons;
   }
 
@@ -294,7 +276,6 @@ export default class GraphService {
     let mfNode = self.formGrid.getNode(annoton, 'mf');
     let bpNode = self.formGrid.getNode(annoton, 'bp');
     let ccNode = self.formGrid.getNode(annoton, 'cc');
-
 
     let summaryAspect = '';
     let summaryTerm = '';
@@ -372,28 +353,8 @@ export default class GraphService {
       },
       Reference: summaryReference,
       With: summaryWith,
-      original: {
-        GP: {
-          id: gpNode.term.control.value.id,
-          label: gpNode.term.control.value.label
-        },
-        MF: mfNode.term.control.value ? {
-          id: mfNode.term.control.value.id,
-          label: mfNode.term.control.value.label
-        } : null,
-        MFe: mfNode.evidence.control.value,
-        BP: bpNode.term.control.value ? {
-          id: bpNode.term.control.value.id,
-          label: bpNode.term.control.value.label
-        } : null,
-        BPe: bpNode.evidence.control.value,
-        CC: ccNode.term.control.value ? {
-          id: ccNode.term.control.value.id,
-          label: ccNode.term.control.value.label
-        } : null,
-        CCe: ccNode.evidence.control.value
-      },
-      Annoton: annoton,
+      original: JSON.parse(JSON.stringify(annoton)),
+      annoton: annoton,
       $$treeLevel: 0
     });
 
@@ -403,7 +364,6 @@ export default class GraphService {
   }
 
   editingModelToTableRows(graph, annoton) {
-    // console.log('editingModelToTableRows', annoton);
     let result = [];
 
     let gpLabel = annoton.GP.label;
