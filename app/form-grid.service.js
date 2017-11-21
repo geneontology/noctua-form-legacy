@@ -398,6 +398,8 @@ export default class FormGridService {
 
   insertTermNode(annotonModel, id, value) {
     let node = null;
+
+
     node = _.find(annotonModel, {
       id: id
     });
@@ -413,7 +415,7 @@ export default class FormGridService {
       id: id
     });
 
-    if (node) {
+    if (node && value) {
       node.evidence.control.value = value.evidence;
       node.reference.control.value = value.reference;
       node.with.control.value = value.with;

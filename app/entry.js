@@ -44,7 +44,9 @@ app.constant('saeConstants', {
     happensDuring: 'RO:0002092'
   },
   rootMF: 'GO:0003674',
-  noDataECO: 'ECO:0000035'
+  noDataECO: 'ECO:0000035',
+
+
 })
 
 import TVController from 'TVController';
@@ -53,8 +55,11 @@ app.controller('TVController', TVController);
 import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
 app.controller('PopulateDialogController', PopulateDialogController);
 
+import SaeGraphService from './sae-graph.service.js';
+app.service('saeGraph', SaeGraphService);
 import FormGridService from './form-grid.service.js';
 app.service('formGrid', FormGridService);
+//import GraphService from './graph-old.service.js';
 import GraphService from './graph.service.js';
 app.service('graph', GraphService);
 import LookupService from './lookup.service.js';
