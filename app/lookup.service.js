@@ -133,7 +133,8 @@ export default class LookupService {
       ],
       fq: [
         'document_category:"ontology_class"',
-        'source:"eco"'
+        'regulates_closure:"ECO:0000352"'
+        //'source:"eco"'
       ],
       qf: [
         'annotation_class^3',
@@ -283,6 +284,7 @@ export default class LookupService {
       fq: [
         'document_category:"ontology_class"',
         'regulates_closure_label:"molecular_function"'
+        //  'regulates_closure:"GO:12457'
       ],
       qf: [
         'annotation_class^3',

@@ -5,6 +5,8 @@ export default class FormGridService {
     this.saeConstants = saeConstants
     this.$timeout = $timeout;
     this.lookup = lookup;
+
+
     this.baseFormGroup = {
       'term': {
         'control': {
@@ -147,6 +149,275 @@ export default class FormGridService {
         self.gridApi.core.handleWindowResize();
       }, 0);
     };
+  }
+
+  createAnnotonModel() {
+    const self = this;
+
+    let data = [{
+        'id': 'gp',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsGP
+          }
+        },
+        'meta': {
+          'edge': {}
+        }
+      },
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'mf',
+        'label': 'Molecular Function',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsMF
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.enabledBy,
+            'target': self.geneProduct,
+          }
+        },
+        $$treeLevel: 0
+      }),
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'mf-1',
+        'label': 'Has Input (Gene Product/Chemical)',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsGP
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.partOf,
+            'targetId': 'mf',
+          }
+        },
+        $$treeLevel: 1
+      }),
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'mf-2',
+        'label': 'Happens During (Temporal Phase)',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsBP
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.happensDuring,
+            'targetId': 'mf',
+          }
+        },
+        $$treeLevel: 1
+      }),
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'bp',
+        'label': 'Biological Process',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsBP
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.partOf,
+            'targetId': 'mf'
+          }
+        },
+        $$treeLevel: 0
+      }),
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'bp-1',
+        'label': 'Part Of (BP)',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsBP
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.partOf,
+            'targetId': 'bp',
+          }
+        },
+        $$treeLevel: 1
+      }),
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'bp-1-1',
+        'label': 'Part Of (BP)',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsBP
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.partOf,
+            'targetId': 'bp-1'
+          }
+        },
+        $$treeLevel: 2
+      }),
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'cc',
+        'label': 'Cellular Component',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsCC
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.occursIn,
+            'targetId': 'mf'
+          }
+        },
+        $$treeLevel: 0
+      }),
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'cc-1',
+        'label': 'Part Of (Cell Type)',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsBP
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.partOf,
+            'targetId': 'cc',
+          }
+        },
+        $$treeLevel: 1
+      }),
+      Object.assign({}, JSON.parse(JSON.stringify(this.baseFormGroup)), {
+        'id': 'cc-1-1',
+        'label': 'Part Of (Anatomy)',
+        'term': {
+          'control': {
+            'placeholder': '',
+            'value': ''
+          },
+          'lookup': {
+            'requestParams': this.lookup.requestParamsBP
+          },
+        },
+        'meta': {
+          'edge': {
+            'name': self.saeConstants.edge.partOf,
+            'targetId': 'cc-1',
+          }
+        },
+        $$treeLevel: 2
+      })
+    ];
+
+    for (var row of data) {
+      if (row.meta.edge && row.meta.edge.targetId) {
+        row.meta.edge.target = _.find(data, {
+          id: row.meta.edge.targetId
+        });
+      }
+    }
+
+    return data;
+
+
+  }
+
+  getNode(data) {
+    let result = [];
+    for (var row of data) {
+      result = _.find(data, {
+        id: row.id
+      });
+    }
+    return result;
+  }
+
+  insertNode(id, key, value) {
+    let node = null;
+    for (var row of data) {
+      result = _.find(data, {
+        id: row.id
+      });
+    }
+
+    if (node) {
+      node[key].id = value;
+    }
+  }
+
+  getNode(annotonModel, id) {
+    let node = null;
+    node = _.find(annotonModel, {
+      id: id
+    });
+
+    return node;
+  }
+
+  insertTermNode(annotonModel, id, value) {
+    let node = null;
+    node = _.find(annotonModel, {
+      id: id
+    });
+
+    if (node) {
+      node.term.control.value = value;
+    }
+  }
+
+  insertEvidenceNode(annotonModel, id, value) {
+    let node = null;
+    node = _.find(annotonModel, {
+      id: id
+    });
+
+    if (node) {
+      node.evidence.control.value = value.evidence;
+      node.reference.control.value = value.reference;
+      node.with.control.value = value.with;
+    }
   }
 
   /**
@@ -361,6 +632,11 @@ export default class FormGridService {
 
 
   }
+
+  clearForm() {
+    this.initalizeForm();
+  }
+
 
   /**
    * Expands all nodes. Expanded state is the default on initialization 

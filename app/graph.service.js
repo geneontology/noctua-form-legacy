@@ -28,7 +28,7 @@ const rootMF = 'GO:0003674';
 const noDataECO = 'ECO:0000035';
 
 export default class GraphService {
-  constructor($rootScope, $timeout) {
+  constructor($rootScope, $timeout, formGrid) {
     this.$rootScope = $rootScope;
     this.$timeout = $timeout;
     this.model_id = local_id;
@@ -41,11 +41,12 @@ export default class GraphService {
     this.manager = null;
     this.graph = null;
     this.loggedIn = local_barista_token && (local_barista_token.length > 0);
+    this.formGrid = formGrid;
   }
 
   initialize() {
     console.log('initialize');
-    var that = this;
+    var self = this;
     this.engine = new jquery_engine(barista_response);
     this.engine.method('POST');
     var manager = new minerva_manager(
@@ -107,29 +108,52 @@ export default class GraphService {
 
     function rebuild(resp) {
       var noctua_graph = model.graph;
-      that.graph = new noctua_graph();
-      that.graph.load_data_basic(resp.data());
+      self.graph = new noctua_graph();
+      self.graph.load_data_basic(resp.data());
 
-      that.modelTitle = null;
-      var annotations = that.graph.get_annotations_by_key(annotationTitleKey);
+      self.modelTitle = null;
+      var annotations = self.graph.get_annotations_by_key(annotationTitleKey);
       if (annotations.length > 0) {
-        that.modelTitle = annotations[0].value(); // there should be only one
+        self.modelTitle = annotations[0].value(); // there should be only one
       }
 
-      let annotons = that.graphToAnnotons(that.graph);
-      let gridData = that.annotonsToTable(that.graph, annotons);
+      let annotons = self.graphToAnnotons(self.graph);
+      let gridData = self.annotonsToTable(self.graph, annotons);
 
-      that.title = that.graph.get_annotations_by_key('title');
+      self.title = self.graph.get_annotations_by_key('title');
 
-      that.$timeout(() => {
-        that.$rootScope.$emit('rebuilt', {
+      self.$timeout(() => {
+        self.$rootScope.$emit('rebuilt', {
+          gridData: gridData
+        });
+      }, 10);
+    }
+
+    function rebuildOld(resp) {
+      var noctua_graph = model.graph;
+      self.graph = new noctua_graph();
+      self.graph.load_data_basic(resp.data());
+
+      self.modelTitle = null;
+      var annotations = self.graph.get_annotations_by_key(annotationTitleKey);
+      if (annotations.length > 0) {
+        self.modelTitle = annotations[0].value(); // there should be only one
+      }
+
+      let annotons = self.graphToAnnotons(self.graph);
+      let gridData = self.annotonsToTable(self.graph, annotons);
+
+      self.title = self.graph.get_annotations_by_key('title');
+
+      self.$timeout(() => {
+        self.$rootScope.$emit('rebuilt', {
           gridData: gridData
         });
       }, 10);
     }
 
     manager.register('merge', function ( /* resp */ ) {
-      manager.get_model(that.model_id);
+      manager.get_model(self.model_id);
     });
     manager.register('rebuild', function (resp) {
       rebuild(resp);
@@ -180,6 +204,18 @@ export default class GraphService {
     return knownPredicates[id] || id;
   }
 
+  subjectToTerm(graph, object) {
+    const self = this;
+
+    let gp = graph.get_node(object);
+    let result = {
+      id: self.getNodeId(gp),
+      label: self.getNodeLabel(gp)
+    }
+
+    return result;
+  }
+
   edgeToEvidence(graph, edge) {
     var result = null;
 
@@ -217,9 +253,106 @@ export default class GraphService {
     return result;
   }
 
+  edgeToEvidenceOld(graph, edge) {
+    var result = null;
+
+    // console.log('edgeToEvidence', edge);
+    var evidenceAnnotations = edge.get_annotations_by_key('evidence');
+    if (evidenceAnnotations.length > 0) {
+      var firstAnnotationId = evidenceAnnotations[0].value();
+      var firstAnnotationNode = graph.get_node(firstAnnotationId);
+      if (firstAnnotationNode) {
+        // console.log('...firstAnnotationId', firstAnnotationId);
+        // console.log('...firstAnnotationNode', firstAnnotationNode);
+        result = {
+          evidence: {
+            id: this.getNodeId(firstAnnotationNode),
+            label: this.getNodeLabel(firstAnnotationNode)
+          },
+          reference: '',
+          with: ''
+        };
+
+        let sources = firstAnnotationNode.get_annotations_by_key('source');
+        let withs = firstAnnotationNode.get_annotations_by_key('with');
+        // console.log('...sources', sources);
+        // console.log('...withs', withs);
+        if (sources.length > 0) {
+          result.reference = sources[0].value();
+        }
+        if (withs.length > 0) {
+          result.with = withs[0].value();
+        }
+        // console.log('...evidenceLabel', edge, firstAnnotationId, firstAnnotationNode);
+      }
+    }
+
+    return result;
+  }
 
   graphToAnnotons(graph) {
-    var that = this;
+    var self = this;
+    // graph.fold_evidence();
+    // graph.fold_go_noctua(global_collapsible_relations);
+
+    // First pass through the edges to locate the GPs
+
+    var annotons = [];
+
+    // var d = graph.all_edges();
+    //console.log('d', d);
+
+
+    each(graph.all_edges(), function (e) {
+      //console.log('e', e, e.predicate_id(), this.idToPredicateLabel(e.predicate_id()));
+      if (e.predicate_id() === PredicateEnabledBy) {
+        let mfId = e.subject_id();
+
+        let annoton = self.formGrid.createAnnotonModel();
+
+        let mfTerm = self.subjectToTerm(graph, mfId);
+        self.formGrid.insertTermNode(annoton, 'mf', mfTerm);
+
+        let mfEdgesIn = graph.get_edges_by_subject(mfId);
+        each(mfEdgesIn, function (toMFEdge) {
+          let predicateId = toMFEdge.predicate_id();
+          let predicateLabel = self.idToPredicateLabel(e.predicate_id());
+          let evidence = self.edgeToEvidence(graph, toMFEdge);
+          let toMFObject = toMFEdge.object_id();
+
+          if (predicateId === PredicateEnabledBy) {
+            // console.log('......PredicateEnabledBy GP', toMFObject);
+            self.formGrid.insertTermNode(annoton, 'gp', toMFObject);
+            self.formGrid.insertEvidenceNode(annoton, 'mf', evidence);
+
+            //annoton.GP = toMFObject;k80- k+-+/
+            /// annoton.MFe = evidence;
+          } else if (predicateId === PredicatePartOf) {
+            // console.log('......PredicatePartOf BP', toMFObject);
+
+            self.formGrid.insertTermNode(annoton, 'bp', toMFObject);
+            self.formGrid.insertEvidenceNode(annoton, 'bp', evidence);
+
+          } else if (predicateId === PredicateOccursIn) {
+            // console.log('......PredicateOccursIn BP', toMFObject);
+            self.formGrid.insertTermNode(annoton, 'cc', toMFObject);
+            self.formGrid.insertEvidenceNode(annoton, 'cc', evidence);
+          } else {
+            console.log('......mfEdgesIn UNKNOWN PREDICATE', predicateId, predicateLabel, toMFEdge);
+          }
+        });
+        annotons.push(annoton);
+
+      }
+    });
+
+    // console.log('annotons', annotons);
+
+    return annotons;
+  }
+
+  graphToAnnotonsOld(graph) {
+    var self = this;
     // graph.fold_evidence();
     // graph.fold_go_noctua(global_collapsible_relations);
 
@@ -245,8 +378,8 @@ export default class GraphService {
         let mfEdgesIn = graph.get_edges_by_subject(mfId);
         each(mfEdgesIn, function (toMFEdge) {
           let predicateId = toMFEdge.predicate_id();
-          let predicateLabel = that.idToPredicateLabel(e.predicate_id());
-          let evidence = that.edgeToEvidence(graph, toMFEdge);
+          let predicateLabel = self.idToPredicateLabel(e.predicate_id());
+          let evidence = self.edgeToEvidence(graph, toMFEdge);
           let toMFObject = toMFEdge.object_id();
 
           if (predicateId === PredicateEnabledBy) {
@@ -276,6 +409,133 @@ export default class GraphService {
 
 
   annotonToTableRows(graph, annoton) {
+    const self = this;
+    let result = [];
+
+    let gp = graph.get_node(annoton.GP);
+    let gpID = this.getNodeId(gp);
+    let gpLabel = this.getNodeLabel(gp);
+    let mf = graph.get_node(annoton.MF);
+    let mfID = this.getNodeId(mf);
+    let mfLabel = this.getNodeLabel(mf);
+    let bp = graph.get_node(annoton.BP);
+    let bpID = this.getNodeId(bp);
+    let bpLabel = this.getNodeLabel(bp);
+    let cc = graph.get_node(annoton.CC);
+    let ccID = this.getNodeId(cc);
+    let ccLabel = this.getNodeLabel(cc);
+
+
+    let mfNode = self.formGrid.getNode(annoton, 'mf');
+
+
+    let summaryAspect = '';
+    let summaryTerm = '';
+    let summaryEvidence = '';
+    let summaryReference = '';
+    let summaryWith = '';
+
+    let mfRow = {
+      Aspect: 'F',
+      Term: mfLabel,
+      $$treeLevel: 1
+    };
+    summaryAspect += 'F';
+    summaryTerm += '• ' + mfNode.term.control.value.label;
+
+    if (annoton.MFe) {
+      mfRow.Evidence = annoton.MFe.evidence;
+      mfRow.Reference = annoton.MFe.reference;
+      mfRow.With = annoton.MFe.with;
+
+      summaryEvidence += '• ' + annoton.MFe.evidence.label;
+      summaryReference += '• ' + annoton.MFe.reference;
+      summaryWith += '• ' + annoton.MFe.with;
+    }
+    result.push(mfRow);
+
+    if (bp) {
+      let bpRow = {
+        Aspect: 'P',
+        Term: bpLabel,
+        $$treeLevel: 1
+      };
+
+      summaryAspect += 'P';
+      summaryTerm += '\n• ' + bpLabel;
+      if (annoton.BPe) {
+        bpRow.Evidence = annoton.BPe.evidence;
+        bpRow.Reference = annoton.BPe.reference;
+        bpRow.With = annoton.BPe.with;
+
+        summaryEvidence += '\n• ' + annoton.BPe.evidence.label;
+        summaryReference += '\n• ' + annoton.BPe.reference;
+        summaryWith += '\n• ' + annoton.BPe.with;
+      }
+      result.push(bpRow);
+    }
+
+    if (cc) {
+      let ccRow = {
+        Aspect: 'C',
+        Term: ccLabel,
+        $$treeLevel: 1
+      };
+
+      summaryAspect += 'C';
+      summaryTerm += '\n• ' + ccLabel;
+      if (annoton.CCe) {
+        ccRow.Evidence = annoton.CCe.evidence;
+        ccRow.Reference = annoton.CCe.reference;
+        ccRow.With = annoton.CCe.with;
+
+        summaryEvidence += '\n• ' + annoton.CCe.evidence.label;
+        summaryReference += '\n• ' + annoton.CCe.reference;
+        summaryWith += '\n• ' + annoton.CCe.with;
+      }
+      result.push(ccRow);
+    }
+
+    result.unshift({
+      Aspect: summaryAspect,
+      GP: gpLabel,
+      Term: summaryTerm,
+      Evidence: {
+        label: summaryEvidence
+      },
+      Reference: summaryReference,
+      With: summaryWith,
+      original: {
+        GP: {
+          id: gpID,
+          label: gpLabel
+        },
+        MF: mf ? {
+          id: mfID,
+          label: mfLabel
+        } : null,
+        MFe: annoton.MFe,
+        BP: bp ? {
+          id: bpID,
+          label: bpLabel
+        } : null,
+        BPe: annoton.BPe,
+        CC: cc ? {
+          id: ccID,
+          label: ccLabel
+        } : null,
+        CCe: annoton.CCe
+      },
+      Annoton: annoton,
+      $$treeLevel: 0
+    });
+
+    // console.log('annotonToTableRows', annoton, result);
+
+    return result;
+  }
+
+  annotonToTableRowsOld(graph, annoton) {
     let result = [];
 
     let gp = graph.get_node(annoton.GP);
@@ -453,11 +713,24 @@ export default class GraphService {
 
 
   annotonsToTable(graph, annotons) {
-    const that = this;
+    const self = this;
     let result = [];
 
     each(annotons, function (annoton) {
-      let annotonRows = that.annotonToTableRows(graph, annoton);
+      let annotonRows = self.annotonToTableRows(graph, annoton);
+
+      result = result.concat(annotonRows);
+    });
+
+    return result;
+  }
+
+  annotonsToTableOld(graph, annotons) {
+    const self = this;
+    let result = [];
+
+    each(annotons, function (annoton) {
+      let annotonRows = self.annotonToTableRows(graph, annoton);
 
       result = result.concat(annotonRows);
     });
@@ -634,4 +907,4 @@ export default class GraphService {
     this.manager.request_with(reqs);
   }
 }
-GraphService.$inject = ['$rootScope', '$timeout'];
+GraphService.$inject = ['$rootScope', '$timeout', 'formGrid'];
