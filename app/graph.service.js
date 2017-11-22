@@ -28,7 +28,8 @@ const rootMF = 'GO:0003674';
 const noDataECO = 'ECO:0000035';
 
 export default class GraphService {
-  constructor($rootScope, $timeout, formGrid) {
+  constructor(saeConstants, $rootScope, $timeout, formGrid) {
+    this.saeConstants = saeConstants
     this.$rootScope = $rootScope;
     this.$timeout = $timeout;
     this.model_id = local_id;
@@ -227,45 +228,79 @@ export default class GraphService {
   graphToAnnotons(graph) {
     var self = this;
     var annotons = [];
+    var breadth = 1;
 
     each(graph.all_edges(), function (e) {
-      if (e.predicate_id() === PredicateEnabledBy) {
+      if (e.predicate_id() === self.saeConstants.edge.enabledBy) {
         let mfId = e.subject_id();
-
         let annoton = self.formGrid.createAnnotonModel();
-
         let mfTerm = self.subjectToTerm(graph, mfId);
-        self.formGrid.insertTermNode(annoton, 'mf', mfTerm);
-
         let mfEdgesIn = graph.get_edges_by_subject(mfId);
-        each(mfEdgesIn, function (toMFEdge) {
-          let predicateId = toMFEdge.predicate_id();
-          let predicateLabel = self.idToPredicateLabel(e.predicate_id());
-          let evidence = self.edgeToEvidence(graph, toMFEdge);
-          let toMFObject = toMFEdge.object_id();
 
-          if (predicateId === PredicateEnabledBy) {
-            let gpTerm = self.subjectToTerm(graph, toMFObject);
-            self.formGrid.insertTermNode(annoton, 'gp', gpTerm);
-            self.formGrid.insertEvidenceNode(annoton, 'mf', evidence);
-          } else if (predicateId === PredicatePartOf) {
-            let bpTerm = self.subjectToTerm(graph, toMFObject);
-            self.formGrid.insertTermNode(annoton, 'bp', bpTerm);
-            self.formGrid.insertEvidenceNode(annoton, 'bp', evidence);
-          } else if (predicateId === PredicateOccursIn) {
-            let ccTerm = self.subjectToTerm(graph, toMFObject);
-            self.formGrid.insertTermNode(annoton, 'cc', ccTerm);
-            self.formGrid.insertEvidenceNode(annoton, 'cc', evidence);
-          } else {
-            console.log('......mfEdgesIn UNKNOWN PREDICATE', predicateId, predicateLabel, toMFEdge);
-          }
-        });
+        let annotonNode = self.formGrid.getNode(annoton, 'mf');
+        annotonNode.term.control.value = mfTerm;
+
+        self.graphToAnnatonDFS(graph, mfEdgesIn, annotonNode, breadth);
+
         annotons.push(annoton);
 
       }
     });
 
     return annotons;
+  }
+
+  graphToAnnatonDFS(graph, mfEdgesIn, annotonNode, breadth) {
+    var self = this;
+
+    each(mfEdgesIn, function (toMFEdge) {
+
+      if (!toMFEdge) {
+        return;
+      }
+      let predicateId = toMFEdge.predicate_id();
+      let predicateLabel = self.idToPredicateLabel(toMFEdge.predicate_id());
+      let evidence = self.edgeToEvidence(graph, toMFEdge);
+      let toMFObject = toMFEdge.object_id();
+
+
+      annotonNode.term.control.value = self.subjectToTerm(graph, toMFObject);
+      annotonNode.evidence.control.value = evidence;
+
+
+      //each(annotonNode, function (e) {
+
+
+
+      if (predicateId === self.saeConstants.edge.enabledBy) {
+        let gpTerm = self.subjectToTerm(graph, toMFObject);
+
+        self.formGrid.getNode(annoton, 'mf');
+        self.formGrid.insertTermNode(annoton, 'gp', gpTerm);
+        self.formGrid.insertEvidenceNode(annoton, 'mf', evidence);
+
+      } else if (predicateId === self.saeConstants.edge.partOf) {
+        let bpTerm = self.subjectToTerm(graph, toMFObject);
+        self.formGrid.insertTermNode(annoton, 'bp' + appender, bpTerm);
+        self.formGrid.insertEvidenceNode(annoton, 'bp' + appender, evidence);
+        self.graphToAnnatonDFS(graph, graph.get_edges_by_subject(toMFObject), annoton, appender + '-' + breadth, breadth);
+
+      } else if (predicateId === self.saeConstants.edge.occursIn) {
+        let ccTerm = self.subjectToTerm(graph, toMFObject);
+        self.formGrid.insertTermNode(annoton, 'cc', ccTerm);
+        self.formGrid.insertEvidenceNode(annoton, 'cc', evidence);
+      } else {
+        console.log('......mfEdgesIn UNKNOWN PREDICATE', predicateId, predicateLabel, toMFEdge);
+      }
+    });
+  }
+
+  foo(idString, index, value) {
+    // let idParts = str.split('-');
+
+    //if()
+    //idParts[index] = parseInt(idParts[index]) ++;
+    // return idParts.join('-');
   }
 
   annotonToTableRows(graph, annoton) {
@@ -503,4 +538,4 @@ export default class GraphService {
     this.manager.request_with(reqs);
   }
 }
-GraphService.$inject = ['$rootScope', '$timeout', 'formGrid'];
+GraphService.$inject = ['saeConstants', '$rootScope', '$timeout', 'formGrid'];

@@ -55,8 +55,6 @@ app.controller('TVController', TVController);
 import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
 app.controller('PopulateDialogController', PopulateDialogController);
 
-import SaeGraphService from './sae-graph.service.js';
-app.service('saeGraph', SaeGraphService);
 import FormGridService from './form-grid.service.js';
 app.service('formGrid', FormGridService);
 //import GraphService from './graph-old.service.js';

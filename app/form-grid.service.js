@@ -1,5 +1,7 @@
 import _ from 'lodash';
 
+import SaeGraph from './sae-graph.js';
+
 export default class FormGridService {
   constructor(saeConstants, $timeout, lookup) {
     this.saeConstants = saeConstants
@@ -138,6 +140,8 @@ export default class FormGridService {
       data: []
     };
 
+    this.createAnnotonModel()
+
   }
 
   registerApi() {
@@ -153,8 +157,57 @@ export default class FormGridService {
 
   createAnnotonModel() {
     const self = this;
+    let data = [];
 
-    let data = [{
+    var graph = new SaeGraph();
+    graph.addNode(1);
+    graph.addNode(2);
+    graph.addNode(3);
+    graph.addNode(4);
+    graph.addNode(5);
+    graph.addNode(6);
+    graph.print(); // 1 -> | 2 -> | 3 -> | 4 -> | 5 -> | 6 ->
+    graph.addEdge(1, 2);
+    graph.addEdge(1, 5);
+    graph.addEdge(2, 3);
+    graph.addEdge(2, 5);
+    graph.addEdge(3, 4);
+    graph.addEdge(4, 5);
+    graph.addEdge(4, 6);
+    graph.print(); // 1 -> 2, 5 | 2 -> 1, 3, 5 | 3 -> 2, 4 | 4 -> 3, 5, 6 | 5 -> 1, 2, 4 | 6 -> 4
+    console.log('graph size (number of nodes):', graph.size()); // => 6
+    console.log('graph relations (number of edges):', graph.relations()); // => 7
+    graph.traverseDFS(1, function (node) {
+      console.log(node);
+    }); // => 1 2 3 4 5 6
+    console.log('---');
+    graph.traverseBFS(1, function (node) {
+      console.log(node);
+    }); // => 1 2 5 3 4 6
+    graph.traverseDFS(0, function (node) {
+      console.log(node);
+    }); // => 'Node not found'
+    graph.traverseBFS(0, function (node) {
+      console.log(node);
+    }); // => 'Node not found'
+    console.log('path from 6 to 1:', graph.pathFromTo(6, 1)); // => 6-4-5-1
+    console.log('path from 3 to 5:', graph.pathFromTo(3, 5)); // => 3-2-5
+    graph.removeEdge(1, 2);
+    graph.removeEdge(4, 5);
+    graph.removeEdge(10, 11);
+    console.log('graph relations (number of edges):', graph.relations()); // => 5
+    console.log('path from 6 to 1:', graph.pathFromTo(6, 1)); // => 6-4-3-2-5-1
+    graph.addEdge(1, 2);
+    graph.addEdge(4, 5);
+    console.log('graph relations (number of edges):', graph.relations()); // => 7
+    console.log('path from 6 to 1:', graph.pathFromTo(6, 1)); // => 6-4-5-1
+    graph.removeNode(5);
+    console.log('graph size (number of nodes):', graph.size()); // => 5
+    console.log('graph relations (number of edges):', graph.relations()); // => 4
+    console.log('path from 6 to 1:', graph.pathFromTo(6, 1)); // => 6-4-3-2-1
+
+
+    data = [{
         'id': 'gp',
         'term': {
           'control': {
@@ -364,16 +417,6 @@ export default class FormGridService {
 
   }
 
-  getNode(data) {
-    let result = [];
-    for (var row of data) {
-      result = _.find(data, {
-        id: row.id
-      });
-    }
-    return result;
-  }
-
   insertNode(id, key, value) {
     let node = null;
     for (var row of data) {
@@ -427,6 +470,7 @@ export default class FormGridService {
    */
   initalizeForm() {
     const self = this;
+
     self.geneProduct = {
       'id': 'gp',
       'term': {
