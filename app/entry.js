@@ -55,10 +55,18 @@ app.controller('TVController', TVController);
 import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
 app.controller('PopulateDialogController', PopulateDialogController);
 
+import ConfigService from './config/config.service.js';
+app.service('config', ConfigService);
+
+import AnnotonService from './annoton.service.js';
+app.service('annoton', AnnotonService);
+
 import FormGridService from './form-grid.service.js';
 app.service('formGrid', FormGridService);
+
 //import GraphService from './graph-old.service.js';
 import GraphService from './graph.service.js';
 app.service('graph', GraphService);
+
 import LookupService from './lookup.service.js';
 app.service('lookup', LookupService);

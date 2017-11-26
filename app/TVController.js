@@ -168,7 +168,7 @@ export default class TVController {
 
   getTerm(field) {
     let result = null;
-    if (field.control.value && field.control.value.length >= 3) {
+    if (field && field.control.value && field.control.value.length >= 3) {
       //let oldValue = this.editingModel[field];
       // console.log('getTerm', field, oldValue, term);
       result = this.lookup.golrLookup(field); // delete?, this.fieldToRoot[field]);

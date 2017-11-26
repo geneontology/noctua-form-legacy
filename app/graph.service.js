@@ -28,8 +28,9 @@ const rootMF = 'GO:0003674';
 const noDataECO = 'ECO:0000035';
 
 export default class GraphService {
-  constructor(saeConstants, $rootScope, $timeout, formGrid) {
+  constructor(saeConstants, annoton, $rootScope, $timeout, formGrid) {
     this.saeConstants = saeConstants
+    this.annoton = annoton;
     this.$rootScope = $rootScope;
     this.$timeout = $timeout;
     this.model_id = local_id;
@@ -233,14 +234,14 @@ export default class GraphService {
     each(graph.all_edges(), function (e) {
       if (e.predicate_id() === self.saeConstants.edge.enabledBy) {
         let mfId = e.subject_id();
-        let annoton = self.formGrid.createAnnotonModel();
+        let annoton = self.annoton.createModel();
         let mfTerm = self.subjectToTerm(graph, mfId);
         let mfEdgesIn = graph.get_edges_by_subject(mfId);
 
-        let annotonNode = self.formGrid.getNode(annoton, 'mf');
+        let annotonNode = self.annoton.getNode(annoton, 'mf');
         annotonNode.term.control.value = mfTerm;
 
-        self.graphToAnnatonDFS(graph, mfEdgesIn, annotonNode, breadth);
+        // self.graphToAnnatonDFS(graph, mfEdgesIn, annotonNode, breadth);
 
         annotons.push(annoton);
 
@@ -307,10 +308,10 @@ export default class GraphService {
     const self = this;
     let result = [];
 
-    let gpNode = self.formGrid.getNode(annoton, 'gp');
-    let mfNode = self.formGrid.getNode(annoton, 'mf');
-    let bpNode = self.formGrid.getNode(annoton, 'bp');
-    let ccNode = self.formGrid.getNode(annoton, 'cc');
+    let gpNode = self.annoton.getNode(annoton, 'gp');
+    let mfNode = self.annoton.getNode(annoton, 'mf');
+    let bpNode = self.annoton.getNode(annoton, 'bp');
+    let ccNode = self.annoton.getNode(annoton, 'cc');
 
     let summaryAspect = '';
     let summaryTerm = '';
@@ -538,4 +539,4 @@ export default class GraphService {
     this.manager.request_with(reqs);
   }
 }
-GraphService.$inject = ['saeConstants', '$rootScope', '$timeout', 'formGrid'];
+GraphService.$inject = ['saeConstants', 'annoton', '$rootScope', '$timeout', 'formGrid'];

@@ -7,9 +7,16 @@ export default class SaeGraph {
     this.numberOfEdges = 0;
   }
 
+  findNode(id) {
+    return _.find(nodes, {
+      id: id
+    });
+  }
+
   addNode(node) {
     this.nodes.push(node);
-    this.edges[node] = [];
+    this.edges[node.id] = {}
+    this.edges[node.id]['nodes'] = [];
   };
 
   removeNode(node) {
@@ -22,20 +29,21 @@ export default class SaeGraph {
       this.removeEdge(adjacentNode, node);
     }
   };
-  addEdge(node1, node2) {
-    this.edges[node1].push(node2);
-    this.edges[node2].push(node1);
+  addEdge(source, target, edgeId) {
+    this.edges[source.id].edgeId = edgeId;
+    this.edges[source.id]['nodes'].push(target);
+    //this.edges[target].push(source);
     this.numberOfEdges++;
   };
-  removeEdge(node1, node2) {
-    var index1 = this.edges[node1] ? this.edges[node1].indexOf(node2) : -1;
-    var index2 = this.edges[node2] ? this.edges[node2].indexOf(node1) : -1;
+  removeEdge(source, target) {
+    var index1 = this.edges[source] ? this.edges[source].indexOf(target) : -1;
+    var index2 = this.edges[target] ? this.edges[target].indexOf(source) : -1;
     if (~index1) {
-      this.edges[node1].splice(index1, 1);
+      this.edges[source].splice(index1, 1);
       this.numberOfEdges--;
     }
     if (~index2) {
-      this.edges[node2].splice(index2, 1);
+      this.edges[target].splice(index2, 1);
     }
   };
 
