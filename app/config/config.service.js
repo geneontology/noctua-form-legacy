@@ -235,6 +235,154 @@ export default class ConfigService {
     return annoton;
 
   }
+
+  createAnnotonModelFakeData() {
+    const self = this;
+    let annoton = this.createAnnotonModel();
+    let nodes = [{
+        "id": "gp",
+        "term": {
+          "id": "UniProtKB:O95477",
+          "label": "ABCA1 Hsap (UniProtKB:O95477)"
+        },
+        "evidence": {
+          "id": "ECO:0000314",
+          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
+        },
+        "reference": "PMID:1234",
+        "with": ""
+      },
+      {
+        "id": "mf",
+        "term": {
+          "id": "GO:0017127",
+          "label": "cholesterol transporter activity (GO:0017127)"
+        },
+        "evidence": {
+          "id": "ECO:0000314",
+          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
+        },
+        "reference": "PMID:1234",
+        "with": ""
+      },
+      {
+        "id": "mf-1",
+        "term": {
+          "id": "UniProtKB:P02649",
+          "label": "APOE Hsap (UniProtKB:P02649)"
+        },
+        "evidence": {
+          "id": "ECO:0000314",
+          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
+        },
+        "reference": "PMID:1234",
+        "with": ""
+      },
+      {
+        "id": "mf-2",
+        "term": {
+          "id": "GO:0000279",
+          "label": "M phase (GO:0000279)"
+        },
+        "evidence": {
+          "id": "ECO:0000314",
+          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
+        },
+        "reference": "PMID:1234",
+        "with": ""
+      },
+      {
+        "id": "bp",
+        "term": {
+          "id": "GO:0006869",
+          "label": "lipid transport (GO:0006869)"
+        },
+        "evidence": {
+          "id": "ECO:0000314",
+          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
+        },
+        "reference": "PMID:1234",
+        "with": ""
+      },
+      {
+        "id": "bp-1",
+        "term": {
+          "id": "GO:0042632",
+          "label": "cholesterol homeostasis (GO:0042632)"
+        },
+        "evidence": {
+          "id": "ECO:0000314",
+          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
+        },
+        "reference": "PMID:1234",
+        "with": ""
+      },
+      {
+        "id": "bp-1-1",
+        "term": {
+          "id": "GO:0003013",
+          "label": "circulatory system process (GO:0003013)"
+        },
+        "evidence": {
+          "id": "ECO:0000314",
+          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
+        },
+        "reference": "PMID:1234",
+        "with": ""
+      },
+      {
+        "id": "cc",
+        "term": {
+          "id": "GO:0005886",
+          "label": "plasma membrane (GO:0005886)"
+        },
+        "evidence": {
+          "id": "ECO:0000314",
+          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
+        },
+        "reference": "PMID:1234",
+        "with": ""
+      },
+      {
+        "id": "cc-1",
+        "term": {
+          "id": "CL:2000054",
+          "label": "hepatic pit cell (CL:2000054)"
+        },
+        "evidence": {
+          "id": "ECO:0000314",
+          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
+        },
+        "reference": "PMID:1234",
+        "with": ""
+      },
+      {
+        "id": "cc-1-1",
+        "term": {
+          "id": "UBERON:0002107",
+          "label": "liver (UBERON:0002107)"
+        },
+        "evidence": {
+          "id": "ECO:0000314",
+          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
+        },
+        "reference": "PMID:1234",
+        "with": ""
+      }
+    ]
+
+    each(nodes, function (node) {
+      let annotonNode = annoton.getNode(node.id);
+      let evidence = {
+        evidence: node.evidence,
+        reference: node.reference,
+        with: node.with,
+      }
+      Annoton.setTerm(annotonNode, node.term);
+      Annoton.setEvidence(annotonNode, evidence);
+    });
+    return annoton;
+  }
 }
 
 ConfigService.$inject = ['saeConstants'];

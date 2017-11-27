@@ -7,6 +7,7 @@ export default class FormGridService {
     this.config = config;
     this.$timeout = $timeout;
     this.lookup = lookup;
+    this.annoton = this.config.createAnnotonModelFakeData();
 
     this.gridApi = null;
     this.columnDefs = [{
@@ -125,17 +126,15 @@ export default class FormGridService {
   initalizeForm() {
     const self = this;
 
-    let annoton = self.config.createAnnotonModel();
-    self.geneProduct = annoton.getNode('gp');
+    self.geneProduct = self.annoton.getNode('gp');
 
-    console.log('poo', annoton, 'Path') // graph.pathFromTo(annoton['mf'], annoton['mf-1']));
+    // console.log('poo', annoton, 'Path') // graph.pathFromTo(annoton['mf'], annoton['mf-1']));
 
-    each(annoton, function (node) {
+    each(self.annoton, function (node) {
 
     });
 
-    self.gridOptions.data = annoton.model.nodes;
-
+    self.gridOptions.data = self.annoton.model.nodes;
 
   }
 

@@ -28,7 +28,7 @@ var app = angular.module('TVApp', ['ngMaterial',
   'jsonFormatter',
   'ui.grid', 'ui.grid.edit', 'ui.grid.rowEdit', 'ui.grid.cellNav',
   'ui.grid.autoResize', 'ui.grid.resizeColumns',
-  'ui.grid.treeView'
+  'ui.grid.treeView', 'ui.grid.expandable'
 ]);
 app.config(['JSONFormatterConfigProvider', function (JSONFormatterConfigProvider) {
 
@@ -39,9 +39,10 @@ app.config(['JSONFormatterConfigProvider', function (JSONFormatterConfigProvider
 app.constant('saeConstants', {
   'edge': {
     enabledBy: 'RO:0002333',
-    partOf: 'BFO:0000050',
+    hasInput: 'RO:0002233',
+    happensDuring: 'RO:0002092',
     occursIn: 'BFO:0000066',
-    happensDuring: 'RO:0002092'
+    partOf: 'BFO:0000050',
   },
   rootMF: 'GO:0003674',
   noDataECO: 'ECO:0000035',

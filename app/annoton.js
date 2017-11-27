@@ -54,12 +54,27 @@ export default class Annoton {
     }
   }
 
-  insertEvidenceNode(annotonModel, id, value) {
-    let node = null;
-    node = _.find(annotonModel, {
-      id: id
+  print() {
+    let result = []
+    each(this.model.nodes, function (node) {
+      result.push({
+        id: node.id,
+        term: node.term.control.value,
+        evidence: node.evidence.control.value,
+        reference: node.reference.control.value,
+        with: node.with.control.value
+      })
     });
+    return result;
+  };
 
+  static setTerm(node, value) {
+    if (node && value) {
+      node.term.control.value = value;
+    }
+  }
+
+  static setEvidence(node, value) {
     if (node && value) {
       node.evidence.control.value = value.evidence;
       node.reference.control.value = value.reference;

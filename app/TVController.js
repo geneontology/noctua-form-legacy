@@ -325,7 +325,8 @@ export default class TVController {
 
 
   saveRow() {
-    this.graph.saveEditingModel(this.formGrid.geneProduct, this.formGrid.gridOptions.data);
+    // let annoton = JSON.parse(JSON.stringify(this.formGrid.annoton));
+    this.graph.saveEditingModel(this.formGrid.annoton);
   }
 
 
@@ -335,6 +336,7 @@ export default class TVController {
 
     self.formGrid.clearForm();
     self.formGrid.gridOptions.data = row.annoton.model.nodes;
+    console.log(JSON.stringify(row.annoton.print()))
   }
 
 

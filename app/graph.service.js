@@ -1,3 +1,5 @@
+import Annoton from './annoton.js';
+
 const each = require('lodash/forEach');
 var model = require('bbop-graph-noctua');
 var barista_response = require('bbop-response-barista');
@@ -272,50 +274,16 @@ export default class GraphService {
       each(edge.nodes, function (node) {
         if (predicateId === node.edgeId) {
           node.target.term.control.value = self.subjectToTerm(graph, toMFObject);
-          node.target.evidence.control.value = evidence;
+          Annoton.setEvidence(node.target, evidence);
           self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target, breadth);
-
         }
       });
-
-
-
-      if (predicateId === self.saeConstants.edge.enabledBy) {
-        let gpTerm = self.subjectToTerm(graph, toMFObject);
-
-        //  self.formGrid.getNode(annoton, 'mf');
-        //  self.formGrid.insertTermNode(annoton, 'gp', gpTerm);
-        //  self.formGrid.insertEvidenceNode(annoton, 'mf', evidence);
-
-      } else if (predicateId === self.saeConstants.edge.partOf) {
-        let bpTerm = self.subjectToTerm(graph, toMFObject);
-
-        //  self.formGrid.insertTermNode(annoton, annotoneNode.id, bpTerm);
-        // self.formGrid.insertEvidenceNode(annoton, 'bp' + appender, evidence);
-        // self.graphToAnnatonDFS(graph, graph.get_edges_by_subject(toMFObject), annoton, breadth);
-
-      } else if (predicateId === self.saeConstants.edge.occursIn) {
-        let ccTerm = self.subjectToTerm(graph, toMFObject);
-        // self.formGrid.insertTermNode(annoton, 'cc', ccTerm);
-        // self.formGrid.insertEvidenceNode(annoton, 'cc', evidence);
-      } else {
-        console.log('......mfEdgesIn UNKNOWN PREDICATE', predicateId, predicateLabel, toMFEdge);
-      }
     });
 
     // each(edge.nodes, function (node) {
     //  self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node, breadth);
     // });
   }
-
-  foo(idString, index, value) {
-    // let idParts = str.split('-');
-
-    //if()
-    //idParts[index] = parseInt(idParts[index]) ++;
-    // return idParts.join('-');
-  }
-
 
   annotonsToTable(graph, annotons) {
     const self = this;
@@ -480,54 +448,59 @@ export default class GraphService {
 
 
 
-  addIndividual(reqs, data) {
-    data.saveMeta = {};
-    data.saveMeta.term = data.term.control.value.id ? reqs.add_individual(data.term.control.value.id) : null
+  addIndividual(reqs, node) {
+    node.saveMeta = {};
+    node.saveMeta.term = node.term.control.value.id ? reqs.add_individual(node.term.control.value.id) : null
     // data.saveMeta.evidence = reqs.add_individual(data.evidence.id);
     //  reqs.add_evidence(data.reference.control.id, data.reference.control.value, data.with.control.value, data.saveMeta.evidence);
 
   }
 
-  addFact(reqs, data) {
-    if (data.saveMeta.term) {
-      data.saveMeta.edge = reqs.add_fact([
-        data.saveMeta.term,
-        data.meta.edge.target.saveMeta.term,
-        data.meta.edge.name
+  addFact(reqs, annoton, node) {
+    let edge = annoton.getEdges(node.id);
+    each(edge.nodes, function (edgeNode) {
+      edgeNode.target.saveMeta.edge = reqs.add_fact([
+        node.saveMeta.term,
+        edgeNode.target.saveMeta.term,
+        edgeNode.edgeId
       ]);
-
-      reqs.add_evidence(data.evidence.control.value.id, [data.reference.control.value], data.with.control.value, data.saveMeta.edge);
+    });
+    if (node.saveMeta.edge) {
+      reqs.add_evidence(node.evidence.control.value.id, [node.reference.control.value], null, node.saveMeta.edge);
     }
   }
 
 
-  saveEditingModel(geneProduct, editingModel) {
-    console.log('saveEditingModel', editingModel, editingModel.Annoton)
+  saveEditingModel(annoton) {
+    console.log('save annoton', annoton)
+    const self = this;
     const manager = this.manager;
+
+    let geneProduct = annoton.getNode('gp');
 
     var reqs = new minerva_requests.request_set(manager.user_token(), local_id);
 
-    if (editingModel.Annoton) {
-      this.addDeletionToRequestSet(reqs, editingModel.Annoton);
-    }
+    //if (editingModel.Annoton) {
+    //    this.addDeletionToRequestSet(reqs, editingModel.Annoton);
+    // }
 
     if (!this.modelTitle) {
       const defaultTitle = 'Model involving ' + geneProduct.term.control.value.label;
       reqs.add_annotation_to_model(annotationTitleKey, defaultTitle);
     }
 
-    this.addIndividual(reqs, geneProduct);
+    self.addIndividual(reqs, geneProduct);
 
-    for (let row of editingModel) {
-      this.addIndividual(reqs, row);
-    }
+    each(annoton.model.nodes, function (node) {
+      self.addIndividual(reqs, node);
+    });
 
-    for (let row of editingModel) {
-      this.addFact(reqs, row);
-    }
+    each(annoton.model.nodes, function (node) {
+      self.addFact(reqs, annoton, node);
+    });
 
-    console.log('saveEditingModel', editingModel, reqs);
-    console.log('structure', reqs.structure());
+    // console.log('saveEditingModel', editingModel, reqs);
+    // console.log('structure', reqs.structure());
     // reqs.store_model();
     manager.request_with(reqs);
   }
