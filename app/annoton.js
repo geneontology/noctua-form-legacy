@@ -3,15 +3,21 @@ const each = require('lodash/forEach');
 
 import SaeGraph from './sae-graph.js';
 
-export default class AnnotonService {
-  constructor(saeConstants, config, $timeout) {
-    this.config = config;
-    this.saeConstants = saeConstants
-    this.$timeout = $timeout;
+export default class Annoton {
+  constructor() {
+    this.model = new SaeGraph();
   }
 
-  createModel() {
-    return this.config.createAnnotonModel();
+  getModel() {
+    return this.model;
+  }
+
+  addNode(node) {
+    this.model.addNode(node);
+  }
+
+  getNode(id) {
+    return this.model.getNode(id);
   }
 
   insertNode(id, key, value) {
@@ -27,13 +33,12 @@ export default class AnnotonService {
     }
   }
 
-  getNode(annotonModel, id) {
-    let node = null;
-    node = _.find(annotonModel.nodes, {
-      id: id
-    });
+  addEdge(source, target, edge) {
+    this.model.addEdge(source, target, edge)
+  }
 
-    return node;
+  getEdges(id) {
+    this.model.getEdges(id);
   }
 
   insertTermNode(annotonModel, id, value) {
@@ -63,4 +68,3 @@ export default class AnnotonService {
   }
 
 }
-AnnotonService.$inject = ['saeConstants', 'config', '$timeout'];

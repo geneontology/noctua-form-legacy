@@ -58,9 +58,6 @@ app.controller('PopulateDialogController', PopulateDialogController);
 import ConfigService from './config/config.service.js';
 app.service('config', ConfigService);
 
-import AnnotonService from './annoton.service.js';
-app.service('annoton', AnnotonService);
-
 import FormGridService from './form-grid.service.js';
 app.service('formGrid', FormGridService);
 

@@ -1,13 +1,10 @@
 import _ from 'lodash';
 const each = require('lodash/forEach');
 
-import SaeGraph from './sae-graph.js';
-
 export default class FormGridService {
-  constructor(saeConstants, annoton, $timeout, lookup) {
-    //this.config = config;
-    this.annoton = annoton;
+  constructor(saeConstants, config, $timeout, lookup) {
     this.saeConstants = saeConstants
+    this.config = config;
     this.$timeout = $timeout;
     this.lookup = lookup;
 
@@ -128,8 +125,8 @@ export default class FormGridService {
   initalizeForm() {
     const self = this;
 
-    let annoton = self.annoton.createModel();
-    self.geneProduct = self.annoton.getNode(annoton, 'gp');
+    let annoton = self.config.createAnnotonModel();
+    self.geneProduct = annoton.getNode('gp');
 
     console.log('poo', annoton, 'Path') // graph.pathFromTo(annoton['mf'], annoton['mf-1']));
 
@@ -137,7 +134,7 @@ export default class FormGridService {
 
     });
 
-    self.gridOptions.data = annoton.nodes;
+    self.gridOptions.data = annoton.model.nodes;
 
 
   }
@@ -158,4 +155,4 @@ export default class FormGridService {
   }
 
 }
-FormGridService.$inject = ['saeConstants', 'annoton', '$timeout', 'lookup'];
+FormGridService.$inject = ['saeConstants', 'config', '$timeout', 'lookup'];

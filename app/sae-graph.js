@@ -7,8 +7,8 @@ export default class SaeGraph {
     this.numberOfEdges = 0;
   }
 
-  findNode(id) {
-    return _.find(nodes, {
+  getNode(id) {
+    return _.find(this.nodes, {
       id: id
     });
   }
@@ -35,6 +35,11 @@ export default class SaeGraph {
     //this.edges[target].push(source);
     this.numberOfEdges++;
   };
+
+  getEdges(id) {
+    return this.edges[id].nodes;
+  };
+
   removeEdge(source, target) {
     var index1 = this.edges[source] ? this.edges[source].indexOf(target) : -1;
     var index2 = this.edges[target] ? this.edges[target].indexOf(source) : -1;

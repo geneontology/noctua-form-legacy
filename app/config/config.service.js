@@ -1,15 +1,11 @@
 import _ from 'lodash';
 const each = require('lodash/forEach');
 
-import SaeGraph from './../sae-graph.js';
+import Annoton from './../annoton.js';
 
 export default class ConfigService {
-  constructor(saeConstants, $http, $timeout, $rootScope) {
+  constructor(saeConstants) {
     this.saeConstants = saeConstants;
-    this.name = 'DefaultLookupName';
-    this.$http = $http;
-    this.$timeout = $timeout;
-    this.$rootScope = $rootScope;
 
     this.baseRequestParams = {
       defType: 'edismax',
@@ -54,7 +50,7 @@ export default class ConfigService {
       })
     };
 
-    this._annoton = {
+    this._annotonData = {
       "gp": {
         "label": 'Gene Product',
         "term": {
@@ -192,10 +188,10 @@ export default class ConfigService {
 
   createAnnotonModel() {
     const self = this;
-    let graph = new SaeGraph();
-    let annoton = JSON.parse(JSON.stringify(this._annoton));
+    let annoton = new Annoton();
+    let annotonData = JSON.parse(JSON.stringify(this._annotonData));
 
-    each(annoton, function (node, key) {
+    each(annotonData, function (node, key) {
       node.id = key;
       node.term.control = {
         "placeholder": '',
@@ -223,22 +219,22 @@ export default class ConfigService {
         }
       };
 
-      graph.addNode(node);
+      annoton.addNode(node);
     });
 
-    graph.addEdge(annoton['gp'], annoton['mf'], self.saeConstants.edge.enabledBy);
-    graph.addEdge(annoton['mf'], annoton['bp'], self.saeConstants.edge.partOf);
-    graph.addEdge(annoton['mf'], annoton['cc'], self.saeConstants.edge.occursIn);
-    graph.addEdge(annoton['mf'], annoton['mf-1'], self.saeConstants.edge.hasInput);
-    graph.addEdge(annoton['mf'], annoton['mf-2'], self.saeConstants.edge.happensDuring);
-    graph.addEdge(annoton['bp'], annoton['bp-1'], self.saeConstants.edge.partOf);
-    graph.addEdge(annoton['bp-1'], annoton['bp-1-1'], self.saeConstants.edge.partOf);
-    graph.addEdge(annoton['cc'], annoton['cc-1'], self.saeConstants.edge.partOf);
-    graph.addEdge(annoton['cc-1'], annoton['cc-1-1'], self.saeConstants.edge.partOf);
+    annoton.addEdge(annotonData['gp'], annotonData['mf'], self.saeConstants.edge.enabledBy);
+    annoton.addEdge(annotonData['mf'], annotonData['bp'], self.saeConstants.edge.partOf);
+    annoton.addEdge(annotonData['mf'], annotonData['cc'], self.saeConstants.edge.occursIn);
+    annoton.addEdge(annotonData['mf'], annotonData['mf-1'], self.saeConstants.edge.hasInput);
+    annoton.addEdge(annotonData['mf'], annotonData['mf-2'], self.saeConstants.edge.happensDuring);
+    annoton.addEdge(annotonData['bp'], annotonData['bp-1'], self.saeConstants.edge.partOf);
+    annoton.addEdge(annotonData['bp-1'], annotonData['bp-1-1'], self.saeConstants.edge.partOf);
+    annoton.addEdge(annotonData['cc'], annotonData['cc-1'], self.saeConstants.edge.partOf);
+    annoton.addEdge(annotonData['cc-1'], annotonData['cc-1-1'], self.saeConstants.edge.partOf);
 
-    return graph;
+    return annoton;
 
   }
 }
 
-ConfigService.$inject = ['saeConstants', '$http', '$timeout', '$location', '$sce', '$rootScope', '$mdDialog'];
+ConfigService.$inject = ['saeConstants'];

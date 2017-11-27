@@ -28,9 +28,9 @@ const rootMF = 'GO:0003674';
 const noDataECO = 'ECO:0000035';
 
 export default class GraphService {
-  constructor(saeConstants, annoton, $rootScope, $timeout, formGrid) {
+  constructor(saeConstants, config, $rootScope, $timeout, formGrid) {
+    this.config = config;
     this.saeConstants = saeConstants
-    this.annoton = annoton;
     this.$rootScope = $rootScope;
     this.$timeout = $timeout;
     this.model_id = local_id;
@@ -234,14 +234,14 @@ export default class GraphService {
     each(graph.all_edges(), function (e) {
       if (e.predicate_id() === self.saeConstants.edge.enabledBy) {
         let mfId = e.subject_id();
-        let annoton = self.annoton.createModel();
+        let annoton = self.config.createAnnotonModel();
         let mfTerm = self.subjectToTerm(graph, mfId);
         let mfEdgesIn = graph.get_edges_by_subject(mfId);
 
-        let annotonNode = self.annoton.getNode(annoton, 'mf');
+        let annotonNode = annoton.getNode('mf');
         annotonNode.term.control.value = mfTerm;
 
-        // self.graphToAnnatonDFS(graph, mfEdgesIn, annotonNode, breadth);
+        self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, breadth);
 
         annotons.push(annoton);
 
@@ -251,7 +251,7 @@ export default class GraphService {
     return annotons;
   }
 
-  graphToAnnatonDFS(graph, mfEdgesIn, annotonNode, breadth) {
+  graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, breadth) {
     var self = this;
 
     each(mfEdgesIn, function (toMFEdge) {
@@ -267,29 +267,33 @@ export default class GraphService {
 
       annotonNode.term.control.value = self.subjectToTerm(graph, toMFObject);
       annotonNode.evidence.control.value = evidence;
-
+      each(annoton.getEdges(annotonNode.id), function (edge) {
+        self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), self.annoton.getNode(annoton, annotonNode.id), breadth);
+      });
 
       //each(annotonNode, function (e) {
+
 
 
 
       if (predicateId === self.saeConstants.edge.enabledBy) {
         let gpTerm = self.subjectToTerm(graph, toMFObject);
 
-        self.formGrid.getNode(annoton, 'mf');
-        self.formGrid.insertTermNode(annoton, 'gp', gpTerm);
-        self.formGrid.insertEvidenceNode(annoton, 'mf', evidence);
+        //  self.formGrid.getNode(annoton, 'mf');
+        //  self.formGrid.insertTermNode(annoton, 'gp', gpTerm);
+        //  self.formGrid.insertEvidenceNode(annoton, 'mf', evidence);
 
       } else if (predicateId === self.saeConstants.edge.partOf) {
         let bpTerm = self.subjectToTerm(graph, toMFObject);
-        self.formGrid.insertTermNode(annoton, 'bp' + appender, bpTerm);
-        self.formGrid.insertEvidenceNode(annoton, 'bp' + appender, evidence);
-        self.graphToAnnatonDFS(graph, graph.get_edges_by_subject(toMFObject), annoton, appender + '-' + breadth, breadth);
+
+        //  self.formGrid.insertTermNode(annoton, annotoneNode.id, bpTerm);
+        // self.formGrid.insertEvidenceNode(annoton, 'bp' + appender, evidence);
+        // self.graphToAnnatonDFS(graph, graph.get_edges_by_subject(toMFObject), annoton, breadth);
 
       } else if (predicateId === self.saeConstants.edge.occursIn) {
         let ccTerm = self.subjectToTerm(graph, toMFObject);
-        self.formGrid.insertTermNode(annoton, 'cc', ccTerm);
-        self.formGrid.insertEvidenceNode(annoton, 'cc', evidence);
+        // self.formGrid.insertTermNode(annoton, 'cc', ccTerm);
+        // self.formGrid.insertEvidenceNode(annoton, 'cc', evidence);
       } else {
         console.log('......mfEdgesIn UNKNOWN PREDICATE', predicateId, predicateLabel, toMFEdge);
       }
@@ -308,10 +312,10 @@ export default class GraphService {
     const self = this;
     let result = [];
 
-    let gpNode = self.annoton.getNode(annoton, 'gp');
-    let mfNode = self.annoton.getNode(annoton, 'mf');
-    let bpNode = self.annoton.getNode(annoton, 'bp');
-    let ccNode = self.annoton.getNode(annoton, 'cc');
+    let gpNode = annoton.getNode('gp');
+    let mfNode = annoton.getNode('mf');
+    let bpNode = annoton.getNode('bp');
+    let ccNode = annoton.getNode('cc');
 
     let summaryAspect = '';
     let summaryTerm = '';
@@ -539,4 +543,4 @@ export default class GraphService {
     this.manager.request_with(reqs);
   }
 }
-GraphService.$inject = ['saeConstants', 'annoton', '$rootScope', '$timeout', 'formGrid'];
+GraphService.$inject = ['saeConstants', 'config', '$rootScope', '$timeout', 'formGrid'];
