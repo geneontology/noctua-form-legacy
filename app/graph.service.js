@@ -253,9 +253,9 @@ export default class GraphService {
 
   graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, breadth) {
     var self = this;
+    let edge = annoton.getEdges(annotonNode.id);
 
     each(mfEdgesIn, function (toMFEdge) {
-
       if (!toMFEdge) {
         return;
       }
@@ -265,14 +265,18 @@ export default class GraphService {
       let toMFObject = toMFEdge.object_id();
 
 
-      annotonNode.term.control.value = self.subjectToTerm(graph, toMFObject);
-      annotonNode.evidence.control.value = evidence;
-      each(annoton.getEdges(annotonNode.id), function (edge) {
-        self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), self.annoton.getNode(annoton, annotonNode.id), breadth);
+      console.log("obj: ", predicateLabel, self.subjectToTerm(graph, toMFObject))
+      //annotonNode.term.control.value = self.subjectToTerm(graph, toMFObject);
+      //annotonNode.evidence.control.value = evidence;
+
+      each(edge.nodes, function (node) {
+        if (predicateId === node.edgeId) {
+          node.target.term.control.value = self.subjectToTerm(graph, toMFObject);
+          node.target.evidence.control.value = evidence;
+          self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target, breadth);
+
+        }
       });
-
-      //each(annotonNode, function (e) {
-
 
 
 
@@ -298,6 +302,10 @@ export default class GraphService {
         console.log('......mfEdgesIn UNKNOWN PREDICATE', predicateId, predicateLabel, toMFEdge);
       }
     });
+
+    // each(edge.nodes, function (node) {
+    //  self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node, breadth);
+    // });
   }
 
   foo(idString, index, value) {
@@ -306,6 +314,20 @@ export default class GraphService {
     //if()
     //idParts[index] = parseInt(idParts[index]) ++;
     // return idParts.join('-');
+  }
+
+
+  annotonsToTable(graph, annotons) {
+    const self = this;
+    let result = [];
+
+    each(annotons, function (annoton) {
+      let annotonRows = self.annotonToTableRows(graph, annoton);
+
+      result = result.concat(annotonRows);
+    });
+
+    return result;
   }
 
   annotonToTableRows(graph, annoton) {
@@ -457,18 +479,6 @@ export default class GraphService {
   }
 
 
-  annotonsToTable(graph, annotons) {
-    const self = this;
-    let result = [];
-
-    each(annotons, function (annoton) {
-      let annotonRows = self.annotonToTableRows(graph, annoton);
-
-      result = result.concat(annotonRows);
-    });
-
-    return result;
-  }
 
   addIndividual(reqs, data) {
     data.saveMeta = {};

@@ -38,7 +38,7 @@ export default class Annoton {
   }
 
   getEdges(id) {
-    this.model.getEdges(id);
+    return this.model.getEdges(id);
   }
 
   insertTermNode(annotonModel, id, value) {

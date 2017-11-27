@@ -222,7 +222,7 @@ export default class ConfigService {
       annoton.addNode(node);
     });
 
-    annoton.addEdge(annotonData['gp'], annotonData['mf'], self.saeConstants.edge.enabledBy);
+    annoton.addEdge(annotonData['mf'], annotonData['gp'], self.saeConstants.edge.enabledBy);
     annoton.addEdge(annotonData['mf'], annotonData['bp'], self.saeConstants.edge.partOf);
     annoton.addEdge(annotonData['mf'], annotonData['cc'], self.saeConstants.edge.occursIn);
     annoton.addEdge(annotonData['mf'], annotonData['mf-1'], self.saeConstants.edge.hasInput);

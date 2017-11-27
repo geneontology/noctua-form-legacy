@@ -334,7 +334,7 @@ export default class TVController {
     const self = this;
 
     self.formGrid.clearForm();
-    self.formGrid.gridOptions.data = row.annoton;
+    self.formGrid.gridOptions.data = row.annoton.model.nodes;
   }
 
 
