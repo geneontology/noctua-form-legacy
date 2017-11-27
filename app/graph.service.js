@@ -1,4 +1,4 @@
-import Annoton from './annoton.js';
+import Annoton from './annoton/annoton.js';
 
 const each = require('lodash/forEach');
 var model = require('bbop-graph-noctua');
@@ -239,14 +239,11 @@ export default class GraphService {
         let annoton = self.config.createAnnotonModel();
         let mfTerm = self.subjectToTerm(graph, mfId);
         let mfEdgesIn = graph.get_edges_by_subject(mfId);
-
         let annotonNode = annoton.getNode('mf');
-        annotonNode.term.control.value = mfTerm;
 
+        annotonNode.setTerm(mfTerm);
         self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, breadth);
-
         annotons.push(annoton);
-
       }
     });
 
@@ -266,23 +263,14 @@ export default class GraphService {
       let evidence = self.edgeToEvidence(graph, toMFEdge);
       let toMFObject = toMFEdge.object_id();
 
-
-      console.log("obj: ", predicateLabel, self.subjectToTerm(graph, toMFObject))
-      //annotonNode.term.control.value = self.subjectToTerm(graph, toMFObject);
-      //annotonNode.evidence.control.value = evidence;
-
       each(edge.nodes, function (node) {
         if (predicateId === node.edgeId) {
           node.target.term.control.value = self.subjectToTerm(graph, toMFObject);
-          Annoton.setEvidence(node.target, evidence);
+          node.target.setEvidence(evidence);
           self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target, breadth);
         }
       });
     });
-
-    // each(edge.nodes, function (node) {
-    //  self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node, breadth);
-    // });
   }
 
   annotonsToTable(graph, annotons) {
@@ -307,22 +295,39 @@ export default class GraphService {
     let bpNode = annoton.getNode('bp');
     let ccNode = annoton.getNode('cc');
 
-    let summaryAspect = '';
     let summaryTerm = '';
     let summaryEvidence = '';
     let summaryReference = '';
     let summaryWith = '';
 
+    let row = {
+      gp: gpNode.term.control.value.label,
+      mf: summaryTerm,
+      Evidence: {
+        label: summaryEvidence
+      },
+      original: JSON.parse(JSON.stringify(annoton)),
+      annoton: annoton,
+    }
+    row.subGridOptions = {
+      columnDefs: [{
+        name: "Id",
+        field: "id"
+      }, {
+        name: "Name",
+        field: "name"
+      }],
+    }
+
     let mfRow = {
-      Aspect: 'F',
       Term: mfNode.term.control.value.label,
       $$treeLevel: 1
     };
-    summaryAspect += 'F';
-    summaryTerm += '• ' + mfNode.term.control.value.label;
+    // summaryTerm += '• ' + mfNode.term.control.value.label;
 
     if (mfNode.evidence.control.value) {
-      mfRow.Evidence = mfNode.evidence.control.value;
+      row.mf = mfNode.evidence.control.label;
+      row.Evidence = mfNode.evidence.control.value;
       mfRow.Reference = mfNode.reference.control.value;
       mfRow.With = mfNode.with.control.value;
 
@@ -332,50 +337,7 @@ export default class GraphService {
     }
     result.push(mfRow);
 
-    if (bpNode.term.control.value) {
-      let bpRow = {
-        Aspect: 'P',
-        Term: bpNode.term.control.value.label,
-        $$treeLevel: 1
-      };
-
-      summaryAspect += 'P';
-      summaryTerm += '\n• ' + bpNode.term.control.value.label;
-      if (bpNode.evidence.control.value) {
-        bpRow.Evidence = bpNode.evidence.control.value;
-        bpRow.Reference = bpNode.reference.control.value;
-        bpRow.With = bpNode.with.control.value;
-
-        summaryEvidence += '• ' + bpNode.evidence.control.value.label;
-        summaryReference += '• ' + bpNode.reference.control.value;
-        summaryWith += '• ' + bpNode.with.control.value;
-      }
-      result.push(bpRow);
-    }
-
-    if (ccNode.term.control.value) {
-      let ccRow = {
-        Aspect: 'C',
-        Term: ccNode.term.control.value.label,
-        $$treeLevel: 1
-      };
-
-      summaryAspect += 'C';
-      summaryTerm += '\n• ' + ccNode.term.control.value.label;
-      if (ccNode.evidence.control.value) {
-        ccRow.Evidence = ccNode.evidence.control.value;
-        ccRow.Reference = ccNode.reference.control.value;
-        ccRow.With = ccNode.with.control.value;
-
-        summaryEvidence += '• ' + ccNode.evidence.control.value.label;
-        summaryReference += '• ' + ccNode.reference.control.value;
-        summaryWith += '• ' + ccNode.with.control.value;
-      }
-      result.push(ccRow);
-    }
-
     result.unshift({
-      Aspect: summaryAspect,
       GP: gpNode.term.control.value.label,
       Term: summaryTerm,
       Evidence: {
@@ -390,8 +352,13 @@ export default class GraphService {
 
     // console.log('annotonToTableRows', annoton, result);
 
-    return result;
+    return row;
   }
+
+
+
+
+
 
   editingModelToTableRows(graph, annoton) {
     let result = [];
@@ -491,11 +458,11 @@ export default class GraphService {
 
     self.addIndividual(reqs, geneProduct);
 
-    each(annoton.model.nodes, function (node) {
+    each(annoton.nodes, function (node) {
       self.addIndividual(reqs, node);
     });
 
-    each(annoton.model.nodes, function (node) {
+    each(annoton.nodes, function (node) {
       self.addFact(reqs, annoton, node);
     });
 

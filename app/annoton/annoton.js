@@ -3,42 +3,9 @@ const each = require('lodash/forEach');
 
 import SaeGraph from './sae-graph.js';
 
-export default class Annoton {
+export default class Annoton extends SaeGraph {
   constructor() {
-    this.model = new SaeGraph();
-  }
-
-  getModel() {
-    return this.model;
-  }
-
-  addNode(node) {
-    this.model.addNode(node);
-  }
-
-  getNode(id) {
-    return this.model.getNode(id);
-  }
-
-  insertNode(id, key, value) {
-    let node = null;
-    for (var row of data) {
-      result = _.find(data, {
-        id: row.id
-      });
-    }
-
-    if (node) {
-      node[key].id = value;
-    }
-  }
-
-  addEdge(source, target, edge) {
-    this.model.addEdge(source, target, edge)
-  }
-
-  getEdges(id) {
-    return this.model.getEdges(id);
+    super();
   }
 
   insertTermNode(annotonModel, id, value) {
@@ -56,7 +23,7 @@ export default class Annoton {
 
   print() {
     let result = []
-    each(this.model.nodes, function (node) {
+    each(this.nodes, function (node) {
       result.push({
         id: node.id,
         term: node.term.control.value,
@@ -68,13 +35,13 @@ export default class Annoton {
     return result;
   };
 
-  static setTerm(node, value) {
+  setTerm(node, value) {
     if (node && value) {
       node.term.control.value = value;
     }
   }
 
-  static setEvidence(node, value) {
+  setEvidence(node, value) {
     if (node && value) {
       node.evidence.control.value = value.evidence;
       node.reference.control.value = value.reference;

@@ -1,7 +1,8 @@
 import _ from 'lodash';
 const each = require('lodash/forEach');
 
-import Annoton from './../annoton.js';
+import AnnotonNode from './../annoton/annoton-node.js';
+import Annoton from './../annoton/annoton.js';
 
 export default class ConfigService {
   constructor(saeConstants) {
@@ -192,7 +193,9 @@ export default class ConfigService {
     let annotonData = JSON.parse(JSON.stringify(this._annotonData));
 
     each(annotonData, function (node, key) {
-      node.id = key;
+      let annotonNode = new AnnotonNode()
+      annotonNode.id = key;
+      annotonNode.label = node.label;
       node.term.control = {
         "placeholder": '',
         "value": ''
@@ -219,18 +222,21 @@ export default class ConfigService {
         }
       };
 
-      annoton.addNode(node);
+      annotonData[key].node = annotonNode
+      annoton.addNode(annotonNode);
     });
 
-    annoton.addEdge(annotonData['mf'], annotonData['gp'], self.saeConstants.edge.enabledBy);
-    annoton.addEdge(annotonData['mf'], annotonData['bp'], self.saeConstants.edge.partOf);
-    annoton.addEdge(annotonData['mf'], annotonData['cc'], self.saeConstants.edge.occursIn);
-    annoton.addEdge(annotonData['mf'], annotonData['mf-1'], self.saeConstants.edge.hasInput);
-    annoton.addEdge(annotonData['mf'], annotonData['mf-2'], self.saeConstants.edge.happensDuring);
-    annoton.addEdge(annotonData['bp'], annotonData['bp-1'], self.saeConstants.edge.partOf);
-    annoton.addEdge(annotonData['bp-1'], annotonData['bp-1-1'], self.saeConstants.edge.partOf);
-    annoton.addEdge(annotonData['cc'], annotonData['cc-1'], self.saeConstants.edge.partOf);
-    annoton.addEdge(annotonData['cc-1'], annotonData['cc-1-1'], self.saeConstants.edge.partOf);
+
+
+    annoton.addEdge(annotonData['mf'].node, annotonData['gp'].node, self.saeConstants.edge.enabledBy);
+    annoton.addEdge(annotonData['mf'].node, annotonData['bp'].node, self.saeConstants.edge.partOf);
+    annoton.addEdge(annotonData['mf'].node, annotonData['cc'].node, self.saeConstants.edge.occursIn);
+    annoton.addEdge(annotonData['mf'].node, annotonData['mf-1'].node, self.saeConstants.edge.hasInput);
+    annoton.addEdge(annotonData['mf'].node, annotonData['mf-2'].node, self.saeConstants.edge.happensDuring);
+    annoton.addEdge(annotonData['bp'].node, annotonData['bp-1'].node, self.saeConstants.edge.partOf);
+    annoton.addEdge(annotonData['bp-1'].node, annotonData['bp-1-1'].node, self.saeConstants.edge.partOf);
+    annoton.addEdge(annotonData['cc'].node, annotonData['cc-1'].node, self.saeConstants.edge.partOf);
+    annoton.addEdge(annotonData['cc-1'].node, annotonData['cc-1-1'].node, self.saeConstants.edge.partOf);
 
     return annoton;
 
@@ -378,8 +384,8 @@ export default class ConfigService {
         reference: node.reference,
         with: node.with,
       }
-      Annoton.setTerm(annotonNode, node.term);
-      Annoton.setEvidence(annotonNode, evidence);
+      annotonNode.setTerm(node.term);
+      annotonNode.setEvidence(evidence);
     });
     return annoton;
   }

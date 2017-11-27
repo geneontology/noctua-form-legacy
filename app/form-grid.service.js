@@ -134,7 +134,7 @@ export default class FormGridService {
 
     });
 
-    self.gridOptions.data = self.annoton.model.nodes;
+    self.gridOptions.data = self.annoton.nodes;
 
   }
 

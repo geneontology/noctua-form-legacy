@@ -52,7 +52,14 @@ export default class TVController {
       enableCellEditOnFocus: false,
       multiSelect: false,
       rowTemplate: 'rowTemplate.html',
-      showTreeExpandNoChildren: false
+      showTreeExpandNoChildren: false,
+      expandableRowTemplate: './grid-templates/summary/expandable-row-template.html',
+      expandableRowHeight: 150,
+      enableRowSelection: true,
+      //subGridVariable will be available in subGrid scope
+      expandableRowScope: {
+        subGridVariable: 'subGridScopeVariable'
+      }
       // keyDownOverrides: [{keyCode: 27}]
     };
 
@@ -77,33 +84,20 @@ export default class TVController {
     columnDefs.push(commandColumn);
 
     columnDefs.push({
-      name: 'GP',
-      field: 'GP',
-      originalName: 'GP',
-      displayName: 'GP',
+      name: 'gp',
+      field: 'gp',
+      originalName: 'gp',
+      displayName: 'Gene Product',
       width: 200,
       minWidth: 200,
       enableCellEdit: false,
       enableCellEditOnFocus: false
     });
     columnDefs.push({
-      name: 'Aspect',
-      field: 'Aspect',
-      originalName: 'Aspect',
-      displayName: 'Aspect',
-      width: 55,
-      maxWidth: 55,
-      enableSorting: false,
-      enableColumnMenu: false,
-      // maxWidth: 200,
-      enableCellEdit: false,
-      enableCellEditOnFocus: false
-    });
-    columnDefs.push({
-      name: 'Term',
-      field: 'Term',
-      originalName: 'Term',
-      displayName: 'Term',
+      name: 'mf',
+      field: 'mf',
+      originalName: 'mf',
+      displayName: 'Molecular Function',
       minWidth: 250,
       enableCellEdit: false,
       enableCellEditOnFocus: false,
@@ -115,28 +109,6 @@ export default class TVController {
       originalName: 'Evidence',
       displayName: 'Evidence',
       minWidth: 250,
-      enableCellEdit: false,
-      enableCellEditOnFocus: false,
-      cellTemplate: 'cellTemplate.html'
-    });
-    columnDefs.push({
-      name: 'Reference',
-      field: 'Reference',
-      originalName: 'Reference',
-      displayName: 'Reference',
-      minWidth: 100,
-      maxWidth: 140,
-      enableCellEdit: false,
-      enableCellEditOnFocus: false,
-      cellTemplate: 'cellTemplate.html'
-    });
-    columnDefs.push({
-      name: 'With',
-      field: 'With',
-      originalName: 'With',
-      displayName: 'With',
-      minWidth: 100,
-      maxWidth: 140,
       enableCellEdit: false,
       enableCellEditOnFocus: false,
       cellTemplate: 'cellTemplate.html'
@@ -335,7 +307,7 @@ export default class TVController {
     const self = this;
 
     self.formGrid.clearForm();
-    self.formGrid.gridOptions.data = row.annoton.model.nodes;
+    self.formGrid.gridOptions.data = row.annoton.nodes;
     console.log(JSON.stringify(row.annoton.print()))
   }
 

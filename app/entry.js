@@ -26,9 +26,16 @@ import 'font-awesome/css/font-awesome.min.css';
 var app = angular.module('TVApp', ['ngMaterial',
   nguibootstrap,
   'jsonFormatter',
-  'ui.grid', 'ui.grid.edit', 'ui.grid.rowEdit', 'ui.grid.cellNav',
-  'ui.grid.autoResize', 'ui.grid.resizeColumns',
-  'ui.grid.treeView', 'ui.grid.expandable'
+  'ui.grid',
+  'ui.grid.edit',
+  'ui.grid.rowEdit',
+  'ui.grid.cellNav',
+  'ui.grid.autoResize',
+  'ui.grid.resizeColumns',
+  'ui.grid.treeView',
+  'ui.grid.expandable',
+  'ui.grid.selection',
+  'ui.grid.pinning'
 ]);
 app.config(['JSONFormatterConfigProvider', function (JSONFormatterConfigProvider) {
 
