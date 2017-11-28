@@ -276,10 +276,8 @@
           </div>
         </div>
   
-      </div>
-    -->
+      </div>    -->
 
-      <br>
       <div ng-if="tvc.graph.loggedIn" class="row">
         <div class="col-xs-8">
           <div ng-if="tvc.saveRowEnabled(patternForm).length > 0" class="well well-sm" style="margin:0;padding:3px;">
@@ -295,48 +293,19 @@
           <md-button type="button" ng-disabled="false&&tvc.saveRowEnabled(patternForm).length > 0" ng-click="tvc.saveRow()" class="btn btn-primary btn-sm center-block btn-block"
             style="margin-top:3px;">
             Save Annoton
-            </button>
+          </md-button>
         </div>
       </div>
 
-      <br>
-
       <div class="row">
-        <div class="col-xs-12">
-          <div id="grid1" ui-grid="tvc.summaryGrid.gridOptions" ui-grid-edit ui-grid-cellNav ui-grid-resize-columns ui-grid-auto-resize
-            ui-grid-pinning ui-grid-expandable ui-grid-selection class="grid" style="margin:0;padding:0;height:80%;width:100%;">
+        <div class="sae-summary-grid col-xs-12">
+          <div ui-grid="tvc.summaryGrid.gridOptions" ui-grid-resize-columns ui-grid-auto-resize ui-grid-pinning ui-grid-expandable
+            ui-grid-selection class="grid">
           </div>
         </div>
       </div>
     </div>
-
   </div>
-
-  <script type="text/ng-template" id="uigridActionHeader">
-    <!--     <button
-        type="button"
-        title="Add Association"
-        class="btn btn-primary btn-xs xbtn-compact"
-        xng-click="grid.appScope.tvc.addRow()">
-        <i class="fa fa-plus fa-fw"></i>
-      </button>
-   -->
-  </script>
-
-  <script type="text/ng-template" id="uigridActionCell">
-    <div class="ui-grid-cell-contents" title="TOOLTIP">
-      <div ng-if="grid.appScope.tvc.graph.loggedIn && row.treeLevel === 0" class="text-center action-row">
-        <button type="button" title="Edit Annoton" class="btn btn-default btn-xs btn-compact" ng-click="grid.appScope.tvc.editRow(row.entity)">
-          <i class="fa fa-pencil fa-fw"></i>
-        </button>
-      </div>
-      <div ng-if="grid.appScope.tvc.graph.loggedIn && row.treeLevel === 0" class="text-center action-row">
-        <button type="button" title="Delete Annoton" class="btn btn-default btn-xs btn-compact" ng-click="grid.appScope.tvc.deleteRow(row.entity)">
-          <i class="fa fa-trash-o fa-fw"></i>
-        </button>
-      </div>
-    </div>
-  </script>
 
   <script type="text/ng-template" id="customTemplate.html">
     <a>

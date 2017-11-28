@@ -37,7 +37,7 @@ export default class TVController {
     tvc.formGrid.initalizeForm();
     tvc.formGrid.expandAll();
     /* Init the summary grid */
-    tvc.summaryGrid.registerApi();
+    //tvc.summaryGrid.registerApi();
 
     /* Attach the tvc to the gridScope */
     tvc.formGrid.gridOptions.appScopeProvider = tvc;
@@ -50,6 +50,8 @@ export default class TVController {
       const gridData = data.gridData;
 
       tvc.summaryGrid.gridOptions.data = gridData;
+      tvc.summaryGrid.setSubGrid(gridData)
+      tvc.summaryGrid.registerApi();
     });
 
     graph.initialize();

@@ -1,0 +1,12 @@
+<div class="ui-grid-cell-contents" title="TOOLTIP">
+    <div ng-if="grid.appScope.tvc.graph.loggedIn" class="text-center action-row">
+        <button type="button" title="Edit Annoton" class="btn btn-default btn-xs btn-compact" ng-click="grid.appScope.tvc.editRow(row.entity)">
+            <i class="fa fa-pencil fa-fw"></i>
+        </button>
+    </div>
+    <div ng-if="grid.appScope.tvc.graph.loggedIn" class="text-center action-row">
+        <button type="button" title="Delete Annoton" class="btn btn-default btn-xs btn-compact" ng-click="grid.appScope.tvc.deleteRow(row.entity)">
+            <i class="fa fa-trash-o fa-fw"></i>
+        </button>
+    </div>
+</div>

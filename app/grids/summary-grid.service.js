@@ -11,13 +11,13 @@ export default class SummaryGridService {
 
     this.gridApi = null;
     this.columnDefs = [{
-      name: 'Command',
-      displayName: '',
-      width: 30,
-      field: '',
+      name: 'command',
+      displayName: 'Command',
+      width: 120,
+      field: 'Command',
       resizable: false,
-      cellTemplate: 'uigridActionCell',
-      headerCellTemplate: 'uigridActionHeader',
+      cellTemplate: './grid-templates/summary/actions-cell-template.html',
+      //headerCellTemplate: 'uigridActionHeader',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -54,6 +54,154 @@ export default class SummaryGridService {
       cellTemplate: 'cellTemplate.html'
     }];
 
+
+    this._subColumnDefs = [{
+      name: 'label',
+      displayName: '',
+      width: '25%',
+      field: 'label',
+      resizable: false,
+      headerCellTemplate: './grid-templates/header-cell-template.html',
+      enableCellSelection: false,
+      enableCellEditOnFocus: false,
+      enableSorting: false,
+      allowCellFocus: false,
+      enableHiding: false,
+      enableColumnMenu: false
+    }, {
+      name: 'term',
+      displayName: 'Term',
+      width: 200,
+      field: 'term',
+      resizable: false,
+      headerCellTemplate: './grid-templates/header-cell-template.html',
+      enableCellEdit: false,
+      enableCellSelection: false,
+      enableCellEditOnFocus: false,
+      enableSorting: false,
+      allowCellFocus: false,
+      enableHiding: false,
+      enableColumnMenu: false
+    }, {
+      name: 'evidence',
+      field: 'evidence',
+      originalName: 'evidence',
+      displayName: 'Evidence',
+      minWidth: 200,
+      headerCellTemplate: './grid-templates/header-cell-template.html',
+      enableCellEdit: false,
+      enableCellSelection: false,
+      enableCellEditOnFocus: false,
+      enableSorting: false,
+      allowCellFocus: false,
+      enableHiding: false,
+      enableColumnMenu: false
+    }, {
+      name: 'reference',
+      displayName: 'Reference',
+      width: 120,
+      field: 'reference',
+      resizable: false,
+      headerCellTemplate: './grid-templates/header-cell-template.html',
+      enableCellEdit: false,
+      enableCellSelection: false,
+      enableCellEditOnFocus: false,
+      enableSorting: false,
+      allowCellFocus: false,
+      enableHiding: false,
+      enableColumnMenu: false
+    }, {
+      name: 'with',
+      displayName: 'With',
+      width: 120,
+      field: 'with',
+      resizable: false,
+      headerCellTemplate: './grid-templates/header-cell-template.html',
+      enableCellEdit: false,
+      enableCellSelection: false,
+      enableCellEditOnFocus: false,
+      enableSorting: false,
+      allowCellFocus: false,
+      enableHiding: false,
+      enableColumnMenu: false
+    }];
+
+    this._subColumnDefsEdit = [{
+      name: 'label',
+      displayName: '',
+      width: '25%',
+      field: 'label',
+      resizable: false,
+      cellTemplate: './grid-templates/label-cell-template.html',
+      headerCellTemplate: './grid-templates/header-cell-template.html',
+      enableCellSelection: false,
+      enableCellEditOnFocus: false,
+      enableSorting: false,
+      allowCellFocus: false,
+      enableHiding: false,
+      enableColumnMenu: false
+    }, {
+      name: 'term',
+      displayName: 'Term',
+      width: 200,
+      field: 'term',
+      resizable: false,
+      cellTemplate: './grid-templates/term-cell-template.html',
+      headerCellTemplate: './grid-templates/header-cell-template.html',
+      enableCellEdit: false,
+      enableCellSelection: false,
+      enableCellEditOnFocus: false,
+      enableSorting: false,
+      allowCellFocus: false,
+      enableHiding: false,
+      enableColumnMenu: false
+    }, {
+      name: 'evidence',
+      field: 'evidence',
+      originalName: 'evidence',
+      displayName: 'Evidence',
+      minWidth: 200,
+      cellTemplate: './grid-templates/evidence-cell-template.html',
+      headerCellTemplate: './grid-templates/header-cell-template.html',
+      enableCellEdit: false,
+      enableCellSelection: false,
+      enableCellEditOnFocus: false,
+      enableSorting: false,
+      allowCellFocus: false,
+      enableHiding: false,
+      enableColumnMenu: false
+    }, {
+      name: 'reference',
+      displayName: 'Reference',
+      width: 120,
+      field: 'reference',
+      resizable: false,
+      cellTemplate: './grid-templates/reference-cell-template.html',
+      headerCellTemplate: './grid-templates/header-cell-template.html',
+      enableCellEdit: false,
+      enableCellSelection: false,
+      enableCellEditOnFocus: false,
+      enableSorting: false,
+      allowCellFocus: false,
+      enableHiding: false,
+      enableColumnMenu: false
+    }, {
+      name: 'with',
+      displayName: 'With',
+      width: 120,
+      field: 'with',
+      resizable: false,
+      cellTemplate: './grid-templates/with-cell-template.html',
+      headerCellTemplate: './grid-templates/header-cell-template.html',
+      enableCellEdit: false,
+      enableCellSelection: false,
+      enableCellEditOnFocus: false,
+      enableSorting: false,
+      allowCellFocus: false,
+      enableHiding: false,
+      enableColumnMenu: false
+    }];
+
     this.gridOptions = {
       rowHeight: 40,
       width: 100,
@@ -63,10 +211,11 @@ export default class SummaryGridService {
       enableCellEdit: false,
       enableCellEditOnFocus: false,
       multiSelect: false,
-      rowTemplate: 'rowTemplate.html',
+      // minRowsToShow: 1,
+      //rowTemplate: 'rowTemplate.html',
       showTreeExpandNoChildren: false,
-      expandableRowTemplate: './../grid-templates/summary/expandable-row-template.html',
-      expandableRowHeight: 150,
+      expandableRowTemplate: './grid-templates/summary/expandable-row-template.html',
+      expandableRowHeight: 450,
       enableRowSelection: true,
       //subGridVariable will be available in subGrid scope
       expandableRowScope: {
@@ -74,6 +223,19 @@ export default class SummaryGridService {
       },
       // keyDownOverrides: [{keyCode: 27}]
       columnDefs: this.columnDefs,
+      data: []
+    };
+
+    this._subGridOptions = {
+      rowHeight: 40,
+      width: 100,
+      minWidth: 100,
+      enableCellSelection: false,
+      enableCellEdit: false,
+      enableCellEditOnFocus: false,
+      multiSelect: false,
+      rowTemplate: 'rowTemplate.html',
+      columnDefs: this._subColumnDefs,
       data: []
     };
   }
@@ -84,7 +246,7 @@ export default class SummaryGridService {
       self.gridApi = gridApi;
 
       self.$timeout(function () {
-        self.gridApi.core.handleWindowResize();
+        // self.gridApi.core.handleWindowResize();
       }, 0);
     };
   }
@@ -97,6 +259,24 @@ export default class SummaryGridService {
     const self = this;
     self.$timeout(function () {
       self.gridApi.treeBase.expandAllRows();
+    });
+  }
+
+  setSubGrid(parentGridData) {
+    const self = this;
+    each(parentGridData, function (row) {
+      let gridData = [];
+      row.subGridOptions = JSON.parse(JSON.stringify(self._subGridOptions));
+      each(row.annoton.nodes, function (node) {
+        gridData.push({
+          label: node.label,
+          term: node.term.control.value.label,
+          evidence: node.evidence.control.value.label,
+          reference: node.reference.control.value
+        })
+      })
+
+      row.subGridOptions.data = gridData;
     });
   }
 

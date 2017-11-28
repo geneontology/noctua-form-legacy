@@ -312,15 +312,6 @@ export default class GraphService {
       original: JSON.parse(JSON.stringify(annoton)),
       annoton: annoton,
     }
-    row.subGridOptions = {
-      columnDefs: [{
-        name: "Id",
-        field: "id"
-      }, {
-        name: "Name",
-        field: "name"
-      }],
-    }
 
     let mfRow = {
       Term: mfNode.term.control.value.label,
