@@ -81,7 +81,7 @@
     "angular-messages": "^1.6.6",
     "angular-material": "^1.1.5",
     "angular-ui-bootstrap": "^2.5.0",
-    "angular-ui-grid": "^4.0.8",
+    "angular-ui-grid": "^4.0.11",
     "bbop": "^2.4.3",
     "bbop-client-barista": "0.0.7",
     "bbop-core": "0.0.5",
