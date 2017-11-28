@@ -5,9 +5,12 @@ export default class AnnotonNode {
   constructor() {
     this.id;
     this.term = {
-      control: {
+      "control": {
         "placeholder": '',
         "value": ''
+      },
+      "lookup": {
+        "requestParams": null
       }
     };
     this.evidence = {
@@ -16,7 +19,7 @@ export default class AnnotonNode {
         "value": ''
       },
       "lookup": {
-        //   "requestParams": self.requestParams["evidence"]
+        "requestParams": null
       }
     };
     this.reference = {
@@ -31,6 +34,14 @@ export default class AnnotonNode {
         "value": ''
       }
     };
+  }
+
+  setTermLookup(value) {
+    this.evidence.lookup.requestParams = value;
+  }
+
+  setEvidenceLookup(value) {
+    this.term.lookup.requestParams = value;
   }
 
   setTerm(value) {

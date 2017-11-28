@@ -21,6 +21,14 @@ import '../node_modules/angular-ui-grid/ui-grid.min.css';
 import './index.scss';
 import 'font-awesome/css/font-awesome.min.css';
 
+import TVController from 'TVController';
+import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
+import ConfigService from './config/config.service.js';
+import FormGridService from './grids/form-grid.service.js';
+import SummaryGridService from './grids/summary-grid.service.js';
+//import GraphService from './graph-old.service.js';
+import GraphService from './graph.service.js';
+import LookupService from './lookup.service.js';
 //import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
 
 var app = angular.module('TVApp', ['ngMaterial',
@@ -57,21 +65,10 @@ app.constant('saeConstants', {
 
 })
 
-import TVController from 'TVController';
 app.controller('TVController', TVController);
-
-import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
 app.controller('PopulateDialogController', PopulateDialogController);
-
-import ConfigService from './config/config.service.js';
 app.service('config', ConfigService);
-
-import FormGridService from './form-grid.service.js';
 app.service('formGrid', FormGridService);
-
-//import GraphService from './graph-old.service.js';
-import GraphService from './graph.service.js';
+app.service('summaryGrid', SummaryGridService);
 app.service('graph', GraphService);
-
-import LookupService from './lookup.service.js';
 app.service('lookup', LookupService);

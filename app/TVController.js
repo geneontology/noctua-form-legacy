@@ -6,7 +6,7 @@
 /* global angular */
 
 export default class TVController {
-  constructor($scope, $rootScope, $http, $timeout, uiGridTreeViewConstants, graph, lookup, formGrid) {
+  constructor($scope, $rootScope, $http, $timeout, uiGridTreeViewConstants, graph, lookup, formGrid, summaryGrid) {
     var tvc = this;
     this.$scope = $scope;
     this.$rootScope = $rootScope;
@@ -15,6 +15,7 @@ export default class TVController {
     tvc.lookup = lookup;
     tvc.graph = graph;
     tvc.formGrid = formGrid;
+    tvc.summaryGrid = summaryGrid;
 
     var userNameInfo = document.getElementById('user_name_info');
     if (userNameInfo) {
@@ -31,104 +32,24 @@ export default class TVController {
     };
     tvc.viewMode.selected = tvc.viewMode.options.grid;
 
-    /* Init the grid form */
+    /* Init the form grid */
     tvc.formGrid.registerApi();
     tvc.formGrid.initalizeForm();
     tvc.formGrid.expandAll();
+    /* Init the summary grid */
+    tvc.summaryGrid.registerApi();
 
     /* Attach the tvc to the gridScope */
     tvc.formGrid.gridOptions.appScopeProvider = tvc;
 
-    tvc.clearForm();
 
-    tvc.gridApi = null;
-    tvc.gridOptions = {
-      rowHeight: 120,
-      width: 100,
-      minWidth: 100,
-      enableCellSelection: false,
-      // rowEditWaitInterval: -1,
-      enableCellEdit: false,
-      enableCellEditOnFocus: false,
-      multiSelect: false,
-      rowTemplate: 'rowTemplate.html',
-      showTreeExpandNoChildren: false,
-      expandableRowTemplate: './grid-templates/summary/expandable-row-template.html',
-      expandableRowHeight: 150,
-      enableRowSelection: true,
-      //subGridVariable will be available in subGrid scope
-      expandableRowScope: {
-        subGridVariable: 'subGridScopeVariable'
-      }
-      // keyDownOverrides: [{keyCode: 27}]
-    };
 
-    let columnDefs = [];
 
-    let commandColumn = {
-      name: 'Command',
-      displayName: '',
-      width: 30,
-      field: '',
-      resizable: false,
-      cellTemplate: 'uigridActionCell',
-      headerCellTemplate: 'uigridActionHeader',
-      enableCellEdit: false,
-      enableCellSelection: false,
-      enableCellEditOnFocus: false,
-      enableSorting: false,
-      allowCellFocus: false,
-      enableHiding: false,
-      enableColumnMenu: false
-    };
-    columnDefs.push(commandColumn);
-
-    columnDefs.push({
-      name: 'gp',
-      field: 'gp',
-      originalName: 'gp',
-      displayName: 'Gene Product',
-      width: 200,
-      minWidth: 200,
-      enableCellEdit: false,
-      enableCellEditOnFocus: false
-    });
-    columnDefs.push({
-      name: 'mf',
-      field: 'mf',
-      originalName: 'mf',
-      displayName: 'Molecular Function',
-      minWidth: 250,
-      enableCellEdit: false,
-      enableCellEditOnFocus: false,
-      cellTemplate: 'cellTemplate.html'
-    });
-    columnDefs.push({
-      name: 'Evidence',
-      field: 'Evidence.label',
-      originalName: 'Evidence',
-      displayName: 'Evidence',
-      minWidth: 250,
-      enableCellEdit: false,
-      enableCellEditOnFocus: false,
-      cellTemplate: 'cellTemplate.html'
-    });
-    tvc.gridOptions.columnDefs = columnDefs;
-
-    tvc.gridOptions.onRegisterApi = function (gridApi) {
-      tvc.gridApi = gridApi;
-      tvc.$scope.gridApi = gridApi;
-
-      tvc.$timeout(function () {
-        tvc.gridApi.core.handleWindowResize();
-      }, 0);
-    };
 
     $rootScope.$on('rebuilt', function (event, data) {
       const gridData = data.gridData;
-      tvc.clearForm();
 
-      tvc.gridOptions.data = gridData;
+      tvc.summaryGrid.gridOptions.data = gridData;
     });
 
     graph.initialize();
@@ -147,90 +68,6 @@ export default class TVController {
       // console.log('result', result);
     }
     return result;
-  }
-
-  getTerm2(field, term) {
-    let result = null;
-    if (term && term.length >= 3) {
-      let oldValue = this.editingModel[field];
-      // console.log('getTerm', field, oldValue, term);
-      result = this.lookup.golrLookup(field, oldValue, term); // delete?, this.fieldToRoot[field]);
-      // console.log('result', result);
-    }
-    return result;
-  }
-
-  termSelected( /* field , term */ ) {
-    // console.log('termSelected', field, this.editingModel[field], term);
-  }
-
-  fillModelWithFakeData() {
-    this.loadEditingModel({
-      GP: {
-        id: 'MGI:MGI:4367793',
-        label: 'Sho2 Mmus'
-      },
-      GPa: {
-        id: 'UniProtKB:O95477',
-        label: 'Sho2 Mmus'
-      },
-
-      MF: {
-        id: 'GO:0045551',
-        label: 'cinnamyl-alcohol dehydrogenase activity'
-      },
-      MFe: {
-        id: 'ECO:0006017',
-        label: 'traceable author statement from published clinical study used in manual assertion',
-        reference: 'PMID:1234',
-        with: 'PMID:5678'
-      },
-
-      BP: {
-        id: 'GO:0046577',
-        label: 'long-chain-alcohol oxidase activity'
-      },
-      BPe: {
-        id: 'ECO:0000501',
-        label: 'evidence used in automatic assertion',
-        reference: 'r2',
-        with: 'w2'
-      },
-
-      CC: {
-        id: 'GO:0047639',
-        label: 'alcohol oxidase activity'
-      },
-      CL: {
-        id: 'CL:2000054',
-        label: 'alcohol oxidase activity'
-      },
-      CCe: {
-        id: 'ECO:0005542',
-        label: 'biological system reconstruction evidence by exper…ence from single species used in manual assertion',
-        reference: 'r3',
-        with: 'w3'
-      }
-    });
-  }
-
-  clearForm() {
-    this.editingModel = {
-      GP: null,
-      GPa: null,
-      MF: null,
-      MFe: null,
-      BP: null,
-      BPe: null,
-      CC: null,
-      CL: null,
-      CCe: null
-    };
-
-    this.$timeout(() => {
-      const element = angular.element('#GPFocus');
-      element.focus();
-    });
   }
 
   saveRowEnabled(patternForm) {
@@ -365,4 +202,4 @@ export default class TVController {
     }
   }
 }
-TVController.$inject = ['$scope', '$rootScope', '$http', '$timeout', 'uiGridTreeViewConstants', 'graph', 'lookup', 'formGrid'];
+TVController.$inject = ['$scope', '$rootScope', '$http', '$timeout', 'uiGridTreeViewConstants', 'graph', 'lookup', 'formGrid', 'summaryGrid'];

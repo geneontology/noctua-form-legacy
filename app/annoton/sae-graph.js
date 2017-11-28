@@ -39,6 +39,12 @@ export default class SaeGraph {
     this.numberOfEdges++;
   };
 
+  addEdgeById(sourceId, targetId, edgeId) {
+    let source = this.getNode(sourceId);
+    let target = this.getNode(targetId);
+    this.addEdge(source, target, edgeId)
+  };
+
   getEdges(id) {
     return this.edges[id];
   };

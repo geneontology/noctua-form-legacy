@@ -238,10 +238,13 @@ export default class GraphService {
         let mfId = e.subject_id();
         let annoton = self.config.createAnnotonModel();
         let mfTerm = self.subjectToTerm(graph, mfId);
+        let evidence = self.edgeToEvidence(graph, e);
         let mfEdgesIn = graph.get_edges_by_subject(mfId);
         let annotonNode = annoton.getNode('mf');
 
         annotonNode.setTerm(mfTerm);
+        annotonNode.setEvidence(evidence);
+
         self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, breadth);
         annotons.push(annoton);
       }
@@ -265,8 +268,8 @@ export default class GraphService {
 
       each(edge.nodes, function (node) {
         if (predicateId === node.edgeId) {
-          node.target.term.control.value = self.subjectToTerm(graph, toMFObject);
           node.target.setEvidence(evidence);
+          node.target.setTerm(self.subjectToTerm(graph, toMFObject));
           self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target, breadth);
         }
       });
@@ -326,7 +329,7 @@ export default class GraphService {
     // summaryTerm += '• ' + mfNode.term.control.value.label;
 
     if (mfNode.evidence.control.value) {
-      row.mf = mfNode.evidence.control.label;
+      row.mf = mfNode.term.control.value.label;
       row.Evidence = mfNode.evidence.control.value;
       mfRow.Reference = mfNode.reference.control.value;
       mfRow.With = mfNode.with.control.value;

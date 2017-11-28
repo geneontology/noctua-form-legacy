@@ -196,47 +196,22 @@ export default class ConfigService {
       let annotonNode = new AnnotonNode()
       annotonNode.id = key;
       annotonNode.label = node.label;
-      node.term.control = {
-        "placeholder": '',
-        "value": ''
-      };
-      node.evidence = {
-        "control": {
-          "placeholder": '',
-          "value": ''
-        },
-        "lookup": {
-          "requestParams": self.requestParams["evidence"]
-        }
-      };
-      node.reference = {
-        "control": {
-          "placeholder": '',
-          "value": ''
-        }
-      };
-      node.with = {
-        "control": {
-          "placeholder": '',
-          "value": ''
-        }
-      };
+      annotonNode.setTermLookup(node.term.lookup.requestParams);
+      annotonNode.setEvidenceLookup(self.requestParams["evidence"]);
 
       annotonData[key].node = annotonNode
       annoton.addNode(annotonNode);
     });
 
-
-
-    annoton.addEdge(annotonData['mf'].node, annotonData['gp'].node, self.saeConstants.edge.enabledBy);
-    annoton.addEdge(annotonData['mf'].node, annotonData['bp'].node, self.saeConstants.edge.partOf);
-    annoton.addEdge(annotonData['mf'].node, annotonData['cc'].node, self.saeConstants.edge.occursIn);
-    annoton.addEdge(annotonData['mf'].node, annotonData['mf-1'].node, self.saeConstants.edge.hasInput);
-    annoton.addEdge(annotonData['mf'].node, annotonData['mf-2'].node, self.saeConstants.edge.happensDuring);
-    annoton.addEdge(annotonData['bp'].node, annotonData['bp-1'].node, self.saeConstants.edge.partOf);
-    annoton.addEdge(annotonData['bp-1'].node, annotonData['bp-1-1'].node, self.saeConstants.edge.partOf);
-    annoton.addEdge(annotonData['cc'].node, annotonData['cc-1'].node, self.saeConstants.edge.partOf);
-    annoton.addEdge(annotonData['cc-1'].node, annotonData['cc-1-1'].node, self.saeConstants.edge.partOf);
+    annoton.addEdgeById('mf', 'gp', self.saeConstants.edge.enabledBy);
+    annoton.addEdgeById('mf', 'bp', self.saeConstants.edge.partOf);
+    annoton.addEdgeById('mf', 'cc', self.saeConstants.edge.occursIn);
+    annoton.addEdgeById('mf', 'mf-1', self.saeConstants.edge.hasInput);
+    annoton.addEdgeById('mf', 'mf-2', self.saeConstants.edge.happensDuring);
+    annoton.addEdgeById('bp', 'bp-1', self.saeConstants.edge.partOf);
+    annoton.addEdgeById('bp-1', 'bp-1-1', self.saeConstants.edge.partOf);
+    annoton.addEdgeById('cc', 'cc-1', self.saeConstants.edge.partOf);
+    annoton.addEdgeById('cc-1', 'cc-1-1', self.saeConstants.edge.partOf);
 
     return annoton;
 
