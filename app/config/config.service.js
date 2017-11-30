@@ -43,7 +43,7 @@ export default class ConfigService {
     };
 
     this.requestParams = {
-      "evidence": Object.assign({}, this.baseRequestParams, {
+      "evidence": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
         fq: [
           'document_category:"ontology_class"',
           'regulates_closure:"ECO:0000352"'
@@ -54,13 +54,13 @@ export default class ConfigService {
     this._annotonData = {
       "gp": {
         "label": 'Gene Product',
+        "ontologyClass": [],
         "term": {
           "lookup": {
-            "requestParams": Object.assign({}, this.baseRequestParams, {
+            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                // 'regulates_closure:"CHEBI:23367"'//Generak Molecule + GP
-                'regulates_closure:"CHEBI:33695"' //GP
+                'regulates_closure:"CHEBI:33695"'
               ],
             }),
           }
@@ -68,9 +68,10 @@ export default class ConfigService {
       },
       'mf': {
         "label": 'Molecular Function',
+        "ontologyClass": ['go'],
         "term": {
           "lookup": {
-            "requestParams": Object.assign({}, this.baseRequestParams, {
+            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
                 'regulates_closure_label:"molecular_function"'
@@ -81,12 +82,13 @@ export default class ConfigService {
       },
       'mf-1': {
         "label": 'Has Input (Gene Product/Chemical)',
+        "ontologyClass": [],
         "term": {
           "lookup": {
-            "requestParams": Object.assign({}, this.baseRequestParams, {
+            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'regulates_closure_label:"molecular_function"'
+                'regulates_closure:"CHEBI:23367"' //Generak Molecule + GP
               ],
             }),
           }
@@ -94,12 +96,13 @@ export default class ConfigService {
       },
       'mf-2': {
         "label": 'Happens During (Temporal Phase)',
+        "ontologyClass": ['go'],
         "term": {
           "lookup": {
-            "requestParams": Object.assign({}, this.baseRequestParams, {
+            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'regulates_closure_label:"molecular_function"'
+                'regulates_closure:"GO:0044848"'
               ],
             }),
           }
@@ -107,9 +110,10 @@ export default class ConfigService {
       },
       'bp': {
         "label": 'Biological Process',
+        "ontologyClass": ['go'],
         "term": {
           "lookup": {
-            "requestParams": Object.assign({}, this.baseRequestParams, {
+            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
                 'regulates_closure_label:"biological_process"'
@@ -120,9 +124,10 @@ export default class ConfigService {
       },
       'bp-1': {
         "label": 'Part Of (BP)',
+        "ontologyClass": ['go'],
         "term": {
           "lookup": {
-            "requestParams": Object.assign({}, this.baseRequestParams, {
+            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
                 'regulates_closure_label:"biological_process"'
@@ -133,9 +138,10 @@ export default class ConfigService {
       },
       'bp-1-1': {
         "label": 'Part Of (BP)',
+        "ontologyClass": ['go'],
         "term": {
           "lookup": {
-            "requestParams": Object.assign({}, this.baseRequestParams, {
+            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
                 'regulates_closure_label:"biological_process"'
@@ -146,9 +152,10 @@ export default class ConfigService {
       },
       'cc': {
         "label": 'Cellular Component',
+        "ontologyClass": ['go'],
         "term": {
           "lookup": {
-            "requestParams": Object.assign({}, this.baseRequestParams, {
+            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
                 'regulates_closure_label:"cellular_component"'
@@ -159,12 +166,13 @@ export default class ConfigService {
       },
       'cc-1': {
         "label": 'Part Of (Cell Type)',
+        "ontologyClass": ['cl'],
         "term": {
           "lookup": {
-            "requestParams": Object.assign({}, this.baseRequestParams, {
+            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'regulates_closure_label:"cellular_component"'
+                'regulates_closure:"CL:0000003"'
               ],
             }),
           }
@@ -172,12 +180,13 @@ export default class ConfigService {
       },
       'cc-1-1': {
         "label": 'Part Of (Anatomy)',
+        "ontologyClass": ['uberon'],
         "term": {
           "lookup": {
-            "requestParams": Object.assign({}, this.baseRequestParams, {
+            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'regulates_closure_label:"cellular_component"'
+                'regulates_closure:"UBERON:0000061"'
               ],
             }),
           }
@@ -195,6 +204,7 @@ export default class ConfigService {
     each(annotonData, function (node, key) {
       let annotonNode = new AnnotonNode()
       annotonNode.id = key;
+      annotonNode.ontologyClass = node.ontologyClass;
       annotonNode.label = node.label;
       annotonNode.setTermLookup(node.term.lookup.requestParams);
       annotonNode.setEvidenceLookup(self.requestParams["evidence"]);

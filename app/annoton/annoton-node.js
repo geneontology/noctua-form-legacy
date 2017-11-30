@@ -4,6 +4,7 @@ const each = require('lodash/forEach');
 export default class AnnotonNode {
   constructor() {
     this.id;
+    this.ontologyClass = [];
     this.term = {
       "control": {
         "placeholder": '',
@@ -34,14 +35,15 @@ export default class AnnotonNode {
         "value": ''
       }
     };
+    this.errors = [];
   }
 
   setTermLookup(value) {
-    this.evidence.lookup.requestParams = value;
+    this.term.lookup.requestParams = value;
   }
 
   setEvidenceLookup(value) {
-    this.term.lookup.requestParams = value;
+    this.evidence.lookup.requestParams = value;
   }
 
   setTerm(value) {
@@ -56,6 +58,16 @@ export default class AnnotonNode {
       this.reference.control.value = value.reference;
       this.with.control.value = value.with;
     }
+  }
+
+  static isType(typeId, id) {
+    let n = typeId.toLowerCase();
+    if (n.includes(id)) {
+
+    } else if (n.includes('go')) {
+
+    }
+
   }
 
 }

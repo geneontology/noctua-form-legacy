@@ -11,7 +11,6 @@ export default class Annoton extends SaeGraph {
   insertTermNode(annotonModel, id, value) {
     let node = null;
 
-
     node = _.find(annotonModel, {
       id: id
     });

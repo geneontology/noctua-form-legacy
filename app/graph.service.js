@@ -1,4 +1,5 @@
 import Annoton from './annoton/annoton.js';
+import AnnotonParser from './annoton/parser/annoton-parser.js';
 
 const each = require('lodash/forEach');
 var model = require('bbop-graph-noctua');
@@ -81,7 +82,7 @@ export default class GraphService {
     // Likely the result of unhappiness on Minerva.
     manager.register('warning', function (resp /*, man */ ) {
       alert('Warning: ' + resp.message() + '; ' +
-        'your operation was likely not performed');
+        'your opera tion was likely not performed');
     }, 10);
 
     // Likely the result of serious unhappiness on Minerva.
@@ -231,7 +232,6 @@ export default class GraphService {
   graphToAnnotons(graph) {
     var self = this;
     var annotons = [];
-    var breadth = 1;
 
     each(graph.all_edges(), function (e) {
       if (e.predicate_id() === self.saeConstants.edge.enabledBy) {
@@ -245,7 +245,7 @@ export default class GraphService {
         annotonNode.setTerm(mfTerm);
         annotonNode.setEvidence(evidence);
 
-        self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, breadth);
+        self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode);
         annotons.push(annoton);
       }
     });
@@ -253,27 +253,38 @@ export default class GraphService {
     return annotons;
   }
 
-  graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, breadth) {
+  graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode) {
     var self = this;
     let edge = annoton.getEdges(annotonNode.id);
+
+    var parser = new AnnotonParser();
+    parser.saeConstants = self.saeConstants
+
+    parser.parseCardinality(annotonNode, mfEdgesIn);
 
     each(mfEdgesIn, function (toMFEdge) {
       if (!toMFEdge) {
         return;
       }
       let predicateId = toMFEdge.predicate_id();
-      let predicateLabel = self.idToPredicateLabel(toMFEdge.predicate_id());
+      let predicateLabel = self.idToPredicateLabel(predicateId);
       let evidence = self.edgeToEvidence(graph, toMFEdge);
       let toMFObject = toMFEdge.object_id();
 
       each(edge.nodes, function (node) {
         if (predicateId === node.edgeId) {
+          let term = self.subjectToTerm(graph, toMFObject);
           node.target.setEvidence(evidence);
-          node.target.setTerm(self.subjectToTerm(graph, toMFObject));
-          self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target, breadth);
+          node.target.setTerm(term);
+          if (term) {
+            parser.parseNodeOntology(node.target, term.id);
+          }
+          self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target);
         }
       });
     });
+
+    parser.printErrors();
   }
 
   annotonsToTable(graph, annotons) {
@@ -450,7 +461,7 @@ export default class GraphService {
       reqs.add_annotation_to_model(annotationTitleKey, defaultTitle);
     }
 
-    self.addIndividual(reqs, geneProduct);
+    //self.addIndividual(reqs, geneProduct);
 
     each(annoton.nodes, function (node) {
       self.addIndividual(reqs, node);

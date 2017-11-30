@@ -51,7 +51,9 @@ export default class TVController {
 
       tvc.summaryGrid.gridOptions.data = gridData;
       tvc.summaryGrid.setSubGrid(gridData)
-      tvc.summaryGrid.registerApi();
+      //tvc.summaryGrid.registerApi();
+
+
     });
 
     graph.initialize();
@@ -146,6 +148,8 @@ export default class TVController {
     const self = this;
 
     self.formGrid.clearForm();
+    // self.summaryGrid.setSubGridEdit(row);
+
     self.formGrid.gridOptions.data = row.annoton.nodes;
     console.log(JSON.stringify(row.annoton.print()))
   }

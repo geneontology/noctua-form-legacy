@@ -2,8 +2,9 @@ import _ from 'lodash';
 const each = require('lodash/forEach');
 
 export default class SummaryGridService {
-  constructor(saeConstants, config, $timeout, lookup) {
-    this.saeConstants = saeConstants
+  constructor(saeConstants, uiGridConstants, config, $timeout, lookup) {
+    this.saeConstants = saeConstants;
+    this.uiGridConstants = uiGridConstants;
     this.config = config;
     this.$timeout = $timeout;
     this.lookup = lookup;
@@ -18,6 +19,7 @@ export default class SummaryGridService {
       resizable: false,
       cellTemplate: './grid-templates/summary/actions-cell-template.html',
       //headerCellTemplate: 'uigridActionHeader',
+      enableExpandableRowHeader: false,
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -55,7 +57,7 @@ export default class SummaryGridService {
     }];
 
 
-    this._subColumnDefs = [{
+    this._subGridColumnDefs = [{
       name: 'label',
       displayName: '',
       width: '25%',
@@ -126,7 +128,7 @@ export default class SummaryGridService {
       enableColumnMenu: false
     }];
 
-    this._subColumnDefsEdit = [{
+    this._subGridEditColumnDefs = [{
       name: 'label',
       displayName: '',
       width: '25%',
@@ -203,7 +205,7 @@ export default class SummaryGridService {
     }];
 
     this.gridOptions = {
-      rowHeight: 40,
+      rowHeight: 50,
       width: 100,
       minWidth: 100,
       enableCellSelection: false,
@@ -235,9 +237,24 @@ export default class SummaryGridService {
       enableCellEditOnFocus: false,
       multiSelect: false,
       rowTemplate: 'rowTemplate.html',
-      columnDefs: this._subColumnDefs,
+      columnDefs: this._subGridColumnDefs,
       data: []
     };
+
+    this._subGridEditOptions = {
+      rowHeight: 40,
+      width: 100,
+      minWidth: 100,
+      enableCellSelection: false,
+      enableCellEdit: false,
+      enableCellEditOnFocus: false,
+      multiSelect: false,
+      rowTemplate: 'rowTemplate.html',
+      columnDefs: this._subGridEditColumnDefs,
+      data: []
+    };
+
+    this.registerApi();
   }
 
   registerApi() {
@@ -246,7 +263,7 @@ export default class SummaryGridService {
       self.gridApi = gridApi;
 
       self.$timeout(function () {
-        // self.gridApi.core.handleWindowResize();
+        self.gridApi.core.handleWindowResize();
       }, 0);
     };
   }
@@ -264,6 +281,7 @@ export default class SummaryGridService {
 
   setSubGrid(parentGridData) {
     const self = this;
+    let count = 0;
     each(parentGridData, function (row) {
       let gridData = [];
       row.subGridOptions = JSON.parse(JSON.stringify(self._subGridOptions));
@@ -280,5 +298,17 @@ export default class SummaryGridService {
     });
   }
 
+  setSubGridEdit(row) {
+    const self = this;
+    self.$timeout(function () {
+
+      row.subGridOptions = JSON.parse(JSON.stringify(self._subGridEditOptions));
+      // row.subGridOptions.data = row.annoton.nodes;
+
+      self.gridApi.core.notifyDataChange(this.uiGridConstants.dataChange.ALL)
+      self.gridApi.core.handleWindowResize();
+    });
+  }
+
 }
-SummaryGridService.$inject = ['saeConstants', 'config', '$timeout', 'lookup'];
+SummaryGridService.$inject = ['saeConstants', 'uiGridConstants', 'config', '$timeout', 'lookup'];

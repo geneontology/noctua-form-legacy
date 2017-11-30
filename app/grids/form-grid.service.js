@@ -7,7 +7,7 @@ export default class FormGridService {
     this.config = config;
     this.$timeout = $timeout;
     this.lookup = lookup;
-    this.annoton = this.config.createAnnotonModelFakeData();
+    this.annoton = this.config.createAnnotonModel();
 
     this.gridApi = null;
     this.columnDefs = [{
@@ -135,6 +135,15 @@ export default class FormGridService {
     });
 
     self.gridOptions.data = self.annoton.nodes;
+
+  }
+
+  initalizeFormData() {
+    const self = this;
+
+    this.annoton = this.config.createAnnotonModelFakeData();
+    self.initalizeForm()
+
 
   }
 
