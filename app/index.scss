@@ -180,6 +180,9 @@ ul li.error-reason {
     //background-color: rgba($primary-color, 0.05);
   }
   .ui-grid-cell {
+    .sae-error {
+      background-color: #d49191!important;
+    }
     input {
       &.form-control {
         display: block;

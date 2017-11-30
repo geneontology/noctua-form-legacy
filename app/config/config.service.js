@@ -54,8 +54,8 @@ export default class ConfigService {
     this._annotonData = {
       "gp": {
         "label": 'Gene Product',
-        "ontologyClass": [],
         "term": {
+          "ontologyClass": [],
           "lookup": {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
@@ -68,8 +68,8 @@ export default class ConfigService {
       },
       'mf': {
         "label": 'Molecular Function',
-        "ontologyClass": ['go'],
         "term": {
+          "ontologyClass": ['go'],
           "lookup": {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
@@ -82,8 +82,8 @@ export default class ConfigService {
       },
       'mf-1': {
         "label": 'Has Input (Gene Product/Chemical)',
-        "ontologyClass": [],
         "term": {
+          "ontologyClass": [],
           "lookup": {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
@@ -96,8 +96,8 @@ export default class ConfigService {
       },
       'mf-2': {
         "label": 'Happens During (Temporal Phase)',
-        "ontologyClass": ['go'],
         "term": {
+          "ontologyClass": ['go'],
           "lookup": {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
@@ -110,8 +110,8 @@ export default class ConfigService {
       },
       'bp': {
         "label": 'Biological Process',
-        "ontologyClass": ['go'],
         "term": {
+          "ontologyClass": ['go'],
           "lookup": {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
@@ -124,8 +124,8 @@ export default class ConfigService {
       },
       'bp-1': {
         "label": 'Part Of (BP)',
-        "ontologyClass": ['go'],
         "term": {
+          "ontologyClass": ['go'],
           "lookup": {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
@@ -138,8 +138,8 @@ export default class ConfigService {
       },
       'bp-1-1': {
         "label": 'Part Of (BP)',
-        "ontologyClass": ['go'],
         "term": {
+          "ontologyClass": ['go'],
           "lookup": {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
@@ -152,8 +152,8 @@ export default class ConfigService {
       },
       'cc': {
         "label": 'Cellular Component',
-        "ontologyClass": ['go'],
         "term": {
+          "ontologyClass": ['go'],
           "lookup": {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
@@ -166,8 +166,8 @@ export default class ConfigService {
       },
       'cc-1': {
         "label": 'Part Of (Cell Type)',
-        "ontologyClass": ['cl'],
         "term": {
+          "ontologyClass": ['cl'],
           "lookup": {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
@@ -180,8 +180,8 @@ export default class ConfigService {
       },
       'cc-1-1': {
         "label": 'Part Of (Anatomy)',
-        "ontologyClass": ['uberon'],
         "term": {
+          "ontologyClass": ['uberon'],
           "lookup": {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
@@ -207,6 +207,8 @@ export default class ConfigService {
       annotonNode.ontologyClass = node.ontologyClass;
       annotonNode.label = node.label;
       annotonNode.setTermLookup(node.term.lookup.requestParams);
+      annotonNode.setTermOntologyClass(node.term.ontologyClass);
+      annotonNode.setEvidenceOntologyClass('eco');
       annotonNode.setEvidenceLookup(self.requestParams["evidence"]);
 
       annotonData[key].node = annotonNode

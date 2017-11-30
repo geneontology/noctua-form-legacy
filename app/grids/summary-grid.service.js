@@ -77,6 +77,7 @@ export default class SummaryGridService {
       field: 'term',
       resizable: false,
       headerCellTemplate: './grid-templates/header-cell-template.html',
+      cellTemplate: './grid-templates/summary/term-validator-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -91,6 +92,7 @@ export default class SummaryGridService {
       displayName: 'Evidence',
       minWidth: 200,
       headerCellTemplate: './grid-templates/header-cell-template.html',
+      cellTemplate: './grid-templates/summary/evidence-validator-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -214,7 +216,7 @@ export default class SummaryGridService {
       enableCellEditOnFocus: false,
       multiSelect: false,
       // minRowsToShow: 1,
-      //rowTemplate: 'rowTemplate.html',
+      rowTemplate: 'rowTemplate.html',
       showTreeExpandNoChildren: false,
       expandableRowTemplate: './grid-templates/summary/expandable-row-template.html',
       expandableRowHeight: 450,
@@ -290,7 +292,8 @@ export default class SummaryGridService {
           label: node.label,
           term: node.term.control.value.label,
           evidence: node.evidence.control.value.label,
-          reference: node.reference.control.value
+          reference: node.reference.control.value,
+          annoton: node
         })
       })
 

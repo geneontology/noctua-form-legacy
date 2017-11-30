@@ -35,15 +35,16 @@ export default class AnnotonParser {
     let result = true;
     let errors = [];
     let prefix = ontologyId.split(":")[0].toLowerCase();
-    each(node.ontologyClass, function (ontologyClass) {
+    each(node.term.ontologyClass, function (ontologyClass) {
       if (ontologyClass !== prefix) {
-        errors.push("Wrong ontology class " + prefix + "Expected " + JSON.stringify(node.ontologyClass));
+        errors.push("Wrong ontology class " + prefix + "Expected " + JSON.stringify(node.term.ontologyClass));
         result = false;
       }
     });
     if (errors.length !== 0) {
       self.errors.push(errors);
       node.errors.push(errors);
+      node.term.validation.errors.push(errors);
     }
 
     return result;

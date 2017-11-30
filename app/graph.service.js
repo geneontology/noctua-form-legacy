@@ -317,9 +317,6 @@ export default class GraphService {
     let row = {
       gp: gpNode.term.control.value.label,
       mf: summaryTerm,
-      Evidence: {
-        label: summaryEvidence
-      },
       original: JSON.parse(JSON.stringify(annoton)),
       annoton: annoton,
     }

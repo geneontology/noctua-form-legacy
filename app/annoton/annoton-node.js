@@ -6,6 +6,9 @@ export default class AnnotonNode {
     this.id;
     this.ontologyClass = [];
     this.term = {
+      "validation": {
+        "errors": []
+      },
       "control": {
         "placeholder": '',
         "value": ''
@@ -15,6 +18,9 @@ export default class AnnotonNode {
       }
     };
     this.evidence = {
+      "validation": {
+        "errors": []
+      },
       "control": {
         "placeholder": '',
         "value": ''
@@ -24,12 +30,18 @@ export default class AnnotonNode {
       }
     };
     this.reference = {
+      "validation": {
+        "errors": []
+      },
       "control": {
         "placeholder": '',
         "value": ''
       }
     };
     this.with = {
+      "validation": {
+        "errors": []
+      },
       "control": {
         "placeholder": '',
         "value": ''
@@ -58,6 +70,14 @@ export default class AnnotonNode {
       this.reference.control.value = value.reference;
       this.with.control.value = value.with;
     }
+  }
+
+  setTermOntologyClass(value) {
+    this.term.ontologyClass = value;
+  }
+
+  setEvidenceOntologyClass(value) {
+    this.evidence.ontologyClass = value;
   }
 
   static isType(typeId, id) {
