@@ -9,23 +9,39 @@ export default class AnnotonParser {
     this.errors = [];
   }
 
-  parseCardinality(node, edges) {
+  parseCardinality(node, sourceEdges, targetEdges) {
     const self = this;
     let edges2 = [];
     let result = true;
     let errors = [];
 
-    each(edges, function (edge) {
+    each(sourceEdges, function (edge) {
       let predicateId = edge.predicate_id();
       if (_.includes(edges2, predicateId)) {
         errors.push("More than 1 " + predicateId);
         result = false;
       }
-      edges2.push(predicateId)
+
+      let v = _.find(targetEdges, function (node) {
+        return node.edgeId === predicateId
+      });
+
+      if (v) {
+        edges2.push(predicateId);
+      } else {
+        errors.push("Not accepted " + predicateId);
+        result = false;
+      }
+
     });
+
+    //each(edge.nodes, function (node) {
+
+
     if (errors.length !== 0) {
       self.errors.push(errors);
-      node.errors.push(errors);
+      node.errors.cardinality.push(errors);
+      node.status = 'error';
     }
     return result;
   }
@@ -43,7 +59,7 @@ export default class AnnotonParser {
     });
     if (errors.length !== 0) {
       self.errors.push(errors);
-      node.errors.push(errors);
+      node.errors.ontology.push(errors);
       node.term.validation.errors.push(errors);
     }
 

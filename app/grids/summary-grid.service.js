@@ -99,7 +99,13 @@ export default class SummaryGridService {
       enableSorting: false,
       allowCellFocus: false,
       enableHiding: false,
-      enableColumnMenu: false
+      enableColumnMenu: false,
+      cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+        if (grid.getCellValue(row, col) == 1) {
+          return 'sae-error';
+        }
+        return 'sae-error';
+      }
     }, {
       name: 'reference',
       displayName: 'Reference',
@@ -216,14 +222,16 @@ export default class SummaryGridService {
       enableCellEditOnFocus: false,
       multiSelect: false,
       // minRowsToShow: 1,
-      rowTemplate: 'rowTemplate.html',
+      //rowTemplate: './grid-templates/summary/row-template.html',
       showTreeExpandNoChildren: false,
       expandableRowTemplate: './grid-templates/summary/expandable-row-template.html',
       expandableRowHeight: 450,
       enableRowSelection: true,
       //subGridVariable will be available in subGrid scope
       expandableRowScope: {
-        subGridVariable: 'subGridScopeVariable'
+        clickMeSub: function (row) {
+          alert('Errors ' + row.annoton.term.validation.errors);
+        }
       },
       // keyDownOverrides: [{keyCode: 27}]
       columnDefs: this.columnDefs,
@@ -238,7 +246,7 @@ export default class SummaryGridService {
       enableCellEdit: false,
       enableCellEditOnFocus: false,
       multiSelect: false,
-      rowTemplate: 'rowTemplate.html',
+      rowTemplate: './grid-templates/summary/row-template.html',
       columnDefs: this._subGridColumnDefs,
       data: []
     };
@@ -293,7 +301,7 @@ export default class SummaryGridService {
           term: node.term.control.value.label,
           evidence: node.evidence.control.value.label,
           reference: node.reference.control.value,
-          annoton: node
+          annoton: node,
         })
       })
 

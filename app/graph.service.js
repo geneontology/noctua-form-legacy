@@ -256,11 +256,12 @@ export default class GraphService {
   graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode) {
     var self = this;
     let edge = annoton.getEdges(annotonNode.id);
-
-    var parser = new AnnotonParser();
+    let parser = new AnnotonParser();
     parser.saeConstants = self.saeConstants
 
-    parser.parseCardinality(annotonNode, mfEdgesIn);
+    if (!parser.parseCardinality(annotonNode, mfEdgesIn, edge.nodes)) {
+      return;
+    }
 
     each(mfEdgesIn, function (toMFEdge) {
       if (!toMFEdge) {

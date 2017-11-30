@@ -50,6 +50,8 @@ export default class TVController {
       const gridData = data.gridData;
 
       tvc.summaryGrid.gridOptions.data = gridData;
+      tvc.summaryGrid.gridOptions.appScopeProvider = tvc;
+      // tvc.summaryGrid.gridOptions.expandableRowScope = tvc;
       tvc.summaryGrid.setSubGrid(gridData)
       //tvc.summaryGrid.registerApi();
 

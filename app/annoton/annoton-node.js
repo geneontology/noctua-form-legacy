@@ -47,7 +47,11 @@ export default class AnnotonNode {
         "value": ''
       }
     };
-    this.errors = [];
+    this.errors = {
+      cardinality: [],
+      ontology: []
+    };
+    this.status = 0;
   }
 
   setTermLookup(value) {
