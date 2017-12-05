@@ -32,16 +32,12 @@ export default class AnnotonParser {
         errors.push("Not accepted " + predicateId);
         result = false;
       }
-
     });
-
-    //each(edge.nodes, function (node) {
-
 
     if (errors.length !== 0) {
       self.errors.push(errors);
       node.errors.cardinality.push(errors);
-      node.status = 'error';
+      node.status = 1;
     }
     return result;
   }
@@ -53,7 +49,7 @@ export default class AnnotonParser {
     let prefix = ontologyId.split(":")[0].toLowerCase();
     each(node.term.ontologyClass, function (ontologyClass) {
       if (ontologyClass !== prefix) {
-        errors.push("Wrong ontology class " + prefix + "Expected " + JSON.stringify(node.term.ontologyClass));
+        errors.push("Wrong ontology class " + prefix + ". Expected " + JSON.stringify(node.term.ontologyClass));
         result = false;
       }
     });

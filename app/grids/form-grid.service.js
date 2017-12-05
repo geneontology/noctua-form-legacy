@@ -9,6 +9,7 @@ export default class FormGridService {
     this.lookup = lookup;
     this.annoton = this.config.createAnnotonModel();
 
+
     this.gridApi = null;
     this.columnDefs = [{
       name: 'label',
@@ -91,6 +92,7 @@ export default class FormGridService {
 
     this.gridOptions = {
       noTabInterference: false,
+      headerRowHeight: 50,
       rowHeight: 41,
       width: 100,
       minWidth: 100,

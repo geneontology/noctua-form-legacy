@@ -58,6 +58,23 @@ export default class SummaryGridService {
 
 
     this._subGridColumnDefs = [{
+      name: 'errors',
+      displayName: 'Errors',
+      width: 120,
+      field: 'errors',
+      resizable: false,
+      visible: this.showErrorColumn(),
+      cellTemplate: './grid-templates/summary/errors-cell-template.html',
+      //headerCellTemplate: 'uigridActionHeader',
+      enableExpandableRowHeader: false,
+      enableCellEdit: false,
+      enableCellSelection: false,
+      enableCellEditOnFocus: false,
+      enableSorting: false,
+      allowCellFocus: false,
+      enableHiding: false,
+      enableColumnMenu: false
+    }, {
       name: 'label',
       displayName: '',
       width: '25%',
@@ -99,13 +116,7 @@ export default class SummaryGridService {
       enableSorting: false,
       allowCellFocus: false,
       enableHiding: false,
-      enableColumnMenu: false,
-      cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
-        if (grid.getCellValue(row, col) == 1) {
-          return 'sae-error';
-        }
-        return 'sae-error';
-      }
+      enableColumnMenu: false
     }, {
       name: 'reference',
       displayName: 'Reference',
@@ -229,8 +240,17 @@ export default class SummaryGridService {
       enableRowSelection: true,
       //subGridVariable will be available in subGrid scope
       expandableRowScope: {
-        clickMeSub: function (row) {
-          alert('Errors ' + row.annoton.term.validation.errors);
+        error: {
+          showAllErrors: function (row) {
+            alert('Errors ' + JSON.stringify(row.annoton.errors));
+          },
+          showTermErrors: function (row) {
+            alert('Errors ' + row.annoton.term.validation.errors);
+          },
+          showEvidenceErrors: function (row) {
+            alert('Errors ' + row.annoton.evidence.validation.errors);
+          },
+
         }
       },
       // keyDownOverrides: [{keyCode: 27}]
@@ -307,6 +327,8 @@ export default class SummaryGridService {
 
       row.subGridOptions.data = gridData;
     });
+
+    // self.
   }
 
   setSubGridEdit(row) {
@@ -319,6 +341,10 @@ export default class SummaryGridService {
       self.gridApi.core.notifyDataChange(this.uiGridConstants.dataChange.ALL)
       self.gridApi.core.handleWindowResize();
     });
+  }
+
+  showErrorColumn() {
+    return true;
   }
 
 }

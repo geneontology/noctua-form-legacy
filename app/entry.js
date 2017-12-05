@@ -52,6 +52,17 @@ app.config(['JSONFormatterConfigProvider', function (JSONFormatterConfigProvider
 }]);
 
 app.constant('saeConstants', {
+  "annotonType": {
+    "options": [{
+      "id": 1,
+      "name": 'simple',
+      "label": 'SIMPLE ANNOTON'
+    }, {
+      "id": 2,
+      "name": 'complex',
+      "label": 'COMPLEX ANNOTON'
+    }]
+  },
   'edge': {
     enabledBy: 'RO:0002333',
     hasInput: 'RO:0002233',

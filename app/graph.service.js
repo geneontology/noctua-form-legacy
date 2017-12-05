@@ -260,6 +260,7 @@ export default class GraphService {
     parser.saeConstants = self.saeConstants
 
     if (!parser.parseCardinality(annotonNode, mfEdgesIn, edge.nodes)) {
+      self.graphToAnnatonDFSError(annoton, annotonNode);
       return;
     }
 
@@ -286,6 +287,16 @@ export default class GraphService {
     });
 
     parser.printErrors();
+  }
+
+  graphToAnnatonDFSError(annoton, annotonNode) {
+    var self = this;
+    let edge = annoton.getEdges(annotonNode.id);
+
+    each(edge.nodes, function (node) {
+      node.target.status = 2;
+      self.graphToAnnatonDFSError(annoton, node.target);
+    });
   }
 
   annotonsToTable(graph, annotons) {
@@ -319,7 +330,7 @@ export default class GraphService {
       gp: gpNode.term.control.value.label,
       mf: summaryTerm,
       original: JSON.parse(JSON.stringify(annoton)),
-      annoton: annoton,
+      annoton: annoton
     }
 
     let mfRow = {

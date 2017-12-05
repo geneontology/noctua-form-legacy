@@ -51,7 +51,7 @@ export default class AnnotonNode {
       cardinality: [],
       ontology: []
     };
-    this.status = 0;
+    this.status = '0';
   }
 
   setTermLookup(value) {

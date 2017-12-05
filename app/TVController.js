@@ -6,8 +6,9 @@
 /* global angular */
 
 export default class TVController {
-  constructor($scope, $rootScope, $http, $timeout, uiGridTreeViewConstants, graph, lookup, formGrid, summaryGrid) {
+  constructor(saeConstants, $scope, $rootScope, $http, $timeout, uiGridTreeViewConstants, graph, lookup, formGrid, summaryGrid) {
     var tvc = this;
+    this.saeConstants = saeConstants;
     this.$scope = $scope;
     this.$rootScope = $rootScope;
     this.uiGridTreeViewConstants = uiGridTreeViewConstants;
@@ -30,12 +31,12 @@ export default class TVController {
         graph: 4
       }
     };
-    tvc.viewMode.selected = tvc.viewMode.options.grid;
+    tvc.viewMode.selected = tvc.viewMode.options.table;
 
     /* Init the form grid */
-    tvc.formGrid.registerApi();
-    tvc.formGrid.initalizeForm();
-    tvc.formGrid.expandAll();
+    // tvc.formGrid.registerApi();
+    //tvc.formGrid.initalizeForm();
+    // tvc.formGrid.expandAll();
     /* Init the summary grid */
     //tvc.summaryGrid.registerApi();
 
@@ -210,4 +211,4 @@ export default class TVController {
     }
   }
 }
-TVController.$inject = ['$scope', '$rootScope', '$http', '$timeout', 'uiGridTreeViewConstants', 'graph', 'lookup', 'formGrid', 'summaryGrid'];
+TVController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', 'uiGridTreeViewConstants', 'graph', 'lookup', 'formGrid', 'summaryGrid'];

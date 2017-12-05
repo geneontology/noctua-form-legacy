@@ -1,7 +1,7 @@
 <div class="ui-grid-cell-contents" title="TOOLTIP" ng-class="{'sae-error': row.entity.annoton.term.validation.errors.length>0}">
     {{COL_FIELD CUSTOM_FILTERS}}
     <md-button ng-if="row.entity.annoton.term.validation.errors.length>0" class="md-icon-button sae-cell-info-button" aria-label="Error Details"
-        ng-click="grid.appScope.clickMeSub(row.entity)">
+        ng-click="grid.appScope.error.showTermErrors(row.entity)">
         <i class="fa fa-info"></i>
     </md-button>
 </div>
