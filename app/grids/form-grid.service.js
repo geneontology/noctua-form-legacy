@@ -129,12 +129,20 @@ export default class FormGridService {
     const self = this;
 
     self.geneProduct = self.annoton.getNode('gp');
+    self.groupedData = {};
 
-    // console.log('poo', annoton, 'Path') // graph.pathFromTo(annoton['mf'], annoton['mf-1']));
-
-    each(self.annoton, function (node) {
-
+    each(self.annoton.nodes, function (node) {
+      if (node.displayGroup) {
+        if (!self.groupedData[node.displayGroup.id]) {
+          self.groupedData[node.displayGroup.id] = {
+            label: node.displayGroup.label,
+            nodes: []
+          };
+        }
+        self.groupedData[node.displayGroup.id].nodes.push(node);
+      }
     });
+
 
     self.gridOptions.data = self.annoton.nodes;
 
@@ -146,8 +154,8 @@ export default class FormGridService {
     this.annoton = this.config.createAnnotonModelFakeData();
     self.initalizeForm()
 
-
   }
+
 
   clearForm() {
     this.initalizeForm();

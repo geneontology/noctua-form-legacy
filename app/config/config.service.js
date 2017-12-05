@@ -54,6 +54,7 @@ export default class ConfigService {
     this._annotonData = {
       "gp": {
         "label": 'Gene Product',
+        //"displayGroup": this.saeConstants.displayGroup.gp,
         "term": {
           "ontologyClass": [],
           "lookup": {
@@ -68,6 +69,7 @@ export default class ConfigService {
       },
       'mf': {
         "label": 'Molecular Function',
+        "displayGroup": this.saeConstants.displayGroup.mf,
         "term": {
           "ontologyClass": ['go'],
           "lookup": {
@@ -82,6 +84,7 @@ export default class ConfigService {
       },
       'mf-1': {
         "label": 'Has Input (Gene Product/Chemical)',
+        "displayGroup": this.saeConstants.displayGroup.mf,
         "term": {
           "ontologyClass": [],
           "lookup": {
@@ -96,6 +99,7 @@ export default class ConfigService {
       },
       'mf-2': {
         "label": 'Happens During (Temporal Phase)',
+        "displayGroup": this.saeConstants.displayGroup.mf,
         "term": {
           "ontologyClass": ['go'],
           "lookup": {
@@ -110,6 +114,7 @@ export default class ConfigService {
       },
       'bp': {
         "label": 'Biological Process',
+        "displayGroup": this.saeConstants.displayGroup.bp,
         "term": {
           "ontologyClass": ['go'],
           "lookup": {
@@ -124,6 +129,7 @@ export default class ConfigService {
       },
       'bp-1': {
         "label": 'Part Of (BP)',
+        "displayGroup": this.saeConstants.displayGroup.bp,
         "term": {
           "ontologyClass": ['go'],
           "lookup": {
@@ -138,6 +144,7 @@ export default class ConfigService {
       },
       'bp-1-1': {
         "label": 'Part Of (BP)',
+        "displayGroup": this.saeConstants.displayGroup.bp,
         "term": {
           "ontologyClass": ['go'],
           "lookup": {
@@ -152,6 +159,7 @@ export default class ConfigService {
       },
       'cc': {
         "label": 'Cellular Component',
+        "displayGroup": this.saeConstants.displayGroup.cc,
         "term": {
           "ontologyClass": ['go'],
           "lookup": {
@@ -166,6 +174,7 @@ export default class ConfigService {
       },
       'cc-1': {
         "label": 'Part Of (Cell Type)',
+        "displayGroup": this.saeConstants.displayGroup.cc,
         "term": {
           "ontologyClass": ['cl'],
           "lookup": {
@@ -180,6 +189,7 @@ export default class ConfigService {
       },
       'cc-1-1': {
         "label": 'Part Of (Anatomy)',
+        "displayGroup": this.saeConstants.displayGroup.cc,
         "term": {
           "ontologyClass": ['uberon'],
           "lookup": {
@@ -206,6 +216,7 @@ export default class ConfigService {
       annotonNode.id = key;
       annotonNode.ontologyClass = node.ontologyClass;
       annotonNode.label = node.label;
+      annotonNode.displayGroup = node.displayGroup;
       annotonNode.setTermLookup(node.term.lookup.requestParams);
       annotonNode.setTermOntologyClass(node.term.ontologyClass);
       annotonNode.setEvidenceOntologyClass('eco');

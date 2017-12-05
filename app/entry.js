@@ -54,14 +54,34 @@ app.config(['JSONFormatterConfigProvider', function (JSONFormatterConfigProvider
 app.constant('saeConstants', {
   "annotonType": {
     "options": [{
-      "id": 1,
-      "name": 'simple',
-      "label": 'SIMPLE ANNOTON'
-    }, {
-      "id": 2,
-      "name": 'complex',
-      "label": 'COMPLEX ANNOTON'
-    }]
+        "id": 1,
+        "name": 'simple',
+        "label": 'SIMPLE ANNOTON'
+      },
+      {
+        "id": 2,
+        "name": 'complex',
+        "label": 'COMPLEX ANNOTON'
+      }
+    ]
+  },
+  "displayGroup": {
+    "gp": {
+      id: "gp",
+      label: 'Gene Product'
+    },
+    "mf": {
+      id: "mf",
+      label: 'Molecula Function'
+    },
+    "bp": {
+      id: "bp",
+      label: 'Biological Process'
+    },
+    "cc": {
+      id: "cc",
+      label: 'Cellular Component'
+    }
   },
   'edge': {
     enabledBy: 'RO:0002333',

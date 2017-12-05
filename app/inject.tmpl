@@ -46,7 +46,7 @@
             Create
           </div>
         </div>
-        <div class="sae-gp" layout="column" layout-align="start stretch" flex>
+        <div class="sae-gp md-whiteframe-2dp" layout="column" layout-align="start stretch" flex>
           <div class="typeaheadcontainer" layout="row">
             <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItemsGP">
               <i class="fa fa-spinner fa-spin fa-fw"></i>
@@ -92,54 +92,55 @@
         </div>
         <!-- TABLE FORM  -->
         <div ng-if="tvc.viewMode.selected === tvc.viewMode.options.table" class="sae-table-form" layout="column" layout-align="start stretch">
-          <div class="" layout="row">
-            <div hide ng-repeat="columnDef in tvc.formGrid.gridOptions.columnDefs" class="" flex="20">
-              {{columnDef.displayName}}
+
+          <div ng-repeat="nodeGroup in tvc.formGrid.groupedData" class="sae-term-group md-whiteframe-2dp" layout="column">
+            <div class="sae-heading">
+              {{nodeGroup.label}}
             </div>
-          </div>
-          <div ng-repeat="entity in tvc.formGrid.gridOptions.data" class="" layout="row">
-            <div class="typeaheadcontainer" flex="40">
-              <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term]">
-                <i class="fa fa-spinner fa-spin fa-fw"></i>
+            <div ng-repeat="entity in nodeGroup.nodes" class="" layout="row">
+              <div class="typeaheadcontainer" flex="40">
+                <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term]">
+                  <i class="fa fa-spinner fa-spin fa-fw"></i>
+                </div>
+                <md-input-container class="md-block">
+                  <input aria-label="term" type="INPUT_TYPE" ng-model="entity.term.control.value" tabindex="0" ng-trim="false" ng-blur="noResults[entity.term] = false"
+                    uib-typeahead="term as term.label for term in tvc.getTerm(entity.term)" typeahead-append-to-body="true"
+                    xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]"
+                    typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html" typeahead-editable="true"
+                    typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term, $item, $model, $label, $event)"
+                    class="typeaheadcontrol" placeholder="{{entity.label}}" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                </md-input-container>
+                <div class="no-results" ng-show="tvc.editingModel[term].length > 2 && noResults[term]">
+                  No Results Found
+                </div>
               </div>
-              <md-input-container class="md-block">
-                <input aria-label="term" type="INPUT_TYPE" ng-model="entity.term.control.value" tabindex="0" ng-trim="false" ng-blur="noResults[entity.term] = false"
-                  uib-typeahead="term as term.label for term in tvc.getTerm(entity.term)" typeahead-append-to-body="true" xtypeahead-focus-on-select="true"
-                  xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]" typeahead-no-results="noResults[term]"
-                  typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen"
-                  typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term, $item, $model, $label, $event)" class="typeaheadcontrol"
-                  placeholder="{{entity.label}}" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
-              </md-input-container>
-              <div class="no-results" ng-show="tvc.editingModel[term].length > 2 && noResults[term]">
-                No Results Found
+              <div class="typeaheadcontainer" flex="30">
+                <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term + 'e']">
+                  <i class="fa fa-spinner fa-spin fa-fw"></i>
+                </div>
+                <md-input-container class="md-block">
+                  <input aria-label="evidence" type="text" ng-model="entity.evidence.control.value" ng-trim="false" tabindex="0" ng-blur="noResults[entity.term + 'e'] = false"
+                    uib-typeahead="term as term.label for term in tvc.getTerm(entity.evidence)" typeahead-append-to-body="true"
+                    xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
+                    typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html" typeahead-editable="true"
+                    typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term + 'e', $item, $model, $label, $event)"
+                    class="typeaheadcontrol" placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                </md-input-container>
+                <div class="no-results" ng-show="tvc.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
+                  No Results Found
+                </div>
               </div>
-            </div>
-            <div class="typeaheadcontainer" flex="30">
-              <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term + 'e']">
-                <i class="fa fa-spinner fa-spin fa-fw"></i>
+              <div class="" flex="15">
+                <md-input-container class="md-block">
+                  <input ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!entity.evidence.control.value" ng-model="entity.reference.control.value"
+                    type="text" class="" placeholder="Reference" aria-label="reference">
+                </md-input-container>
               </div>
-              <md-input-container class="md-block">
-                <input aria-label="evidence" type="text" ng-model="entity.evidence.control.value" ng-trim="false" tabindex="0" ng-blur="noResults[entity.term + 'e'] = false"
-                  uib-typeahead="term as term.label for term in tvc.getTerm(entity.evidence)" typeahead-append-to-body="true"
-                  xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
-                  typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                  typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term + 'e', $item, $model, $label, $event)"
-                  class="typeaheadcontrol" placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
-              </md-input-container>
-              <div class="no-results" ng-show="tvc.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
-                No Results Found
+              <div class="" flex="15">
+                <md-input-container class="md-block">
+                  <input ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!entity.evidence.control.value" ng-model="row.entity.with.control.value"
+                    type="text" class="" placeholder="With" aria-label="With"> </md-input-container>
               </div>
-            </div>
-            <div class="" flex="15">
-              <md-input-container class="md-block">
-                <input ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!entity.evidence.control.value" ng-model="entity.reference.control.value"
-                  type="text" class="" placeholder="Reference" aria-label="reference">
-              </md-input-container>
-            </div>
-            <div class="" flex="15">
-              <md-input-container class="md-block">
-                <input ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!entity.evidence.control.value" ng-model="row.entity.with.control.value"
-                  type="text" class="" placeholder="With" aria-label="With"> </md-input-container>
             </div>
           </div>
         </div>

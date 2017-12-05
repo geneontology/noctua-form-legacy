@@ -34,8 +34,8 @@ export default class TVController {
     tvc.viewMode.selected = tvc.viewMode.options.table;
 
     /* Init the form grid */
-    // tvc.formGrid.registerApi();
-    //tvc.formGrid.initalizeForm();
+    //tvc.formGrid.registerApi();
+    tvc.formGrid.initalizeForm();
     // tvc.formGrid.expandAll();
     /* Init the summary grid */
     //tvc.summaryGrid.registerApi();
