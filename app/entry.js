@@ -53,15 +53,25 @@ app.config(['JSONFormatterConfigProvider', function (JSONFormatterConfigProvider
 
 app.constant('saeConstants', {
   "annotonType": {
-    "options": [{
-        "id": 1,
+    "options": {
+      'simple': {
         "name": 'simple',
-        "label": 'SIMPLE ANNOTON'
+        "label": 'SINGLE GENE'
+      },
+      'complex': {
+        "name": 'complex',
+        "label": 'MULTIPLE GENES'
+      }
+    }
+  },
+  "annotonModelType": {
+    "options": [{
+        "name": 'annoton',
+        "label": 'ANNOTON'
       },
       {
-        "id": 2,
-        "name": 'complex',
-        "label": 'COMPLEX ANNOTON'
+        "name": 'candidate',
+        "label": 'CANDIDATE'
       }
     ]
   },

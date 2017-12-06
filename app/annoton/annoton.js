@@ -6,7 +6,8 @@ import SaeGraph from './sae-graph.js';
 export default class Annoton extends SaeGraph {
   constructor() {
     super();
-    this.type = "simple";
+    this.annotonType = "simple";
+    this.annotonModelType = 'annoton';
   }
 
   insertTermNode(annotonModel, id, value) {
@@ -47,6 +48,13 @@ export default class Annoton extends SaeGraph {
       node.reference.control.value = value.reference;
       node.with.control.value = value.with;
     }
+  }
+  setAnnotonType(type) {
+    this.annotonType = type;
+  }
+
+  setModelType(type) {
+    this.annotonModelType = type;
   }
 
 }

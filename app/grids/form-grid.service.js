@@ -122,6 +122,14 @@ export default class FormGridService {
     };
   }
 
+  setAnnotonType(annoton, annotonType) {
+    annoton.setAnnotonType(annotonType.name);
+  }
+
+  setAnnotonModelType(annoton, annotonType) {
+    annoton.setAnnotonModelType(annotonType.name);
+  }
+
   /**
    *  Populates the tree grid with GO Terms, MF, CC, BP as roots
    */

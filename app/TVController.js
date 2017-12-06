@@ -41,7 +41,7 @@ export default class TVController {
     //tvc.summaryGrid.registerApi();
 
     /* Attach the tvc to the gridScope */
-    tvc.formGrid.gridOptions.appScopeProvider = tvc;
+    // tvc.formGrid.gridOptions.appScopeProvider = tvc;
 
 
 
@@ -50,10 +50,10 @@ export default class TVController {
     $rootScope.$on('rebuilt', function (event, data) {
       const gridData = data.gridData;
 
-      tvc.summaryGrid.gridOptions.data = gridData;
-      tvc.summaryGrid.gridOptions.appScopeProvider = tvc;
+      //tvc.summaryGrid.gridOptions.data = gridData;
+      //tvc.summaryGrid.gridOptions.appScopeProvider = tvc;
       // tvc.summaryGrid.gridOptions.expandableRowScope = tvc;
-      tvc.summaryGrid.setSubGrid(gridData)
+      // tvc.summaryGrid.setSubGrid(gridData)
       //tvc.summaryGrid.registerApi();
 
 
