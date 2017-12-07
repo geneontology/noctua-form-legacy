@@ -68,14 +68,12 @@
                 <i class="fa fa-spinner fa-spin fa-fw"></i>
               </div>
               <md-input-container class="md-block" flex>
-                <input id="GPFocus" aria-describedby="igGP" type="text" ng-model="tvc.formGrid.geneProduct.term.control.value" ng-trim="false"
-                  placeholder="Gene Product" ng-blur="noResultsGP = false" uib-typeahead="term as term.label for term in tvc.getTerm(tvc.formGrid.geneProduct.term)"
+                <input aria-describedby="igGP" type="text" ng-model="tvc.formGrid.geneProduct.term.control.value" ng-trim="false" placeholder="Gene Product"
+                  ng-blur="noResultsGP = false" uib-typeahead="term as term.label for term in tvc.getTerm(tvc.formGrid.geneProduct.term)"
                   typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP"
                   typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html" typeahead-editable="true"
                   typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected('GP', $item, $model, $label, $event)"
                   class="typeaheadcontrol form-contro" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
-
-
               </md-input-container>
               <div class="no-results" ng-show="tvc.editingModel.GP.length > 2 && noResultsGP">
                 No Results Found
@@ -84,9 +82,11 @@
           </div>
           <div ng-if="tvc.formGrid.annoton.annotonType === tvc.saeConstants.annotonType.options.complex.name" class="sae-section-body"
             layout="column" layout-align="start stretch">
-            <md-chips ng-model="tvc.selectedVegetables" md-autocomplete-snap md-transform-chip="tvc.transformChip($chip)" md-require-match="tvc.autocompleteDemoRequireMatch">
-              <md-autocomplete md-selected-item="tvc.selectedItem" md-search-text="tvc.formGrid.geneProduct.term.control.value" md-items="item in tvc.getTerm(tvc.formGrid.geneProduct.term)"
-                md-item-text="item.name" placeholder="Search for a vegetable">
+            <md-chips ng-model="tvc.formGrid.annoton.complexAnnotonData.geneProducts" md-autocomplete-snap md-transform-chip="tvc.transformChip($chip)"
+              md-require-match=true>
+              <md-autocomplete md-selected-item="tvc.selectedItem" md-search-text="tvc.formGrid.annoton.complexAnnotonData.gpTemplateNode.term.control.value"
+                md-items="item in tvc.getTerm(tvc.formGrid.annoton.complexAnnotonData.gpTemplateNode.term)" md-item-text="item.label"
+                placeholder="Gene Products">
                 <span md-highlight-text="tvc.searchText">{{item.label}} :: {{item.id}}</span>
               </md-autocomplete>
               <md-chip-template>
@@ -95,7 +95,7 @@
                   <em>({{$chip.label}})</em>
                 </span>
               </md-chip-template>
-              <button md-chip-remove class="md-primary vegetablechip">
+              <button md-chip-remove class="md-primary">
                 <md-icon md-font-icon="fa fa-times"></md-icon>
               </button>
             </md-chips>
@@ -104,17 +104,14 @@
                 <i class="fa fa-spinner fa-spin fa-fw"></i>
               </div>
               <md-input-container class="md-block">
-                <input id="GPFocus" aria-describedby="igGP" type="text" ng-model="tvc.formGrid.geneProduct.term.control.value" ng-trim="false"
-                  placeholder="Macromolecular Complex" ng-blur="noResultsGP = false" uib-typeahead="term as term.label for term in tvc.getTerm(tvc.formGrid.geneProduct.term)"
+                <input aria-describedby="igGP" type="text" ng-model="tvc.formGrid.annoton.complexAnnotonData.mcNode.term.control.value" ng-trim="false"
+                  placeholder="Macromolecular Complex" ng-blur="noResultsGP = false" uib-typeahead="term as term.label for term in tvc.getTerm(tvc.formGrid.annoton.complexAnnotonData.mcNode.term)"
                   typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP"
                   typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html" typeahead-editable="true"
                   typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected('GP', $item, $model, $label, $event)"
                   class="typeaheadcontrol" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
 
               </md-input-container>
-              <md-button aria-label="Add" class="md-icon-button" ng-click="$mdMenu.open($event)">
-                Add
-              </md-button>
               <div class="no-results" ng-show="tvc.editingModel.GP.length > 2 && noResultsGP">
                 No Results Found
               </div>
@@ -136,14 +133,15 @@
               </md-button>
               <md-menu-content width="3">
                 <md-menu-item ng-repeat="annotonModelType in tvc.saeConstants.annotonModelType.options">
-                  <md-button ng-click="tvc.formGrid.setAnnotonType(tvc.formGrid.annoton, annotonModelType)">
+                  <md-button ng-click="tvc.formGrid.setAnnotonModelType(tvc.formGrid.annoton, annotonModelType)">
                     {{annotonModelType.label}}
                   </md-button>
                 </md-menu-item>
               </md-menu-content>
             </md-menu>
           </div>
-          <div class="sae-section-body" layout="column" layout-align="start stretch">
+          <div ng-if="tvc.formGrid.annoton.annotonModelType === tvc.saeConstants.annotonModelType.options.annoton.name" class="sae-section-body"
+            layout="column" layout-align="start stretch">
             <div ng-repeat="nodeGroup in tvc.formGrid.groupedData" class="sae-term-group" layout="column">
               <div class="sae-group-heading">
                 {{nodeGroup.label}}
@@ -194,6 +192,9 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div ng-if="tvc.formGrid.annoton.annotonModelType === tvc.saeConstants.annotonModelType.options.candidate.name" class="sae-section-body"
+            layout="column" layout-align="start stretch">
           </div>
         </div>
         <!-- END TABLE FORM -->

@@ -50,14 +50,12 @@ export default class SaeGraph {
   };
 
   removeEdge(source, target) {
-    var index1 = this.edges[source] ? this.edges[source].indexOf(target) : -1;
-    var index2 = this.edges[target] ? this.edges[target].indexOf(source) : -1;
-    if (~index1) {
-      this.edges[source].splice(index1, 1);
+    var targetNodes = self.edges[source.id]['nodes']
+    if (targetNodes) {
+      _.remove(targetNodes, function (targetNodes) {
+        return targetNode.id === target.id
+      });
       this.numberOfEdges--;
-    }
-    if (~index2) {
-      this.edges[target].splice(index2, 1);
     }
   };
 

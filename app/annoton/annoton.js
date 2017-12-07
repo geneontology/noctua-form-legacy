@@ -8,6 +8,11 @@ export default class Annoton extends SaeGraph {
     super();
     this.annotonType = "simple";
     this.annotonModelType = 'annoton';
+    this.complexAnnotonData = {
+      mcNode: {},
+      gpTemplateNode: {},
+      geneProducts: []
+    };
   }
 
   insertTermNode(annotonModel, id, value) {
@@ -53,7 +58,7 @@ export default class Annoton extends SaeGraph {
     this.annotonType = type;
   }
 
-  setModelType(type) {
+  setAnnotonModelType(type) {
     this.annotonModelType = type;
   }
 

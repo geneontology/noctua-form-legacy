@@ -51,6 +51,25 @@ export default class ConfigService {
       })
     };
 
+    this._complexAnnotonData = {
+      "mc": {
+        'id': 'mc',
+        "label": 'Macromolecular Complex',
+        //"displayGroup": this.saeConstants.displayGroup.gp,
+        "term": {
+          "ontologyClass": [],
+          "lookup": {
+            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
+              fq: [
+                'document_category:"ontology_class"',
+                'regulates_closure:"GO:0032991"'
+              ],
+            }),
+          }
+        }
+      }
+    }
+
     this._annotonData = {
       "gp": {
         "label": 'Gene Product',
@@ -203,13 +222,32 @@ export default class ConfigService {
         }
       },
     }
+  }
 
+  addComplexAnnotonData(annoton) {
+    const self = this;
+
+    let annotonNode = new AnnotonNode();
+    let complexAnnotonData = JSON.parse(JSON.stringify(self._complexAnnotonData.mc));
+
+
+    annotonNode.id = complexAnnotonData.id;
+    annotonNode.ontologyClass = complexAnnotonData.ontologyClass;
+    annotonNode.label = complexAnnotonData.label;
+    annotonNode.displayGroup = complexAnnotonData.displayGroup;
+    annotonNode.setTermLookup(complexAnnotonData.term.lookup.requestParams);
+    annotonNode.setTermOntologyClass(complexAnnotonData.term.ontologyClass);
+    annotonNode.setEvidenceOntologyClass('eco');
+    annotonNode.setEvidenceLookup(self.requestParams["evidence"]);
+
+    annoton.complexAnnotonData.gpTemplateNode = JSON.parse(JSON.stringify(annoton.getNode('gp')));
+    annoton.complexAnnotonData.mcNode = annotonNode;
   }
 
   createAnnotonModel() {
     const self = this;
     let annoton = new Annoton();
-    let annotonData = JSON.parse(JSON.stringify(this._annotonData));
+    let annotonData = JSON.parse(JSON.stringify(self._annotonData));
 
     each(annotonData, function (node, key) {
       let annotonNode = new AnnotonNode()
@@ -236,6 +274,7 @@ export default class ConfigService {
     annoton.addEdgeById('cc', 'cc-1', self.saeConstants.edge.partOf);
     annoton.addEdgeById('cc-1', 'cc-1-1', self.saeConstants.edge.partOf);
 
+    self.addComplexAnnotonData(annoton);
     return annoton;
 
   }

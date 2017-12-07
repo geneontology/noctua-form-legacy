@@ -126,8 +126,8 @@ export default class FormGridService {
     annoton.setAnnotonType(annotonType.name);
   }
 
-  setAnnotonModelType(annoton, annotonType) {
-    annoton.setAnnotonModelType(annotonType.name);
+  setAnnotonModelType(annoton, annotonModelType) {
+    annoton.setAnnotonModelType(annotonModelType.name);
   }
 
   /**

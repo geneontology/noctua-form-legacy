@@ -65,15 +65,16 @@ app.constant('saeConstants', {
     }
   },
   "annotonModelType": {
-    "options": [{
+    "options": {
+      "annoton": {
         "name": 'annoton',
         "label": 'ANNOTON'
       },
-      {
+      "candidate": {
         "name": 'candidate',
         "label": 'CANDIDATE'
       }
-    ]
+    }
   },
   "displayGroup": {
     "gp": {
@@ -99,6 +100,7 @@ app.constant('saeConstants', {
     happensDuring: 'RO:0002092',
     occursIn: 'BFO:0000066',
     partOf: 'BFO:0000050',
+    hasPart: 'BFO:0000051',
   },
   rootMF: 'GO:0003674',
   noDataECO: 'ECO:0000035',
