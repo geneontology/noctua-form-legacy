@@ -84,6 +84,21 @@
           </div>
           <div ng-if="tvc.formGrid.annoton.annotonType === tvc.saeConstants.annotonType.options.complex.name" class="sae-section-body"
             layout="column" layout-align="start stretch">
+            <md-chips ng-model="tvc.selectedVegetables" md-autocomplete-snap md-transform-chip="tvc.transformChip($chip)" md-require-match="tvc.autocompleteDemoRequireMatch">
+              <md-autocomplete md-selected-item="tvc.selectedItem" md-search-text="tvc.formGrid.geneProduct.term.control.value" md-items="item in tvc.getTerm(tvc.formGrid.geneProduct.term)"
+                md-item-text="item.name" placeholder="Search for a vegetable">
+                <span md-highlight-text="tvc.searchText">{{item.label}} :: {{item.id}}</span>
+              </md-autocomplete>
+              <md-chip-template>
+                <span>
+                  <strong>[{{$index}}] {{$chip.id}}</strong>
+                  <em>({{$chip.label}})</em>
+                </span>
+              </md-chip-template>
+              <button md-chip-remove class="md-primary vegetablechip">
+                <md-icon md-font-icon="fa fa-times"></md-icon>
+              </button>
+            </md-chips>
             <div class="typeaheadcontainer">
               <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItemsGP">
                 <i class="fa fa-spinner fa-spin fa-fw"></i>
@@ -94,23 +109,16 @@
                   typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP"
                   typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html" typeahead-editable="true"
                   typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected('GP', $item, $model, $label, $event)"
-                  class="typeaheadcontrol form-contro" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                  class="typeaheadcontrol" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+
               </md-input-container>
+              <md-button aria-label="Add" class="md-icon-button" ng-click="$mdMenu.open($event)">
+                Add
+              </md-button>
               <div class="no-results" ng-show="tvc.editingModel.GP.length > 2 && noResultsGP">
                 No Results Found
               </div>
             </div>
-            <md-chips class="custom-chips" ng-model="ctrl.vegObjs" readonly="ctrl.readonly" md-transform-chip="ctrl.newVeg($chip)" md-removable="ctrl.removable">
-              <md-chip-template>
-                <span>
-                  <strong>[{{$index}}] {{$chip.name}}</strong>
-                  <em>({{$chip.type}})</em>
-                </span>
-              </md-chip-template>
-              <button md-chip-remove class="md-primary vegetablechip">
-                <md-icon md-svg-icon="md-close"></md-icon>
-              </button>
-            </md-chips>
           </div>
         </div>
         <!-- TABLE FORM  -->
