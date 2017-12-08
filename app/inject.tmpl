@@ -3,41 +3,43 @@
 <!-- Main "app". -->
 <div ng-strict-di ng-app="TVApp" ng-cloak>
   <div ng-controller="TVController as tvc" ng-form="patternForm" class="tv-container">
-    <div class="sae-subheader" layout="row">
-      <div class="sae-title">
-        {{tvc.graph.title[0].value()}} ({{tvc.graph.model_id}})
-      </div>
-      <span flex></span>
-      <md-button ng-click="tvc.formGrid.initalizeFormData()">
-        .
-      </md-button>
-      <md-menu>
-        <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdMenu.open($event)">
-          View
+    <div class="sae-subheader" layout="column" layout-align="center center">
+      <div class="sae-container" layout="row">
+        <div class="sae-title">
+          {{tvc.graph.title[0].value()}} ({{tvc.graph.model_id}})
+        </div>
+        <span flex></span>
+        <md-button ng-click="tvc.formGrid.initalizeFormData()">
+          .
         </md-button>
-        <md-menu-content width="3">
-          <md-menu-item>
-            <md-button ng-click="tvc.setView(tvc.viewMode.options.grid)">
-              Grid
-            </md-button>
-          </md-menu-item>
-          <md-menu-item>
-            <md-button ng-click="tvc.setView(tvc.viewMode.options.graph)">
-              Graph
-            </md-button>
-          </md-menu-item>
-          <md-menu-item>
-            <md-button ng-click="tvc.setView(tvc.viewMode.options.linear)">
-              Lionear
-            </md-button>
-          </md-menu-item>
-          <md-menu-item>
-            <md-button ng-click="tvc.setView(tvc.viewMode.options.table)">
-              Table
-            </md-button>
-          </md-menu-item>
-        </md-menu-content>
-      </md-menu>
+        <md-menu>
+          <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdMenu.open($event)">
+            View
+          </md-button>
+          <md-menu-content width="3">
+            <md-menu-item>
+              <md-button ng-click="tvc.setView(tvc.viewMode.options.grid)">
+                Grid
+              </md-button>
+            </md-menu-item>
+            <md-menu-item>
+              <md-button ng-click="tvc.setView(tvc.viewMode.options.graph)">
+                Graph
+              </md-button>
+            </md-menu-item>
+            <md-menu-item>
+              <md-button ng-click="tvc.setView(tvc.viewMode.options.linear)">
+                Lionear
+              </md-button>
+            </md-menu-item>
+            <md-menu-item>
+              <md-button ng-click="tvc.setView(tvc.viewMode.options.table)">
+                Table
+              </md-button>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+      </div>
     </div>
     <div class="sae-body" layout="column" layout-align="start center">
       <div class="sae-annoton-form sae-container" layout="column" layout-align="start stretch">
@@ -295,7 +297,7 @@
           </div>
         </div>
         <!-- END GRAPH FORM -->
-        <div layout="row" class="">
+        <div layout="row" class="sae-submit-row md-whiteframe-2dp">
           <div hide class="col-xs-8">
             <div ng-if="tvc.saveRowEnabled(patternForm).length > 0" class="well well-sm" style="margin:0;padding:3px;">
               <ul>
@@ -314,36 +316,51 @@
           </md-button>
         </div>
       </div>
+
       <div class="sae-container sae-summary" layout="column" layout-align="start stretch">
-        <div ng-repeat="summaryRow in tvc.summaryGrid.summaryData" class="sae-panel">
-          <div class="sae-panel-header" layout="row" layout-align="start start" flex>
-            <md-button class="md-icon-button" ng-click="summaryRow.expanded = !summaryRow.expanded">
+        <div>
+          <h2>
+            Annotons
+          </h2>
+        </div>
+        <div ng-repeat="summaryRow in tvc.summaryGrid.summaryData" class="sae-panel md-whiteframe-2dp mb-10">
+          <div class="sae-panel-header sae-success" layout="row" layout-align="start start" flex>
+            <md-button class="md-icon-button sae-action-button" ng-click="summaryRow.expanded = !summaryRow.expanded">
               <md-icon ng-if="summaryRow.expanded" md-font-icon="fa fa-chevron-down"></md-icon>
               <md-icon ng-if="!summaryRow.expanded" md-font-icon="fa fa-chevron-right"></md-icon>
             </md-button>
-            <div class="sae-panel-heading">
-              <strong>{{summaryRow.gp}}</strong>{{summaryRow.mf}}
-              <br> {{summaryRow.evidence}}
+            <div class="sae-panel-heading" flex>
+              <div class="sae-heading-title sae-ellipsis">
+                <strong>{{summaryRow.gp}}</strong> - {{summaryRow.mf}}
+              </div>
+              <div class="sae-heading-subtitle sae-ellipsis">{{summaryRow.evidence.label}}</div>
             </div>
             <span flex></span>
-            <md-button class="md-icon-button">
+            <md-button class="md-icon-button sae-action-button">
               <md-icon md-font-icon="fa text-danger fa-trash"></md-icon>
             </md-button>
-            <md-button class="md-icon-button" ng-click="tvc.openEditAnnotonDialogDialog($event, summaryRow.annoton)">
+            <md-button class="md-icon-button sae-action-button" ng-click="tvc.openEditAnnotonDialogDialog($event, summaryRow.annoton)">
               <md-icon md-font-icon="fa fa-pencil"></md-icon>
             </md-button>
           </div>
-          <div ng-if="summaryRow.expanded" class="sae-panel-body">
-            <div ng-repeat="node in summaryRow.annoton.nodes" class="sae-annoton-node">
-              {{node.label}} {{node.term.control.value.label}}
+          <div ng-if="summaryRow.expanded" class="sae-panel-body animate-slide-down animate-slide-up">
+            <div ng-repeat="nodeGroup in summaryRow.groupedAnnoton.groupedData" class="sae-summary-group" layout="row">
+              <div class="sae-summary-group-heading" layout="column" layout-align="center center">
+                <div>{{nodeGroup.shorthand}}</div>
+              </div>
+              <div class="sae-summary-group-body" layout="column" flex>
+                <div ng-repeat="entity in nodeGroup.nodes" class="sae-annoton-node ph-15" layout="row">
+                  <strong>{{entity.label}}</strong> {{entity.term.control.value.label}} {{entity.evidence.control.value.label}}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div ng-if="false" class="row">
-        <div class="sae-summary-grid col-xs-12">
-          <div ui-grid="tvc.summaryGrid.gridOptions" ui-grid-resize-columns ui-grid-auto-resize ui-grid-pinning ui-grid-expandable
-            class="grid">
+        <div ng-if="false" class="row">
+          <div class="sae-summary-grid col-xs-12">
+            <div ui-grid="tvc.summaryGrid.gridOptions" ui-grid-resize-columns ui-grid-auto-resize ui-grid-pinning ui-grid-expandable
+              class="grid">
+            </div>
           </div>
         </div>
       </div>

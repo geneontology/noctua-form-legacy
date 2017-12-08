@@ -81,18 +81,22 @@ app.constant('saeConstants', {
   "displayGroup": {
     "gp": {
       id: "gp",
+      shorthand: "GP",
       label: 'Gene Product'
     },
     "mf": {
       id: "mf",
+      shorthand: "MF",
       label: 'Molecular Function'
     },
     "bp": {
       id: "bp",
+      shorthand: "BP",
       label: 'Biological Process'
     },
     "cc": {
       id: "cc",
+      shorthand: "CC",
       label: 'Cellular Component'
     }
   },
@@ -104,7 +108,7 @@ app.constant('saeConstants', {
     partOf: 'BFO:0000050',
     hasPart: 'BFO:0000051',
   },
-  causallyEdges: [{
+  causalEdges: [{
     name: 'causally upstream of or within',
     term: 'RO:0002418'
   }, {
@@ -140,9 +144,7 @@ app.constant('saeConstants', {
   }],
   rootMF: 'GO:0003674',
   noDataECO: 'ECO:0000035',
-
-
-})
+});
 
 app.controller('TVController', TVController);
 app.controller('PopulateDialogController', PopulateDialogController);

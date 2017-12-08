@@ -1,5 +1,6 @@
 @import "./scss/global.scss";
 @import "~bourbon/app/assets/stylesheets/bourbon";
+$sae-header-bg-color: #cbd9e6;
 pre.pre-scrollable {
   font-size: 12px;
 }
@@ -37,6 +38,14 @@ I need to explicitly tweak the classes. There has to be a better way.
 
 .navbar {
   height: 50px;
+  background-color: #005888!important;
+  color: #EEE!important;
+  a {
+    color: #DDD!important;
+    &:hover {
+      color: #FFF!important;
+    }
+  }
 }
 
 .navbar .nav.navbar-nav {
@@ -213,13 +222,11 @@ ul li.error-reason {
 .sae-subheader {
   padding: 0px 20px;
   height: 40px;
-  background-color: #EEE;
-  border-bottom: #BBB solid 1px;
+  background-color: $sae-primary-color; // border-bottom: #BBB solid 1px;
   .sae-title {
     line-height: 38px;
-    color: #555;
+    color: #DDD;
     font-size: 14px;
-    font-weight: bold;
   }
 }
 
@@ -248,7 +255,7 @@ ul li.error-reason {
     padding: 0px 20px;
     height: 40px;
     width: 100%;
-    background-color: #EEE;
+    background-color: #F2F2F2;
     border-bottom: #BBB solid 1px;
     .sae-title {
       line-height: 38px;
@@ -261,19 +268,19 @@ ul li.error-reason {
     background-color: #FFF;
   }
   .sae-form-section {
-    margin: 20px 0;
+    margin: 10px 0;
     width: 100%;
     background-color: #FFF;
     .sae-section-header {
       height: 50px;
-      background-color: #F5F5F5;
+      background-color: $sae-header-bg-color;
       border-bottom: #DDD solid 1px;
       .sae-section-heading {
         padding-left: 8px;
         font-weight: 500;
         font-size: 18px;
         line-height: 50px;
-        color: #999;
+        color: #222;
       }
       .sae-action-button {
         margin: 5px;
@@ -297,10 +304,15 @@ ul li.error-reason {
     }
   }
   .sae-table-form {
-    width: 1100px;
+    width: 1148px;
     md-input-container {
       margin: 0;
     }
+  }
+  .sae-submit-row {
+    margin: 10px 0;
+    padding: 10px 0;
+    background-color: #FFF;
   }
 }
 
@@ -315,21 +327,53 @@ ul li.error-reason {
 }
 
 .sae-summary {
+  margin-top: 30px;
+  .sae-panel {
+    background-color: #FFF;
+  }
   .sae-panel-header {
-    height: 50px;
-    background-color: #F5F5F5;
+    height: 65px;
+    background-color: rgba($sae-header-bg-color, 0.4);
     border-bottom: #DDD solid 1px;
+    &.sae-error {
+      background-color: rgba(#f8d7da, 0.5);
+    }
+    &.sae-success {
+      background-color: rgba(#c3e6cb, 0.5);
+    }
     .sae-panel-heading {
+      padding: 10px 0;
+      height: 100%;
       padding-left: 8px;
-      font-weight: 500;
+      .sae-heading-title {
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 5px;
+      }
+      .sae-heading-subtitle {
+        font-weight: 500;
+        font-size: 12px;
+        color: #555;
+      }
+    }
+    .sae-action-button {
+      margin: 0;
+      width: 65px; // line-height: 36px;
+      height: 65px; // border: #DDD solid 1px;
+      md-icon {
+        @include sae-icon-size(16px);
+      }
+    }
+  }
+  .sae-summary-group {
+    border-bottom: #555 solid 1px;
+    .sae-summary-group-heading {
+      @include deep-width(50px);
+      border-right: #555 solid 1px; //background-color: rgba($sae-header-bg-color, 0.2);
       font-size: 18px;
-      line-height: 50px;
-      color: #999;
+      font-weight: nold;
     }
-    .sae-panel-button {
-      margin: 5px;
-      height: 40px; // line-height: 36px;
-    }
+    .sae-summary-group-body {}
   }
   .sae-annoton-node {
     padding: 15px 10px;
@@ -341,7 +385,7 @@ md-dialog {
   &.sae-edit-annoton-dialog {
     //@include position(absolute, 40px 0 0 0);
     background-color: #ECEFF1;
-    width: 1100px; //max-width: 100%;
+    width: 1148px; //max-width: 100%;
     min-height: 90%;
     overflow: hidden;
     .sae-container {

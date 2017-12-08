@@ -130,6 +130,31 @@ export default class FormGridService {
     annoton.setAnnotonModelType(annotonModelType.name);
   }
 
+  groupAnnoton(annoton) {
+    const self = this;
+
+    let result = {
+      geneProduct: annoton.getNode('gp'),
+      groupedData: {}
+    }
+
+    each(annoton.nodes, function (node) {
+      if (node.displayGroup) {
+        if (!result.groupedData[node.displayGroup.id]) {
+          result.groupedData[node.displayGroup.id] = {
+            shorthand: node.displayGroup.shorthand,
+            label: node.displayGroup.label,
+            nodes: []
+          };
+        }
+        result.groupedData[node.displayGroup.id].nodes.push(node);
+      }
+    });
+
+    return result;
+
+  }
+
   /**
    *  Populates the tree grid with GO Terms, MF, CC, BP as roots
    */
