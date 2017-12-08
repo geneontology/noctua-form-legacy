@@ -23,6 +23,8 @@ import 'font-awesome/css/font-awesome.min.css';
 
 import TVController from 'TVController';
 import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
+import EditAnnotonDialogController from './dialogs/edit-annoton/edit-annoton-dialog.controller.js';
+
 import ConfigService from './config/config.service.js';
 import FormGridService from './grids/form-grid.service.js';
 import SummaryGridService from './grids/summary-grid.service.js';
@@ -83,7 +85,7 @@ app.constant('saeConstants', {
     },
     "mf": {
       id: "mf",
-      label: 'Molecula Function'
+      label: 'Molecular Function'
     },
     "bp": {
       id: "bp",
@@ -102,6 +104,40 @@ app.constant('saeConstants', {
     partOf: 'BFO:0000050',
     hasPart: 'BFO:0000051',
   },
+  causallyEdges: [{
+    name: 'causally upstream of or within',
+    term: 'RO:0002418'
+  }, {
+    name: 'causally upstream of',
+    term: 'RO:0002411'
+  }, {
+    name: 'causally upstream of, positive effect',
+    term: 'RO:0002304'
+  }, {
+    name: 'causally upstream of, negative effect',
+    term: 'RO:0002305'
+  }, {
+    name: 'immediately causally upstream of',
+    term: 'RO:0002412'
+  }, {
+    name: 'directly provides input for',
+    term: 'RO:0002413'
+  }, {
+    name: 'regulates',
+    term: 'RO:0002211'
+  }, {
+    name: 'negatively regulates',
+    term: 'RO:0002212'
+  }, {
+    name: 'directly negatively regulates',
+    term: 'RO:0002630'
+  }, {
+    name: 'positively regulates',
+    term: 'RO:0002213'
+  }, {
+    name: 'directly positively regulates',
+    term: 'RO:0002629'
+  }],
   rootMF: 'GO:0003674',
   noDataECO: 'ECO:0000035',
 
@@ -110,6 +146,7 @@ app.constant('saeConstants', {
 
 app.controller('TVController', TVController);
 app.controller('PopulateDialogController', PopulateDialogController);
+app.controller('EditAnnotonDialogController', EditAnnotonDialogController)
 app.service('config', ConfigService);
 app.service('formGrid', FormGridService);
 app.service('summaryGrid', SummaryGridService);

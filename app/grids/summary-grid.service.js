@@ -9,6 +9,7 @@ export default class SummaryGridService {
     this.$timeout = $timeout;
     this.lookup = lookup;
     this.annoton = this.config.createAnnotonModelFakeData();
+    this.summaryData = {};
 
     this.gridApi = null;
     this.columnDefs = [{

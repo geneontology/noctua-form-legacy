@@ -318,53 +318,18 @@ export default class GraphService {
 
     let gpNode = annoton.getNode('gp');
     let mfNode = annoton.getNode('mf');
-    let bpNode = annoton.getNode('bp');
-    let ccNode = annoton.getNode('cc');
-
-    let summaryTerm = '';
-    let summaryEvidence = '';
-    let summaryReference = '';
-    let summaryWith = '';
 
     let row = {
       gp: gpNode.term.control.value.label,
-      mf: summaryTerm,
+      mf: "",
       original: JSON.parse(JSON.stringify(annoton)),
       annoton: annoton
     }
 
-    let mfRow = {
-      Term: mfNode.term.control.value.label,
-      $$treeLevel: 1
-    };
-    // summaryTerm += '• ' + mfNode.term.control.value.label;
-
     if (mfNode.evidence.control.value) {
       row.mf = mfNode.term.control.value.label;
-      row.Evidence = mfNode.evidence.control.value;
-      mfRow.Reference = mfNode.reference.control.value;
-      mfRow.With = mfNode.with.control.value;
-
-      summaryEvidence += '• ' + mfNode.evidence.control.value.label;
-      summaryReference += '• ' + mfNode.reference.control.value;
-      summaryWith += '• ' + mfNode.with.control.value;
+      row.evidence = mfNode.evidence.control.value;
     }
-    result.push(mfRow);
-
-    result.unshift({
-      GP: gpNode.term.control.value.label,
-      Term: summaryTerm,
-      Evidence: {
-        label: summaryEvidence
-      },
-      Reference: summaryReference,
-      With: summaryWith,
-      original: JSON.parse(JSON.stringify(annoton)),
-      annoton: annoton,
-      $$treeLevel: 0
-    });
-
-    // console.log('annotonToTableRows', annoton, result);
 
     return row;
   }

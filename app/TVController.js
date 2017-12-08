@@ -6,11 +6,12 @@
 /* global angular */
 
 export default class TVController {
-  constructor(saeConstants, $scope, $rootScope, $http, $timeout, uiGridTreeViewConstants, graph, lookup, formGrid, summaryGrid) {
+  constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, uiGridTreeViewConstants, graph, lookup, formGrid, summaryGrid) {
     var tvc = this;
     this.saeConstants = saeConstants;
     this.$scope = $scope;
     this.$rootScope = $rootScope;
+    this.$mdDialog = $mdDialog;
     this.uiGridTreeViewConstants = uiGridTreeViewConstants;
     tvc.$timeout = $timeout;
     tvc.lookup = lookup;
@@ -143,6 +144,7 @@ export default class TVController {
     $rootScope.$on('rebuilt', function (event, data) {
       const gridData = data.gridData;
 
+      tvc.summaryGrid.summaryData = gridData;
       //tvc.summaryGrid.gridOptions.data = gridData;
       //tvc.summaryGrid.gridOptions.appScopeProvider = tvc;
       // tvc.summaryGrid.gridOptions.expandableRowScope = tvc;
@@ -168,6 +170,19 @@ export default class TVController {
       console.log('result', result);
     }
     return result;
+  }
+
+  openEditAnnotonDialogDialog(ev, annoton) {
+    this.$mdDialog.show({
+        controller: 'EditAnnotonDialogController as annotonCtrl',
+        templateUrl: './dialogs/edit-annoton/edit-annoton-dialog.html',
+        targetEvent: ev,
+        clickOutsideToClose: false,
+        locals: {
+          annoton: annoton
+        }
+      })
+      .then(function (answer) {}, function () {});
   }
 
   saveRowEnabled(patternForm) {
@@ -304,4 +319,4 @@ export default class TVController {
     }
   }
 }
-TVController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', 'uiGridTreeViewConstants', 'graph', 'lookup', 'formGrid', 'summaryGrid'];
+TVController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', 'uiGridTreeViewConstants', 'graph', 'lookup', 'formGrid', 'summaryGrid'];

@@ -226,7 +226,7 @@ ul li.error-reason {
 .sae-body {
   width: 100%;
   padding: 20px;
-  background-color: #EEE;
+  background-color: #E2E2E2;
 }
 
 .sae-toolbar {
@@ -265,30 +265,32 @@ ul li.error-reason {
     width: 100%;
     background-color: #FFF;
     .sae-section-header {
-      height: 40px;
-      border-bottom: #CCC solid 1px;
+      height: 50px;
+      background-color: #F5F5F5;
+      border-bottom: #DDD solid 1px;
       .sae-section-heading {
         padding-left: 8px;
         font-weight: 500;
         font-size: 18px;
-        line-height: 36px;
-        color: #777;
+        line-height: 50px;
+        color: #999;
       }
       .sae-action-button {
-        margin: 0;
+        margin: 5px;
         height: 40px; // line-height: 36px;
       }
     }
     .sae-section-body {
-      padding: 16px 14px
+      //padding: 16px 14px;
     }
   }
   .sae-term-group {
-    margin: 30px 0;
-    padding: 20px 20px;
+    padding-bottom: 20px;
+    margin-bottom: 3px;
     border-bottom: #CCC solid 1px;
     background-color: #FFF;
     .sae-group-heading {
+      margin-bottom: 20px;
       height: 40px;
       font-weight: 500;
       font-size: 18px;
@@ -296,6 +298,9 @@ ul li.error-reason {
   }
   .sae-table-form {
     width: 1100px;
+    md-input-container {
+      margin: 0;
+    }
   }
 }
 
@@ -306,5 +311,51 @@ ul li.error-reason {
 .sae-table {
   .sae-header {
     background-color: #E4EBF3
+  }
+}
+
+.sae-summary {
+  .sae-panel-header {
+    height: 50px;
+    background-color: #F5F5F5;
+    border-bottom: #DDD solid 1px;
+    .sae-panel-heading {
+      padding-left: 8px;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 50px;
+      color: #999;
+    }
+    .sae-panel-button {
+      margin: 5px;
+      height: 40px; // line-height: 36px;
+    }
+  }
+  .sae-annoton-node {
+    padding: 15px 10px;
+    border-bottom: #CCC solid 1px;
+  }
+}
+
+md-dialog {
+  &.sae-edit-annoton-dialog {
+    //@include position(absolute, 40px 0 0 0);
+    background-color: #ECEFF1;
+    width: 1100px; //max-width: 100%;
+    min-height: 90%;
+    overflow: hidden;
+    .sae-container {
+      width: 100%;
+    }
+    .sae-annoton-form {
+      .sae-table-form {
+        width: 100%;
+      }
+    }
+    md-toolbar {
+      height: 50px;
+      min-height: 50px;
+      max-height: 50px; // background-color: rgba($gb-primary-color, 0.8);
+    }
   }
 }
