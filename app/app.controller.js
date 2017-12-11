@@ -82,6 +82,20 @@ export default class AppController {
       .then(function (answer) {}, function () {});
   }
 
+  openAnnotonErrorsDialogDialog(ev, annoton, errors) {
+    this.$mdDialog.show({
+        controller: 'AnnotonErrorsDialogController as errorsCtrl',
+        templateUrl: './dialogs/annoton-errors/annoton-errors-dialog.html',
+        targetEvent: ev,
+        clickOutsideToClose: false,
+        locals: {
+          annoton: annoton,
+          errors: errors
+        }
+      })
+      .then(function (answer) {}, function () {});
+  }
+
   saveRowEnabled(patternForm) {
     let reasons = [];
 

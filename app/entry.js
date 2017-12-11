@@ -23,6 +23,7 @@ import 'font-awesome/css/font-awesome.min.css';
 
 import AppController from 'app.controller';
 import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
+import AnnotonErrorsDialogController from './dialogs/annoton-errors/annoton-errors-dialog.controller.js';
 import EditAnnotonDialogController from './dialogs/edit-annoton/edit-annoton-dialog.controller.js';
 
 import ConfigService from './config/config.service.js';
@@ -148,6 +149,7 @@ app.constant('saeConstants', {
 
 app.controller('AppController', AppController);
 app.controller('PopulateDialogController', PopulateDialogController);
+app.controller('AnnotonErrorsDialogController', AnnotonErrorsDialogController)
 app.controller('EditAnnotonDialogController', EditAnnotonDialogController)
 app.service('config', ConfigService);
 app.service('formGrid', FormGridService);

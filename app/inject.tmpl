@@ -229,15 +229,12 @@
                 <div ng-repeat="entity in nodeGroup.nodes" class="sae-annoton-node ph-15" layout="row" ng-class="{ 'sae-error': entity.status===1,
                 'sae-error-sm': entity.status===2 }">
                   <strong>{{entity.label}}</strong> - {{entity.term.control.value.label}} - {{entity.evidence.control.value.label}}
+                  <span flex></span>
+                  <md-button class="sae-error-button" ng-click="tvc.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, entity.errors)">
+                    errors
+                  </md-button>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div ng-if="false" class="row">
-          <div class="sae-summary-grid col-xs-12">
-            <div ui-grid="tvc.summaryGrid.gridOptions" ui-grid-resize-columns ui-grid-auto-resize ui-grid-pinning ui-grid-expandable
-              class="grid">
             </div>
           </div>
         </div>
