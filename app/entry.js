@@ -21,7 +21,7 @@ import '../node_modules/angular-ui-grid/ui-grid.min.css';
 import './index.scss';
 import 'font-awesome/css/font-awesome.min.css';
 
-import TVController from 'TVController';
+import AppController from 'app.controller';
 import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
 import EditAnnotonDialogController from './dialogs/edit-annoton/edit-annoton-dialog.controller.js';
 
@@ -58,11 +58,11 @@ app.constant('saeConstants', {
     "options": {
       'simple': {
         "name": 'simple',
-        "label": 'SINGLE GENE'
+        "label": 'SINGLE GENE PRODUCT'
       },
       'complex': {
         "name": 'complex',
-        "label": 'MULTIPLE GENES'
+        "label": 'MACROMOLECULAR COMPLEX'
       }
     }
   },
@@ -70,11 +70,11 @@ app.constant('saeConstants', {
     "options": {
       "annoton": {
         "name": 'annoton',
-        "label": 'ANNOTON'
+        "label": 'DEFAULT'
       },
       "candidate": {
         "name": 'candidate',
-        "label": 'CANDIDATE'
+        "label": 'COMPONENT ONLY'
       }
     }
   },
@@ -146,7 +146,7 @@ app.constant('saeConstants', {
   noDataECO: 'ECO:0000035',
 });
 
-app.controller('TVController', TVController);
+app.controller('AppController', AppController);
 app.controller('PopulateDialogController', PopulateDialogController);
 app.controller('EditAnnotonDialogController', EditAnnotonDialogController)
 app.service('config', ConfigService);

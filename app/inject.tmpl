@@ -2,7 +2,7 @@
 
 <!-- Main "app". -->
 <div ng-strict-di ng-app="TVApp" ng-cloak>
-  <div ng-controller="TVController as tvc" ng-form="patternForm" class="tv-container">
+  <div ng-controller="AppController as tvc" ng-form="patternForm" class="tv-container">
     <div class="sae-subheader" layout="column" layout-align="center center">
       <div class="sae-container" layout="row">
         <div class="sae-title">
@@ -12,33 +12,6 @@
         <md-button ng-click="tvc.formGrid.initalizeFormData()">
           .
         </md-button>
-        <md-menu>
-          <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdMenu.open($event)">
-            View
-          </md-button>
-          <md-menu-content width="3">
-            <md-menu-item>
-              <md-button ng-click="tvc.setView(tvc.viewMode.options.grid)">
-                Grid
-              </md-button>
-            </md-menu-item>
-            <md-menu-item>
-              <md-button ng-click="tvc.setView(tvc.viewMode.options.graph)">
-                Graph
-              </md-button>
-            </md-menu-item>
-            <md-menu-item>
-              <md-button ng-click="tvc.setView(tvc.viewMode.options.linear)">
-                Lionear
-              </md-button>
-            </md-menu-item>
-            <md-menu-item>
-              <md-button ng-click="tvc.setView(tvc.viewMode.options.table)">
-                Table
-              </md-button>
-            </md-menu-item>
-          </md-menu-content>
-        </md-menu>
       </div>
     </div>
     <div class="sae-body" layout="column" layout-align="start center">
@@ -84,8 +57,7 @@
           </div>
           <div ng-if="tvc.formGrid.annoton.annotonType === tvc.saeConstants.annotonType.options.complex.name" class="sae-section-body ph-15 "
             layout="column" layout-align="start stretch">
-            <md-chips ng-model="tvc.formGrid.annoton.complexAnnotonData.geneProducts" md-autocomplete-snap md-transform-chip="tvc.transformChip($chip)"
-              md-require-match=true>
+            <md-chips ng-model="tvc.formGrid.annoton.complexAnnotonData.geneProducts" md-autocomplete-snap md-require-match=true>
               <md-autocomplete md-selected-item="tvc.selectedItem" md-search-text="tvc.formGrid.annoton.complexAnnotonData.gpTemplateNode.term.control.value"
                 md-items="item in tvc.getTerm(tvc.formGrid.annoton.complexAnnotonData.gpTemplateNode.term)" md-item-text="item.label"
                 placeholder="Gene Products">
@@ -121,11 +93,10 @@
           </div>
         </div>
         <!-- TABLE FORM  -->
-        <div ng-if="tvc.viewMode.selected === tvc.viewMode.options.table" class="sae-table-form sae-form-section" layout="column"
-          layout-align="start stretch">
+        <div class="sae-table-form sae-form-section" layout="column" layout-align="start stretch">
           <div class="sae-section-header" layout="row" layout-align="start start" flex>
             <div class="sae-section-heading">
-              Annoton Detail
+              Function Description
             </div>
             <span flex></span>
             <md-menu md-position-mode="target-right target">
@@ -201,102 +172,6 @@
         </div>
         <!-- END TABLE FORM -->
 
-
-        <!-- GRID FORM  -->
-        <div ng-if="tvc.viewMode.selected === tvc.viewMode.options.grid" class="sae-grid-form" layout="column" layout-align="start center">
-          <div ui-grid="tvc.formGrid.gridOptions" ui-grid-edit ui-grid-cellNav ui-grid-resize-columns ui-grid-auto-resize ui-grid-tree-view
-            class="sae-form-grid grid">
-          </div>
-        </div>
-        <!-- END grid FORM -->
-
-        <!-- LINEAR FORM  -->
-        <div ng-if="tvc.viewMode.selected === tvc.viewMode.options.linear" layout="column" layout-align="center center">
-          <div ng-repeat="entity in tvc.formGrid.gridOptions.data" layout="column" class="sae-linear-column">
-            <div class="ui-grid-cell-contents" title="TOOLTIP">
-              {{entity.label}}
-            </div>
-            <div class="typeaheadcontainer">
-              <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term]">
-                <i class="fa fa-spinner fa-spin fa-fw"></i>
-              </div>
-
-              <input aria-describedby="ig{{entity.term.control.value}}" type="INPUT_TYPE" ng-model="entity.term.control.value" tabindex="0"
-                ng-trim="false" ng-blur="noResults[entity.term] = false" uib-typeahead="term as term.label for term in tvc.getTerm(entity.term)"
-                typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]"
-                typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term, $item, $model, $label, $event)"
-                class="typeaheadcontrol form-control" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
-              <div class="no-results" ng-show="tvc.editingModel[term].length > 2 && noResults[term]">
-                No Results Found
-              </div>
-            </div>
-
-            <div class="typeaheadcontainer">
-              <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term + 'e']">
-                <i class="fa fa-spinner fa-spin fa-fw"></i>
-              </div>
-              <input aria-describedby="ig{{entity.term}}e" type="text" ng-model="entity.evidence.control.value" ng-trim="false" tabindex="0"
-                ng-blur="noResults[entity.term + 'e'] = false" uib-typeahead="term as term.label for term in tvc.getTerm(entity.evidence)"
-                typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
-                typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term + 'e', $item, $model, $label, $event)"
-                class="typeaheadcontrol form-control" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
-              <div class="no-results" ng-show="tvc.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
-                No Results Found
-              </div>
-            </div>
-            <input name="reference{{entity.term}}" ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!tvc.editingModel[entity.term + 'e']"
-              ng-model="entity.reference.control.value" type="text" class="form-control" placeholder="PMID:1234" aria-describedby="ig{{entity.term}}eReference">
-            <input name="with{{entity.term}}" ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!tvc.editingModel[entity.term + 'e']"
-              ng-model="entity.with.control.value" type="text" class="form-control" placeholder="PMID:5678" aria-describedby="ig{{entity.term}}eWith">
-          </div>
-        </div>
-        <!-- END LINEAR FORM -->
-
-        <!-- GRAPH FORM  -->
-        <div ng-if="tvc.viewMode.selected === tvc.viewMode.options.graph" class="row">
-          <div ng-repeat="entity in tvc.formGrid.gridOptions.data" class="col-sm-4">
-            <div class="sae-truncate">
-              {{entity.label}}
-            </div>
-            <div class="typeaheadcontainer">
-              <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term]">
-                <i class="fa fa-spinner fa-spin fa-fw"></i>
-              </div>
-
-              <input aria-describedby="ig{{entity.term.control.value}}" type="INPUT_TYPE" ng-model="entity.term.control.value" tabindex="0"
-                ng-trim="false" ng-blur="noResults[entity.term] = false" uib-typeahead="term as term.label for term in tvc.getTerm(entity.term)"
-                typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]"
-                typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term, $item, $model, $label, $event)"
-                class="typeaheadcontrol form-control" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
-              <div class="no-results" ng-show="tvc.editingModel[term].length > 2 && noResults[term]">
-                No Results Found
-              </div>
-            </div>
-
-            <div class="typeaheadcontainer">
-              <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term + 'e']">
-                <i class="fa fa-spinner fa-spin fa-fw"></i>
-              </div>
-              <input aria-describedby="ig{{entity.term}}e" type="text" ng-model="entity.evidence.control.value" ng-trim="false" tabindex="0"
-                ng-blur="noResults[entity.term + 'e'] = false" uib-typeahead="term as term.label for term in tvc.getTerm(entity.evidence)"
-                typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
-                typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term + 'e', $item, $model, $label, $event)"
-                class="typeaheadcontrol form-control" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
-              <div class="no-results" ng-show="tvc.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
-                No Results Found
-              </div>
-            </div>
-            <input name="reference{{entity.term}}" ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!tvc.editingModel[entity.term + 'e']"
-              ng-model="entity.reference.control.value" type="text" class="form-control" placeholder="PMID:1234" aria-describedby="ig{{entity.term}}eReference">
-            <input name="with{{entity.term}}" ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!tvc.editingModel[entity.term + 'e']"
-              ng-model="entity.with.control.value" type="text" class="form-control" placeholder="PMID:5678" aria-describedby="ig{{entity.term}}eWith">
-          </div>
-        </div>
-        <!-- END GRAPH FORM -->
         <div layout="row" class="sae-submit-row md-whiteframe-2dp">
           <div hide class="col-xs-8">
             <div ng-if="tvc.saveRowEnabled(patternForm).length > 0" class="well well-sm" style="margin:0;padding:3px;">
@@ -324,7 +199,8 @@
           </h2>
         </div>
         <div ng-repeat="summaryRow in tvc.summaryGrid.summaryData" class="sae-panel md-whiteframe-2dp mb-10">
-          <div class="sae-panel-header sae-success" layout="row" layout-align="start start" flex>
+          <div class="sae-panel-header sae-success" layout="row" layout-align="start start" flex ng-class="{ 'sae-success': summaryRow.annoton.status===1,
+          'sae-error': summaryRow.annoton.status===2 }">
             <md-button class="md-icon-button sae-action-button" ng-click="summaryRow.expanded = !summaryRow.expanded">
               <md-icon ng-if="summaryRow.expanded" md-font-icon="fa fa-chevron-down"></md-icon>
               <md-icon ng-if="!summaryRow.expanded" md-font-icon="fa fa-chevron-right"></md-icon>
@@ -349,8 +225,10 @@
                 <div>{{nodeGroup.shorthand}}</div>
               </div>
               <div class="sae-summary-group-body" layout="column" flex>
-                <div ng-repeat="entity in nodeGroup.nodes" class="sae-annoton-node ph-15" layout="row">
-                  <strong>{{entity.label}}</strong> {{entity.term.control.value.label}} {{entity.evidence.control.value.label}}
+                {{summaryRow.annoton.status}}
+                <div ng-repeat="entity in nodeGroup.nodes" class="sae-annoton-node ph-15" layout="row" ng-class="{ 'sae-error': entity.status===1,
+                'sae-error-sm': entity.status===2 }">
+                  <strong>{{entity.label}}</strong> - {{entity.term.control.value.label}} - {{entity.evidence.control.value.label}}
                 </div>
               </div>
             </div>
@@ -366,14 +244,12 @@
       </div>
     </div>
   </div>
-
   <script type="text/ng-template" id="customTemplate.html">
     <a>
       <span style="display:inline-block;width:200px;font-size:0.9em;font-style:italic;" ng-bind-html="match.model.id | uibTypeaheadHighlight:query"></span>
       <span ng-bind-html="match.model.label | uibTypeaheadHighlight:query"></span>
     </a>
   </script>
-
   <script type="text/ng-template" id="rowTemplate.html">
     <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + '-' + col.uid + '-cell'"
       class="ui-grid-cell" ng-class="{'ui-grid-row-header-cell': col.isRowHeader, 'ui-grid-row-summary': row.treeLevel === 0 }"

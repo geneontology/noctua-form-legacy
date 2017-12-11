@@ -368,7 +368,7 @@ ul li.error-reason {
   .sae-summary-group {
     border-bottom: #555 solid 1px;
     .sae-summary-group-heading {
-      @include deep-width(50px);
+      @include deep-width(65px);
       border-right: #555 solid 1px; //background-color: rgba($sae-header-bg-color, 0.2);
       font-size: 18px;
       font-weight: nold;
@@ -378,6 +378,12 @@ ul li.error-reason {
   .sae-annoton-node {
     padding: 15px 10px;
     border-bottom: #CCC solid 1px;
+    &.sae-error {
+      background-color: rgba(#f8d7da, 0.5);
+    }
+    &.sae-error-sm {
+      background-color: rgba(#f8d7da, 0.3);
+    }
   }
 }
 
