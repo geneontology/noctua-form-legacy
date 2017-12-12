@@ -431,12 +431,19 @@ export default class GraphService {
   }
 
 
-  saveAnnoton(annoton) {
+  saveAnnoton(annoton, edit) {
     console.log('save annoton', annoton)
     const self = this;
     const manager = this.manager;
 
     let reqs = new minerva_requests.request_set(manager.user_token(), local_id);
+
+    if (edit) {
+      each(annoton.nodes, function (node) {
+        self.deleteIndividual(reqs, node);
+      });
+    }
+
     let geneProduct = annoton.getNode('gp');
 
     if (!this.modelTitle) {

@@ -5,6 +5,10 @@ pre.pre-scrollable {
   font-size: 12px;
 }
 
+.dropdown-menu {
+  z-index: 9999;
+}
+
 .ui-grid-cell-contents {
   font-size: 12px;
   xborder: 1px solid green;
@@ -412,7 +416,7 @@ md-dialog {
     //@include position(absolute, 40px 0 0 0);
     background-color: #ECEFF1;
     width: 1148px; //max-width: 100%;
-    min-height: 90%;
+    // min-height: 90%;
     overflow: hidden;
     .sae-container {
       width: 100%;

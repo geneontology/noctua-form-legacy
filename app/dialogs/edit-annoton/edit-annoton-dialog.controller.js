@@ -20,6 +20,13 @@ export default class EditAnnotonDIalogController {
     closeDialog() {
         this.$mdDialog.cancel();
     }
+
+    saveAnnoton(annoton) {
+        let self = this;
+
+        let result = self.graph.saveAnnoton(annoton, true);
+        self.$mdDialog.hide(result);
+    }
     getTerm(field) {
         let result = null;
         if (field && field.control.value && field.control.value.length >= 3) {

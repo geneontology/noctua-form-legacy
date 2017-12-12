@@ -127,10 +127,10 @@
                                 </div>
                                 <md-input-container class="md-block">
                                     <input aria-label="term" type="INPUT_TYPE" ng-model="entity.term.control.value" tabindex="0" ng-trim="false" ng-blur="noResults[entity.term] = false"
-                                        uib-typeahead="term as term.label for term in annotonCtrl.getTerm(entity.term)" typeahead-append-to-body="true"
-                                        xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]"
-                                        typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                                        typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="annotonCtrl.termSelected(term, $item, $model, $label, $event)"
+                                        uib-typeahead="term as term.label for term in annotonCtrl.getTerm(entity.term)" xtypeahead-focus-on-select="true"
+                                        xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]" typeahead-no-results="noResults[term]"
+                                        typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length=0
+                                        xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="annotonCtrl.termSelected(term, $item, $model, $label, $event)"
                                         class="typeaheadcontrol" placeholder="{{entity.label}}" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
                                 </md-input-container>
                                 <div class="no-results" ng-show="annotonCtrl.editingModel[term].length > 2 && noResults[term]">
@@ -143,11 +143,10 @@
                                 </div>
                                 <md-input-container class="md-block">
                                     <input aria-label="evidence" type="text" ng-model="entity.evidence.control.value" ng-trim="false" tabindex="0" ng-blur="noResults[entity.term + 'e'] = false"
-                                        uib-typeahead="term as term.label for term in annotonCtrl.getTerm(entity.evidence)" typeahead-append-to-body="true"
-                                        xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
-                                        typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html"
-                                        typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
-                                        typeahead-on-select="annotonCtrl.termSelected(term + 'e', $item, $model, $label, $event)"
+                                        uib-typeahead="term as term.label for term in annotonCtrl.getTerm(entity.evidence)" xtypeahead-focus-on-select="true"
+                                        xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']" typeahead-no-results="noResults[term + 'e']"
+                                        typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length=0
+                                        xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="annotonCtrl.termSelected(term + 'e', $item, $model, $label, $event)"
                                         class="typeaheadcontrol" placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
                                 </md-input-container>
                                 <div class="no-results" ng-show="annotonCtrl.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
@@ -176,7 +175,7 @@
     </md-dialog-content>
     <md-dialog-actions layout="row">
         <span flex></span>
-        <md-button class="md-primary" ng-click="answer('not useful')" aria-label="Save Annoton">
+        <md-button class="md-primary" ng-click="annotonCtrl.saveAnnoton(annotonCtrl.annoton)" aria-label="Save Annoton">
             Save
         </md-button>
         <md-button ng-click="annotonCtrl.closeDialog()" aria-label="Cancel">
