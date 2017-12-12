@@ -191,7 +191,14 @@ export default class FormGridService {
 
 
   clearForm() {
-    this.initalizeForm();
+    const self = this;
+
+    self.annoton = self.config.createAnnotonModel()
+    self.initalizeForm();
+  }
+
+  clearAnnotonValue(annoon) {
+    // annotonclearValues
   }
 
 

@@ -5,6 +5,7 @@ export default class AnnotonNode {
   constructor() {
     this.id;
     this.ontologyClass = [];
+    this.modelId;
     this.term = {
       "validation": {
         "errors": []
@@ -82,6 +83,15 @@ export default class AnnotonNode {
 
   setEvidenceOntologyClass(value) {
     this.evidence.ontologyClass = value;
+  }
+
+  clearValues() {
+    const self = this;
+
+    self.term.control.value = null;
+    self.evidence.control.value = null;
+    self.reference.control.value = null;
+    self.with.control.value = null;
   }
 
   static isType(typeId, id) {

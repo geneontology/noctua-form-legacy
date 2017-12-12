@@ -159,12 +159,9 @@ export default class AppController {
   }
 
 
-  saveRow() {
-    // let annoton = JSON.parse(JSON.stringify(this.formGrid.annoton));
-    this.graph.saveEditingModel(this.formGrid.annoton);
+  saveAnnoton() {
+    this.graph.saveAnnoton(this.formGrid.annoton);
   }
-
-
 
   editRow(row) {
     const self = this;
@@ -174,54 +171,6 @@ export default class AppController {
 
     self.formGrid.gridOptions.data = row.annoton.nodes;
     console.log(JSON.stringify(row.annoton.print()))
-  }
-
-
-  editRowOld(row) {
-    this.clearForm();
-    let annoton = {
-      GP: row.original.GP,
-      MF: row.original.MF,
-      Annoton: row.Annoton
-    };
-
-    if (row.original.MFe) {
-      annoton.MFe = {
-        id: row.original.MFe.evidence.id,
-        label: row.original.MFe.evidence.label,
-        reference: row.original.MFe.reference,
-        with: row.original.MFe.with
-      };
-    }
-
-    if (row.original.BP) {
-      annoton.BP = row.original.BP;
-
-      if (row.original.BPe) {
-        annoton.BPe = {
-          id: row.original.BPe.evidence.id,
-          label: row.original.BPe.evidence.label,
-          reference: row.original.BPe.reference,
-          with: row.original.BPe.with
-        };
-      }
-    }
-
-    if (row.original.CC) {
-      annoton.CC = row.original.CC;
-
-      if (row.original.CCe) {
-        annoton.CCe = {
-          id: row.original.CCe.evidence.id,
-          label: row.original.CCe.evidence.label,
-          reference: row.original.CCe.reference,
-          with: row.original.CCe.with
-        };
-      }
-    }
-
-    // console.log('row.original', row.original, annoton);
-    this.loadEditingModel(annoton);
   }
 
   deleteRow(row) {

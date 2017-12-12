@@ -78,6 +78,5 @@ export default class AnnotonParser {
     return _.find(self.saeConstants.causalEdges, function (edge) {
       return edge.term === predicateId
     });
-
   }
 }

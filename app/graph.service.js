@@ -244,6 +244,7 @@ export default class GraphService {
 
         annotonNode.setTerm(mfTerm);
         annotonNode.setEvidence(evidence);
+        annotonNode.modelId = mfId;
 
         self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode);
         annotons.push(annoton);
@@ -276,6 +277,7 @@ export default class GraphService {
       each(edge.nodes, function (node) {
         if (predicateId === node.edgeId) {
           let term = self.subjectToTerm(graph, toMFObject);
+          node.target.modelId = toMFObject;
           node.target.setEvidence(evidence);
           node.target.setTerm(term);
           if (term) {
@@ -397,20 +399,31 @@ export default class GraphService {
 
   addIndividual(reqs, node) {
     node.saveMeta = {};
-    node.saveMeta.term = node.term.control.value.id ? reqs.add_individual(node.term.control.value.id) : null
-    // data.saveMeta.evidence = reqs.add_individual(data.evidence.id);
-    //  reqs.add_evidence(data.reference.control.id, data.reference.control.value, data.with.control.value, data.saveMeta.evidence);
+    if (node.term.control.value && node.term.control.value.id) {
+      node.saveMeta.term = reqs.add_individual(node.term.control.value.id);
+    }
+  }
 
+  deleteIndividual(reqs, node) {
+    if (node.modelId) {
+      reqs.remove_individual(node.modelId);
+    }
   }
 
   addFact(reqs, annoton, node) {
     let edge = annoton.getEdges(node.id);
+
     each(edge.nodes, function (edgeNode) {
-      edgeNode.target.saveMeta.edge = reqs.add_fact([
-        node.saveMeta.term,
-        edgeNode.target.saveMeta.term,
-        edgeNode.edgeId
-      ]);
+      let subject = node.saveMeta.term;
+      let target = edgeNode.target.saveMeta.term;
+      let edgeId = edgeNode.edgeId;
+      if (subject && target && edge) {
+        edgeNode.target.saveMeta.edge = reqs.add_fact([
+          node.saveMeta.term,
+          edgeNode.target.saveMeta.term,
+          edgeNode.edgeId
+        ]);
+      }
     });
     if (node.saveMeta.edge) {
       reqs.add_evidence(node.evidence.control.value.id, [node.reference.control.value], null, node.saveMeta.edge);
@@ -418,25 +431,18 @@ export default class GraphService {
   }
 
 
-  saveEditingModel(annoton) {
+  saveAnnoton(annoton) {
     console.log('save annoton', annoton)
     const self = this;
     const manager = this.manager;
 
+    let reqs = new minerva_requests.request_set(manager.user_token(), local_id);
     let geneProduct = annoton.getNode('gp');
-
-    var reqs = new minerva_requests.request_set(manager.user_token(), local_id);
-
-    //if (editingModel.Annoton) {
-    //    this.addDeletionToRequestSet(reqs, editingModel.Annoton);
-    // }
 
     if (!this.modelTitle) {
       const defaultTitle = 'Model involving ' + geneProduct.term.control.value.label;
       reqs.add_annotation_to_model(annotationTitleKey, defaultTitle);
     }
-
-    //self.addIndividual(reqs, geneProduct);
 
     each(annoton.nodes, function (node) {
       self.addIndividual(reqs, node);
@@ -446,31 +452,19 @@ export default class GraphService {
       self.addFact(reqs, annoton, node);
     });
 
-    // console.log('saveEditingModel', editingModel, reqs);
-    // console.log('structure', reqs.structure());
-    // reqs.store_model();
     manager.request_with(reqs);
   }
 
-
-  addDeletionToRequestSet(reqs, annoton) {
-    reqs.remove_individual(annoton.GP);
-    if (annoton.MF) {
-      reqs.remove_individual(annoton.MF);
-    }
-    if (annoton.BP) {
-      reqs.remove_individual(annoton.BP);
-    }
-    if (annoton.CC) {
-      reqs.remove_individual(annoton.CC);
-    }
-  }
-
   deleteAnnoton(annoton) {
-    const reqs = new minerva_requests.request_set(this.manager.user_token(), local_id);
-    this.addDeletionToRequestSet(reqs, annoton);
-    // reqs.store_model(local_id);
+    const self = this;
+    let reqs = new minerva_requests.request_set(self.manager.user_token(), local_id);
+
+    each(annoton.nodes, function (node) {
+      self.deleteIndividual(reqs, node);
+    });
     this.manager.request_with(reqs);
   }
+
+
 }
 GraphService.$inject = ['saeConstants', 'config', '$rootScope', '$timeout', 'formGrid'];

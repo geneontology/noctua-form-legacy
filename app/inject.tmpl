@@ -158,11 +158,15 @@
                       type="text" class="" placeholder="Reference" aria-label="reference">
                   </md-input-container>
                 </div>
-                <div class="" flex="15">
+                <div class="">
                   <md-input-container class="md-block">
                     <input ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!entity.evidence.control.value" ng-model="row.entity.with.control.value"
                       type="text" class="" placeholder="With" aria-label="With"> </md-input-container>
                 </div>
+                <span flex></span>
+                <md-button class="md-icon-button sae-action-button" ng-click="entity.clearValues()">
+                  <md-icon md-font-icon="fa fa-times"></md-icon>
+                </md-button>
               </div>
             </div>
           </div>
@@ -183,10 +187,10 @@
             </div>
           </div>
           <span flex></span>
-          <md-button type="button" ng-disabled="false" ng-click="tvc.clearForm()" class="md-raised">
+          <md-button type="button" ng-disabled="false" ng-click="tvc.formGrid.clearForm()" class="md-raised">
             Clear
           </md-button>
-          <md-button type="button" ng-disabled="false" ng-click="tvc.saveRow()" class="md-primary md-raised">
+          <md-button type="button" ng-disabled="false" ng-click="tvc.saveAnnoton()" class="md-primary md-raised">
             Create
           </md-button>
         </div>
@@ -212,7 +216,7 @@
               <div class="sae-heading-subtitle sae-ellipsis">{{summaryRow.evidence.label}}</div>
             </div>
             <span flex></span>
-            <md-button class="md-icon-button sae-action-button">
+            <md-button class="md-icon-button sae-action-button" ng-click="tvc.graph.deleteAnnoton(summaryRow.annoton)">
               <md-icon md-font-icon="fa text-danger fa-trash"></md-icon>
             </md-button>
             <md-button class="md-icon-button sae-action-button" ng-click="tvc.openEditAnnotonDialogDialog($event, summaryRow.annoton)">
@@ -220,6 +224,20 @@
             </md-button>
           </div>
           <div ng-if="summaryRow.expanded" class="sae-panel-body animate-slide-down animate-slide-up">
+            <div class="sae-summary-group" layout="row">
+              <div class="sae-summary-group-heading" layout="column" layout-align="center center">
+                <div>GP</div>
+              </div>
+              <div class="sae-summary-group-body" layout="column" flex>
+                <div class="sae-annoton-node ph-15" layout="row">
+                  <strong>{{summaryRow.groupedAnnoton.geneProduct.term.control.value.label}}</strong>
+                  <span flex></span>
+                  <md-button class="sae-error-button" ng-click="tvc.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, entity.errors)">
+                    errors
+                  </md-button>
+                </div>
+              </div>
+            </div>
             <div ng-repeat="nodeGroup in summaryRow.groupedAnnoton.groupedData" class="sae-summary-group" layout="row">
               <div class="sae-summary-group-heading" layout="column" layout-align="center center">
                 <div>{{nodeGroup.shorthand}}</div>
