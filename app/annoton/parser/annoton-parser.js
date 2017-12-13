@@ -1,12 +1,14 @@
 import _ from 'lodash';
 const each = require('lodash/forEach');
 
+import AnnotonError from './annoton-error.js';
 
 export default class AnnotonParser {
   constructor() {
     this.saeConstants = {};
     this.rules = [];
     this.errors = [];
+    this.clean = true;
   }
 
   parseCardinality(node, sourceEdges, targetEdges) {
@@ -14,16 +16,16 @@ export default class AnnotonParser {
 
     let edges2 = [];
     let result = true;
-    let errors = [];
+    let error = ""
 
     each(sourceEdges, function (edge) {
       let predicateId = edge.predicate_id();
       let allowedEdge = self.allowedEdge(predicateId);
 
       if (!allowedEdge) {
-
         if (_.includes(edges2, predicateId)) {
-          errors.push("More than 1 " + predicateId);
+          error = new AnnotonError(1, "More than 1 " + predicateId)
+          self.errors.push(error);
           result = false;
         }
 
@@ -34,37 +36,34 @@ export default class AnnotonParser {
         if (v) {
           edges2.push(predicateId);
         } else {
-          errors.push("Not accepted " + predicateId);
+          error = new AnnotonError(1, "Not accepted " + predicateId);
+          self.errors.push(error);
+          node.errors.push(error);
           result = false;
         }
       }
     });
 
-    if (errors.length !== 0) {
-      self.errors.push(errors);
-      node.errors.cardinality.push(errors);
-      node.status = 1;
-    }
+    self.clean &= result;
     return result;
   }
 
   parseNodeOntology(node, ontologyId) {
     const self = this;
     let result = true;
-    let errors = [];
+    let error = "";
     let prefix = ontologyId.split(":")[0].toLowerCase();
+
     each(node.term.ontologyClass, function (ontologyClass) {
       if (ontologyClass !== prefix) {
-        errors.push("Wrong ontology class " + prefix + ". Expected " + JSON.stringify(node.term.ontologyClass));
+        error = new AnnotonError(1, "Wrong ontology class " + prefix + ". Expected " + JSON.stringify(node.term.ontologyClass));
+        self.errors.push(error);
+        node.errors.push(error);
         result = false;
       }
     });
-    if (errors.length !== 0) {
-      self.errors.push(errors);
-      node.errors.ontology.push(errors);
-      node.term.validation.errors.push(errors);
-    }
 
+    self.clean &= result;
     return result;
   }
 

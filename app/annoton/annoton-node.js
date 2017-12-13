@@ -48,10 +48,7 @@ export default class AnnotonNode {
         "value": ''
       }
     };
-    this.errors = {
-      cardinality: [],
-      ontology: []
-    };
+    this.errors = []
     this.status = '0';
   }
 
@@ -93,6 +90,8 @@ export default class AnnotonNode {
     self.reference.control.value = null;
     self.with.control.value = null;
   }
+
+  //addError
 
   static isType(typeId, id) {
     let n = typeId.toLowerCase();

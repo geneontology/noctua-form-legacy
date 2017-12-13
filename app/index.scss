@@ -60,6 +60,15 @@ I need to explicitly tweak the classes. There has to be a better way.
   margin: 3px 0 0 0;
 }
 
+#action_barista_logout {
+  background-color: transparent;
+  margin-top: 5px;
+  text-transform: uppercase;
+  border: none;
+  line-height: 25px;
+  color: #d49191!important;
+}
+
 .tv-container .input-group.input-group-sm .form-control {
   height: 35px;
 }
@@ -225,12 +234,12 @@ ul li.error-reason {
 
 .sae-subheader {
   padding: 0px 20px;
-  height: 40px;
+  height: 30px;
   background-color: $sae-primary-color; // border-bottom: #BBB solid 1px;
   .sae-title {
-    line-height: 38px;
+    line-height: 28px;
     color: #DDD;
-    font-size: 14px;
+    font-size: 12px;
   }
 }
 
@@ -305,6 +314,23 @@ ul li.error-reason {
       height: 40px;
       font-weight: 500;
       font-size: 18px;
+    }
+    .sae-annoton-group-row {
+      .sae-action-button {
+        margin: -8px 0 0 0;
+        background-color: #EEE;
+        md-icon {
+          @include sae-icon-size(14px);
+          color: #AAA;
+          line-height: 18px;
+        }
+        &:hover {
+          background-color: #999;
+          md-icon {
+            color: #222;
+          }
+        }
+      }
     }
   }
   .sae-table-form {

@@ -242,6 +242,9 @@ export default class GraphService {
         let mfEdgesIn = graph.get_edges_by_subject(mfId);
         let annotonNode = annoton.getNode('mf');
 
+        annoton.parser = new AnnotonParser();
+        annoton.parser.saeConstants = self.saeConstants
+
         annotonNode.setTerm(mfTerm);
         annotonNode.setEvidence(evidence);
         annotonNode.modelId = mfId;
@@ -257,10 +260,8 @@ export default class GraphService {
   graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode) {
     var self = this;
     let edge = annoton.getEdges(annotonNode.id);
-    let parser = new AnnotonParser();
-    parser.saeConstants = self.saeConstants
 
-    if (!parser.parseCardinality(annotonNode, mfEdgesIn, edge.nodes)) {
+    if (!annoton.parser.parseCardinality(annotonNode, mfEdgesIn, edge.nodes)) {
       self.graphToAnnatonDFSError(annoton, annotonNode);
       return;
     }
@@ -281,14 +282,13 @@ export default class GraphService {
           node.target.setEvidence(evidence);
           node.target.setTerm(term);
           if (term) {
-            parser.parseNodeOntology(node.target, term.id);
+            annoton.parser.parseNodeOntology(node.target, term.id);
           }
           self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target);
         }
       });
     });
 
-    parser.printErrors();
   }
 
   graphToAnnatonDFSError(annoton, annotonNode) {
@@ -337,66 +337,6 @@ export default class GraphService {
     return row;
   }
 
-
-
-
-
-
-  editingModelToTableRows(graph, annoton) {
-    let result = [];
-
-    let gpLabel = annoton.GP.label;
-    let mfLabel = annoton.MF.label;
-
-    result.push({
-      Aspect: 'FPC',
-      GP: gpLabel,
-      Term: 'TERM',
-      Evidence: 'EVIDENCE',
-      Reference: 'REFERENCE',
-      With: 'WITH',
-      $$treeLevel: 0
-    });
-    result.push({
-      Aspect: 'F',
-      GP: gpLabel,
-      Term: mfLabel,
-      Evidence: annoton.MFe,
-      Reference: annoton.MFe.reference,
-      With: annoton.MFe.with,
-      $$treeLevel: 1
-    });
-    if (annoton.BP) {
-      let bpLabel = annoton.BP.label;
-      result.push({
-        Aspect: 'P',
-        GP: gpLabel,
-        Term: bpLabel,
-        Evidence: annoton.BPe.evidence,
-        Reference: annoton.BPe.reference,
-        With: annoton.BPe.with,
-        $$treeLevel: 1
-      });
-    }
-
-    if (annoton.CC) {
-      let ccLabel = annoton.CC.label;
-      result.push({
-        Aspect: 'C',
-        GP: gpLabel,
-        Term: ccLabel,
-        Evidence: annoton.CCe.evidence,
-        Reference: annoton.CCe.reference,
-        With: annoton.CCe.with,
-        $$treeLevel: 1
-      });
-    }
-
-    return result;
-  }
-
-
-
   addIndividual(reqs, node) {
     node.saveMeta = {};
     if (node.term.control.value && node.term.control.value.id) {
@@ -423,11 +363,13 @@ export default class GraphService {
           edgeNode.target.saveMeta.term,
           edgeNode.edgeId
         ]);
+        if (edgeNode.target.id === 'gp') {
+          reqs.add_evidence(node.evidence.control.value.id, [node.reference.control.value], null, edgeNode.target.saveMeta.edge);
+        } else {
+          reqs.add_evidence(edgeNode.target.evidence.control.value.id, [edgeNode.target.reference.control.value], null, edgeNode.target.saveMeta.edge);
+        }
       }
     });
-    if (node.saveMeta.edge) {
-      reqs.add_evidence(node.evidence.control.value.id, [node.reference.control.value], null, node.saveMeta.edge);
-    }
   }
 
 

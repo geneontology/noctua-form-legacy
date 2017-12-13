@@ -13,6 +13,7 @@ export default class Annoton extends SaeGraph {
       gpTemplateNode: {},
       geneProducts: []
     };
+    this.errors = [];
   }
 
   insertTermNode(annotonModel, id, value) {
