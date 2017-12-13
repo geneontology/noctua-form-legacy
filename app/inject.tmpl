@@ -263,7 +263,7 @@
               </div>
               <div class="sae-summary-group-body" layout="column" flex>
                 {{summaryRow.annoton.status}}
-                <div ng-repeat="entity in nodeGroup.nodes" class="sae-annoton-node ph-15" layout="row" ng-class="{ 'sae-error': entity.status===1,
+                <div ng-repeat="entity in nodeGroup.nodes" class="sae-annoton-node ph-15" layout="row" ng-class="{ 'sae-error': entity.errors.length>0,
                 'sae-error-sm': entity.status===2 }">
                   <div class="sae-annoton-node-heading" flex>
                     <div class="sae-heading-title sae-ellipsis">
