@@ -24,7 +24,7 @@ export default class AnnotonParser {
 
       if (!allowedEdge) {
         if (_.includes(edges2, predicateId)) {
-          error = new AnnotonError(1, "More than 1 " + predicateId)
+          error = new AnnotonError(1, "More than 1 " + self.getPredicateLabel(predicateId))
           self.errors.push(error);
           result = false;
         }
@@ -36,7 +36,7 @@ export default class AnnotonParser {
         if (v) {
           edges2.push(predicateId);
         } else {
-          error = new AnnotonError(1, "Not accepted " + predicateId);
+          error = new AnnotonError(1, "Not accepted " + self.getPredicateLabel(predicateId));
           self.errors.push(error);
           node.errors.push(error);
           result = false;
@@ -46,6 +46,14 @@ export default class AnnotonParser {
 
     self.clean &= result;
     return result;
+  }
+
+  getPredicateLabel(id) {
+    const self = this;
+    let label = _.findKey(self.saeConstants.edge, function (val) {
+      return val === id;
+    });
+    return label ? label : id;
   }
 
   parseNodeOntology(node, ontologyId) {

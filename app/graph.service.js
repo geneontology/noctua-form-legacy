@@ -31,11 +31,12 @@ const rootMF = 'GO:0003674';
 const noDataECO = 'ECO:0000035';
 
 export default class GraphService {
-  constructor(saeConstants, config, $rootScope, $timeout, formGrid) {
+  constructor(saeConstants, config, $rootScope, $timeout, $mdDialog, formGrid) {
     this.config = config;
     this.saeConstants = saeConstants
     this.$rootScope = $rootScope;
     this.$timeout = $timeout;
+    this.$mdDialog = $mdDialog;
     this.model_id = local_id;
     this.golr_server = local_golr_server;
     this.barista_location = local_barista_location;
@@ -404,16 +405,28 @@ export default class GraphService {
     manager.request_with(reqs);
   }
 
-  deleteAnnoton(annoton) {
+  deleteAnnoton(annoton, ev) {
     const self = this;
-    let reqs = new minerva_requests.request_set(self.manager.user_token(), local_id);
 
-    each(annoton.nodes, function (node) {
-      self.deleteIndividual(reqs, node);
+    var confirm = self.$mdDialog.confirm()
+      .title('Delete Annoton')
+      .textContent('All of the nodes associated with this annoton model will be deleted')
+      .ariaLabel('Delete Annoton')
+      .targetEvent(ev)
+      .ok('OK')
+      .cancel('Cancel');
+
+    self.$mdDialog.show(confirm).then(function () {
+      let reqs = new minerva_requests.request_set(self.manager.user_token(), local_id);
+
+      each(annoton.nodes, function (node) {
+        self.deleteIndividual(reqs, node);
+      });
+      self.manager.request_with(reqs);
+    }, function () {
+
     });
-    this.manager.request_with(reqs);
   }
 
-
 }
-GraphService.$inject = ['saeConstants', 'config', '$rootScope', '$timeout', 'formGrid'];
+GraphService.$inject = ['saeConstants', 'config', '$rootScope', '$timeout', '$mdDialog', 'formGrid'];

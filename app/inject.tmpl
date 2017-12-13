@@ -207,8 +207,13 @@
       <div class="sae-container sae-summary" layout="column" layout-align="start stretch">
         <div>
           <h2>
-            Annotons
+            Annoton Models
           </h2>
+        </div>
+        <div ng-if="tvc.summaryGrid.summaryData.length===0">
+          <div class="alert alert-info">
+            No Annoton Models
+          </div>
         </div>
         <div ng-repeat="summaryRow in tvc.summaryGrid.summaryData" class="sae-panel md-whiteframe-2dp mb-10">
           <div class="sae-panel-header" layout="row" layout-align="start start" flex ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
@@ -227,7 +232,7 @@
               </div>
             </div>
             <span flex></span>
-            <md-button ng-if="!summaryRow.annoton.parser.clean" class="sae-error-button" ng-click="tvc.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, summaryRow.annoton.errors)">
+            <md-button ng-if="!summaryRow.annoton.parser.clean" class="sae-error-button" ng-click="tvc.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, summaryRow.annoton.parser.errors)">
               {{summaryRow.annoton.parser.errors.length}} error(s)
             </md-button>
             <md-button class="md-icon-button sae-action-button" ng-click="tvc.graph.deleteAnnoton(summaryRow.annoton)">
@@ -244,11 +249,11 @@
               </div>
               <div class="sae-summary-group-body" layout="column" flex>
                 <div class="sae-annoton-node ph-15" layout="row">
-                  <strong>{{summaryRow.groupedAnnoton.geneProduct.term.control.value.label}}</strong>
-                  <span flex></span>
-                  <md-button class="sae-error-button" ng-click="tvc.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, entity.errors)">
-                    errors
-                  </md-button>
+                  <div class="sae-annoton-node-heading" flex>
+                    <div class="sae-heading-title sae-ellipsis">
+                      <strong>{summaryRow.groupedAnnoton.geneProduct.label}}</strong> - {{summaryRow.groupedAnnoton.geneProduct.term.control.value.label}}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -260,10 +265,17 @@
                 {{summaryRow.annoton.status}}
                 <div ng-repeat="entity in nodeGroup.nodes" class="sae-annoton-node ph-15" layout="row" ng-class="{ 'sae-error': entity.status===1,
                 'sae-error-sm': entity.status===2 }">
-                  <strong>{{entity.label}}</strong> - {{entity.term.control.value.label}} - {{entity.evidence.control.value.label}}
-                  <span flex></span>
-                  <md-button class="sae-error-button" ng-click="tvc.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, entity.errors)">
-                    errors
+                  <div class="sae-annoton-node-heading" flex>
+                    <div class="sae-heading-title sae-ellipsis">
+                      <strong>{{entity.label}}</strong> - {{entity.term.control.value.label}} - {{entity.evidence.control.value.label}}
+                    </div>
+                    <div class="sae-heading-subtitle sae-ellipsis">
+                      <span ng-if="entity.evidence.control.value.label">{{entity.evidence.control.value.label}}</span>
+                      <span class="text-danger" ng-if="!entity.evidence.control.value.label">no evidence</span>
+                    </div>
+                  </div>
+                  <md-button ng-if="entity.errors.length>0" class="sae-error-button" ng-click="tvc.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, entity.errors)">
+                    {{entity.errors.length}} error(s)
                   </md-button>
                 </div>
               </div>

@@ -15,7 +15,9 @@
     </md-toolbar>
     <md-dialog-content>
         <div class="" layout="column" layout-align="start stretch">
-            {{errorsCtrl.errors | json}}
+            <div ng-repeat="error in errorsCtrl.errors">
+                {{error.message}}
+            </div>
         </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">
