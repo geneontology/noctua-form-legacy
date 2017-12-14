@@ -34,9 +34,11 @@ export default class AnnotonParser {
         });
 
         if (v) {
-          edges2.push(predicateId);
+          if (!self.canDuplicateEdge(predicateId)) {
+            edges2.push(predicateId);
+          }
         } else {
-          error = new AnnotonError(1, "Not accepted " + self.getPredicateLabel(predicateId));
+          error = new AnnotonError(1, "Not accepted edge " + self.getPredicateLabel(predicateId));
           self.errors.push(error);
           node.errors.push(error);
           result = false;
@@ -83,6 +85,13 @@ export default class AnnotonParser {
   allowedEdge(predicateId) {
     const self = this;
     return _.find(self.saeConstants.causalEdges, function (edge) {
+      return edge.term === predicateId
+    });
+  }
+
+  canDuplicateEdge(predicateId) {
+    const self = this;
+    return _.find(self.saeConstants.canDuplicateEdges, function (edge) {
       return edge.term === predicateId
     });
   }

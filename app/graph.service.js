@@ -271,8 +271,6 @@ export default class GraphService {
     var self = this;
     let edge = annoton.getEdges(annotonNode.id);
 
-    annoton.parser.parseCardinality(annotonNode, mfEdgesIn, edge.nodes);
-
     each(mfEdgesIn, function (toMFEdge) {
       if (!toMFEdge) {
         return;
@@ -300,6 +298,8 @@ export default class GraphService {
         }
       });
     });
+
+    annoton.parser.parseCardinality(annotonNode, mfEdgesIn, edge.nodes);
 
   }
 
@@ -330,7 +330,13 @@ export default class GraphService {
     const self = this;
     let result = [];
 
-    let gpNode = annoton.getNode('gp');
+    let gpNode = null;
+
+    if (annoton.annotonType === self.saeConstants.annotonType.options.simple.name) {
+      gpNode = annoton.getNode('gp');
+    } else {
+      gpNode = annoton.getNode('mc');
+    }
     let mfNode = annoton.getNode('mf');
 
     let row = {

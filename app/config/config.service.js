@@ -55,7 +55,7 @@ export default class ConfigService {
       "mc": {
         'id': 'mc',
         "label": 'Macromolecular Complex',
-        //"displayGroup": this.saeConstants.displayGroup.gp,
+        "displayGroup": this.saeConstants.displayGroup.mc,
         "term": {
           "ontologyClass": [],
           "lookup": {
@@ -73,7 +73,7 @@ export default class ConfigService {
     this._annotonData = {
       "gp": {
         "label": 'Gene Product',
-        //"displayGroup": this.saeConstants.displayGroup.gp,
+        "displayGroup": this.saeConstants.displayGroup.gp,
         "term": {
           "ontologyClass": [],
           "lookup": {
@@ -230,7 +230,6 @@ export default class ConfigService {
     let annotonNode = new AnnotonNode();
     let complexAnnotonData = JSON.parse(JSON.stringify(self._complexAnnotonData.mc));
 
-
     annotonNode.id = complexAnnotonData.id;
     annotonNode.ontologyClass = complexAnnotonData.ontologyClass;
     annotonNode.label = complexAnnotonData.label;
@@ -274,7 +273,7 @@ export default class ConfigService {
     annoton.addEdgeById('cc', 'cc-1', self.saeConstants.edge.partOf);
     annoton.addEdgeById('cc-1', 'cc-1-1', self.saeConstants.edge.partOf);
 
-    self.addComplexAnnotonData(annoton);
+    // self.addComplexAnnotonData(annoton);
     return annoton;
 
   }
@@ -285,6 +284,7 @@ export default class ConfigService {
     let annotonComplexData = JSON.parse(JSON.stringify(self._complexAnnotonData));
     let annotonData = Object.assign(annotonComplexData, JSON.parse(JSON.stringify(self._annotonData)));
 
+    delete annotonData.gp;
     annoton.annotonType = self.saeConstants.annotonType.options.complex.name;
 
     each(annotonData, function (node, key) {
@@ -313,7 +313,7 @@ export default class ConfigService {
     annoton.addEdgeById('cc', 'cc-1', self.saeConstants.edge.partOf);
     annoton.addEdgeById('cc-1', 'cc-1-1', self.saeConstants.edge.partOf);
 
-    self.addComplexAnnotonData(annoton);
+    //self.addComplexAnnotonData(annoton);
     return annoton;
 
   }
@@ -337,7 +337,7 @@ export default class ConfigService {
     annoton.addNode(annotonNode);
 
     annoton.addEdgeById('mc', id, self.saeConstants.edge.hasPart);
-    return annoton;
+    // return annoton;
   }
 
   createAnnotonModelFakeData() {

@@ -85,6 +85,11 @@ app.constant('saeConstants', {
       shorthand: "GP",
       label: 'Gene Product'
     },
+    "mc": {
+      id: "mc",
+      shorthand: "MC",
+      label: 'Macromolecular Complex'
+    },
     "mf": {
       id: "mf",
       shorthand: "MF",
@@ -112,6 +117,10 @@ app.constant('saeConstants', {
   "closure": {
     "mc": 'GO:0032991'
   },
+  canDuplicateEdges: [{
+    name: 'hasPart',
+    term: 'BFO:0000051'
+  }],
   causalEdges: [{
     name: 'causally upstream of or within',
     term: 'RO:0002418'
