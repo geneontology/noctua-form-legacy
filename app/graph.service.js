@@ -237,8 +237,17 @@ export default class GraphService {
     each(graph.all_edges(), function (e) {
       if (e.predicate_id() === self.saeConstants.edge.enabledBy) {
         let mfId = e.subject_id();
-        let annoton = self.config.createAnnotonModel();
+        let gpId = e.object_id();
         let mfTerm = self.subjectToTerm(graph, mfId);
+        let gpTerm = self.subjectToTerm(graph, gpId);
+        let annoton = null;
+
+        if (gpTerm.id === self.saeConstants.closure.mc) {
+          annoton = self.config.createComplexAnnotonModel();
+        } else {
+          annoton = self.config.createAnnotonModel();
+        }
+
         let evidence = self.edgeToEvidence(graph, e);
         let mfEdgesIn = graph.get_edges_by_subject(mfId);
         let annotonNode = annoton.getNode('mf');
@@ -262,10 +271,7 @@ export default class GraphService {
     var self = this;
     let edge = annoton.getEdges(annotonNode.id);
 
-    if (!annoton.parser.parseCardinality(annotonNode, mfEdgesIn, edge.nodes)) {
-      self.graphToAnnatonDFSError(annoton, annotonNode);
-      return;
-    }
+    annoton.parser.parseCardinality(annotonNode, mfEdgesIn, edge.nodes);
 
     each(mfEdgesIn, function (toMFEdge) {
       if (!toMFEdge) {
@@ -276,12 +282,17 @@ export default class GraphService {
       let evidence = self.edgeToEvidence(graph, toMFEdge);
       let toMFObject = toMFEdge.object_id();
 
+      if (predicateId === self.saeConstants.edge.hasPart) {
+        self.config.addGPAnnotonData(annoton, toMFObject);
+      }
+
       each(edge.nodes, function (node) {
         if (predicateId === node.edgeId) {
           let term = self.subjectToTerm(graph, toMFObject);
           node.target.modelId = toMFObject;
           node.target.setEvidence(evidence);
           node.target.setTerm(term);
+
           if (term) {
             annoton.parser.parseNodeOntology(node.target, term.id);
           }

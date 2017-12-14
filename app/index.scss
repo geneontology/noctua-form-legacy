@@ -362,7 +362,7 @@ ul li.error-reason {
     background-color: #FFF;
   }
   .sae-panel-header {
-    height: 65px;
+    height: 60px;
     background-color: rgba($sae-header-bg-color, 0.4);
     border-bottom: #DDD solid 1px;
     &.sae-error {
@@ -388,8 +388,8 @@ ul li.error-reason {
     }
     .sae-action-button {
       margin: 0;
-      width: 65px; // line-height: 36px;
-      height: 65px; // border: #DDD solid 1px;
+      width: 60px; // line-height: 36px;
+      height: 60px; // border: #DDD solid 1px;
       md-icon {
         @include sae-icon-size(16px);
         line-height: 16px;

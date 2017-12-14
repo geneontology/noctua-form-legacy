@@ -109,6 +109,9 @@ app.constant('saeConstants', {
     partOf: 'BFO:0000050',
     hasPart: 'BFO:0000051',
   },
+  "closure": {
+    "mc": 'GO:0032991'
+  },
   causalEdges: [{
     name: 'causally upstream of or within',
     term: 'RO:0002418'

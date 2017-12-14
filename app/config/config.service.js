@@ -279,6 +279,67 @@ export default class ConfigService {
 
   }
 
+  createComplexAnnotonModel() {
+    const self = this;
+    let annoton = new Annoton();
+    let annotonComplexData = JSON.parse(JSON.stringify(self._complexAnnotonData));
+    let annotonData = Object.assign(annotonComplexData, JSON.parse(JSON.stringify(self._annotonData)));
+
+    annoton.annotonType = self.saeConstants.annotonType.options.complex.name;
+
+    each(annotonData, function (node, key) {
+      let annotonNode = new AnnotonNode()
+
+      annotonNode.id = key;
+      annotonNode.ontologyClass = node.ontologyClass;
+      annotonNode.label = node.label;
+      annotonNode.displayGroup = node.displayGroup;
+      annotonNode.setTermLookup(node.term.lookup.requestParams);
+      annotonNode.setTermOntologyClass(node.term.ontologyClass);
+      annotonNode.setEvidenceOntologyClass('eco');
+      annotonNode.setEvidenceLookup(self.requestParams["evidence"]);
+
+      //annotonData[key].node = annotonNode
+      annoton.addNode(annotonNode);
+    });
+
+    annoton.addEdgeById('mf', 'mc', self.saeConstants.edge.enabledBy);
+    annoton.addEdgeById('mf', 'bp', self.saeConstants.edge.partOf);
+    annoton.addEdgeById('mf', 'cc', self.saeConstants.edge.occursIn);
+    annoton.addEdgeById('mf', 'mf-1', self.saeConstants.edge.hasInput);
+    annoton.addEdgeById('mf', 'mf-2', self.saeConstants.edge.happensDuring);
+    annoton.addEdgeById('bp', 'bp-1', self.saeConstants.edge.partOf);
+    annoton.addEdgeById('bp-1', 'bp-1-1', self.saeConstants.edge.partOf);
+    annoton.addEdgeById('cc', 'cc-1', self.saeConstants.edge.partOf);
+    annoton.addEdgeById('cc-1', 'cc-1-1', self.saeConstants.edge.partOf);
+
+    self.addComplexAnnotonData(annoton);
+    return annoton;
+
+  }
+
+  addGPAnnotonData(annoton, id) {
+    const self = this;
+
+    let nodeData = JSON.parse(JSON.stringify(self._annotonData['gp']));
+    let annotonNode = new AnnotonNode()
+
+    annotonNode.id = id;
+    annotonNode.ontologyClass = nodeData.ontologyClass;
+    annotonNode.label = nodeData.label;
+    annotonNode.displayGroup = nodeData.displayGroup;
+    annotonNode.setTermLookup(nodeData.term.lookup.requestParams);
+    annotonNode.setTermOntologyClass(nodeData.term.ontologyClass);
+    annotonNode.setEvidenceOntologyClass('eco');
+    annotonNode.setEvidenceLookup(self.requestParams["evidence"]);
+
+    // annotonData[id].node = annotonNode;
+    annoton.addNode(annotonNode);
+
+    annoton.addEdgeById('mc', id, self.saeConstants.edge.hasPart);
+    return annoton;
+  }
+
   createAnnotonModelFakeData() {
     const self = this;
     let annoton = this.createAnnotonModel();
