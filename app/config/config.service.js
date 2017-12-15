@@ -313,9 +313,29 @@ export default class ConfigService {
     annoton.addEdgeById('cc', 'cc-1', self.saeConstants.edge.partOf);
     annoton.addEdgeById('cc-1', 'cc-1-1', self.saeConstants.edge.partOf);
 
+    annoton.complexAnnotonData.gpTemplateNode = self.generateNode('gp');
+
     // self.addComplexAnnotonData(annoton);
     return annoton;
 
+  }
+
+  generateNode(id) {
+    const self = this;
+
+    let nodeData = JSON.parse(JSON.stringify(self._annotonData[id]));
+    let annotonNode = new AnnotonNode()
+
+    annotonNode.id = id;
+    annotonNode.ontologyClass = nodeData.ontologyClass;
+    annotonNode.label = nodeData.label;
+    annotonNode.displayGroup = nodeData.displayGroup;
+    annotonNode.setTermLookup(nodeData.term.lookup.requestParams);
+    annotonNode.setTermOntologyClass(nodeData.term.ontologyClass);
+    annotonNode.setEvidenceOntologyClass('eco');
+    annotonNode.setEvidenceLookup(self.requestParams["evidence"]);
+
+    return annotonNode;
   }
 
   addGPAnnotonData(annoton, id) {

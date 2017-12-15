@@ -381,11 +381,24 @@ export default class GraphService {
     });
   }
 
+  makeComplex(annoton) {
+    let complexAnnoton = self.config.createComplexAnnotonModel();
+
+    each(complexAnnoton.nodes, function (node) {
+      complexNode = annoton.getNode(node.id);
+    });
+
+    let edge = annoton.getEdges(annotonNode.id);
+  }
 
   saveAnnoton(annoton, edit) {
     console.log('save annoton', annoton)
     const self = this;
     const manager = this.manager;
+
+    if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
+      self.makeComplex();
+    }
 
     let reqs = new minerva_requests.request_set(manager.user_token(), local_id);
 

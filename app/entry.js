@@ -103,7 +103,7 @@ app.constant('saeConstants', {
     "cc": {
       id: "cc",
       shorthand: "CC",
-      label: 'Cellular Component'
+      label: 'Location of Activity'
     }
   },
   'edge': {
