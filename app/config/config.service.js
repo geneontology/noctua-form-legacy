@@ -273,7 +273,7 @@ export default class ConfigService {
     annoton.addEdgeById('cc', 'cc-1', self.saeConstants.edge.partOf);
     annoton.addEdgeById('cc-1', 'cc-1-1', self.saeConstants.edge.partOf);
 
-    // self.addComplexAnnotonData(annoton);
+    //self.addComplexAnnotonData(annoton);
     return annoton;
 
   }
@@ -313,7 +313,7 @@ export default class ConfigService {
     annoton.addEdgeById('cc', 'cc-1', self.saeConstants.edge.partOf);
     annoton.addEdgeById('cc-1', 'cc-1-1', self.saeConstants.edge.partOf);
 
-    //self.addComplexAnnotonData(annoton);
+    // self.addComplexAnnotonData(annoton);
     return annoton;
 
   }

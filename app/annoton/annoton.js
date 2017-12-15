@@ -63,4 +63,17 @@ export default class Annoton extends SaeGraph {
     this.annotonModelType = type;
   }
 
+  populateComplexData() {
+    const self = this;
+
+    let edge = self.getEdges('mc');
+
+    self.complexAnnotonData.mcNode = self.getNode('mc');
+    self.complexAnnotonData.geneProducts = [];
+
+    each(edge.nodes, function (node) {
+      self.complexAnnotonData.geneProducts.push(node.target.term.control.value);
+    });
+  }
+
 }

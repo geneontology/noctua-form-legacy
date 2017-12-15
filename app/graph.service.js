@@ -169,24 +169,6 @@ export default class GraphService {
     return result;
   }
 
-  idToAspectLabel(predicateId) {
-    const knownAspects = {
-      PredicateEnabledBy: 'F',
-      PredicatePartOf: 'P',
-      PredicateOccursIn: 'C'
-    };
-    return knownAspects[predicateId] || '?aspect?';
-  }
-
-  idToPredicateLabel(id) {
-    const knownPredicates = {
-      'RO:0002333': 'enabled by',
-      'BFO:0000050': 'part of',
-      'BFO:0000066': 'occurs in'
-    };
-    return knownPredicates[id] || id;
-  }
-
   subjectToTerm(graph, object) {
     const self = this;
 
@@ -260,6 +242,11 @@ export default class GraphService {
         annotonNode.modelId = mfId;
 
         self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode);
+
+
+        if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
+          annoton.populateComplexData();
+        }
         annotons.push(annoton);
       }
     });
@@ -276,7 +263,6 @@ export default class GraphService {
         return;
       }
       let predicateId = toMFEdge.predicate_id();
-      let predicateLabel = self.idToPredicateLabel(predicateId);
       let evidence = self.edgeToEvidence(graph, toMFEdge);
       let toMFObject = toMFEdge.object_id();
 
@@ -286,15 +272,20 @@ export default class GraphService {
 
       each(edge.nodes, function (node) {
         if (predicateId === node.edgeId) {
-          let term = self.subjectToTerm(graph, toMFObject);
-          node.target.modelId = toMFObject;
-          node.target.setEvidence(evidence);
-          node.target.setTerm(term);
+          if (predicateId === self.saeConstants.edge.hasPart && toMFObject !== node.target.id) {
+            //do nothing
+          } else {
+            let term = self.subjectToTerm(graph, toMFObject);
 
-          if (term) {
-            annoton.parser.parseNodeOntology(node.target, term.id);
+            node.target.modelId = toMFObject;
+            node.target.setEvidence(evidence);
+            node.target.setTerm(term);
+
+            if (term) {
+              annoton.parser.parseNodeOntology(node.target, term.id);
+            }
+            self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target);
           }
-          self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target);
         }
       });
     });
