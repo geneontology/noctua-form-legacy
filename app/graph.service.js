@@ -243,7 +243,6 @@ export default class GraphService {
 
         self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode);
 
-
         if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
           annoton.populateComplexData();
         }
@@ -280,6 +279,8 @@ export default class GraphService {
             node.target.modelId = toMFObject;
             node.target.setEvidence(evidence);
             node.target.setTerm(term);
+
+            //self.check
 
             if (term) {
               annoton.parser.parseNodeOntology(node.target, term.id);
@@ -382,10 +383,15 @@ export default class GraphService {
   }
 
   makeComplex(annoton) {
+    const self = this;
     let complexAnnoton = self.config.createComplexAnnotonModel();
 
     each(complexAnnoton.nodes, function (node) {
-      complexNode = annoton.getNode(node.id);
+      let complexNode = annoton.getNode(node.id);
+      if (complexNode) {
+        complexNode.copyValues(node);
+      }
+      complex
     });
 
     let edge = annoton.getEdges(annotonNode.id);
@@ -397,7 +403,7 @@ export default class GraphService {
     const manager = this.manager;
 
     if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
-      self.makeComplex();
+      self.makeComplex(annoton);
     }
 
     let reqs = new minerva_requests.request_set(manager.user_token(), local_id);

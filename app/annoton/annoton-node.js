@@ -91,6 +91,16 @@ export default class AnnotonNode {
     self.with.control.value = null;
   }
 
+  cloneValues(node) {
+    const self = this;
+
+    self.term.control.value = node.term.control.value;
+    self.evidence.control.value = node.evidence.control.value;
+    self.reference.control.value = node.reference.control.value;
+    self.with.control.value = node.with.control.value;
+  }
+
+
   //addError
 
   static isType(typeId, id) {

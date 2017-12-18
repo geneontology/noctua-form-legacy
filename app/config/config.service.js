@@ -131,51 +131,7 @@ export default class ConfigService {
           }
         }
       },
-      'bp': {
-        "label": 'Biological Process',
-        "displayGroup": this.saeConstants.displayGroup.bp,
-        "term": {
-          "ontologyClass": ['go'],
-          "lookup": {
-            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
-              fq: [
-                'document_category:"ontology_class"',
-                'regulates_closure_label:"biological_process"'
-              ],
-            }),
-          }
-        }
-      },
-      'bp-1': {
-        "label": 'Part Of (BP)',
-        "displayGroup": this.saeConstants.displayGroup.bp,
-        "term": {
-          "ontologyClass": ['go'],
-          "lookup": {
-            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
-              fq: [
-                'document_category:"ontology_class"',
-                'regulates_closure_label:"biological_process"'
-              ],
-            }),
-          }
-        }
-      },
-      'bp-1-1': {
-        "label": 'Part Of (BP)',
-        "displayGroup": this.saeConstants.displayGroup.bp,
-        "term": {
-          "ontologyClass": ['go'],
-          "lookup": {
-            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
-              fq: [
-                'document_category:"ontology_class"',
-                'regulates_closure_label:"biological_process"'
-              ],
-            }),
-          }
-        }
-      },
+
       'cc': {
         "label": 'Cellular Component',
         "displayGroup": this.saeConstants.displayGroup.cc,
@@ -216,6 +172,51 @@ export default class ConfigService {
               fq: [
                 'document_category:"ontology_class"',
                 'regulates_closure:"UBERON:0000061"'
+              ],
+            }),
+          }
+        }
+      },
+      'bp': {
+        "label": 'Biological Process',
+        "displayGroup": this.saeConstants.displayGroup.bp,
+        "term": {
+          "ontologyClass": ['go'],
+          "lookup": {
+            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
+              fq: [
+                'document_category:"ontology_class"',
+                'regulates_closure_label:"biological_process"'
+              ],
+            }),
+          }
+        }
+      },
+      'bp-1': {
+        "label": 'Part Of (BP)',
+        "displayGroup": this.saeConstants.displayGroup.bp,
+        "term": {
+          "ontologyClass": ['go'],
+          "lookup": {
+            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
+              fq: [
+                'document_category:"ontology_class"',
+                'regulates_closure_label:"biological_process"'
+              ],
+            }),
+          }
+        }
+      },
+      'bp-1-1': {
+        "label": 'Part Of (BP)',
+        "displayGroup": this.saeConstants.displayGroup.bp,
+        "term": {
+          "ontologyClass": ['go'],
+          "lookup": {
+            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
+              fq: [
+                'document_category:"ontology_class"',
+                'regulates_closure_label:"biological_process"'
               ],
             }),
           }
@@ -264,8 +265,8 @@ export default class ConfigService {
     });
 
     annoton.addEdgeById('mf', 'gp', self.saeConstants.edge.enabledBy);
-    annoton.addEdgeById('mf', 'bp', self.saeConstants.edge.partOf);
     annoton.addEdgeById('mf', 'cc', self.saeConstants.edge.occursIn);
+    annoton.addEdgeById('mf', 'bp', self.saeConstants.edge.partOf);
     annoton.addEdgeById('mf', 'mf-1', self.saeConstants.edge.hasInput);
     annoton.addEdgeById('mf', 'mf-2', self.saeConstants.edge.happensDuring);
     annoton.addEdgeById('bp', 'bp-1', self.saeConstants.edge.partOf);

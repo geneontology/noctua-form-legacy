@@ -8,5 +8,12 @@ export default class AnnotonRules {
     this.rules = [];
     this.errors = [];
 
+    this.allowedEdges = "";
+
+
+  }
+
+  populateAllowedEdges() {
+
   }
 }

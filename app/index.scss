@@ -43,12 +43,16 @@ I need to explicitly tweak the classes. There has to be a better way.
 .navbar {
   height: 50px;
   background-color: #005888!important;
+  border: none;
   color: #EEE!important;
   a {
     color: #DDD!important;
     &:hover {
       color: #FFF!important;
     }
+  }
+  .navbar-collapse {
+    padding: 0;
   }
 }
 
@@ -66,7 +70,7 @@ I need to explicitly tweak the classes. There has to be a better way.
   text-transform: uppercase;
   border: none;
   line-height: 25px;
-  color: #d49191!important;
+  background-color: #7a4242!important;
 }
 
 .tv-container .input-group.input-group-sm .form-control {
