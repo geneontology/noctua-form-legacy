@@ -336,7 +336,7 @@ export default class GraphService {
       mf: "",
       original: JSON.parse(JSON.stringify(annoton)),
       annoton: annoton,
-      groupedAnnoton: self.formGrid.groupAnnoton(annoton)
+      annotonPresentation: self.formGrid.getAnnotonPresentation(annoton)
     }
 
     if (mfNode.evidence.control.value) {

@@ -130,24 +130,24 @@ export default class FormGridService {
     annoton.setAnnotonModelType(annotonModelType.name);
   }
 
-  groupAnnoton(annoton) {
+  getAnnotonPresentation(annoton) {
     const self = this;
 
     let result = {
       geneProduct: annoton.getNode('gp'),
-      groupedData: {}
+      functionDescription: {}
     }
 
     each(annoton.nodes, function (node) {
       if (node.displayGroup) {
-        if (!result.groupedData[node.displayGroup.id]) {
-          result.groupedData[node.displayGroup.id] = {
+        if (!result.functionDescription[node.displayGroup.id]) {
+          result.functionDescription[node.displayGroup.id] = {
             shorthand: node.displayGroup.shorthand,
             label: node.displayGroup.label,
             nodes: []
           };
         }
-        result.groupedData[node.displayGroup.id].nodes.push(node);
+        result.functionDescription[node.displayGroup.id].nodes.push(node);
       }
     });
 
@@ -161,22 +161,7 @@ export default class FormGridService {
   initalizeForm() {
     const self = this;
 
-    self.geneProduct = self.annoton.getNode('gp');
-    self.groupedData = {};
-
-    each(self.annoton.nodes, function (node) {
-      if (node.displayGroup) {
-        if (!self.groupedData[node.displayGroup.id]) {
-          self.groupedData[node.displayGroup.id] = {
-            label: node.displayGroup.label,
-            nodes: []
-          };
-        }
-        self.groupedData[node.displayGroup.id].nodes.push(node);
-      }
-    });
-
-
+    self.annotonPresentation = self.getAnnotonPresentation(this.annoton);
     self.gridOptions.data = self.annoton.nodes;
 
   }

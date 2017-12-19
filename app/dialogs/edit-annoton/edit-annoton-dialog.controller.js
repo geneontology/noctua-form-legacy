@@ -2,7 +2,7 @@ import _ from 'lodash';
 const each = require('lodash/forEach');
 
 export default class EditAnnotonDIalogController {
-    constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, uiGridTreeViewConstants, graph, lookup, formGrid, annoton) {
+    constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, uiGridTreeViewConstants, graph, lookup, formGrid, row) {
         var vm = this;
         vm.saeConstants = saeConstants;
         vm.$scope = $scope;
@@ -13,8 +13,7 @@ export default class EditAnnotonDIalogController {
         vm.lookup = lookup;
         vm.graph = graph;
         vm.formGrid = formGrid;
-        vm.annoton = annoton
-        vm.initalizeForm();
+        vm.row = row;
     }
 
     closeDialog() {
@@ -46,23 +45,5 @@ export default class EditAnnotonDIalogController {
         annoton.setAnnotonModelType(annotonModelType.name);
     }
 
-    initalizeForm() {
-        const self = this;
-
-        self.geneProduct = self.annoton.getNode('gp');
-        self.groupedData = {};
-
-        each(self.annoton.nodes, function (node) {
-            if (node.displayGroup) {
-                if (!self.groupedData[node.displayGroup.id]) {
-                    self.groupedData[node.displayGroup.id] = {
-                        label: node.displayGroup.label,
-                        nodes: []
-                    };
-                }
-                self.groupedData[node.displayGroup.id].nodes.push(node);
-            }
-        });
-    }
 }
-EditAnnotonDIalogController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', 'uiGridTreeViewConstants', 'graph', 'lookup', 'formGrid', 'annoton'];
+EditAnnotonDIalogController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', 'uiGridTreeViewConstants', 'graph', 'lookup', 'formGrid', 'row'];

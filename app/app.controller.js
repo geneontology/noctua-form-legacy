@@ -69,14 +69,14 @@ export default class AppController {
     return result;
   }
 
-  openEditAnnotonDialogDialog(ev, annoton) {
+  openEditAnnotonDialogDialog(ev, row) {
     this.$mdDialog.show({
         controller: 'EditAnnotonDialogController as annotonCtrl',
         templateUrl: './dialogs/edit-annoton/edit-annoton-dialog.html',
         targetEvent: ev,
         clickOutsideToClose: false,
         locals: {
-          annoton: annoton
+          row: row
         }
       })
       .then(function (answer) {}, function () {});
