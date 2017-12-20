@@ -382,19 +382,55 @@ export default class GraphService {
     });
   }
 
-  makeComplex(annoton) {
+  convertToComplex(annoton) {
     const self = this;
     let complexAnnoton = self.config.createComplexAnnotonModel();
 
-    each(complexAnnoton.nodes, function (node) {
-      let complexNode = annoton.getNode(node.id);
-      if (complexNode) {
+    let mcNode = complexAnnoton.getNode('mc');
+    mcNode.copyValues(annoton.complexAnnotonData.mcNode);
+
+    each(complexAnnoton.nodes, function (complexNode) {
+      let node = annoton.getNode(node.id);
+      if (node) {
         complexNode.copyValues(node);
       }
-      complex
     });
 
-    let edge = annoton.getEdges(annotonNode.id);
+    each(complexAnnoton.complexAnnotonData.geneProducts, function (geneProduct) {
+      let id = 'gp-' + annoton.nodes.length;
+      let node = self.config.addGPAnnotonData(annoton, id);
+      geneProduct.copyValues(node);
+    });
+
+    annoton = complexAnnoton;
+
+  }
+
+  convertToSimple(annoton) {
+    const self = this;
+    let simpleAnnoton = self.config.createComplexAnnotonModel();
+    let mcNode = annoton.getNode('mc');
+    let mcEdge = annoton.getEdges('mc');
+
+    annoton.complexAnnotonData.mcNode.copyValues(mcNode);
+
+    each(simpleAnnoton.nodes, function (simpleNode) {
+      var node = annoton.getNode(node.id);
+      if (node) {
+        simpleNode.copyValues(node);
+      }
+    });
+
+    simpleAnnoton.complexAnnotonData.geneProducts = [];
+    each(mcEdge.nodes, function (node) {
+      var node = annoton.getNode(node.id);
+      if (node) {
+        simpleAnnoton.complexAnnotonData.geneProducts.push(node);
+      }
+    });
+
+    annoton = simpleAnnoton;
+
   }
 
   saveAnnoton(annoton, edit) {
@@ -403,7 +439,7 @@ export default class GraphService {
     const manager = this.manager;
 
     if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
-      self.makeComplex(annoton);
+      self.convertToComplex(annoton);
     }
 
     let reqs = new minerva_requests.request_set(manager.user_token(), local_id);

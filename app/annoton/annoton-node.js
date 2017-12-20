@@ -91,7 +91,7 @@ export default class AnnotonNode {
     self.with.control.value = null;
   }
 
-  cloneValues(node) {
+  copyValues(node) {
     const self = this;
 
     self.term.control.value = node.term.control.value;

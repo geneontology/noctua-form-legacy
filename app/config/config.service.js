@@ -55,6 +55,7 @@ export default class ConfigService {
       "mc": {
         'id': 'mc',
         "label": 'Macromolecular Complex',
+        "displaySection": this.saeConstants.displaySection.gp,
         "displayGroup": this.saeConstants.displayGroup.mc,
         "term": {
           "ontologyClass": [],
@@ -73,6 +74,7 @@ export default class ConfigService {
     this._annotonData = {
       "gp": {
         "label": 'Gene Product',
+        "displaySection": this.saeConstants.displaySection.gp,
         "displayGroup": this.saeConstants.displayGroup.gp,
         "term": {
           "ontologyClass": [],
@@ -88,6 +90,7 @@ export default class ConfigService {
       },
       'mf': {
         "label": 'Molecular Function',
+        "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.mf,
         "term": {
           "ontologyClass": ['go'],
@@ -103,6 +106,7 @@ export default class ConfigService {
       },
       'mf-1': {
         "label": 'Has Input (Gene Product/Chemical)',
+        "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.mf,
         "term": {
           "ontologyClass": [],
@@ -118,6 +122,7 @@ export default class ConfigService {
       },
       'mf-2': {
         "label": 'Happens During (Temporal Phase)',
+        "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.mf,
         "term": {
           "ontologyClass": ['go'],
@@ -134,6 +139,7 @@ export default class ConfigService {
 
       'cc': {
         "label": 'Cellular Component',
+        "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.cc,
         "term": {
           "ontologyClass": ['go'],
@@ -149,6 +155,7 @@ export default class ConfigService {
       },
       'cc-1': {
         "label": 'Part Of (Cell Type)',
+        "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.cc,
         "term": {
           "ontologyClass": ['cl'],
@@ -164,6 +171,7 @@ export default class ConfigService {
       },
       'cc-1-1': {
         "label": 'Part Of (Anatomy)',
+        "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.cc,
         "term": {
           "ontologyClass": ['uberon'],
@@ -179,6 +187,7 @@ export default class ConfigService {
       },
       'bp': {
         "label": 'Biological Process',
+        "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.bp,
         "term": {
           "ontologyClass": ['go'],
@@ -194,6 +203,7 @@ export default class ConfigService {
       },
       'bp-1': {
         "label": 'Part Of (BP)',
+        "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.bp,
         "term": {
           "ontologyClass": ['go'],
@@ -209,6 +219,7 @@ export default class ConfigService {
       },
       'bp-1-1': {
         "label": 'Part Of (BP)',
+        "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.bp,
         "term": {
           "ontologyClass": ['go'],
@@ -234,13 +245,14 @@ export default class ConfigService {
     annotonNode.id = complexAnnotonData.id;
     annotonNode.ontologyClass = complexAnnotonData.ontologyClass;
     annotonNode.label = complexAnnotonData.label;
+    annotonNode.displaySection = complexAnnotonData.displaySection;
     annotonNode.displayGroup = complexAnnotonData.displayGroup;
     annotonNode.setTermLookup(complexAnnotonData.term.lookup.requestParams);
     annotonNode.setTermOntologyClass(complexAnnotonData.term.ontologyClass);
     annotonNode.setEvidenceOntologyClass('eco');
     annotonNode.setEvidenceLookup(self.requestParams["evidence"]);
 
-    annoton.complexAnnotonData.gpTemplateNode = JSON.parse(JSON.stringify(annoton.getNode('gp')));
+    annoton.complexAnnotonData.gpTemplateNode = self.generateNode('gp');
     annoton.complexAnnotonData.mcNode = annotonNode;
   }
 
@@ -254,6 +266,7 @@ export default class ConfigService {
       annotonNode.id = key;
       annotonNode.ontologyClass = node.ontologyClass;
       annotonNode.label = node.label;
+      annotonNode.displaySection = node.displaySection;
       annotonNode.displayGroup = node.displayGroup;
       annotonNode.setTermLookup(node.term.lookup.requestParams);
       annotonNode.setTermOntologyClass(node.term.ontologyClass);
@@ -274,7 +287,8 @@ export default class ConfigService {
     annoton.addEdgeById('cc', 'cc-1', self.saeConstants.edge.partOf);
     annoton.addEdgeById('cc-1', 'cc-1-1', self.saeConstants.edge.partOf);
 
-    //self.addComplexAnnotonData(annoton);
+    self.addComplexAnnotonData(annoton);
+
     return annoton;
 
   }
@@ -294,6 +308,7 @@ export default class ConfigService {
       annotonNode.id = key;
       annotonNode.ontologyClass = node.ontologyClass;
       annotonNode.label = node.label;
+      annotonNode.displaySection = node.displaySection;
       annotonNode.displayGroup = node.displayGroup;
       annotonNode.setTermLookup(node.term.lookup.requestParams);
       annotonNode.setTermOntologyClass(node.term.ontologyClass);
@@ -314,9 +329,7 @@ export default class ConfigService {
     annoton.addEdgeById('cc', 'cc-1', self.saeConstants.edge.partOf);
     annoton.addEdgeById('cc-1', 'cc-1-1', self.saeConstants.edge.partOf);
 
-    annoton.complexAnnotonData.gpTemplateNode = self.generateNode('gp');
-
-    // self.addComplexAnnotonData(annoton);
+    self.addComplexAnnotonData(annoton);
     return annoton;
 
   }
@@ -330,6 +343,7 @@ export default class ConfigService {
     annotonNode.id = id;
     annotonNode.ontologyClass = nodeData.ontologyClass;
     annotonNode.label = nodeData.label;
+    annotonNode.displaySection = nodeData.displaySection;
     annotonNode.displayGroup = nodeData.displayGroup;
     annotonNode.setTermLookup(nodeData.term.lookup.requestParams);
     annotonNode.setTermOntologyClass(nodeData.term.ontologyClass);
@@ -348,6 +362,7 @@ export default class ConfigService {
     annotonNode.id = id;
     annotonNode.ontologyClass = nodeData.ontologyClass;
     annotonNode.label = nodeData.label;
+    annotonNode.displaySection = nodeData.displaySection;
     annotonNode.displayGroup = nodeData.displayGroup;
     annotonNode.setTermLookup(nodeData.term.lookup.requestParams);
     annotonNode.setTermOntologyClass(nodeData.term.ontologyClass);
@@ -358,7 +373,8 @@ export default class ConfigService {
     annoton.addNode(annotonNode);
 
     annoton.addEdgeById('mc', id, self.saeConstants.edge.hasPart);
-    // return annoton;
+
+    return annotonNode;
   }
 
   createAnnotonModelFakeData() {

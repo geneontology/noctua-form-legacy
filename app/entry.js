@@ -79,6 +79,16 @@ app.constant('saeConstants', {
       }
     }
   },
+  "displaySection": {
+    "gp": {
+      id: "gp",
+      label: 'Gene Product'
+    },
+    "fd": {
+      id: "fd",
+      label: 'Macromolecular Complex'
+    },
+  },
   "displayGroup": {
     "gp": {
       id: "gp",

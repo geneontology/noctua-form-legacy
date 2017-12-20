@@ -116,8 +116,7 @@
                 </div>
                 <div ng-if="annotonCtrl.row.annoton.annotonModelType === annotonCtrl.saeConstants.annotonModelType.options.annoton.name"
                     class="sae-section-body" layout="column" layout-align="start stretch">
-                    <div ng-repeat="nodeGroup in annotonCtrl.row.annotonPresentation.functionDescription" class="sae-term-group md-whiteframe-1dp"
-                        layout="column">
+                    <div ng-repeat="nodeGroup in annotonCtrl.row.annotonPresentation.fd" class="sae-term-group md-whiteframe-1dp" layout="column">
                         <div class="sae-group-heading pv-25 ph-15">
                             {{nodeGroup.label}}
                         </div>
