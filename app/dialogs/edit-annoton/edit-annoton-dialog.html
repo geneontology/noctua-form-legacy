@@ -42,8 +42,8 @@
                             <i class="fa fa-spinner fa-spin fa-fw"></i>
                         </div>
                         <md-input-container class="md-block" flex>
-                            <input aria-describedby="igGP" type="text" ng-model="annotonCtrl.geneProduct.term.control.value" ng-trim="false" placeholder="Gene Product"
-                                ng-blur="noResultsGP = false" uib-typeahead="term as term.label for term in annotonCtrl.getTerm(annotonCtrl.geneProduct.term)"
+                            <input aria-describedby="igGP" type="text" ng-model="annotonCtrl.row.annotonPresentation.geneProduct.term.control.value"
+                                ng-trim="false" placeholder="Gene Product" ng-blur="noResultsGP = false" uib-typeahead="term as term.label for term in annotonCtrl.getTerm(annotonCtrl.row.annotonPresentation.geneProduct.term)"
                                 typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false"
                                 typeahead-loading="loadingItemsGP" typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html"
                                 typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'"

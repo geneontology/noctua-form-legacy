@@ -385,21 +385,22 @@ export default class GraphService {
   convertToComplex(annoton) {
     const self = this;
     let complexAnnoton = self.config.createComplexAnnotonModel();
+    complexAnnoton.complexAnnotonData = annoton.complexAnnotonData;
 
     let mcNode = complexAnnoton.getNode('mc');
     mcNode.copyValues(annoton.complexAnnotonData.mcNode);
 
     each(complexAnnoton.nodes, function (complexNode) {
-      let node = annoton.getNode(node.id);
+      let node = annoton.getNode(complexNode.id);
       if (node) {
         complexNode.copyValues(node);
       }
     });
 
     each(complexAnnoton.complexAnnotonData.geneProducts, function (geneProduct) {
-      let id = 'gp-' + annoton.nodes.length;
-      let node = self.config.addGPAnnotonData(annoton, id);
-      geneProduct.copyValues(node);
+      let id = 'gp-' + complexAnnoton.nodes.length;
+      let node = self.config.addGPAnnotonData(complexAnnoton, id);
+      node.setTerm(geneProduct);
     });
 
     annoton = complexAnnoton;
