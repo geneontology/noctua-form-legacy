@@ -403,7 +403,7 @@ export default class GraphService {
       node.setTerm(geneProduct);
     });
 
-    annoton = complexAnnoton;
+    return complexAnnoton;
 
   }
 
@@ -440,7 +440,7 @@ export default class GraphService {
     const manager = this.manager;
 
     if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
-      self.convertToComplex(annoton);
+      annoton = self.convertToComplex(annoton);
     }
 
     let reqs = new minerva_requests.request_set(manager.user_token(), local_id);
