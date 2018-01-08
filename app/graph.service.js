@@ -224,7 +224,7 @@ export default class GraphService {
         let gpTerm = self.subjectToTerm(graph, gpId);
         let annoton = null;
 
-        if (gpTerm.id === self.saeConstants.closure.mc) {
+        if (gpTerm.id && gpTerm.id.startsWith('GO')) {
           annoton = self.config.createComplexAnnotonModel();
         } else {
           annoton = self.config.createAnnotonModel();

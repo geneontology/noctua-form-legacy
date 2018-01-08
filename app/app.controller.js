@@ -69,6 +69,19 @@ export default class AppController {
     return result;
   }
 
+  openGeneListnDialogDialog(ev, row) {
+    this.$mdDialog.show({
+        controller: 'GeneListnDialogController as annotonCtrl',
+        templateUrl: './dialogs/gene-list/gene-list-dialog.html',
+        targetEvent: ev,
+        clickOutsideToClose: false,
+        locals: {
+          row: row
+        }
+      })
+      .then(function (answer) {}, function () {});
+  }
+
   openEditAnnotonDialogDialog(ev, row) {
     this.$mdDialog.show({
         controller: 'EditAnnotonDialogController as annotonCtrl',
@@ -77,6 +90,19 @@ export default class AppController {
         clickOutsideToClose: false,
         locals: {
           row: row
+        }
+      })
+      .then(function (answer) {}, function () {});
+  }
+
+  openAddEvidenceDialogDialog(ev, entity) {
+    this.$mdDialog.show({
+        controller: 'AddEvidenceDialogController as annotonCtrl',
+        templateUrl: './dialogs/add-evidence/add-evidence-dialog.html',
+        targetEvent: ev,
+        clickOutsideToClose: false,
+        locals: {
+          entity: entity
         }
       })
       .then(function (answer) {}, function () {});

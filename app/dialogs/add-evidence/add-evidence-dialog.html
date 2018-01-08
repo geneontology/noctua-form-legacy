@@ -1,0 +1,185 @@
+<!-- NOTE DIALOG -->
+<md-dialog class="sae-edit-annoton-dialog" aria-label="Edit Annoton Dialog" ng-cloak>
+    <md-toolbar class="gb-heading" layout="column" layout-align="start center" flex>
+        <div class="md-toolbar-tools sae-container">
+            <div class="sae-heading-title">
+                <span class="ellipsis">
+                    Add Evidence - {{annotonCtrl.entity.label }}
+                </span>
+            </div>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="annotonCtrl.closeDialog()" aria-label="Close Dialog" translate translate-attr-aria-label="SB.CLOSE_DIALOG">
+                <md-icon md-font-icon="icon-close"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="sae-annoton-form sae-container" layout="column" layout-align="start stretch">
+            <div class="sae-table-form sae-form-section" layout="column" layout-align="start stretch">
+                <div class="sae-section-body" layout="column" layout-align="start stretch">
+                    <div class="sae-term-group md-whiteframe-1dp" layout="column">
+                        <div class="sae-group-heading pv-25 ph-15">
+                            Primary Evidence
+                        </div>
+                        <div class="ph-15 sae-annoton-group-entity" layout="entity">
+                            <div class="typeaheadcontainer" flex="60">
+                                <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[annotonCtrl.entity.term + 'e']">
+                                    <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                </div>
+                                <md-input-container class="md-block">
+                                    <input aria-label="evidence" type="text" ng-model="annotonCtrl.entity.evidence.control.value" ng-trim="false" tabindex="0"
+                                        ng-blur="noResults[annotonCtrl.entity.term + 'e'] = false" uib-typeahead="term as term.label for term in annotonCtrl.getTerm(annotonCtrl.entity.evidence)"
+                                        xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
+                                        typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html"
+                                        typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
+                                        typeahead-on-select="annotonCtrl.termSelected(term + 'e', $item, $model, $label, $event)"
+                                        class="typeaheadcontrol" placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                                </md-input-container>
+                                <div class="no-results" ng-show="annotonCtrl.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
+                                    No Results Found
+                                </div>
+                            </div>
+                            <div class="" flex="20">
+                                <md-input-container class="md-block">
+                                    <input ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!annotonCtrl.entity.evidence.control.value" ng-model="annotonCtrl.entity.reference.control.value"
+                                        type="text" class="" placeholder="Reference" aria-label="reference">
+                                </md-input-container>
+                            </div>
+                            <div class="">
+                                <md-input-container class="md-block">
+                                    <input ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!annotonCtrl.entity.evidence.control.value" ng-model="annotonCtrl.entity.annotonCtrl.entity.with.control.value"
+                                        type="text" class="" placeholder="With" aria-label="With"> </md-input-container>
+                            </div>
+                            <span flex></span>
+                            <md-menu md-position-mode="target-right target">
+                                <md-button aria-label="Open Annoton Model Type" class="md-icon-button sae-action-button md-raised" ng-click="$mdMenu.open($event)">
+                                    <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
+                                </md-button>
+                                <md-menu-content width="3">
+                                    <md-menu-item>
+                                        <md-button class="" ng-click="annotonCtrl.entity.clearValues()">
+                                            CLEAR ROW
+                                        </md-button>
+                                    </md-menu-item>
+                                </md-menu-content>
+                            </md-menu>
+                        </div>
+                    </div>
+                    <div class="sae-term-group md-whiteframe-1dp" layout="column">
+                        <div class="sae-group-heading pv-25 ph-15">
+                            More Evidence
+                        </div>
+                        <div ng-repeat="extraEvidence in annotonCtrl.entity.extraEvidence" class="ph-15 sae-annoton-group-entity" layout="entity">
+                            <div class="typeaheadcontainer" flex="60">
+                                <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[extraEvidence.term + 'e']">
+                                    <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                </div>
+                                <md-input-container class="md-block">
+                                    <input aria-label="evidence" type="text" ng-model="extraEvidence.evidence.control.value" ng-trim="false" tabindex="0" ng-blur="noResults[annotonCtrl.entity.term + 'e'] = false"
+                                        uib-typeahead="term as term.label for term in annotonCtrl.getTerm(extraEvidence.evidence)"
+                                        xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
+                                        typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html"
+                                        typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
+                                        typeahead-on-select="annotonCtrl.termSelected(term + 'e', $item, $model, $label, $event)"
+                                        class="typeaheadcontrol" placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                                </md-input-container>
+                                <div class="no-results" ng-show="annotonCtrl.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
+                                    No Results Found
+                                </div>
+                            </div>
+                            <div class="" flex="20">
+                                <md-input-container class="md-block">
+                                    <input ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!extraEvidence.evidence.control.value" ng-model="extraEvidence.reference.control.value"
+                                        type="text" class="" placeholder="Reference" aria-label="reference">
+                                </md-input-container>
+                            </div>
+                            <div class="">
+                                <md-input-container class="md-block">
+                                    <input ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!extraEvidence.evidence.control.value" ng-model="extraEvidence.extraEvidence.with.control.value"
+                                        type="text" class="" placeholder="With" aria-label="With"> </md-input-container>
+                            </div>
+                            <span flex></span>
+                            <md-menu md-position-mode="target-right target">
+                                <md-button aria-label="Open Annoton Model Type" class="md-icon-button sae-action-button md-raised" ng-click="$mdMenu.open($event)">
+                                    <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
+                                </md-button>
+                                <md-menu-content width="3">
+                                    <md-menu-item>
+                                        <md-button class="" ng-click="annotonCtrl.entity.clearValues()">
+                                            Clear Row
+                                        </md-button>
+                                    </md-menu-item>
+                                    <md-menu-item>
+                                        <md-button class="" ng-click="annotonCtrl.entity.clearValues()">
+                                            Remove Row
+                                        </md-button>
+                                    </md-menu-item>
+                                </md-menu-content>
+                            </md-menu>
+                        </div>
+                        <div ng-repeat="extraEvidence in annotonCtrl.entity.extraEvidence" class="ph-15 sae-annoton-group-entity" layout="entity">
+                            <div class="typeaheadcontainer" flex="60">
+                                <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[extraEvidence.term + 'e']">
+                                    <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                </div>
+                                <md-input-container class="md-block">
+                                    <input aria-label="evidence" type="text" ng-model="extraEvidence.evidence.control.value" ng-trim="false" tabindex="0" ng-blur="noResults[annotonCtrl.entity.term + 'e'] = false"
+                                        uib-typeahead="term as term.label for term in annotonCtrl.getTerm(extraEvidence.evidence)"
+                                        xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
+                                        typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html"
+                                        typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
+                                        typeahead-on-select="annotonCtrl.termSelected(term + 'e', $item, $model, $label, $event)"
+                                        class="typeaheadcontrol" placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                                </md-input-container>
+                                <div class="no-results" ng-show="annotonCtrl.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
+                                    No Results Found
+                                </div>
+                            </div>
+                            <div class="" flex="20">
+                                <md-input-container class="md-block">
+                                    <input ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!extraEvidence.evidence.control.value" ng-model="extraEvidence.reference.control.value"
+                                        type="text" class="" placeholder="Reference" aria-label="reference">
+                                </md-input-container>
+                            </div>
+                            <div class="">
+                                <md-input-container class="md-block">
+                                    <input ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!extraEvidence.evidence.control.value" ng-model="extraEvidence.extraEvidence.with.control.value"
+                                        type="text" class="" placeholder="With" aria-label="With"> </md-input-container>
+                            </div>
+                            <span flex></span>
+                            <md-menu md-position-mode="target-right target">
+                                <md-button aria-label="Open Annoton Model Type" class="md-icon-button sae-action-button md-raised" ng-click="$mdMenu.open($event)">
+                                    <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
+                                </md-button>
+                                <md-menu-content width="3">
+                                    <md-menu-item>
+                                        <md-button class="" ng-click="annotonCtrl.entity.clearValues()">
+                                            Clear Row
+                                        </md-button>
+                                    </md-menu-item>
+                                    <md-menu-item>
+                                        <md-button class="" ng-click="annotonCtrl.entity.clearValues()">
+                                            Remove Row
+                                        </md-button>
+                                    </md-menu-item>
+                                </md-menu-content>
+                            </md-menu>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="entity">
+        <span flex></span>
+        <md-button type="button" ng-disabled="false" ng-click="annotonCtrl.formGrid.clearForm()" class="md-raised" aria-label="Clear Form">
+            Clear
+        </md-button>
+        <md-button ng-click="annotonCtrl.closeDialog()" class="md-raised" aria-label="Cancel">
+            Cancel
+        </md-button>
+        <md-button class="md-primary md-raised" ng-click="annotonCtrl.saveAnnoton(annotonCtrl.entity.annoton)" aria-label="Save Annoton">
+            Save
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

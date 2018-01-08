@@ -50,6 +50,8 @@ export default class AnnotonNode {
     };
     this.errors = []
     this.status = '0';
+
+    this.extraEvidence = [];
   }
 
   setTermLookup(value) {
@@ -64,6 +66,28 @@ export default class AnnotonNode {
     if (value) {
       this.term.control.value = value;
     }
+  }
+
+  addExtraEvidence() {
+    const self = this;
+
+    let extraEvidence = {
+      evidence: JSON.parse(JSON.stringify(self.evidence)),
+      reference: JSON.parse(JSON.stringify(self.evidence)),
+      with: JSON.parse(JSON.stringify(self.evidence)),
+    }
+
+    extraEvidence.evidence.control.value = null;
+    extraEvidence.reference.control.value = null;
+    extraEvidence.with.control.value = null;
+
+    self.extraEvidence.push(extraEvidence);
+  }
+
+  removeExtraEvidence(evidence) {
+    const self = this;
+
+    self.extraEvidence = _.remove(self.extraEvidence, evidence);
   }
 
   setEvidence(value) {

@@ -25,6 +25,9 @@ import AppController from 'app.controller';
 import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
 import AnnotonErrorsDialogController from './dialogs/annoton-errors/annoton-errors-dialog.controller.js';
 import EditAnnotonDialogController from './dialogs/edit-annoton/edit-annoton-dialog.controller.js';
+import AddEvidenceDialogController from './dialogs/add-evidence/add-evidence-dialog.controller.js';
+import GeneListDialogController from './dialogs/gene-list/gene-list-dialog.controller.js';
+
 
 import ConfigService from './config/config.service.js';
 import FormGridService from './grids/form-grid.service.js';
@@ -173,6 +176,9 @@ app.controller('AppController', AppController);
 app.controller('PopulateDialogController', PopulateDialogController);
 app.controller('AnnotonErrorsDialogController', AnnotonErrorsDialogController)
 app.controller('EditAnnotonDialogController', EditAnnotonDialogController)
+app.controller('GeneListDialogController', GeneListDialogController)
+app.controller('AddEvidenceDialogController', AddEvidenceDialogController)
+
 app.service('config', ConfigService);
 app.service('formGrid', FormGridService);
 app.service('summaryGrid', SummaryGridService);
