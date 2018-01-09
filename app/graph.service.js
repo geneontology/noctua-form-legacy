@@ -1,5 +1,6 @@
 import Annoton from './annoton/annoton.js';
 import AnnotonParser from './annoton/parser/annoton-parser.js';
+import Evidence from './annoton/evidence.js';
 
 const each = require('lodash/forEach');
 var model = require('bbop-graph-noctua');
@@ -52,7 +53,7 @@ export default class GraphService {
 
   initialize() {
     console.log('initialize');
-    var self = this;
+    const self = this;
     this.engine = new jquery_engine(barista_response);
     this.engine.method('POST');
     var manager = new minerva_manager(
@@ -182,38 +183,35 @@ export default class GraphService {
   }
 
   edgeToEvidence(graph, edge) {
-    var result = null;
+    const self = this;
+    const evidenceAnnotations = edge.get_annotations_by_key('evidence');
+    let result = [];
 
-    var evidenceAnnotations = edge.get_annotations_by_key('evidence');
-    if (evidenceAnnotations.length > 0) {
-      var firstAnnotationId = evidenceAnnotations[0].value();
-      var firstAnnotationNode = graph.get_node(firstAnnotationId);
-      if (firstAnnotationNode) {
-        result = {
-          evidence: {
-            id: this.getNodeId(firstAnnotationNode),
-            label: this.getNodeLabel(firstAnnotationNode)
-          },
-          reference: '',
-          with: ''
-        };
+    each(evidenceAnnotations, function (evidenceAnnotation) {
+      let annotationId = evidenceAnnotation.value();
+      let annotationNode = graph.get_node(annotationId);
+      let evidence = new Evidence();
+      if (annotationNode) {
+        evidence.evidence.id = self.getNodeId(annotationNode);
+        evidence.evidence.label = self.getNodeLabel(annotationNode)
 
-        let sources = firstAnnotationNode.get_annotations_by_key('source');
-        let withs = firstAnnotationNode.get_annotations_by_key('with');
+        let sources = annotationNode.get_annotations_by_key('source');
+        let withs = annotationNode.get_annotations_by_key('with');
         if (sources.length > 0) {
-          result.reference = sources[0].value();
+          evidence.reference = sources[0].value();
         }
         if (withs.length > 0) {
-          result.with = withs[0].value();
+          evidence.with = withs[0].value();
         }
+        result.push(evidence);
       }
-    }
+    });
 
     return result;
   }
 
   graphToAnnotons(graph) {
-    var self = this;
+    const self = this;
     var annotons = [];
 
     each(graph.all_edges(), function (e) {
@@ -254,7 +252,7 @@ export default class GraphService {
   }
 
   graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode) {
-    var self = this;
+    const self = this;
     let edge = annoton.getEdges(annotonNode.id);
 
     each(mfEdgesIn, function (toMFEdge) {
@@ -296,7 +294,7 @@ export default class GraphService {
   }
 
   graphToAnnatonDFSError(annoton, annotonNode) {
-    var self = this;
+    const self = this;
     let edge = annoton.getEdges(annotonNode.id);
 
     each(edge.nodes, function (node) {
@@ -339,10 +337,17 @@ export default class GraphService {
       annotonPresentation: self.formGrid.getAnnotonPresentation(annoton)
     }
 
-    if (mfNode.evidence.control.value) {
-      row.mf = mfNode.term.control.value.label;
-      row.evidence = mfNode.evidence.control.value;
+    row.mf = mfNode.term.control.value.label;
+    row.evidence = mfNode.evidence
+
+    /*
+    if (mfNode.evidence.length > 0) {
+      each(mfNode.evidence, function (evidence) {
+        row.mf = mfNode.term.control.value.label;
+        row.evidence = mfNode.evidence.control.value;
+      })
     }
+    */
 
     return row;
   }
@@ -373,10 +378,15 @@ export default class GraphService {
           edgeNode.target.saveMeta.term,
           edgeNode.edgeId
         ]);
+
         if (edgeNode.target.id === 'gp') {
-          reqs.add_evidence(node.evidence.control.value.id, [node.reference.control.value], null, edgeNode.target.saveMeta.edge);
+          each(node.evidence, function (evidence) {
+            reqs.add_evidence(evidence.evidence.control.value.id, [evidence.reference.control.value], null, edgeNode.target.saveMeta.edge);
+          });
         } else {
-          reqs.add_evidence(edgeNode.target.evidence.control.value.id, [edgeNode.target.reference.control.value], null, edgeNode.target.saveMeta.edge);
+          each(edgeNode.target.evidence, function (evidence) {
+            reqs.add_evidence(evidence.evidence.control.value.id, [evidence.reference.control.value], null, edgeNode.target.saveMeta.edge);
+          });
         }
       }
     });

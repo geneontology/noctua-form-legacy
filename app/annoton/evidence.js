@@ -1,79 +1,55 @@
 import _ from 'lodash';
 const each = require('lodash/forEach');
 
-import SaeGraph from './sae-graph.js';
 
-export default class Annoton extends SaeGraph {
+export default class Evidence {
   constructor() {
-    super();
-    this.annotonType = "simple";
-    this.annotonModelType = 'annoton';
-    this.complexAnnotonData = {
-      mcNode: {},
-      gpTemplateNode: {},
-      geneProducts: []
+    this.evidence = {
+      "validation": {
+        "errors": []
+      },
+      "control": {
+        "placeholder": '',
+        "value": ''
+      },
+      "lookup": {
+        "requestParams": null
+      }
     };
-    this.errors = [];
+    this.reference = {
+      "validation": {
+        "errors": []
+      },
+      "control": {
+        "placeholder": '',
+        "value": ''
+      }
+    };
+    this.with = {
+      "validation": {
+        "errors": []
+      },
+      "control": {
+        "placeholder": '',
+        "value": ''
+      }
+    };
+
   }
 
-  insertTermNode(annotonModel, id, value) {
-    let node = null;
+  setEvidenceLookup(value) {
+    this.evidence.lookup.requestParams = value;
+  }
 
-    node = _.find(annotonModel, {
-      id: id
-    });
+  setEvidenceOntologyClass(value) {
+    this.evidence.ontologyClass = value;
+  }
 
-    if (node) {
-      node.term.control.value = value;
+  setEvidence(value) {
+    if (value) {
+      this.evidence.control.value = value.evidence;
+      this.reference.control.value = value.reference;
+      this.with.control.value = value.with;
     }
   }
-
-  print() {
-    let result = []
-    each(this.nodes, function (node) {
-      result.push({
-        id: node.id,
-        term: node.term.control.value,
-        evidence: node.evidence.control.value,
-        reference: node.reference.control.value,
-        with: node.with.control.value
-      })
-    });
-    return result;
-  };
-
-  setTerm(node, value) {
-    if (node && value) {
-      node.term.control.value = value;
-    }
-  }
-
-  setEvidence(node, value) {
-    if (node && value) {
-      node.evidence.control.value = value.evidence;
-      node.reference.control.value = value.reference;
-      node.with.control.value = value.with;
-    }
-  }
-  setAnnotonType(type) {
-    this.annotonType = type;
-  }
-
-  setAnnotonModelType(type) {
-    this.annotonModelType = type;
-  }
-
-  populateComplexData() {
-    const self = this;
-
-    let edge = self.getEdges('mc');
-
-    self.complexAnnotonData.mcNode = self.getNode('mc');
-    self.complexAnnotonData.geneProducts = [];
-
-    each(edge.nodes, function (node) {
-      self.complexAnnotonData.geneProducts.push(node.target.term.control.value);
-    });
-  }
-
 }

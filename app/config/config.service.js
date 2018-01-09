@@ -249,8 +249,7 @@ export default class ConfigService {
     annotonNode.displayGroup = complexAnnotonData.displayGroup;
     annotonNode.setTermLookup(complexAnnotonData.term.lookup.requestParams);
     annotonNode.setTermOntologyClass(complexAnnotonData.term.ontologyClass);
-    annotonNode.setEvidenceOntologyClass('eco');
-    annotonNode.setEvidenceLookup(self.requestParams["evidence"]);
+    annotonNode.setEvidenceMeta('eco', self.requestParams["evidence"]);
 
     annoton.complexAnnotonData.gpTemplateNode = self.generateNode('gp');
     annoton.complexAnnotonData.mcNode = annotonNode;
@@ -270,8 +269,7 @@ export default class ConfigService {
       annotonNode.displayGroup = node.displayGroup;
       annotonNode.setTermLookup(node.term.lookup.requestParams);
       annotonNode.setTermOntologyClass(node.term.ontologyClass);
-      annotonNode.setEvidenceOntologyClass('eco');
-      annotonNode.setEvidenceLookup(self.requestParams["evidence"]);
+      annotonNode.setEvidenceMeta('eco', self.requestParams["evidence"]);
 
       annotonData[key].node = annotonNode
       annoton.addNode(annotonNode);
@@ -312,8 +310,7 @@ export default class ConfigService {
       annotonNode.displayGroup = node.displayGroup;
       annotonNode.setTermLookup(node.term.lookup.requestParams);
       annotonNode.setTermOntologyClass(node.term.ontologyClass);
-      annotonNode.setEvidenceOntologyClass('eco');
-      annotonNode.setEvidenceLookup(self.requestParams["evidence"]);
+      annotonNode.setEvidenceMeta('eco', self.requestParams["evidence"]);
 
       //annotonData[key].node = annotonNode
       annoton.addNode(annotonNode);
@@ -347,8 +344,7 @@ export default class ConfigService {
     annotonNode.displayGroup = nodeData.displayGroup;
     annotonNode.setTermLookup(nodeData.term.lookup.requestParams);
     annotonNode.setTermOntologyClass(nodeData.term.ontologyClass);
-    annotonNode.setEvidenceOntologyClass('eco');
-    annotonNode.setEvidenceLookup(self.requestParams["evidence"]);
+    annotonNode.setEvidenceMeta('eco', self.requestParams["evidence"]);
 
     return annotonNode;
   }
@@ -366,8 +362,7 @@ export default class ConfigService {
     annotonNode.displayGroup = nodeData.displayGroup;
     annotonNode.setTermLookup(nodeData.term.lookup.requestParams);
     annotonNode.setTermOntologyClass(nodeData.term.ontologyClass);
-    annotonNode.setEvidenceOntologyClass('eco');
-    annotonNode.setEvidenceLookup(self.requestParams["evidence"]);
+    annotonNode.setEvidenceMeta('eco', self.requestParams["evidence"]);
 
     // annotonData[id].node = annotonNode;
     annoton.addNode(annotonNode);
@@ -517,7 +512,7 @@ export default class ConfigService {
         with: node.with,
       }
       annotonNode.setTerm(node.term);
-      annotonNode.setEvidence(evidence);
+      annotonNode.evidence[0].setEvidence(evidence);
     });
     return annoton;
   }

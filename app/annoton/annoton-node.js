@@ -1,6 +1,8 @@
 import _ from 'lodash';
 const each = require('lodash/forEach');
 
+import Evidence from './evidence.js';
+
 export default class AnnotonNode {
   constructor() {
     this.id;
@@ -18,48 +20,24 @@ export default class AnnotonNode {
         "requestParams": null
       }
     };
-    this.evidence = {
-      "validation": {
-        "errors": []
-      },
-      "control": {
-        "placeholder": '',
-        "value": ''
-      },
-      "lookup": {
-        "requestParams": null
-      }
+    this._evidenceMeta = {
+      lookupBase: "",
+      ontologyClass: "eco"
     };
-    this.reference = {
-      "validation": {
-        "errors": []
-      },
-      "control": {
-        "placeholder": '',
-        "value": ''
-      }
-    };
-    this.with = {
-      "validation": {
-        "errors": []
-      },
-      "control": {
-        "placeholder": '',
-        "value": ''
-      }
-    };
-    this.errors = []
+    this.evidence = [];
+    this.errors = [];
     this.status = '0';
 
-    this.extraEvidence = [];
+    this.addEvidence();
   }
 
   setTermLookup(value) {
     this.term.lookup.requestParams = value;
   }
 
-  setEvidenceLookup(value) {
-    this.evidence.lookup.requestParams = value;
+  setEvidenceMeta(ontologyClass, lookupBase) {
+    this._evidenceMeta.lookupBase = lookupBase;
+    this._evidenceMeta.ontologyClass = ontologyClass;
   }
 
   setTerm(value) {
@@ -68,43 +46,32 @@ export default class AnnotonNode {
     }
   }
 
-  addExtraEvidence() {
+  setEvidence(evidence) {
     const self = this;
 
-    let extraEvidence = {
-      evidence: JSON.parse(JSON.stringify(self.evidence)),
-      reference: JSON.parse(JSON.stringify(self.evidence)),
-      with: JSON.parse(JSON.stringify(self.evidence)),
-    }
+    self.evidence = evidence;
+  }
 
-    extraEvidence.evidence.control.value = null;
-    extraEvidence.reference.control.value = null;
-    extraEvidence.with.control.value = null;
+  addEvidence() {
+    const self = this;
+    let evidence = new Evidence();
 
-    self.extraEvidence.push(extraEvidence);
+    evidence.setEvidenceLookup(JSON.parse(JSON.stringify(self._evidenceMeta.lookupBase)));
+    evidence.setEvidenceOntologyClass(self._evidenceMeta.ontologyClass);
+
+    self.evidence.push(evidence);
   }
 
   removeExtraEvidence(evidence) {
     const self = this;
 
-    self.extraEvidence = _.remove(self.extraEvidence, evidence);
-  }
-
-  setEvidence(value) {
-    if (value) {
-      this.evidence.control.value = value.evidence;
-      this.reference.control.value = value.reference;
-      this.with.control.value = value.with;
-    }
+    self.evidence = _.remove(self.evidence, evidence);
   }
 
   setTermOntologyClass(value) {
     this.term.ontologyClass = value;
   }
 
-  setEvidenceOntologyClass(value) {
-    this.evidence.ontologyClass = value;
-  }
 
   clearValues() {
     const self = this;
