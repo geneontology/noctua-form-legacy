@@ -271,6 +271,7 @@ export default class ConfigService {
       annotonNode.setTermOntologyClass(node.term.ontologyClass);
       annotonNode.setEvidenceMeta('eco', self.requestParams["evidence"]);
 
+
       annotonData[key].node = annotonNode
       annoton.addNode(annotonNode);
     });

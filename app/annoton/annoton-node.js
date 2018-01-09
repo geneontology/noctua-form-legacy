@@ -28,7 +28,6 @@ export default class AnnotonNode {
     this.errors = [];
     this.status = '0';
 
-    this.addEvidence();
   }
 
   setTermLookup(value) {
@@ -38,6 +37,7 @@ export default class AnnotonNode {
   setEvidenceMeta(ontologyClass, lookupBase) {
     this._evidenceMeta.lookupBase = lookupBase;
     this._evidenceMeta.ontologyClass = ontologyClass;
+    this.addEvidence();
   }
 
   setTerm(value) {
