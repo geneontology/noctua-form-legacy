@@ -52,4 +52,20 @@ export default class Evidence {
       this.with.control.value = value.with;
     }
   }
+
+  clearValues() {
+    const self = this;
+
+    self.evidence.control.value = null;
+    self.reference.control.value = null;
+    self.with.control.value = null;
+  }
+
+  copyValues(node) {
+    const self = this;
+
+    self.evidence.control.value = node.evidence.control.value;
+    self.reference.control.value = node.reference.control.value;
+    self.with.control.value = node.with.control.value;
+  }
 }

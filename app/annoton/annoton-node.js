@@ -62,10 +62,14 @@ export default class AnnotonNode {
     self.evidence.push(evidence);
   }
 
-  removeExtraEvidence(evidence) {
+  removeEvidence(evidence) {
     const self = this;
 
-    self.evidence = _.remove(self.evidence, evidence);
+    if (self.evidence.length > 1) {
+      self.evidence = _.remove(self.evidence, evidence);
+    } else {
+      self.evidence[0].clearValues();
+    }
   }
 
   setTermOntologyClass(value) {
@@ -77,18 +81,15 @@ export default class AnnotonNode {
     const self = this;
 
     self.term.control.value = null;
-    self.evidence.control.value = null;
-    self.reference.control.value = null;
-    self.with.control.value = null;
+    self.evidence = [];
+    self.addEvidence();
   }
 
   copyValues(node) {
     const self = this;
 
     self.term.control.value = node.term.control.value;
-    self.evidence.control.value = node.evidence.control.value;
-    self.reference.control.value = node.reference.control.value;
-    self.with.control.value = node.with.control.value;
+    self.evidence = node.evidence;
   }
 
 
