@@ -42,19 +42,6 @@ export default class Annoton extends SaeGraph {
     return result;
   };
 
-  setTerm(node, value) {
-    if (node && value) {
-      node.term.control.value = value;
-    }
-  }
-
-  setEvidence(node, value) {
-    if (node && value) {
-      node.evidence.control.value = value.evidence;
-      node.reference.control.value = value.reference;
-      node.with.control.value = value.with;
-    }
-  }
   setAnnotonType(type) {
     this.annotonType = type;
   }

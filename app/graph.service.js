@@ -192,16 +192,18 @@ export default class GraphService {
       let annotationNode = graph.get_node(annotationId);
       let evidence = new Evidence();
       if (annotationNode) {
-        evidence.evidence.id = self.getNodeId(annotationNode);
-        evidence.evidence.label = self.getNodeLabel(annotationNode)
+        evidence.setEvidence({
+          id: self.getNodeId(annotationNode),
+          label: self.getNodeLabel(annotationNode)
+        });
 
         let sources = annotationNode.get_annotations_by_key('source');
         let withs = annotationNode.get_annotations_by_key('with');
         if (sources.length > 0) {
-          evidence.reference = sources[0].value();
+          evidence.setReference(sources[0].value());
         }
         if (withs.length > 0) {
-          evidence.with = withs[0].value();
+          evidence.setWith(withs[0].value());
         }
         result.push(evidence);
       }
@@ -328,13 +330,17 @@ export default class GraphService {
       gpNode = annoton.getNode('mc');
     }
     let mfNode = annoton.getNode('mf');
+    let bpNode = annoton.getNode('bp');
+    let ccNode = annoton.getNode('cc');
 
     let row = {
       gp: gpNode.term.control.value.label,
-      mf: "",
+      mf: mfNode.term.control.value.label,
+      bp: bpNode.term.control.value.label,
+      cc: ccNode.term.control.value.label,
       original: JSON.parse(JSON.stringify(annoton)),
       annoton: annoton,
-      annotonPresentation: self.formGrid.getAnnotonPresentation(annoton)
+      annotonPresentation: self.formGrid.getAnnotonPresentation(annoton),
     }
 
     row.mf = mfNode.term.control.value.label;

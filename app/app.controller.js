@@ -24,6 +24,14 @@ export default class AppController {
       userNameInfo.innerHTML = '';
     }
 
+    tvc.summaryView = {
+      options: {
+        grid: 0,
+        list: 1
+      },
+    };
+    tvc.summaryView.selected = 0;
+
     /* Init the form grid */
     //tvc.formGrid.registerApi();
     tvc.formGrid.initalizeForm();

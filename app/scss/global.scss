@@ -29,6 +29,9 @@ $grid-float-breakpoint: (768px - 200);
 @import "compass-breakpoint/breakpoint.scss";
 $sae-primary-color: #1C4461; //material-color('blue-grey', '800');
 $sae-secondary-color: material-color('orange', '300');
+$sae-cc-color: material-color('purple', '600');
+$sae-bp-color: material-color('blue', '600');
+$sae-mf-color: material-color('green', '600');
 @mixin deep-width($number) {
   width: $number;
   min-width: $number;

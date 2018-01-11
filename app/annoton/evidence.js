@@ -46,12 +46,17 @@ export default class Evidence {
   }
 
   setEvidence(value) {
-    if (value) {
-      this.evidence.control.value = value.evidence;
-      this.reference.control.value = value.reference;
-      this.with.control.value = value.with;
-    }
+    this.evidence.control.value = value;
   }
+
+  setReference(value) {
+    this.reference.control.value = value.reference;
+  }
+
+  setWith(value) {
+    this.with.control.value = value.with;
+  }
+
 
   clearValues() {
     const self = this;
