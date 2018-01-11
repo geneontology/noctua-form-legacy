@@ -51,11 +51,11 @@ export default class Evidence {
   }
 
   setReference(value) {
-    this.reference.control.value = value.reference;
+    this.reference.control.value = value;
   }
 
   setWith(value) {
-    this.with.control.value = value.with;
+    this.with.control.value = value;
   }
 
 

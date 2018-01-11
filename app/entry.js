@@ -27,6 +27,7 @@ import AnnotonErrorsDialogController from './dialogs/annoton-errors/annoton-erro
 import EditAnnotonDialogController from './dialogs/edit-annoton/edit-annoton-dialog.controller.js';
 import AddEvidenceDialogController from './dialogs/add-evidence/add-evidence-dialog.controller.js';
 import GeneListDialogController from './dialogs/gene-list/gene-list-dialog.controller.js';
+import ViewSummaryDialogController from './dialogs/view-summary/view-summary-dialog.controller.js';
 
 
 import ConfigService from './config/config.service.js';
@@ -178,6 +179,7 @@ app.controller('AnnotonErrorsDialogController', AnnotonErrorsDialogController)
 app.controller('EditAnnotonDialogController', EditAnnotonDialogController)
 app.controller('GeneListDialogController', GeneListDialogController)
 app.controller('AddEvidenceDialogController', AddEvidenceDialogController)
+app.controller('ViewSummaryDialogController', ViewSummaryDialogController)
 
 app.service('config', ConfigService);
 app.service('formGrid', FormGridService);

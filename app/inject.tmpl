@@ -36,7 +36,7 @@
               </md-menu-content>
             </md-menu>
           </div>
-          <div ng-if="tvc.formGrid.annoton.annotonType === tvc.saeConstants.annotonType.options.simple.name" class="sae-section-body ph-15"
+          <div ng-if="tvc.formGrid.annoton.annotonType === tvc.saeConstants.annotonType.options.simple.name" class="sae-section-body pt-15 ph-15"
             layout="column" layout-align="start stretch">
             <div class="typeaheadcontainer" layout="row">
               <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItemsGP">
@@ -55,7 +55,7 @@
               </div>
             </div>
           </div>
-          <div ng-if="tvc.formGrid.annoton.annotonType === tvc.saeConstants.annotonType.options.complex.name" class="sae-section-body ph-15 "
+          <div ng-if="tvc.formGrid.annoton.annotonType === tvc.saeConstants.annotonType.options.complex.name" class="sae-section-body pt-15 ph-15 pb-25"
             layout="column" layout-align="start stretch">
             <div class="typeaheadcontainer">
               <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItemsGP">
@@ -289,7 +289,7 @@
               </div>
               <div class="sae-heading-subtitle sae-ellipsis">
                 <span ng-if="summaryRow.evidence[0].evidence.control.value.label">{{summaryRow.evidence[0].evidence.control.value.label}}</span>
-                <span class="text-danger" ng-if="!summaryRow.evidence[0].evidence.control.value.label">no evidence</span>
+                <span class="" ng-if="!summaryRow.evidence[0].evidence.control.value.label">no evidence</span>
               </div>
             </div>
             <span flex></span>
@@ -297,7 +297,7 @@
               {{summaryRow.annoton.parser.errors.length}} error(s)
             </md-button>
             <md-button class="md-icon-button sae-action-button" ng-click="tvc.graph.deleteAnnoton(summaryRow.annoton)">
-              <md-icon md-font-icon="fa text-danger fa-trash"></md-icon>
+              <md-icon md-font-icon="fa fa-trash"></md-icon>
             </md-button>
             <md-button ng-if="false" class="md-icon-button sae-action-button" ng-click="tvc.openEditAnnotonDialogDialog($event, summaryRow)">
               <md-icon md-font-icon="fa fa-pencil"></md-icon>
@@ -332,7 +332,7 @@
                     </div>
                     <div class="sae-heading-subtitle sae-ellipsis">
                       <span ng-if="entity.evidence[0].evidence.control.value.label">{{entity.evidence[0].evidence.control.value.label}}</span>
-                      <span class="text-danger" ng-if="!entity.evidence[0].evidence.control.value.label">no evidence</span>
+                      <span class="" ng-if="!entity.evidence[0].evidence.control.value.label">no evidence</span>
                     </div>
                   </div>
                   <md-button ng-if="entity.errors.length>0" class="sae-error-button" ng-click="tvc.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, entity.errors)">
@@ -351,7 +351,7 @@
               <div class="sae-card-header" layout="row" layout-align="start start" flex>
                 <div class="sae-term sae-term-mf">
                   <span class="sae-fa-stack fa-stack fa-lg">
-                    <i class="sae-fa-lg fa fa-gears fa-stack-2x"></i>
+                    <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
                     <i ng-if="summaryRow.annoton.annotonType===tvc.saeConstants.annotonType.options.simple.name" class="sae-fa-sm fa fa-cube fa-stack-1x"></i>
                     <i ng-if="summaryRow.annoton.annotonType===tvc.saeConstants.annotonType.options.complex.name" class="sae-fa-sm fa fa-cubes fa-stack-1x"></i>
                   </span>
@@ -369,7 +369,7 @@
                 <div class="sae-card-row" layout="row">
                   <div class="sae-term sae-term-cc">
                     <span class="sae-fa-stack fa-stack fa-lg">
-                      <i class="sae-fa-lg fa fa-gears fa-stack-2x"></i>
+                      <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
                       <i class="sae-fa-sm fa fa-map-marker fa-stack-1x"></i>
                     </span>
                   </div>
@@ -383,7 +383,7 @@
                 <div class="sae-card-row" layout="row">
                   <div class="sae-term sae-term-bp">
                     <span class="sae-fa-stack fa-stack fa-lg">
-                      <i class="sae-fa-lg fa fa-gears fa-stack-2x"></i>
+                      <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
                       <i class="sae-fa-sm fa fa-object-group fa-stack-1x"></i>
                     </span>
                   </div>
@@ -397,16 +397,28 @@
               </div>
               <div class="sae-card-footer" layout="row" layout-align="start center" flex ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
           'sae-error': !summaryRow.annoton.parser.clean }">
+
+                <md-button ng-if="!summaryRow.annoton.parser.clean" class="" ng-click="tvc.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, summaryRow.annoton.parser.errors)">
+                  <span class="text-danger">
+                    {{summaryRow.annoton.parser.errors.length}} error(s)
+                  </span>
+                </md-button>
                 <span flex></span>
-                <md-button ng-if="!summaryRow.annoton.parser.clean" class="sae-error-button" ng-click="tvc.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, summaryRow.annoton.parser.errors)">
-                  {{summaryRow.annoton.parser.errors.length}} error(s)
+                <md-button ng-if="true" class="ae-action-button" ng-click="tvc.openViewSummaryDialogDialog($event, summaryRow)">
+                  View
                 </md-button>
-                <md-button class="md-icon-button sae-action-button" ng-click="tvc.graph.deleteAnnoton(summaryRow.annoton)">
-                  <md-icon md-font-icon="fa text-danger fa-trash"></md-icon>
-                </md-button>
-                <md-button ng-if="true" class="md-icon-button sae-action-button" ng-click="tvc.openEditAnnotonDialogDialog($event, summaryRow)">
-                  <md-icon md-font-icon="fa fa-info"></md-icon>
-                </md-button>
+                <md-menu md-position-mode="target-right target">
+                  <md-button aria-label="More Otions" class="md-icon-button sae-action-button" ng-click="$mdMenu.open($event)">
+                    <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
+                  </md-button>
+                  <md-menu-content width="2">
+                    <md-menu-item>
+                      <md-button class="" ng-click="tvc.graph.deleteAnnoton(summaryRow.annoton)">
+                        <md-icon md-font-icon="fa fa-trash"></md-icon> Delete
+                      </md-button>
+                    </md-menu-item>
+                  </md-menu-content>
+                </md-menu>
               </div>
             </div>
           </div>

@@ -507,13 +507,10 @@ export default class ConfigService {
 
     each(nodes, function (node) {
       let annotonNode = annoton.getNode(node.id);
-      let evidence = {
-        evidence: node.evidence,
-        reference: node.reference,
-        with: node.with,
-      }
+
       annotonNode.setTerm(node.term);
-      annotonNode.evidence[0].setEvidence(evidence);
+      annotonNode.evidence[0].setEvidence(node.evidence);
+      annotonNode.evidence[0].setReference(node.reference);
     });
     return annoton;
   }

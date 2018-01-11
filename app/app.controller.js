@@ -90,6 +90,19 @@ export default class AppController {
       .then(function (answer) {}, function () {});
   }
 
+  openViewSummaryDialogDialog(ev, summaryRow) {
+    this.$mdDialog.show({
+        controller: 'ViewSummaryDialogController as annotonCtrl',
+        templateUrl: './dialogs/view-summary/view-summary-dialog.html',
+        targetEvent: ev,
+        clickOutsideToClose: false,
+        locals: {
+          summaryRow: summaryRow
+        }
+      })
+      .then(function (answer) {}, function () {});
+  }
+
   openEditAnnotonDialogDialog(ev, row) {
     this.$mdDialog.show({
         controller: 'EditAnnotonDialogController as annotonCtrl',

@@ -2,6 +2,7 @@ import _ from 'lodash';
 const each = require('lodash/forEach');
 
 import SaeGraph from './sae-graph.js';
+import AnnotonError from "./parser/annoton-error.js";
 
 export default class Annoton extends SaeGraph {
   constructor() {
@@ -72,6 +73,21 @@ export default class Annoton extends SaeGraph {
     each(self.nodes, function (node) {
       result = node.enableSubmit(self.submitErrors) && result;
     })
+
+    if (self.annotonType === 'complex') {
+      if (!self.complexAnnotonData.mcNode.term.control.value.id) {
+        let error = new AnnotonError(1, "A '" + self.label + "' is required")
+        self.submitErrors.push(error);
+        result = false;
+      }
+
+      if (self.complexAnnotonData.geneProducts === 0) {
+        let error = new AnnotonError(1, "At least one gene product 'has part' is required if you coose macromolecular complex")
+        self.submitErrors.push(error);
+        result = false;
+      }
+    }
+
     return result;
   }
 

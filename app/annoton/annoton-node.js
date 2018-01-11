@@ -98,24 +98,14 @@ export default class AnnotonNode {
     const self = this;
     let result = true;
 
-    if (self.id === 'gp' && !self.term.control.value.id) {
-      let error = new AnnotonError(1, "A '" + self.label + "' is required")
-      errors.push(error);
-      result = false;
-    }
-    if (self.id === 'mc') {
-      if (!self.term.control.value.id) {
+    if (self.annotonType === 'simple') {
+      if (self.id === 'gp' && !self.term.control.value.id) {
         let error = new AnnotonError(1, "A '" + self.label + "' is required")
         errors.push(error);
         result = false;
       }
-
-      if (self.complexAnnotonData.geneProducts === 0) {
-        let error = new AnnotonError(1, "At least one gene product 'has part' is required if you coose macromolecular complex")
-        errors.push(error);
-        result = false;
-      }
     }
+
     if (self.id === 'mf' && !self.term.control.value.id) {
       let error = new AnnotonError(1, "A '" + self.label + "' is required")
       errors.push(error);
