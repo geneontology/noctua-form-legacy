@@ -1,6 +1,7 @@
 import _ from 'lodash';
 const each = require('lodash/forEach');
 
+import AnnotonError from "./parser/annoton-error.js";
 
 export default class Evidence {
   constructor() {
@@ -72,5 +73,25 @@ export default class Evidence {
     self.evidence.control.value = node.evidence.control.value;
     self.reference.control.value = node.reference.control.value;
     self.with.control.value = node.with.control.value;
+  }
+
+  enableSubmit(errors, node) {
+    const self = this;
+    let result = true;
+
+    if (!self.evidence.control.value.id) {
+      let error = new AnnotonError(1, "No evidence for '" + node.label + "'")
+      errors.push(error);
+      result = false;
+    }
+
+
+    if (self.evidence.control.value.id && !self.reference.control.value) {
+      let error = new AnnotonError(1, "You provided an evidence for '" + node.label + "' but no reference")
+      errors.push(error);
+      result = false;
+    }
+
+    return result;
   }
 }

@@ -62,11 +62,11 @@ app.constant('saeConstants', {
     "options": {
       'simple': {
         "name": 'simple',
-        "label": 'SINGLE GENE PRODUCT'
+        "label": 'Single Gene Product'
       },
       'complex': {
         "name": 'complex',
-        "label": 'MACROMOLECULAR COMPLEX'
+        "label": 'Macromolecular Complex'
       }
     }
   },

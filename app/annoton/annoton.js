@@ -14,6 +14,7 @@ export default class Annoton extends SaeGraph {
       geneProducts: []
     };
     this.errors = [];
+    this.submitErrors = []
   }
 
   insertTermNode(annotonModel, id, value) {
@@ -61,6 +62,17 @@ export default class Annoton extends SaeGraph {
     each(edge.nodes, function (node) {
       self.complexAnnotonData.geneProducts.push(node.target.term.control.value);
     });
+  }
+
+  enableSubmit() {
+    const self = this;
+    let result = true;
+    self.submitErrors = [];
+
+    each(self.nodes, function (node) {
+      result = node.enableSubmit(self.submitErrors) && result;
+    })
+    return result;
   }
 
 }

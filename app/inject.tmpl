@@ -24,7 +24,7 @@
             <span flex></span>
             <md-menu md-position-mode="target-right target">
               <md-button aria-label="Open Annoton Type" class="sae-action-button" ng-click="$mdMenu.open($event)">
-                {{tvc.formGrid.annoton.annotonType}}
+                {{tvc.saeConstants.annotonType.options[tvc.formGrid.annoton.annotonType].label}}
                 <b class="caret"></b>
               </md-button>
               <md-menu-content width="3">
@@ -57,22 +57,6 @@
           </div>
           <div ng-if="tvc.formGrid.annoton.annotonType === tvc.saeConstants.annotonType.options.complex.name" class="sae-section-body ph-15 "
             layout="column" layout-align="start stretch">
-            <md-chips ng-model="tvc.formGrid.annoton.complexAnnotonData.geneProducts" md-autocomplete-snap md-require-match=true>
-              <md-autocomplete md-selected-item="tvc.selectedItem" md-search-text="tvc.formGrid.annoton.complexAnnotonData.gpTemplateNode.term.control.value"
-                md-items="item in tvc.getTerm(tvc.formGrid.annoton.complexAnnotonData.gpTemplateNode.term)" md-item-text="item.label"
-                placeholder="Gene Products">
-                <span md-highlight-text="tvc.searchText">{{item.label}} :: {{item.id}}</span>
-              </md-autocomplete>
-              <md-chip-template>
-                <span>
-                  <strong>[{{$index}}] {{$chip.id}}</strong>
-                  <em>({{$chip.label}})</em>
-                </span>
-              </md-chip-template>
-              <button md-chip-remove class="md-primary">
-                <md-icon md-font-icon="fa fa-times"></md-icon>
-              </button>
-            </md-chips>
             <div class="typeaheadcontainer">
               <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItemsGP">
                 <i class="fa fa-spinner fa-spin fa-fw"></i>
@@ -89,6 +73,22 @@
                 No Results Found
               </div>
             </div>
+            <md-chips ng-model="tvc.formGrid.annoton.complexAnnotonData.geneProducts" md-autocomplete-snap md-require-match=true>
+              <md-autocomplete md-selected-item="tvc.selectedItem" md-search-text="tvc.formGrid.annoton.complexAnnotonData.gpTemplateNode.term.control.value"
+                md-items="item in tvc.getTerm(tvc.formGrid.annoton.complexAnnotonData.gpTemplateNode.term)" md-item-text="item.label"
+                placeholder="Gene Products">
+                <span md-highlight-text="tvc.searchText">{{item.label}} :: {{item.id}}</span>
+              </md-autocomplete>
+              <md-chip-template>
+                <span>
+                  <strong>[{{$index}}] {{$chip.id}}</strong>
+                  <em>({{$chip.label}})</em>
+                </span>
+              </md-chip-template>
+              <button md-chip-remove class="md-primary">
+                <md-icon md-font-icon="fa fa-times"></md-icon>
+              </button>
+            </md-chips>
             <div ng-repeat="entity in macro.nodes" class="ph-15 sae-annoton-group-row" layout="row">
               <div class="typeaheadcontainer" flex="40">
                 <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term]">
@@ -162,7 +162,7 @@
             <span flex></span>
             <md-menu md-position-mode="target-right target">
               <md-button aria-label="Open Annoton Model Type" class="sae-action-button" ng-click="$mdMenu.open($event)">
-                {{tvc.formGrid.annoton.annotonModelType}}
+                {{tvc.saeConstants.annotonModelType.options[tvc.formGrid.annoton.annotonModelType].label}}
                 <b class="caret"></b>
               </md-button>
               <md-menu-content width="3">
@@ -251,20 +251,15 @@
         </div>
         <!-- END TABLE FORM -->
         <div layout="row" class="sae-submit-row md-whiteframe-2dp">
-          <div hide class="col-xs-8">
-            <div ng-if="tvc.saveRowEnabled(patternForm).length > 0" class="well well-sm" style="margin:0;padding:3px;">
-              <ul>
-                <li ng-repeat="reason in tvc.saveRowEnabled(patternForm)" class="error-reason">
-                  {{reason}}
-                </li>
-              </ul>
-            </div>
-          </div>
+          <button ng-if="tvc.formGrid.annoton.submitErrors.length > 0" class="btn btn-link" ng-click="tvc.openAnnotonErrorsDialogDialog($event, tvc.formGrid.annoton, tvc.formGrid.annoton.submitErrors)">
+            Why is the "save" button disabled?
+          </button>
           <span flex></span>
           <md-button type="button" ng-disabled="false" ng-click="tvc.formGrid.clearForm()" class="md-raised" aria-label="Clear Form">
             Clear
           </md-button>
-          <md-button type="button" ng-disabled="false" ng-click="tvc.saveAnnoton()" class="md-primary md-raised" aria-label="Save Form">
+          <md-button type="button" ng-disabled="!tvc.formGrid.annoton.enableSubmit()" ng-click="tvc.saveAnnoton()" class="md-primary md-raised"
+            aria-label="Save Form">
             Create
           </md-button>
         </div>
@@ -348,7 +343,6 @@
             </div>
           </div>
         </div>
-
         <div ng-if="tvc.summaryView.selected===tvc.summaryView.options.grid" class="sae-container sae-summary" layout="row" layout-align="start"
           layout-wrap>
           <div ng-repeat="summaryRow in tvc.summaryGrid.summaryData" class="sae-card-widget p-10" flex="33">
@@ -358,7 +352,8 @@
                 <div class="sae-term sae-term-mf">
                   <span class="sae-fa-stack fa-stack fa-lg">
                     <i class="sae-fa-lg fa fa-gears fa-stack-2x"></i>
-                    <i class="sae-fa-sm fa fa-square fa-stack-1x"></i>
+                    <i ng-if="summaryRow.annoton.annotonType===tvc.saeConstants.annotonType.options.simple.name" class="sae-fa-sm fa fa-cube fa-stack-1x"></i>
+                    <i ng-if="summaryRow.annoton.annotonType===tvc.saeConstants.annotonType.options.complex.name" class="sae-fa-sm fa fa-cubes fa-stack-1x"></i>
                   </span>
                 </div>
                 <div class="sae-card-heading" flex>

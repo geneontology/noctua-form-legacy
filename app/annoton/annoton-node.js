@@ -2,6 +2,7 @@ import _ from 'lodash';
 const each = require('lodash/forEach');
 
 import Evidence from './evidence.js';
+import AnnotonError from "./parser/annoton-error.js";
 
 export default class AnnotonNode {
   constructor() {
@@ -25,6 +26,7 @@ export default class AnnotonNode {
       ontologyClass: "eco"
     };
     this.evidence = [];
+    this.evidenceRequiredList = ['mf', 'bp', 'cc', 'mf-1', 'mf-2', 'bp-1', 'bp-1-1', 'cc-1', 'cc-1-1']
     this.errors = [];
     this.status = '0';
 
@@ -90,6 +92,43 @@ export default class AnnotonNode {
 
     self.term.control.value = node.term.control.value;
     self.evidence = node.evidence;
+  }
+
+  enableSubmit(errors) {
+    const self = this;
+    let result = true;
+
+    if (self.id === 'gp' && !self.term.control.value.id) {
+      let error = new AnnotonError(1, "A '" + self.label + "' is required")
+      errors.push(error);
+      result = false;
+    }
+    if (self.id === 'mc') {
+      if (!self.term.control.value.id) {
+        let error = new AnnotonError(1, "A '" + self.label + "' is required")
+        errors.push(error);
+        result = false;
+      }
+
+      if (self.complexAnnotonData.geneProducts === 0) {
+        let error = new AnnotonError(1, "At least one gene product 'has part' is required if you coose macromolecular complex")
+        errors.push(error);
+        result = false;
+      }
+    }
+    if (self.id === 'mf' && !self.term.control.value.id) {
+      let error = new AnnotonError(1, "A '" + self.label + "' is required")
+      errors.push(error);
+      result = false;
+    }
+
+    if (self.term.control.value.id && self.evidenceRequiredList.includes(self.id)) {
+      each(self.evidence, function (evidence) {
+        result = evidence.enableSubmit(errors, self) && result;
+      })
+    }
+
+    return result;
   }
 
 
