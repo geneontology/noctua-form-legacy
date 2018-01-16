@@ -57,6 +57,7 @@ export default class ConfigService {
         "label": 'Macromolecular Complex',
         "displaySection": this.saeConstants.displaySection.gp,
         "displayGroup": this.saeConstants.displayGroup.mc,
+        'treeLevel': 0,
         "term": {
           "ontologyClass": [],
           "lookup": {
@@ -76,6 +77,7 @@ export default class ConfigService {
         "label": 'Gene Product',
         "displaySection": this.saeConstants.displaySection.gp,
         "displayGroup": this.saeConstants.displayGroup.gp,
+        'treeLevel': 0,
         "term": {
           "ontologyClass": [],
           "lookup": {
@@ -92,6 +94,7 @@ export default class ConfigService {
         "label": 'Molecular Function',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.mf,
+        'treeLevel': 0,
         "term": {
           "ontologyClass": ['go'],
           "lookup": {
@@ -108,6 +111,7 @@ export default class ConfigService {
         "label": 'Has Input (Gene Product/Chemical)',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.mf,
+        'treeLevel': 1,
         "term": {
           "ontologyClass": [],
           "lookup": {
@@ -124,6 +128,7 @@ export default class ConfigService {
         "label": 'Happens During (Temporal Phase)',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.mf,
+        'treeLevel': 1,
         "term": {
           "ontologyClass": ['go'],
           "lookup": {
@@ -141,6 +146,7 @@ export default class ConfigService {
         "label": 'Cellular Component',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.cc,
+        'treeLevel': 0,
         "term": {
           "ontologyClass": ['go'],
           "lookup": {
@@ -157,6 +163,7 @@ export default class ConfigService {
         "label": 'Part Of (Cell Type)',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.cc,
+        'treeLevel': 1,
         "term": {
           "ontologyClass": ['cl'],
           "lookup": {
@@ -173,6 +180,7 @@ export default class ConfigService {
         "label": 'Part Of (Anatomy)',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.cc,
+        'treeLevel': 2,
         "term": {
           "ontologyClass": ['uberon'],
           "lookup": {
@@ -189,6 +197,7 @@ export default class ConfigService {
         "label": 'Biological Process',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.bp,
+        'treeLevel': 0,
         "term": {
           "ontologyClass": ['go'],
           "lookup": {
@@ -205,6 +214,7 @@ export default class ConfigService {
         "label": 'Part Of (BP)',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.bp,
+        'treeLevel': 1,
         "term": {
           "ontologyClass": ['go'],
           "lookup": {
@@ -221,6 +231,7 @@ export default class ConfigService {
         "label": 'Part Of (BP)',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.bp,
+        'treeLevel': 2,
         "term": {
           "ontologyClass": ['go'],
           "lookup": {
@@ -247,6 +258,7 @@ export default class ConfigService {
     annotonNode.label = complexAnnotonData.label;
     annotonNode.displaySection = complexAnnotonData.displaySection;
     annotonNode.displayGroup = complexAnnotonData.displayGroup;
+    annotonNode.treeLevel = complexAnnotonData.treeLevel;
     annotonNode.setTermLookup(complexAnnotonData.term.lookup.requestParams);
     annotonNode.setTermOntologyClass(complexAnnotonData.term.ontologyClass);
     annotonNode.setEvidenceMeta('eco', self.requestParams["evidence"]);
@@ -267,6 +279,7 @@ export default class ConfigService {
       annotonNode.label = node.label;
       annotonNode.displaySection = node.displaySection;
       annotonNode.displayGroup = node.displayGroup;
+      annotonNode.treeLevel = node.treeLevel;
       annotonNode.setTermLookup(node.term.lookup.requestParams);
       annotonNode.setTermOntologyClass(node.term.ontologyClass);
       annotonNode.setEvidenceMeta('eco', self.requestParams["evidence"]);
@@ -309,6 +322,7 @@ export default class ConfigService {
       annotonNode.label = node.label;
       annotonNode.displaySection = node.displaySection;
       annotonNode.displayGroup = node.displayGroup;
+      annotonNode.treeLevel = node.treeLevel;
       annotonNode.setTermLookup(node.term.lookup.requestParams);
       annotonNode.setTermOntologyClass(node.term.ontologyClass);
       annotonNode.setEvidenceMeta('eco', self.requestParams["evidence"]);
@@ -343,6 +357,7 @@ export default class ConfigService {
     annotonNode.label = nodeData.label;
     annotonNode.displaySection = nodeData.displaySection;
     annotonNode.displayGroup = nodeData.displayGroup;
+    annotonNode.treeLevel = nodeData.treeLevel;
     annotonNode.setTermLookup(nodeData.term.lookup.requestParams);
     annotonNode.setTermOntologyClass(nodeData.term.ontologyClass);
     annotonNode.setEvidenceMeta('eco', self.requestParams["evidence"]);
@@ -361,6 +376,7 @@ export default class ConfigService {
     annotonNode.label = nodeData.label;
     annotonNode.displaySection = nodeData.displaySection;
     annotonNode.displayGroup = nodeData.displayGroup;
+    annotonNode.treeLevel = nodeData.treeLevel;
     annotonNode.setTermLookup(nodeData.term.lookup.requestParams);
     annotonNode.setTermOntologyClass(nodeData.term.ontologyClass);
     annotonNode.setEvidenceMeta('eco', self.requestParams["evidence"]);

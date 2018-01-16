@@ -329,9 +329,24 @@ ul li.error-reason {
       font-size: 18px;
     }
     .sae-annoton-group-row {
+      &.sae-input-heading {
+        margin-top: 10px;
+        md-input-container {
+          margin: 0; //border-bottom: #555 solid 1px; 
+          label {
+            top: 0px;
+            bottom: auto!important;
+            left: 5px;
+            font-size: 14px;
+            color: #656565;
+          }
+        }
+      }
       .sae-action-button {
-        margin: -8px 0 0 0;
-        background-color: #EEE;
+        margin: 8px 0 0 0;
+        background-color: #FAFAFA;
+        width: 35px;
+        height: 35px;
         md-icon {
           @include sae-icon-size(14px);
           color: #AAA;
@@ -348,8 +363,35 @@ ul li.error-reason {
   }
   .sae-table-form {
     width: 1148px;
+    .sae-tree-input {
+      $border-color: rgba(#000, 0.12);
+      @include deep-width(20px);
+      &.sae-level-0 {
+        // border-left: $border-color solid 1px;
+        //  @include deep-width(1px);
+      }
+      &.sae-level-1 {
+        border-right: $border-color solid 1px;
+      }
+      &.sae-level-2 {
+        border-right: $border-color solid 1px;
+      }
+    }
     md-input-container {
-      margin: 0;
+      margin: 0; //border-bottom: #555 solid 1px; 
+      padding-top: 20px;
+      label {
+        top: 0px;
+        bottom: auto!important;
+        left: 5px;
+      }
+      .md-errors-spacer {
+        visibility: hidden;
+        display: none;
+      }
+      input {
+        padding-left: 10px;
+      }
     }
   }
   .sae-submit-row {
