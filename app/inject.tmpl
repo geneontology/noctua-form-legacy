@@ -63,7 +63,7 @@
               </div>
               <md-input-container class="md-block">
                 <input aria-describedby="igGP" type="text" ng-model="tvc.formGrid.annoton.complexAnnotonData.mcNode.term.control.value" ng-trim="false"
-                  placeholder="Macromolecular Complex" ng-blur="noResultsGP = false" uib-typeahead="term as term.label for term in tvc.getTerm(tvc.formGrid.annoton.complexAnnotonData.mcNode.term)"
+                  placeholder="Macromolecular Complex GO Term" ng-blur="noResultsGP = false" uib-typeahead="term as term.label for term in tvc.getTerm(tvc.formGrid.annoton.complexAnnotonData.mcNode.term)"
                   typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP"
                   typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html" typeahead-editable="true"
                   typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected('GP', $item, $model, $label, $event)"
@@ -125,8 +125,8 @@
               </div>
               <div class="" flex="15">
                 <md-input-container class="md-block">
-                  <input ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!entity.evidence[0].evidence.control.value" ng-model="entity.evidence[0].reference.control.value"
-                    type="text" class="" placeholder="Reference" aria-label="reference">
+                  <input ng-pattern="/^.+:.+$/" tabindex="0" ng-model="entity.evidence[0].reference.control.value" type="text" class="" placeholder="Reference"
+                    aria-label="reference">
                 </md-input-container>
               </div>
               <div class="">
@@ -215,8 +215,8 @@
                 </div>
                 <div class="" flex="15">
                   <md-input-container class="md-block">
-                    <input ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!entity.evidence[0].evidence.control.value" ng-model="entity.evidence[0].reference.control.value"
-                      type="text" class="" placeholder="Reference" aria-label="reference">
+                    <input ng-pattern="/^.+:.+$/" tabindex="0" ng-model="entity.evidence[0].reference.control.value" type="text" class="" placeholder="Reference"
+                      aria-label="reference">
                   </md-input-container>
                 </div>
                 <div class="">
@@ -267,7 +267,7 @@
       <div class="sae-container sae-summary" layout="column" layout-align="start stretch">
         <div>
           <h2>
-            Annoton Models
+            Molecular Activities in the Model
           </h2>
         </div>
         <div ng-if="tvc.summaryGrid.summaryData.length===0">

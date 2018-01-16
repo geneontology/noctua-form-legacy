@@ -52,6 +52,15 @@ $sae-mf-color: material-color('green', '600');
 
 $sae-themes-primary-color: material-color('blue-grey', '500'),
 material-color('blue', '500');
+md-toast {
+  position: fixed;
+  &.md-success-toast-theme {
+    .md-toast-content {
+      background-color: #428342;
+    }
+  }
+}
+
 
 /*
 html {

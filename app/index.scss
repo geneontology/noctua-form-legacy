@@ -64,6 +64,15 @@ I need to explicitly tweak the classes. There has to be a better way.
   margin: 3px 0 0 0;
 }
 
+#action_barista_login {
+  background-color: transparent;
+  margin-top: 5px;
+  text-transform: uppercase;
+  border: none;
+  line-height: 25px;
+  background-color: #307e3d!important;
+}
+
 #action_barista_logout {
   background-color: transparent;
   margin-top: 5px;

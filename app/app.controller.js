@@ -6,12 +6,13 @@
 /* global angular */
 
 export default class AppController {
-  constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, uiGridTreeViewConstants, graph, lookup, formGrid, summaryGrid) {
+  constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, $mdToast, uiGridTreeViewConstants, graph, lookup, formGrid, summaryGrid) {
     var tvc = this;
     this.saeConstants = saeConstants;
     this.$scope = $scope;
     this.$rootScope = $rootScope;
     this.$mdDialog = $mdDialog;
+    this.$mdToast = $mdToast;
     this.uiGridTreeViewConstants = uiGridTreeViewConstants;
     tvc.$timeout = $timeout;
     tvc.lookup = lookup;
@@ -207,7 +208,21 @@ export default class AppController {
 
 
   saveAnnoton() {
-    this.graph.saveAnnoton(this.formGrid.annoton);
+    const self = this;
+
+    if (this.graph.saveAnnoton(this.formGrid.annoton)) {
+      self.$mdToast.show(
+        self.$mdToast.simple()
+        .textContent('Annoton Saved Successfully')
+        .position('top right')
+        .action('OK')
+        .theme("success-toast")
+        .hideDelay(0)
+      );
+
+
+    }
+
   }
 
   editRow(row) {
@@ -226,4 +241,4 @@ export default class AppController {
     }
   }
 }
-AppController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', 'uiGridTreeViewConstants', 'graph', 'lookup', 'formGrid', 'summaryGrid'];
+AppController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', '$mdToast', 'uiGridTreeViewConstants', 'graph', 'lookup', 'formGrid', 'summaryGrid'];

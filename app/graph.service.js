@@ -455,6 +455,8 @@ export default class GraphService {
     const self = this;
     const manager = this.manager;
 
+    let saved = false;
+
     if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
       annoton = self.convertToComplex(annoton);
     }
@@ -482,7 +484,9 @@ export default class GraphService {
       self.addFact(reqs, annoton, node);
     });
 
-    manager.request_with(reqs);
+    saved = manager.request_with(reqs);
+
+    return true
   }
 
   deleteAnnoton(annoton, ev) {

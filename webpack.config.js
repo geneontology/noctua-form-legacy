@@ -163,17 +163,14 @@ var config = {
 
 config.plugins.push(
   new CopyWebpackPlugin([{
-      from: 'inject.tmpl'
-    },
-    {
-      from: 'grid-templates/**/*'
-    },
-    {
-      from: 'dialogs/**/*'
-    }, {
-      from: 'assets/**/*'
-    }
-  ]));
+    from: 'inject.tmpl'
+  }, {
+    from: 'templates/**/*'
+  }, {
+    from: 'dialogs/**/*'
+  }, {
+    from: 'assets/**/*'
+  }]));
 
 config.plugins.push(
   new WriteFilePlugin());
