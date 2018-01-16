@@ -211,6 +211,7 @@ export default class AppController {
     const self = this;
 
     if (this.graph.saveAnnoton(this.formGrid.annoton)) {
+      this.formGrid.clearForm();
       self.$mdToast.show(
         self.$mdToast.simple()
         .textContent('Annoton Saved Successfully')
