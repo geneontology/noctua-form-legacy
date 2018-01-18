@@ -7,6 +7,7 @@ var model = require('bbop-graph-noctua');
 var barista_response = require('bbop-response-barista');
 var minerva_requests = require('minerva-requests');
 var jquery_engine = require('bbop-rest-manager').jquery;
+var class_expression = require('class-expression');
 var minerva_manager = require('bbop-manager-minerva');
 const annotationTitleKey = 'title';
 
@@ -170,13 +171,29 @@ export default class GraphService {
     return result;
   }
 
+  getNodeIsComplement(node) {
+    var result = true;
+    if (node) {
+      each(node.types(), function (in_type) {
+
+        let t = in_type.type();
+        result = result && (t === 'class' || t === 'complement');
+      });
+    }
+
+    return !result;
+  }
+
   subjectToTerm(graph, object) {
     const self = this;
 
-    let gp = graph.get_node(object);
+    let node = graph.get_node(object);
     let result = {
-      id: self.getNodeId(gp),
-      label: self.getNodeLabel(gp)
+      term: {
+        id: self.getNodeId(node),
+        label: self.getNodeLabel(node),
+      },
+      isComplement: self.getNodeIsComplement(node)
     }
 
     return result;
@@ -220,11 +237,11 @@ export default class GraphService {
       if (e.predicate_id() === self.saeConstants.edge.enabledBy) {
         let mfId = e.subject_id();
         let gpId = e.object_id();
-        let mfTerm = self.subjectToTerm(graph, mfId);
-        let gpTerm = self.subjectToTerm(graph, gpId);
+        let mfSubjectNode = self.subjectToTerm(graph, mfId);
+        let gpSubjectNode = self.subjectToTerm(graph, gpId);
         let annoton = null;
 
-        if (gpTerm.id && gpTerm.id.startsWith('GO')) {
+        if (gpSubjectNode.term.id && gpSubjectNode.term.id.startsWith('GO')) {
           annoton = self.config.createComplexAnnotonModel();
         } else {
           annoton = self.config.createAnnotonModel();
@@ -237,7 +254,7 @@ export default class GraphService {
         annoton.parser = new AnnotonParser();
         annoton.parser.saeConstants = self.saeConstants
 
-        annotonNode.setTerm(mfTerm);
+        annotonNode.setTerm(mfSubjectNode.term);
         annotonNode.setEvidence(evidence);
         annotonNode.modelId = mfId;
 
@@ -274,16 +291,17 @@ export default class GraphService {
           if (predicateId === self.saeConstants.edge.hasPart && toMFObject !== node.target.id) {
             //do nothing
           } else {
-            let term = self.subjectToTerm(graph, toMFObject);
+            let subjectNode = self.subjectToTerm(graph, toMFObject);
 
             node.target.modelId = toMFObject;
             node.target.setEvidence(evidence);
-            node.target.setTerm(term);
+            node.target.setTerm(subjectNode.term);
+            // node.target.setTerm(term.term);
 
             //self.check
 
-            if (term) {
-              annoton.parser.parseNodeOntology(node.target, term.id);
+            if (subjectNode.term && subjectNode.term.id) {
+              annoton.parser.parseNodeOntology(node.target, subjectNode.term.id);
             }
             self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target);
           }
@@ -361,7 +379,14 @@ export default class GraphService {
   addIndividual(reqs, node) {
     node.saveMeta = {};
     if (node.term.control.value && node.term.control.value.id) {
-      node.saveMeta.term = reqs.add_individual(node.term.control.value.id);
+      if (node.isComplement) {
+        let ce = new class_expression();
+        ce.as_complement(node.term.control.value.id);
+        node.saveMeta.term = reqs.add_individual(ce);
+      } else {
+        node.saveMeta.term = reqs.add_individual(node.term.control.value.id);
+      }
+
     }
   }
 

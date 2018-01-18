@@ -318,7 +318,7 @@ ul li.error-reason {
     }
   }
   .sae-term-group {
-    padding-bottom: 20px;
+    // padding-bottom: 20px;
     margin-bottom: 3px;
     border-bottom: #CCC solid 1px;
     background-color: #FFF;
@@ -329,8 +329,8 @@ ul li.error-reason {
       font-size: 18px;
     }
     .sae-group-side-heading {
-      @include deep-width(100px);
-      background-color: #D2D2D2;
+      @include deep-width(50px);
+      background-color: #DDD;
       font-size: 10px;
       text-align: center;
     }

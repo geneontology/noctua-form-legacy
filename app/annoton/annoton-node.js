@@ -10,7 +10,7 @@ export default class AnnotonNode {
     this.nodeGroup = {}
     this.ontologyClass = [];
     this.modelId;
-    this.isNot = false;
+    this.isComplement = false;
     this.term = {
       "validation": {
         "errors": []
@@ -80,11 +80,11 @@ export default class AnnotonNode {
     this.term.ontologyClass = value;
   }
 
-  toggleIsNot() {
+  toggleIsComplement() {
     const self = this;
 
-    self.isNot = !self.isNot;
-    self.nodeGroup.isNot = self.isNot;
+    self.isComplement = !self.isComplement;
+    self.nodeGroup.isComplement = self.isComplement;
   }
 
   clearValues() {
