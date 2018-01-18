@@ -218,7 +218,7 @@ export default class AppController {
         .position('top right')
         .action('OK')
         .theme("success-toast")
-        .hideDelay(0)
+        .hideDelay(10000)
       );
 
 

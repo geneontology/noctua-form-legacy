@@ -177,11 +177,11 @@ export default class GraphService {
       each(node.types(), function (in_type) {
 
         let t = in_type.type();
-        result = result && (t === 'class' || t === 'complement');
+        result = result && (t === 'complement');
       });
     }
 
-    return !result;
+    return result;
   }
 
   subjectToTerm(graph, object) {
@@ -256,6 +256,7 @@ export default class GraphService {
 
         annotonNode.setTerm(mfSubjectNode.term);
         annotonNode.setEvidence(evidence);
+        annotonNode.setIsComplement(mfSubjectNode.isComplement)
         annotonNode.modelId = mfId;
 
         self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode);
@@ -296,7 +297,7 @@ export default class GraphService {
             node.target.modelId = toMFObject;
             node.target.setEvidence(evidence);
             node.target.setTerm(subjectNode.term);
-            // node.target.setTerm(term.term);
+            node.target.setIsComplement(subjectNode.isComplement)
 
             //self.check
 
@@ -386,7 +387,6 @@ export default class GraphService {
       } else {
         node.saveMeta.term = reqs.add_individual(node.term.control.value.id);
       }
-
     }
   }
 

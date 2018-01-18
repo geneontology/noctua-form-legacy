@@ -317,6 +317,12 @@ ul li.error-reason {
       //padding: 16px 14px;
     }
   }
+  .sae-group-side-heading {
+    @include deep-width(50px);
+    background-color: #DDD;
+    font-size: 10px;
+    text-align: center;
+  }
   .sae-term-group {
     // padding-bottom: 20px;
     margin-bottom: 3px;
@@ -327,12 +333,6 @@ ul li.error-reason {
       height: 40px;
       font-weight: 500;
       font-size: 18px;
-    }
-    .sae-group-side-heading {
-      @include deep-width(50px);
-      background-color: #DDD;
-      font-size: 10px;
-      text-align: center;
     }
     .sae-annoton-group-row {
       &.sae-input-heading {

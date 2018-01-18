@@ -54,6 +54,9 @@
                         <div class="sae-summary-group-heading" layout="column" layout-align="center center">
                             <div>{{nodeGroup.shorthand}}</div>
                         </div>
+                        <div ng-if="nodeGroup.isComplement" class="sae-group-side-heading" layout="column" layout-align="center center" flex>
+                            <div>IS NOT</div>
+                        </div>
                         <div class="sae-summary-group-body" layout="column" flex>
                             {{annotonCtrl.summaryRow.annoton.status}}
                             <div ng-repeat="entity in nodeGroup.nodes" class="sae-annoton-node ph-15" layout="row" ng-class="{ 'sae-error': entity.errors.length>0,

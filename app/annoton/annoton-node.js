@@ -87,6 +87,12 @@ export default class AnnotonNode {
     self.nodeGroup.isComplement = self.isComplement;
   }
 
+  setIsComplement(complement) {
+    const self = this;
+
+    self.isComplement = complement;
+  }
+
   clearValues() {
     const self = this;
 

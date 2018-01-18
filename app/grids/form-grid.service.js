@@ -38,6 +38,9 @@ export default class FormGridService {
       }
       result[node.displaySection.id][node.displayGroup.id].nodes.push(node);
       node.nodeGroup = result[node.displaySection.id][node.displayGroup.id];
+      if (node.isComplement) {
+        node.nodeGroup.isComplement = true;
+      }
     });
 
     return result;
