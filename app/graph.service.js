@@ -265,7 +265,7 @@ export default class GraphService {
       let evidence = self.edgeToEvidence(graph, toMFEdge);
       let toMFObject = toMFEdge.object_id();
 
-      if (predicateId === self.saeConstants.edge.hasPart) {
+      if (annotonNode.id === "mc" && predicateId === self.saeConstants.edge.hasPart) {
         self.config.addGPAnnotonData(annoton, toMFObject);
       }
 

@@ -246,6 +246,11 @@
                         More Evidence
                       </md-button>
                     </md-menu-item>
+                    <md-menu-item ng-if="entity.treeLevel===0">
+                      <md-button class="" ng-click="entity.toggleNot()">
+                        NOT
+                      </md-button>
+                    </md-menu-item>
                   </md-menu-content>
                 </md-menu>
               </div>
