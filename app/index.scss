@@ -328,6 +328,12 @@ ul li.error-reason {
       font-weight: 500;
       font-size: 18px;
     }
+    .sae-group-side-heading {
+      @include deep-width(100px);
+      background-color: #D2D2D2;
+      font-size: 10px;
+      text-align: center;
+    }
     .sae-annoton-group-row {
       &.sae-input-heading {
         margin-top: 10px;

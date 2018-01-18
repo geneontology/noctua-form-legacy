@@ -37,6 +37,7 @@ export default class FormGridService {
         };
       }
       result[node.displaySection.id][node.displayGroup.id].nodes.push(node);
+      node.nodeGroup = result[node.displaySection.id][node.displayGroup.id];
     });
 
     return result;

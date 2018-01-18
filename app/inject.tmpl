@@ -176,83 +176,86 @@
           </div>
           <div ng-if="tvc.formGrid.annoton.annotonModelType === tvc.saeConstants.annotonModelType.options.annoton.name" class="sae-section-body"
             layout="column" layout-align="start stretch">
-            <div ng-repeat="nodeGroup in tvc.formGrid.annotonPresentation.fd" class="sae-term-group md-whiteframe-1dp" layout="column">
-              <div ng-if="false" class="sae-group-heading pv-25 ph-15">
-                {{nodeGroup.label}}
+            <div ng-repeat="nodeGroup in tvc.formGrid.annotonPresentation.fd" class="sae-term-group md-whiteframe-1dp" layout="row">
+              <div ng-if="nodeGroup.isNot" class="sae-group-side-heading pv-25 ph-15" layout="column" layout-align="centet center" flex>
+                NOT
               </div>
-              <div ng-repeat="entity in nodeGroup.nodes" class="ph-15 sae-annoton-group-row" layout="row" ng-class="{'sae-input-heading' : entity.treeLevel===0}">
-                <div ng-if="entity.treeLevel>0" class="sae-tree-input sae-level-1">
+              <div class="" layout="column" flex>
+                <div ng-repeat="entity in nodeGroup.nodes" class="ph-15 sae-annoton-group-row" layout="row" ng-class="{'sae-input-heading' : entity.treeLevel===0}">
+                  <div ng-if="entity.treeLevel>0" class="sae-tree-input sae-level-1">
 
-                </div>
-                <div ng-if="entity.treeLevel>1" class="sae-tree-input sae-level-2">
+                  </div>
+                  <div ng-if="entity.treeLevel>1" class="sae-tree-input sae-level-2">
 
-                </div>
-                <div class="typeaheadcontainer" flex="40">
-                  <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term]">
-                    <i class="fa fa-spinner fa-spin fa-fw"></i>
                   </div>
-                  <md-input-container class="md-block">
-                    <input aria-label="term" type="INPUT_TYPE" ng-model="entity.term.control.value" tabindex="0" ng-trim="false" ng-blur="noResults[entity.term] = false"
-                      uib-typeahead="term as term.label for term in tvc.getTerm(entity.term)" typeahead-append-to-body="true"
-                      xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]"
-                      typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                      typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term, $item, $model, $label, $event)"
-                      class="typeaheadcontrol" placeholder="{{entity.label}}" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
-                  </md-input-container>
-                  <div class="no-results" ng-show="tvc.editingModel[term].length > 2 && noResults[term]">
-                    No Results Found
+                  <div class="typeaheadcontainer" flex="40">
+                    <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term]">
+                      <i class="fa fa-spinner fa-spin fa-fw"></i>
+                    </div>
+                    <md-input-container class="md-block">
+                      <input aria-label="term" type="INPUT_TYPE" ng-model="entity.term.control.value" tabindex="0" ng-trim="false" ng-blur="noResults[entity.term] = false"
+                        uib-typeahead="term as term.label for term in tvc.getTerm(entity.term)" typeahead-append-to-body="true"
+                        xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]"
+                        typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html" typeahead-editable="true"
+                        typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term, $item, $model, $label, $event)"
+                        class="typeaheadcontrol" placeholder="{{entity.label}}" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                    </md-input-container>
+                    <div class="no-results" ng-show="tvc.editingModel[term].length > 2 && noResults[term]">
+                      No Results Found
+                    </div>
                   </div>
-                </div>
-                <div class="typeaheadcontainer" flex="30">
-                  <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term + 'e']">
-                    <i class="fa fa-spinner fa-spin fa-fw"></i>
+                  <div class="typeaheadcontainer" flex="30">
+                    <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term + 'e']">
+                      <i class="fa fa-spinner fa-spin fa-fw"></i>
+                    </div>
+                    <md-input-container class="md-block">
+                      <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value" ng-trim="false" tabindex="0"
+                        ng-blur="noResults[entity.term + 'e'] = false" uib-typeahead="term as term.label for term in tvc.getTerm(entity.evidence[0].evidence)"
+                        typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false"
+                        typeahead-loading="loadingItems[term + 'e']" typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html"
+                        typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
+                        typeahead-on-select="tvc.termSelected(term + 'e', $item, $model, $label, $event)" class="typeaheadcontrol"
+                        placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                    </md-input-container>
+                    <div class="no-results" ng-show="tvc.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
+                      No Results Found
+                    </div>
                   </div>
-                  <md-input-container class="md-block">
-                    <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value" ng-trim="false" tabindex="0"
-                      ng-blur="noResults[entity.term + 'e'] = false" uib-typeahead="term as term.label for term in tvc.getTerm(entity.evidence[0].evidence)"
-                      typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
-                      typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                      typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term + 'e', $item, $model, $label, $event)"
-                      class="typeaheadcontrol" placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
-                  </md-input-container>
-                  <div class="no-results" ng-show="tvc.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
-                    No Results Found
+                  <div class="" flex="15">
+                    <md-input-container class="md-block">
+                      <input ng-pattern="/^.+:.+$/" tabindex="0" ng-model="entity.evidence[0].reference.control.value" type="text" class="" placeholder="Reference"
+                        aria-label="reference">
+                    </md-input-container>
                   </div>
+                  <div class="" flex="15">
+                    <md-input-container class="md-block">
+                      <input ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!entity.evidence[0].evidence.control.value" ng-model="row.entity.evidence[0].with.control.value"
+                        type="text" class="" placeholder="With" aria-label="With"> </md-input-container>
+                  </div>
+                  <span flex></span>
+                  <md-menu md-position-mode="target-right target">
+                    <md-button aria-label="Open Annoton Model Type" class="md-icon-button sae-action-button md-raised" ng-click="$mdMenu.open($event)">
+                      <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
+                    </md-button>
+                    <md-menu-content width="3">
+                      <md-menu-item>
+                        <md-button class="" ng-click="entity.clearValues()">
+                          Clear Node
+                        </md-button>
+                      </md-menu-item>
+                      <md-menu-item>
+                        <md-button class="" ng-click="tvc.openAddEvidenceDialogDialog($event, entity)">
+                          More Evidence
+                        </md-button>
+                      </md-menu-item>
+                      <md-menu-item ng-if="entity.treeLevel===0">
+                        <md-button class="" ng-click="entity.toggleIsNot()">
+                          NOT
+                        </md-button>
+                      </md-menu-item>
+                    </md-menu-content>
+                  </md-menu>
                 </div>
-                <div class="" flex="15">
-                  <md-input-container class="md-block">
-                    <input ng-pattern="/^.+:.+$/" tabindex="0" ng-model="entity.evidence[0].reference.control.value" type="text" class="" placeholder="Reference"
-                      aria-label="reference">
-                  </md-input-container>
-                </div>
-                <div class="" flex="15">
-                  <md-input-container class="md-block">
-                    <input ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!entity.evidence[0].evidence.control.value" ng-model="row.entity.evidence[0].with.control.value"
-                      type="text" class="" placeholder="With" aria-label="With"> </md-input-container>
-                </div>
-                <span flex></span>
-                <md-menu md-position-mode="target-right target">
-                  <md-button aria-label="Open Annoton Model Type" class="md-icon-button sae-action-button md-raised" ng-click="$mdMenu.open($event)">
-                    <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
-                  </md-button>
-                  <md-menu-content width="3">
-                    <md-menu-item>
-                      <md-button class="" ng-click="entity.clearValues()">
-                        Clear Node
-                      </md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                      <md-button class="" ng-click="tvc.openAddEvidenceDialogDialog($event, entity)">
-                        More Evidence
-                      </md-button>
-                    </md-menu-item>
-                    <md-menu-item ng-if="entity.treeLevel===0">
-                      <md-button class="" ng-click="entity.toggleNot()">
-                        NOT
-                      </md-button>
-                    </md-menu-item>
-                  </md-menu-content>
-                </md-menu>
               </div>
             </div>
           </div>

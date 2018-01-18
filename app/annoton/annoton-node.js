@@ -7,8 +7,10 @@ import AnnotonError from "./parser/annoton-error.js";
 export default class AnnotonNode {
   constructor() {
     this.id;
+    this.nodeGroup = {}
     this.ontologyClass = [];
     this.modelId;
+    this.isNot = false;
     this.term = {
       "validation": {
         "errors": []
@@ -78,6 +80,12 @@ export default class AnnotonNode {
     this.term.ontologyClass = value;
   }
 
+  toggleIsNot() {
+    const self = this;
+
+    self.isNot = !self.isNot;
+    self.nodeGroup.isNot = self.isNot;
+  }
 
   clearValues() {
     const self = this;
