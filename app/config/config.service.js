@@ -84,7 +84,8 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'regulates_closure:"CHEBI:33695"'
+                //'regulates_closure:"CHEBI:33695"'
+                'regulates_closure:"CHEBI:23367"'
               ],
             }),
           }
