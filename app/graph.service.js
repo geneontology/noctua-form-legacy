@@ -152,8 +152,16 @@ export default class GraphService {
     var label = '';
     if (node) {
       each(node.types(), function (in_type) {
-        label += in_type._class_label +
-          ' (' + in_type._class_id + ')';
+
+        let type;
+        if (in_type.type() === 'complement') {
+          type = in_type.complement_class_expression();
+        } else {
+          type = in_type;
+        }
+
+        label += type.class_label() +
+          ' (' + type.class_id() + ')';
       });
     }
 
@@ -164,7 +172,14 @@ export default class GraphService {
     var result = null;
     if (node) {
       each(node.types(), function (in_type) {
-        result = in_type._class_id;
+        let type;
+        if (in_type.type() === 'complement') {
+          type = in_type.complement_class_expression();
+        } else {
+          type = in_type;
+        }
+
+        result = type.class_id();
       });
     }
 
@@ -175,7 +190,6 @@ export default class GraphService {
     var result = true;
     if (node) {
       each(node.types(), function (in_type) {
-
         let t = in_type.type();
         result = result && (t === 'complement');
       });

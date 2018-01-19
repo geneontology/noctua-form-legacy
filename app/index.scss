@@ -464,6 +464,7 @@ ul li.error-reason {
     }
   }
   .sae-card {
+    overflow: hidden;
     background-color: #FFF;
     &.sae-error {
       background-color: #ebcccc;
