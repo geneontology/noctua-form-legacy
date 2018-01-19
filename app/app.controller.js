@@ -6,58 +6,35 @@
 /* global angular */
 
 export default class AppController {
-  constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, $mdToast, uiGridTreeViewConstants, graph, lookup, formGrid, summaryGrid) {
-    var tvc = this;
+  constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, $mdToast, uiGridTreeViewConstants, graph, lookup, formGrid) {
+    var appCtrl = this;
     this.saeConstants = saeConstants;
     this.$scope = $scope;
     this.$rootScope = $rootScope;
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
     this.uiGridTreeViewConstants = uiGridTreeViewConstants;
-    tvc.$timeout = $timeout;
-    tvc.lookup = lookup;
-    tvc.graph = graph;
-    tvc.formGrid = formGrid;
-    tvc.summaryGrid = summaryGrid;
+    appCtrl.$timeout = $timeout;
+    appCtrl.lookup = lookup;
+    appCtrl.graph = graph;
+    appCtrl.formGrid = formGrid;
 
     var userNameInfo = document.getElementById('user_name_info');
     if (userNameInfo) {
       userNameInfo.innerHTML = '';
     }
 
-    tvc.summaryView = {
+    appCtrl.summaryView = {
       options: {
         grid: 0,
         list: 1
       },
     };
-    tvc.summaryView.selected = 0;
-
-    /* Init the form grid */
-    //tvc.formGrid.registerApi();
-    tvc.formGrid.initalizeForm();
-    // tvc.formGrid.expandAll();
-    /* Init the summary grid */
-    //tvc.summaryGrid.registerApi();
-
-    /* Attach the tvc to the gridScope */
-    // tvc.formGrid.gridOptions.appScopeProvider = tvc;
-
-
-
-
+    appCtrl.summaryView.selected = 0;
+    appCtrl.formGrid.initalizeForm();
 
     $rootScope.$on('rebuilt', function (event, data) {
-      const gridData = data.gridData;
-
-      tvc.summaryGrid.summaryData = gridData;
-      //tvc.summaryGrid.gridOptions.data = gridData;
-      //tvc.summaryGrid.gridOptions.appScopeProvider = tvc;
-      // tvc.summaryGrid.gridOptions.expandableRowScope = tvc;
-      // tvc.summaryGrid.setSubGrid(gridData)
-      //tvc.summaryGrid.registerApi();
-
-
+      appCtrl.summaryData = data.gridData;
     });
 
     graph.initialize();
@@ -230,7 +207,6 @@ export default class AppController {
     const self = this;
 
     self.formGrid.clearForm();
-    // self.summaryGrid.setSubGridEdit(row);
 
     self.formGrid.gridOptions.data = row.annoton.nodes;
     console.log(JSON.stringify(row.annoton.print()))
@@ -242,4 +218,4 @@ export default class AppController {
     }
   }
 }
-AppController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', '$mdToast', 'uiGridTreeViewConstants', 'graph', 'lookup', 'formGrid', 'summaryGrid'];
+AppController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', '$mdToast', 'uiGridTreeViewConstants', 'graph', 'lookup', 'formGrid'];

@@ -1,8 +1,0 @@
-<div class="ui-grid-cell-contents" title="TOOLTIP" ng-init="errorCount = row.entity.annoton.errors.cardinality.length+row.entity.annoton.errors.ontology.length">
-    <span ng-if="errorCount>0">
-        {{errorCount}} error(s)
-    </span>
-    <md-button ng-if="errorCount>0" class="md-icon-button sae-cell-info-button" aria-label="Error Details" ng-click="grid.appScope.error.showAllErrors(row.entity)">
-        <i class="fa fa-info"></i>
-    </md-button>
-</div>

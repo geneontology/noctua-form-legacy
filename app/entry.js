@@ -32,8 +32,6 @@ import ViewSummaryDialogController from './dialogs/view-summary/view-summary-dia
 
 import ConfigService from './config/config.service.js';
 import FormGridService from './grids/form-grid.service.js';
-import SummaryGridService from './grids/summary-grid.service.js';
-//import GraphService from './graph-old.service.js';
 import GraphService from './graph.service.js';
 import LookupService from './lookup.service.js';
 //import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
@@ -183,6 +181,5 @@ app.controller('ViewSummaryDialogController', ViewSummaryDialogController)
 
 app.service('config', ConfigService);
 app.service('formGrid', FormGridService);
-app.service('summaryGrid', SummaryGridService);
 app.service('graph', GraphService);
 app.service('lookup', LookupService);

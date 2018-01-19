@@ -2,14 +2,14 @@
 
 <!-- Main "app". -->
 <div ng-strict-di ng-app="TVApp" ng-cloak>
-  <div ng-controller="AppController as tvc" ng-form="patternForm" class="tv-container">
+  <div ng-controller="AppController as appCtrl" ng-form="patternForm" class="tv-container">
     <div class="sae-subheader" layout="column" layout-align="center center">
       <div class="sae-container" layout="row">
         <div class="sae-title">
-          {{tvc.graph.title[0].value()}} ({{tvc.graph.model_id}})
+          {{appCtrl.graph.title[0].value()}} ({{appCtrl.graph.model_id}})
         </div>
         <span flex></span>
-        <md-button ng-click="tvc.formGrid.initalizeFormData()">
+        <md-button ng-click="appCtrl.formGrid.initalizeFormData()">
           .
         </md-button>
       </div>
@@ -24,60 +24,60 @@
             <span flex></span>
             <md-menu md-position-mode="target-right target">
               <md-button aria-label="Open Annoton Type" class="sae-action-button" ng-click="$mdMenu.open($event)">
-                {{tvc.saeConstants.annotonType.options[tvc.formGrid.annoton.annotonType].label}}
+                {{appCtrl.saeConstants.annotonType.options[appCtrl.formGrid.annoton.annotonType].label}}
                 <b class="caret"></b>
               </md-button>
               <md-menu-content width="3">
-                <md-menu-item ng-repeat="annotonType in tvc.saeConstants.annotonType.options">
-                  <md-button ng-click="tvc.formGrid.setAnnotonType(tvc.formGrid.annoton, annotonType)">
+                <md-menu-item ng-repeat="annotonType in appCtrl.saeConstants.annotonType.options">
+                  <md-button ng-click="appCtrl.formGrid.setAnnotonType(appCtrl.formGrid.annoton, annotonType)">
                     {{annotonType.label}}
                   </md-button>
                 </md-menu-item>
               </md-menu-content>
             </md-menu>
           </div>
-          <div ng-if="tvc.formGrid.annoton.annotonType === tvc.saeConstants.annotonType.options.simple.name" class="sae-section-body pt-15 ph-15"
+          <div ng-if="appCtrl.formGrid.annoton.annotonType === appCtrl.saeConstants.annotonType.options.simple.name" class="sae-section-body pt-15 ph-15"
             layout="column" layout-align="start stretch">
             <div class="typeaheadcontainer" layout="row">
               <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItemsGP">
                 <i class="fa fa-spinner fa-spin fa-fw"></i>
               </div>
               <md-input-container class="md-block" flex>
-                <input aria-describedby="igGP" type="text" ng-model="tvc.formGrid.annotonPresentation.geneProduct.term.control.value" ng-trim="false"
-                  placeholder="Gene Product" ng-blur="noResultsGP = false" uib-typeahead="term as term.label for term in tvc.getTerm(tvc.formGrid.annotonPresentation.geneProduct.term)"
+                <input aria-describedby="igGP" type="text" ng-model="appCtrl.formGrid.annotonPresentation.geneProduct.term.control.value"
+                  ng-trim="false" placeholder="Gene Product" ng-blur="noResultsGP = false" uib-typeahead="term as term.label for term in appCtrl.getTerm(appCtrl.formGrid.annotonPresentation.geneProduct.term)"
                   typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP"
                   typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                  typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected('GP', $item, $model, $label, $event)"
+                  typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected('GP', $item, $model, $label, $event)"
                   class="typeaheadcontrol form-contro" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
               </md-input-container>
-              <div class="no-results" ng-show="tvc.editingModel.GP.length > 2 && noResultsGP">
+              <div class="no-results" ng-show="appCtrl.editingModel.GP.length > 2 && noResultsGP">
                 No Results Found
               </div>
             </div>
           </div>
-          <div ng-if="tvc.formGrid.annoton.annotonType === tvc.saeConstants.annotonType.options.complex.name" class="sae-section-body pt-15 ph-15 pb-25"
+          <div ng-if="appCtrl.formGrid.annoton.annotonType === appCtrl.saeConstants.annotonType.options.complex.name" class="sae-section-body pt-15 ph-15 pb-25"
             layout="column" layout-align="start stretch">
             <div class="typeaheadcontainer">
               <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItemsGP">
                 <i class="fa fa-spinner fa-spin fa-fw"></i>
               </div>
               <md-input-container class="md-block">
-                <input aria-describedby="igGP" type="text" ng-model="tvc.formGrid.annoton.complexAnnotonData.mcNode.term.control.value" ng-trim="false"
-                  placeholder="Macromolecular Complex GO Term" ng-blur="noResultsGP = false" uib-typeahead="term as term.label for term in tvc.getTerm(tvc.formGrid.annoton.complexAnnotonData.mcNode.term)"
+                <input aria-describedby="igGP" type="text" ng-model="appCtrl.formGrid.annoton.complexAnnotonData.mcNode.term.control.value"
+                  ng-trim="false" placeholder="Macromolecular Complex GO Term" ng-blur="noResultsGP = false" uib-typeahead="term as term.label for term in appCtrl.getTerm(appCtrl.formGrid.annoton.complexAnnotonData.mcNode.term)"
                   typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP"
                   typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                  typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected('GP', $item, $model, $label, $event)"
+                  typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected('GP', $item, $model, $label, $event)"
                   class="typeaheadcontrol" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
               </md-input-container>
-              <div class="no-results" ng-show="tvc.editingModel.GP.length > 2 && noResultsGP">
+              <div class="no-results" ng-show="appCtrl.editingModel.GP.length > 2 && noResultsGP">
                 No Results Found
               </div>
             </div>
-            <md-chips ng-model="tvc.formGrid.annoton.complexAnnotonData.geneProducts" md-autocomplete-snap md-require-match=true>
-              <md-autocomplete md-selected-item="tvc.selectedItem" md-search-text="tvc.formGrid.annoton.complexAnnotonData.gpTemplateNode.term.control.value"
-                md-items="item in tvc.getTerm(tvc.formGrid.annoton.complexAnnotonData.gpTemplateNode.term)" md-item-text="item.label"
+            <md-chips ng-model="appCtrl.formGrid.annoton.complexAnnotonData.geneProducts" md-autocomplete-snap md-require-match=true>
+              <md-autocomplete md-selected-item="appCtrl.selectedItem" md-search-text="appCtrl.formGrid.annoton.complexAnnotonData.gpTemplateNode.term.control.value"
+                md-items="item in appCtrl.getTerm(appCtrl.formGrid.annoton.complexAnnotonData.gpTemplateNode.term)" md-item-text="item.label"
                 placeholder="Gene Products">
-                <span md-highlight-text="tvc.searchText">{{item.label}} :: {{item.id}}</span>
+                <span md-highlight-text="appCtrl.searchText">{{item.label}} :: {{item.id}}</span>
               </md-autocomplete>
               <md-chip-template>
                 <span>
@@ -96,13 +96,13 @@
                 </div>
                 <md-input-container class="md-block">
                   <input aria-label="term" type="INPUT_TYPE" ng-model="entity.term.control.value" tabindex="0" ng-trim="false" ng-blur="noResults[entity.term] = false"
-                    uib-typeahead="term as term.label for term in tvc.getTerm(entity.term)" typeahead-append-to-body="true"
+                    uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.term)" typeahead-append-to-body="true"
                     xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]"
                     typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                    typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term, $item, $model, $label, $event)"
+                    typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected(term, $item, $model, $label, $event)"
                     class="typeaheadcontrol" placeholder="{{entity.label}}" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
                 </md-input-container>
-                <div class="no-results" ng-show="tvc.editingModel[term].length > 2 && noResults[term]">
+                <div class="no-results" ng-show="appCtrl.editingModel[term].length > 2 && noResults[term]">
                   No Results Found
                 </div>
                 <address></address>
@@ -113,13 +113,13 @@
                 </div>
                 <md-input-container class="md-block">
                   <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value" ng-trim="false" tabindex="0"
-                    ng-blur="noResults[entity.term + 'e'] = false" uib-typeahead="term as term.label for term in tvc.getTerm(entity.evidence[0].evidence)"
+                    ng-blur="noResults[entity.term + 'e'] = false" uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.evidence[0].evidence)"
                     typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
                     typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                    typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term + 'e', $item, $model, $label, $event)"
+                    typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected(term + 'e', $item, $model, $label, $event)"
                     class="typeaheadcontrol" placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
                 </md-input-container>
-                <div class="no-results" ng-show="tvc.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
+                <div class="no-results" ng-show="appCtrl.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
                   No Results Found
                 </div>
               </div>
@@ -162,21 +162,21 @@
             <span flex></span>
             <md-menu md-position-mode="target-right target">
               <md-button aria-label="Open Annoton Model Type" class="sae-action-button" ng-click="$mdMenu.open($event)">
-                {{tvc.saeConstants.annotonModelType.options[tvc.formGrid.annoton.annotonModelType].label}}
+                {{appCtrl.saeConstants.annotonModelType.options[appCtrl.formGrid.annoton.annotonModelType].label}}
                 <b class="caret"></b>
               </md-button>
               <md-menu-content width="3">
-                <md-menu-item ng-repeat="annotonModelType in tvc.saeConstants.annotonModelType.options">
-                  <md-button ng-click="tvc.formGrid.setAnnotonModelType(tvc.formGrid.annoton, annotonModelType)">
+                <md-menu-item ng-repeat="annotonModelType in appCtrl.saeConstants.annotonModelType.options">
+                  <md-button ng-click="appCtrl.formGrid.setAnnotonModelType(appCtrl.formGrid.annoton, annotonModelType)">
                     {{annotonModelType.label}}
                   </md-button>
                 </md-menu-item>
               </md-menu-content>
             </md-menu>
           </div>
-          <div ng-if="tvc.formGrid.annoton.annotonModelType === tvc.saeConstants.annotonModelType.options.annoton.name" class="sae-section-body"
+          <div ng-if="appCtrl.formGrid.annoton.annotonModelType === appCtrl.saeConstants.annotonModelType.options.annoton.name" class="sae-section-body"
             layout="column" layout-align="start stretch">
-            <div ng-repeat="nodeGroup in tvc.formGrid.annotonPresentation.fd" class="sae-term-group md-whiteframe-1dp" layout="row">
+            <div ng-repeat="nodeGroup in appCtrl.formGrid.annotonPresentation.fd" class="sae-term-group md-whiteframe-1dp" layout="row">
               <div ng-if="nodeGroup.isComplement" class="sae-group-side-heading" layout="column" layout-align="center center" flex>
                 <div>IS NOT</div>
               </div>
@@ -194,13 +194,13 @@
                     </div>
                     <md-input-container class="md-block">
                       <input aria-label="term" type="INPUT_TYPE" ng-model="entity.term.control.value" tabindex="0" ng-trim="false" ng-blur="noResults[entity.term] = false"
-                        uib-typeahead="term as term.label for term in tvc.getTerm(entity.term)" typeahead-append-to-body="true"
+                        uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.term)" typeahead-append-to-body="true"
                         xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]"
                         typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                        typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="tvc.termSelected(term, $item, $model, $label, $event)"
+                        typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected(term, $item, $model, $label, $event)"
                         class="typeaheadcontrol" placeholder="{{entity.label}}" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
                     </md-input-container>
-                    <div class="no-results" ng-show="tvc.editingModel[term].length > 2 && noResults[term]">
+                    <div class="no-results" ng-show="appCtrl.editingModel[term].length > 2 && noResults[term]">
                       No Results Found
                     </div>
                   </div>
@@ -210,14 +210,14 @@
                     </div>
                     <md-input-container class="md-block">
                       <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value" ng-trim="false" tabindex="0"
-                        ng-blur="noResults[entity.term + 'e'] = false" uib-typeahead="term as term.label for term in tvc.getTerm(entity.evidence[0].evidence)"
+                        ng-blur="noResults[entity.term + 'e'] = false" uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.evidence[0].evidence)"
                         typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false"
                         typeahead-loading="loadingItems[term + 'e']" typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html"
                         typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
-                        typeahead-on-select="tvc.termSelected(term + 'e', $item, $model, $label, $event)" class="typeaheadcontrol"
+                        typeahead-on-select="appCtrl.termSelected(term + 'e', $item, $model, $label, $event)" class="typeaheadcontrol"
                         placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
                     </md-input-container>
-                    <div class="no-results" ng-show="tvc.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
+                    <div class="no-results" ng-show="appCtrl.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
                       No Results Found
                     </div>
                   </div>
@@ -244,7 +244,7 @@
                         </md-button>
                       </md-menu-item>
                       <md-menu-item>
-                        <md-button class="" ng-click="tvc.openAddEvidenceDialogDialog($event, entity)">
+                        <md-button class="" ng-click="appCtrl.openAddEvidenceDialogDialog($event, entity)">
                           More Evidence
                         </md-button>
                       </md-menu-item>
@@ -259,20 +259,20 @@
               </div>
             </div>
           </div>
-          <div ng-if="tvc.formGrid.annoton.annotonModelType === tvc.saeConstants.annotonModelType.options.candidate.name" class="sae-section-body"
+          <div ng-if="appCtrl.formGrid.annoton.annotonModelType === appCtrl.saeConstants.annotonModelType.options.candidate.name" class="sae-section-body"
             layout="column" layout-align="start stretch">
           </div>
         </div>
         <!-- END TABLE FORM -->
         <div layout="row" class="sae-submit-row md-whiteframe-2dp">
-          <button ng-if="tvc.formGrid.annoton.submitErrors.length > 0" class="btn btn-link" ng-click="tvc.openAnnotonErrorsDialogDialog($event, tvc.formGrid.annoton, tvc.formGrid.annoton.submitErrors)">
+          <button ng-if="appCtrl.formGrid.annoton.submitErrors.length > 0" class="btn btn-link" ng-click="appCtrl.openAnnotonErrorsDialogDialog($event, appCtrl.formGrid.annoton, appCtrl.formGrid.annoton.submitErrors)">
             Why is the "save" button disabled?
           </button>
           <span flex></span>
-          <md-button type="button" ng-disabled="false" ng-click="tvc.formGrid.clearForm()" class="md-raised" aria-label="Clear Form">
+          <md-button type="button" ng-disabled="false" ng-click="appCtrl.formGrid.clearForm()" class="md-raised" aria-label="Clear Form">
             Clear
           </md-button>
-          <md-button type="button" ng-disabled="!tvc.formGrid.annoton.enableSubmit()" ng-click="tvc.saveAnnoton()" class="md-primary md-raised"
+          <md-button type="button" ng-disabled="!appCtrl.formGrid.annoton.enableSubmit()" ng-click="appCtrl.saveAnnoton()" class="md-primary md-raised"
             aria-label="Save Form">
             Create
           </md-button>
@@ -284,12 +284,12 @@
             Molecular Activities in the Model
           </h2>
         </div>
-        <div ng-if="tvc.summaryGrid.summaryData.length===0">
+        <div ng-if="appCtrl.summaryData.length===0">
           <div class="alert alert-info">
             No Annoton Models
           </div>
         </div>
-        <div ng-if="tvc.summaryView.selected===tvc.summaryView.options.list" ng-repeat="summaryRow in tvc.summaryGrid.summaryData"
+        <div ng-if="appCtrl.summaryView.selected===appCtrl.summaryView.options.list" ng-repeat="summaryRow in appCtrl.summaryData"
           class="sae-panel md-whiteframe-2dp mb-10">
           <div class="sae-panel-header" layout="row" layout-align="start start" flex ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
           'sae-error': !summaryRow.annoton.parser.clean }">
@@ -307,13 +307,13 @@
               </div>
             </div>
             <span flex></span>
-            <md-button ng-if="!summaryRow.annoton.parser.clean" class="sae-error-button" ng-click="tvc.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, summaryRow.annoton.parser.errors)">
+            <md-button ng-if="!summaryRow.annoton.parser.clean" class="sae-error-button" ng-click="appCtrl.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, summaryRow.annoton.parser.errors)">
               {{summaryRow.annoton.parser.errors.length}} error(s)
             </md-button>
-            <md-button class="md-icon-button sae-action-button" ng-click="tvc.graph.deleteAnnoton(summaryRow.annoton)">
+            <md-button class="md-icon-button sae-action-button" ng-click="appCtrl.graph.deleteAnnoton(summaryRow.annoton)">
               <md-icon md-font-icon="fa fa-trash"></md-icon>
             </md-button>
-            <md-button ng-if="false" class="md-icon-button sae-action-button" ng-click="tvc.openEditAnnotonDialogDialog($event, summaryRow)">
+            <md-button ng-if="false" class="md-icon-button sae-action-button" ng-click="appCtrl.openEditAnnotonDialogDialog($event, summaryRow)">
               <md-icon md-font-icon="fa fa-pencil"></md-icon>
             </md-button>
           </div>
@@ -349,7 +349,7 @@
                       <span class="" ng-if="!entity.evidence[0].evidence.control.value.label">no evidence</span>
                     </div>
                   </div>
-                  <md-button ng-if="entity.errors.length>0" class="sae-error-button" ng-click="tvc.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, entity.errors)">
+                  <md-button ng-if="entity.errors.length>0" class="sae-error-button" ng-click="appCtrl.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, entity.errors)">
                     {{entity.errors.length}} error(s)
                   </md-button>
                 </div>
@@ -357,17 +357,17 @@
             </div>
           </div>
         </div>
-        <div ng-if="tvc.summaryView.selected===tvc.summaryView.options.grid" class="sae-container sae-summary" layout="row" layout-align="start"
-          layout-wrap>
-          <div ng-repeat="summaryRow in tvc.summaryGrid.summaryData" class="sae-card-widget p-10" flex="33">
+        <div ng-if="appCtrl.summaryView.selected===appCtrl.summaryView.options.grid" class="sae-container sae-summary" layout="row"
+          layout-align="start" layout-wrap>
+          <div ng-repeat="summaryRow in appCtrl.summaryData" class="sae-card-widget p-10" flex="33">
             <div class="sae-card md-whiteframe-2dp" ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
             'sae-error': !summaryRow.annoton.parser.clean }" layout-fill>
               <div class="sae-card-header" layout="row" layout-align="start start" flex>
                 <div class="sae-term sae-term-mf">
                   <span class="sae-fa-stack fa-stack fa-lg">
                     <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
-                    <i ng-if="summaryRow.annoton.annotonType===tvc.saeConstants.annotonType.options.simple.name" class="sae-fa-sm fa fa-cube fa-stack-1x"></i>
-                    <i ng-if="summaryRow.annoton.annotonType===tvc.saeConstants.annotonType.options.complex.name" class="sae-fa-sm fa fa-cubes fa-stack-1x"></i>
+                    <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.simple.name" class="sae-fa-sm fa fa-cube fa-stack-1x"></i>
+                    <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.complex.name" class="sae-fa-sm fa fa-cubes fa-stack-1x"></i>
                   </span>
                 </div>
                 <div class="sae-card-heading" flex>
@@ -412,13 +412,13 @@
               <div class="sae-card-footer" layout="row" layout-align="start center" flex ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
           'sae-error': !summaryRow.annoton.parser.clean }">
 
-                <md-button ng-if="!summaryRow.annoton.parser.clean" class="" ng-click="tvc.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, summaryRow.annoton.parser.errors)">
+                <md-button ng-if="!summaryRow.annoton.parser.clean" class="" ng-click="appCtrl.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, summaryRow.annoton.parser.errors)">
                   <span class="text-danger">
                     {{summaryRow.annoton.parser.errors.length}} error(s)
                   </span>
                 </md-button>
                 <span flex></span>
-                <md-button ng-if="true" class="ae-action-button" ng-click="tvc.openViewSummaryDialogDialog($event, summaryRow)">
+                <md-button ng-if="true" class="ae-action-button" ng-click="appCtrl.openViewSummaryDialogDialog($event, summaryRow)">
                   View
                 </md-button>
                 <md-menu md-position-mode="target-right target">
@@ -427,7 +427,7 @@
                   </md-button>
                   <md-menu-content width="2">
                     <md-menu-item>
-                      <md-button class="" ng-click="tvc.graph.deleteAnnoton(summaryRow.annoton)">
+                      <md-button class="" ng-click="appCtrl.graph.deleteAnnoton(summaryRow.annoton)">
                         <md-icon md-font-icon="fa fa-trash"></md-icon> Delete
                       </md-button>
                     </md-menu-item>
