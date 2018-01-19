@@ -76,13 +76,19 @@ export default class Annoton extends SaeGraph {
 
     if (self.annotonType === 'complex') {
       if (!self.complexAnnotonData.mcNode.term.control.value.id) {
-        let error = new AnnotonError(1, "A '" + self.label + "' is required")
+        let meta = {
+          aspect: self.complexAnnotonData.mcNode.label
+        }
+        let error = new AnnotonError(1, "A '" + self.complexAnnotonData.mcNode.label + "' is required", meta)
         self.submitErrors.push(error);
         result = false;
       }
 
       if (self.complexAnnotonData.geneProducts === 0) {
-        let error = new AnnotonError(1, "At least one gene product 'has part' is required if you coose macromolecular complex")
+        let meta = {
+          aspect: self.complexAnnotonData.mcNode.label
+        }
+        let error = new AnnotonError(1, "At least one gene product 'has part' is required if you choose macromolecular complex", meta)
         self.submitErrors.push(error);
         result = false;
       }

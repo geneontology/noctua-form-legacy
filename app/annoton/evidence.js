@@ -80,14 +80,20 @@ export default class Evidence {
     let result = true;
 
     if (!self.evidence.control.value.id) {
-      let error = new AnnotonError(1, "No evidence for '" + node.label + "'")
+      let meta = {
+        aspect: node.label
+      }
+      let error = new AnnotonError(1, "No evidence for '" + node.label + "'", meta)
       errors.push(error);
       result = false;
     }
 
 
     if (self.evidence.control.value.id && !self.reference.control.value) {
-      let error = new AnnotonError(1, "You provided an evidence for '" + node.label + "' but no reference")
+      let meta = {
+        aspect: node.label
+      }
+      let error = new AnnotonError(1, "You provided an evidence for '" + node.label + "' but no reference", meta)
       errors.push(error);
       result = false;
     }

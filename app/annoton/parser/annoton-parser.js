@@ -11,7 +11,7 @@ export default class AnnotonParser {
     this.clean = true;
   }
 
-  parseCardinality(node, sourceEdges, targetEdges) {
+  parseCardinality(graph, node, sourceEdges, targetEdges) {
     const self = this;
 
     let edges2 = [];
@@ -20,11 +20,24 @@ export default class AnnotonParser {
 
     each(sourceEdges, function (edge) {
       let predicateId = edge.predicate_id();
+      let predicateLabel = self.getPredicateLabel(predicateId);
       let allowedEdge = self.allowedEdge(predicateId);
 
       if (!allowedEdge) {
         if (_.includes(edges2, predicateId)) {
-          error = new AnnotonError(1, "More than 1 " + self.getPredicateLabel(predicateId))
+          let meta = {
+            aspect: node.label,
+            subjectNode: {
+              label: node.term.control.value.label
+            },
+            edge: {
+              label: predicateLabel
+            },
+            targetNode: {
+              label: self.getNodeLabel(graph, edge.object_id())
+            },
+          }
+          error = new AnnotonError(3, "More than 1 " + predicateLabel + " found", meta)
           self.errors.push(error);
           result = false;
         }
@@ -38,7 +51,19 @@ export default class AnnotonParser {
             edges2.push(predicateId);
           }
         } else {
-          error = new AnnotonError(1, "Not accepted edge " + self.getPredicateLabel(predicateId));
+          let meta = {
+            aspect: node.label,
+            subjectNode: {
+              label: node.term.control.value.label
+            },
+            edge: {
+              label: predicateLabel
+            },
+            targetNode: {
+              label: self.getNodeLabel(graph, edge.object_id())
+            },
+          }
+          error = new AnnotonError(2, "Not accepted triple ", meta);
           self.errors.push(error);
           node.errors.push(error);
           result = false;
@@ -66,7 +91,13 @@ export default class AnnotonParser {
 
     each(node.term.ontologyClass, function (ontologyClass) {
       if (ontologyClass !== prefix) {
-        error = new AnnotonError(1, "Wrong ontology class " + prefix + ". Expected " + JSON.stringify(node.term.ontologyClass));
+        let meta = {
+          aspect: node.label,
+          subjectNode: {
+            label: node.term.control.value.label
+          }
+        }
+        error = new AnnotonError(4, "Wrong ontology class " + prefix + ". Expected " + JSON.stringify(node.term.ontologyClass), meta);
         self.errors.push(error);
         node.errors.push(error);
         result = false;
@@ -94,5 +125,28 @@ export default class AnnotonParser {
     return _.find(self.saeConstants.canDuplicateEdges, function (edge) {
       return edge.term === predicateId
     });
+  }
+
+  getNodeLabel(graph, object) {
+    const self = this;
+    let label = '';
+    let node = graph.get_node(object);
+
+    if (node) {
+      each(node.types(), function (in_type) {
+
+        let type;
+        if (in_type.type() === 'complement') {
+          type = in_type.complement_class_expression();
+        } else {
+          type = in_type;
+        }
+
+        label += type.class_label() +
+          ' (' + type.class_id() + ')';
+      });
+    }
+
+    return label;
   }
 }

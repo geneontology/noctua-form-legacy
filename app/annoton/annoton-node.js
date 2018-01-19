@@ -114,14 +114,20 @@ export default class AnnotonNode {
 
     if (self.annotonType === 'simple') {
       if (self.id === 'gp' && !self.term.control.value.id) {
-        let error = new AnnotonError(1, "A '" + self.label + "' is required")
+        let meta = {
+          aspect: self.label
+        }
+        let error = new AnnotonError(1, "A '" + self.label + "' is required", meta)
         errors.push(error);
         result = false;
       }
     }
 
     if (self.id === 'mf' && !self.term.control.value.id) {
-      let error = new AnnotonError(1, "A '" + self.label + "' is required")
+      let meta = {
+        aspect: self.label
+      }
+      let error = new AnnotonError(1, "A '" + self.label + "' is required", meta)
       errors.push(error);
       result = false;
     }

@@ -639,6 +639,9 @@ md-dialog {
       min-height: 50px;
       max-height: 50px;
     }
+    md-dialog-content {
+      padding: 0;
+    }
   }
   &.sae-edit-annoton-dialog {
     //@include position(absolute, 40px 0 0 0);
@@ -658,6 +661,47 @@ md-dialog {
       height: 50px;
       min-height: 50px;
       max-height: 50px; // background-color: rgba($gb-primary-color, 0.8);
+    }
+  }
+}
+
+.sae-error-row {
+  border-bottom: #CCC double 1px;
+  .sae-number {
+    padding: 18px 2px;
+    @include deep-width(40px);
+    background-color: #DDD;
+    font-size: 12px;
+    text-align: center;
+  }
+  .sae-error-row-body {
+    padding: 8px 10px 8px 10px;
+  }
+  .sae-heading {
+    padding: 8px 0px;
+    font-size: 14px;
+  }
+  .sae-node-card {
+    padding: 5px;
+    @include deep-height(65px);
+    @include deep-width(120px);
+    border-radius: 10px;
+    border: #AAA double 2px;
+    font-size: 10px;
+    text-align: center;
+    overflow: hidden;
+    &.sae-lg {
+      @include deep-height(100px);
+      @include deep-width(150px);
+    }
+  }
+  .sae-edge-card {
+    .sae-line {
+      padding-top: 15px;
+      @include deep-height(35px);
+      @include deep-width(100%);
+      border-bottom: #AAA solid 2px;
+      text-align: center;
     }
   }
 }

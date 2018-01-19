@@ -324,7 +324,7 @@ export default class GraphService {
       });
     });
 
-    annoton.parser.parseCardinality(annotonNode, mfEdgesIn, edge.nodes);
+    annoton.parser.parseCardinality(graph, annotonNode, mfEdgesIn, edge.nodes);
 
   }
 
