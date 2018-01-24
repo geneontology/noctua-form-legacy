@@ -44,7 +44,7 @@
               </div>
               <md-input-container class="md-block" flex>
                 <input aria-describedby="igGP" type="text" ng-model="appCtrl.formGrid.annotonPresentation.geneProduct.term.control.value"
-                  ng-trim="false" placeholder="Gene Product" ng-blur="noResultsGP = false" uib-typeahead="term as term.label for term in appCtrl.getTerm(appCtrl.formGrid.annotonPresentation.geneProduct.term)"
+                  ng-trim="false" placeholder="Gene Product" ng-blur="noResultsGP = false" uib-typeahead="term as term.label + ' (' +term.id + ') ' for term in appCtrl.getTerm(appCtrl.formGrid.annotonPresentation.geneProduct.term)"
                   typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP"
                   typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html" typeahead-editable="true"
                   typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected('GP', $item, $model, $label, $event)"
@@ -54,6 +54,7 @@
                 No Results Found
               </div>
             </div>
+
           </div>
           <div ng-if="appCtrl.formGrid.annoton.annotonType === appCtrl.saeConstants.annotonType.options.complex.name" class="sae-section-body pt-15 ph-15 pb-25"
             layout="column" layout-align="start stretch">
@@ -63,7 +64,7 @@
               </div>
               <md-input-container class="md-block">
                 <input aria-describedby="igGP" type="text" ng-model="appCtrl.formGrid.annoton.complexAnnotonData.mcNode.term.control.value"
-                  ng-trim="false" placeholder="Macromolecular Complex GO Term" ng-blur="noResultsGP = false" uib-typeahead="term as term.label for term in appCtrl.getTerm(appCtrl.formGrid.annoton.complexAnnotonData.mcNode.term)"
+                  ng-trim="false" placeholder="Macromolecular Complex GO Term" ng-blur="noResultsGP = false" uib-typeahead="term as term.label + ' (' +term.id + ') ' for term in appCtrl.getTerm(appCtrl.formGrid.annoton.complexAnnotonData.mcNode.term)"
                   typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP"
                   typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html" typeahead-editable="true"
                   typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected('GP', $item, $model, $label, $event)"
@@ -445,16 +446,6 @@
       <span style="display:inline-block;width:200px;font-size:0.9em;font-style:italic;" ng-bind-html="match.model.id | uibTypeaheadHighlight:query"></span>
       <span ng-bind-html="match.model.label | uibTypeaheadHighlight:query"></span>
     </a>
-  </script>
-  <script type="text/ng-template" id="rowTemplate.html">
-    <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + '-' + col.uid + '-cell'"
-      class="ui-grid-cell" ng-class="{'ui-grid-row-header-cell': col.isRowHeader, 'ui-grid-row-summary': row.treeLevel === 0 }"
-      role="{{col.isRowHeader ? 'rowheader' : 'gridcell'}}" ui-grid-cell>
-    </div>
-  </script>
-
-  <script type="text/ng-template" id="cellTemplate.html">
-    <div style="white-space:pre-line !important;" class="ui-grid-cell-contents" title="TOOLTIP">{{COL_FIELD CUSTOM_FILTERS}}</div>
   </script>
 </div>
 <!-- <%={{ }}=%> -->

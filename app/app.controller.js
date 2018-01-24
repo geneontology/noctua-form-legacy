@@ -48,7 +48,7 @@ export default class AppController {
     let result = null;
     if (field && field.control.value && field.control.value.length >= 3) {
       result = this.lookup.golrLookup(field);
-      console.log('result', result);
+      // console.log('result', result);
     }
     return result;
   }
