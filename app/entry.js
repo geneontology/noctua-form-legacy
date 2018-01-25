@@ -133,6 +133,20 @@ app.constant('saeConstants', {
     name: 'hasPart',
     term: 'BFO:0000051'
   }],
+  rootNode: {
+    mf: {
+      'id': 'GO:0003674',
+      'label': 'molecular_function'
+    },
+    bp: {
+      'id': 'GO:0008150',
+      'label': 'biological_process'
+    },
+    cc: {
+      'id': 'GO:0005575',
+      'label': 'cellular_component'
+    }
+  },
   causalEdges: [{
     name: 'causally upstream of or within',
     term: 'RO:0002418'

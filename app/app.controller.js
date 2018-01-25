@@ -138,6 +138,11 @@ export default class AppController {
 
   }
 
+  addRootNode(entity) {
+    const self = this;
+    entity.setTerm(self.saeConstants.rootNode[entity.id]);
+  }
+
   editRow(row) {
     const self = this;
 
