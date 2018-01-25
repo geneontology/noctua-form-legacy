@@ -74,6 +74,18 @@ export default class Annoton extends SaeGraph {
       result = node.enableSubmit(self.submitErrors) && result;
     })
 
+    if (self.annotonType === 'simple') {
+      let gp = self.getNode('gp');
+      if (!gp.term.control.value.id) {
+        let meta = {
+          aspect: self.label
+        }
+        let error = new AnnotonError(1, "A '" + gp.label + "' is required", meta)
+        self.submitErrors.push(error);
+        result = false;
+      }
+    }
+
     if (self.annotonType === 'complex') {
       if (!self.complexAnnotonData.mcNode.term.control.value.id) {
         let meta = {

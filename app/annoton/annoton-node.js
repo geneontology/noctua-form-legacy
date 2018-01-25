@@ -8,6 +8,7 @@ export default class AnnotonNode {
   constructor() {
     this.id;
     this.nodeGroup = {}
+    this.annoton = null;
     this.ontologyClass = [];
     this.modelId;
     this.isComplement = false;
@@ -29,6 +30,7 @@ export default class AnnotonNode {
     };
     this.evidence = [];
     this.evidenceRequiredList = ['mf', 'bp', 'cc', 'mf-1', 'mf-2', 'bp-1', 'bp-1-1', 'cc-1', 'cc-1-1']
+    this.evidenceNotRequiredList = ['GO:0003674', 'GO:0008150', 'GO:0005575'];
     this.errors = [];
     this.status = '0';
 
@@ -112,17 +114,6 @@ export default class AnnotonNode {
     const self = this;
     let result = true;
 
-    if (self.annotonType === 'simple') {
-      if (self.id === 'gp' && !self.term.control.value.id) {
-        let meta = {
-          aspect: self.label
-        }
-        let error = new AnnotonError(1, "A '" + self.label + "' is required", meta)
-        errors.push(error);
-        result = false;
-      }
-    }
-
     if (self.id === 'mf' && !self.term.control.value.id) {
       let meta = {
         aspect: self.label
@@ -132,9 +123,11 @@ export default class AnnotonNode {
       result = false;
     }
 
-    if (self.term.control.value.id && self.evidenceRequiredList.includes(self.id)) {
+    if (self.term.control.value.id && self.evidenceRequiredList.includes(self.id) &&
+      !self.evidenceNotRequiredList.includes(self.term.control.value.id)) {
       each(self.evidence, function (evidence) {
-        result = evidence.enableSubmit(errors, self) && result;
+        if (self.term.control.value.id)
+          result = evidence.enableSubmit(errors, self) && result;
       })
     }
 
