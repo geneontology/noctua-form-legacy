@@ -133,6 +133,15 @@ app.constant('saeConstants', {
     name: 'hasPart',
     term: 'BFO:0000051'
   }],
+  evidenceAutoPopulate: {
+    nd: {
+      evidence: {
+        'id': 'ECO:0000307',
+        'label': 'no biological data found used in manual assertion'
+      },
+      reference: 'GO_REF:0000015'
+    }
+  },
   rootNode: {
     mf: {
       'id': 'GO:0003674',

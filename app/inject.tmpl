@@ -247,13 +247,18 @@
                         </md-button>
                       </md-menu-item>
                       <md-menu-item ng-if="entity.treeLevel===0">
+                        <md-button class="" ng-click="entity.toggleIsComplement()">
+                          Complement
+                        </md-button>
+                      </md-menu-item>
+                      <md-menu-item ng-if="entity.treeLevel===0">
                         <md-button class="" ng-click="appCtrl.addRootNode(entity)">
                           Root Node
                         </md-button>
                       </md-menu-item>
-                      <md-menu-item ng-if="entity.treeLevel===0">
-                        <md-button class="" ng-click="entity.toggleIsComplement()">
-                          Complement
+                      <md-menu-item>
+                        <md-button class="" ng-click="appCtrl.addNDEvidence(entity.evidence[0])">
+                          Add ND Reference
                         </md-button>
                       </md-menu-item>
                     </md-menu-content>

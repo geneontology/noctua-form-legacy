@@ -143,6 +143,12 @@ export default class AppController {
     entity.setTerm(self.saeConstants.rootNode[entity.id]);
   }
 
+  addNDEvidence(evidence) {
+    const self = this;
+    evidence.setEvidence(self.saeConstants.evidenceAutoPopulate['nd'].evidence);
+    evidence.setReference(self.saeConstants.evidenceAutoPopulate['nd'].reference);
+  }
+
   editRow(row) {
     const self = this;
 
