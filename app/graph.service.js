@@ -426,11 +426,13 @@ export default class GraphService {
 
         if (edgeNode.target.id === 'gp') {
           each(node.evidence, function (evidence) {
-            reqs.add_evidence(evidence.evidence.control.value.id, [evidence.reference.control.value], null, edgeNode.target.saveMeta.edge);
+            let evidenceWith = evidence.with.control.value ? evidence.with.control.value : null;
+            reqs.add_evidence(evidence.evidence.control.value.id, [evidence.reference.control.value], evidenceWith, edgeNode.target.saveMeta.edge);
           });
         } else {
           each(edgeNode.target.evidence, function (evidence) {
-            reqs.add_evidence(evidence.evidence.control.value.id, [evidence.reference.control.value], null, edgeNode.target.saveMeta.edge);
+            let evidenceWith = evidence.with.control.value ? evidence.with.control.value : null;
+            reqs.add_evidence(evidence.evidence.control.value.id, [evidence.reference.control.value], evidenceWith, edgeNode.target.saveMeta.edge);
           });
         }
       }
