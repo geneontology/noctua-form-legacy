@@ -24,13 +24,6 @@ export default class AppController {
       userNameInfo.innerHTML = '';
     }
 
-    appCtrl.summaryView = {
-      options: {
-        grid: 0,
-        list: 1
-      },
-    };
-    appCtrl.summaryView.selected = 0;
     appCtrl.formGrid.initalizeForm();
 
     $rootScope.$on('rebuilt', function (event, data) {

@@ -75,11 +75,11 @@ app.constant('saeConstants', {
         "name": 'default',
         "label": 'Default'
       },
-      "cconly": {
+      "ccOnly": {
         "name": 'ccOnly',
         "label": 'CC only'
       },
-      "bponly": {
+      "bpOnly": {
         "name": 'bpOnly',
         "label": 'BP only'
       }

@@ -10,6 +10,7 @@ export default class Evidence {
         "errors": []
       },
       "control": {
+        "required": false,
         "placeholder": '',
         "value": ''
       },
@@ -22,6 +23,7 @@ export default class Evidence {
         "errors": []
       },
       "control": {
+        "required": false,
         "placeholder": '',
         "value": ''
       }
@@ -31,6 +33,7 @@ export default class Evidence {
         "errors": []
       },
       "control": {
+        "required": false,
         "placeholder": '',
         "value": ''
       }
@@ -79,23 +82,29 @@ export default class Evidence {
     const self = this;
     let result = true;
 
+
     if (!self.evidence.control.value.id) {
+      self.evidence.control.required = true;
       let meta = {
         aspect: node.label
       }
       let error = new AnnotonError(1, "No evidence for '" + node.label + "'", meta)
       errors.push(error);
       result = false;
+    } else {
+      self.evidence.control.required = false;
     }
 
-
     if (self.evidence.control.value.id && !self.reference.control.value) {
+      self.reference.control.required = true;
       let meta = {
         aspect: node.label
       }
       let error = new AnnotonError(1, "You provided an evidence for '" + node.label + "' but no reference", meta)
       errors.push(error);
       result = false;
+    } else {
+      self.reference.control.required = false;
     }
 
     return result;

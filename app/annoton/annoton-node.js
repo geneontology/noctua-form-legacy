@@ -17,6 +17,7 @@ export default class AnnotonNode {
         "errors": []
       },
       "control": {
+        "required": false,
         "placeholder": '',
         "value": ''
       },
@@ -114,13 +115,17 @@ export default class AnnotonNode {
     const self = this;
     let result = true;
 
+
     if (self.id === 'mf' && !self.term.control.value.id) {
+      self.term.control.required = true;
       let meta = {
         aspect: self.label
       }
       let error = new AnnotonError(1, "A '" + self.label + "' is required", meta)
       errors.push(error);
       result = false;
+    } else {
+      self.term.control.required = false;
     }
 
     if (self.term.control.value.id && self.evidenceRequiredList.includes(self.id) &&

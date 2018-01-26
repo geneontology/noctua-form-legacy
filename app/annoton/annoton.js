@@ -76,7 +76,9 @@ export default class Annoton extends SaeGraph {
 
     if (self.annotonType === 'simple') {
       let gp = self.getNode('gp');
+      gp.term.control.required = false;
       if (!gp.term.control.value.id) {
+        gp.term.control.required = true;
         let meta = {
           aspect: self.label
         }
@@ -87,7 +89,7 @@ export default class Annoton extends SaeGraph {
     }
 
     if (self.annotonType === 'complex') {
-      if (!self.complexAnnotonData.mcNode.term.control.value.id) {
+      if (self.complexAnnotonData.mcNode.term.control.value && !self.complexAnnotonData.mcNode.term.control.value.id) {
         let meta = {
           aspect: self.complexAnnotonData.mcNode.label
         }

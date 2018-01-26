@@ -44,10 +44,12 @@
               </div>
               <md-input-container class="md-block" flex>
                 <input aria-describedby="igGP" type="text" ng-model="appCtrl.formGrid.annotonPresentation.geneProduct.term.control.value"
-                  ng-trim="false" placeholder="Gene Product" ng-blur="noResultsGP = false" uib-typeahead="term as term.label + ' (' +term.id + ') ' for term in appCtrl.getTerm(appCtrl.formGrid.annotonPresentation.geneProduct.term)"
-                  typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP"
-                  typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                  typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected('GP', $item, $model, $label, $event)"
+                  ng-model-options="{allowInvalid: true}" ng-trim="false" placeholder="Gene Product" ng-blur="noResultsGP = false"
+                  uib-typeahead="term as term.label + ' (' +term.id + ') ' for term in appCtrl.getTerm(appCtrl.formGrid.annotonPresentation.geneProduct.term)"
+                  ng-required="appCtrl.formGrid.annotonPresentation.geneProduct.term.control.required" typeahead-append-to-body="true"
+                  xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP" typeahead-no-results="noResultsGP"
+                  typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen"
+                  typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected('GP', $item, $model, $label, $event)"
                   class="typeaheadcontrol form-contro" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
               </md-input-container>
               <div class="no-results" ng-show="appCtrl.editingModel.GP.length > 2 && noResultsGP">
@@ -193,15 +195,16 @@
                       <i class="fa fa-spinner fa-spin fa-fw"></i>
                     </div>
                     <md-input-container class="md-block">
-                      <input aria-label="term" type="INPUT_TYPE" ng-model="entity.term.control.value" tabindex="0" ng-trim="false" ng-blur="noResults[entity.term] = false"
-                        uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.term)" typeahead-append-to-body="true"
-                        xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]"
-                        typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                        typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected(term, $item, $model, $label, $event)"
-                        class="typeaheadcontrol" placeholder="{{entity.label}}" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                      <input aria-label="term" type="INPUT_TYPE" ng-model="entity.term.control.value" ng-model-options="{allowInvalid: true}" tabindex="0"
+                        ng-trim="false" ng-required="entity.term.control.required" uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.term)"
+                        typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false"
+                        typeahead-loading="loadingItems[term]" typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html"
+                        typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
+                        typeahead-on-select="appCtrl.termSelected(term, $item, $model, $label, $event)" class="typeaheadcontrol"
+                        placeholder="{{entity.label}}" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
                     </md-input-container>
                     <div class="no-results" ng-show="appCtrl.editingModel[term].length > 2 && noResults[term]">
-                      No Results Found
+                      No Results Foundd
                     </div>
                   </div>
                   <div class="typeaheadcontainer" flex="30">
@@ -210,12 +213,12 @@
                     </div>
                     <md-input-container class="md-block">
                       <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value" ng-trim="false" tabindex="0"
-                        ng-blur="noResults[entity.term + 'e'] = false" uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.evidence[0].evidence)"
-                        typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false"
-                        typeahead-loading="loadingItems[term + 'e']" typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html"
-                        typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
-                        typeahead-on-select="appCtrl.termSelected(term + 'e', $item, $model, $label, $event)" class="typeaheadcontrol"
-                        placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                        ng-model-options="{allowInvalid: true}" ng-required="entity.evidence[0].evidence.control.required"
+                        uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.evidence[0].evidence)" typeahead-append-to-body="true"
+                        xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
+                        typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html" typeahead-editable="true"
+                        typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected(term + 'e', $item, $model, $label, $event)"
+                        class="typeaheadcontrol" placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
                     </md-input-container>
                     <div class="no-results" ng-show="appCtrl.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
                       No Results Found
@@ -223,7 +226,8 @@
                   </div>
                   <div class="" flex="15">
                     <md-input-container class="md-block">
-                      <input tabindex="0" ng-model="entity.evidence[0].reference.control.value" type="text" class="" placeholder="Reference" aria-label="reference">
+                      <input tabindex="0" ng-model-options="{allowInvalid: true}" ng-model="entity.evidence[0].reference.control.value" type="text"
+                        ng-required="entity.evidence[0].reference.control.required" class="" placeholder="Reference" aria-label="reference">
                     </md-input-container>
                   </div>
                   <div class="" flex="15">
@@ -267,7 +271,7 @@
               </div>
             </div>
           </div>
-          <div ng-if="appCtrl.formGrid.annoton.annotonModelType === appCtrl.saeConstants.annotonModelType.options.cconly.name" class="sae-section-body"
+          <div ng-if="appCtrl.formGrid.annoton.annotonModelType === appCtrl.saeConstants.annotonModelType.options.ccOnly.name" class="sae-section-body"
             layout="column" layout-align="start stretch">
           </div>
         </div>
@@ -292,82 +296,13 @@
             Molecular Activities in the Model
           </h2>
         </div>
-        <div ng-if="appCtrl.summaryData.length===0">
+        <div ng-if="appCtrl.summaryData.annotons.length===0">
           <div class="alert alert-info">
             No Annoton Models
           </div>
         </div>
-        <div ng-if="appCtrl.summaryView.selected===appCtrl.summaryView.options.list" ng-repeat="summaryRow in appCtrl.summaryData"
-          class="sae-panel md-whiteframe-2dp mb-10">
-          <div class="sae-panel-header" layout="row" layout-align="start start" flex ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
-          'sae-error': !summaryRow.annoton.parser.clean }">
-            <md-button class="md-icon-button sae-action-button" ng-click="summaryRow.expanded = !summaryRow.expanded" aria-label="Expand">
-              <md-icon ng-if="summaryRow.expanded" md-font-icon="fa fa-chevron-down"></md-icon>
-              <md-icon ng-if="!summaryRow.expanded" md-font-icon="fa fa-chevron-right"></md-icon>
-            </md-button>
-            <div class="sae-panel-heading" flex>
-              <div class="sae-heading-title sae-ellipsis">
-                <strong>{{summaryRow.gp}}</strong> - {{summaryRow.mf}}
-              </div>
-              <div class="sae-heading-subtitle sae-ellipsis">
-                <span ng-if="summaryRow.evidence[0].evidence.control.value.label">{{summaryRow.evidence[0].evidence.control.value.label}}</span>
-                <span class="" ng-if="!summaryRow.evidence[0].evidence.control.value.label">no evidence</span>
-              </div>
-            </div>
-            <span flex></span>
-            <md-button ng-if="!summaryRow.annoton.parser.clean" class="sae-error-button" ng-click="appCtrl.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, summaryRow.annoton.parser.errors)">
-              {{summaryRow.annoton.parser.errors.length}} error(s)
-            </md-button>
-            <md-button class="md-icon-button sae-action-button" ng-click="appCtrl.graph.deleteAnnoton(summaryRow.annoton)">
-              <md-icon md-font-icon="fa fa-trash"></md-icon>
-            </md-button>
-            <md-button ng-if="false" class="md-icon-button sae-action-button" ng-click="appCtrl.openEditAnnotonDialogDialog($event, summaryRow)">
-              <md-icon md-font-icon="fa fa-pencil"></md-icon>
-            </md-button>
-          </div>
-          <div ng-if="summaryRow.expanded" class="sae-panel-body animate-slide-down animate-slide-up">
-            <div ng-if="false" class="sae-summary-group" layout="row">
-              <div class="sae-summary-group-heading" layout="column" layout-align="center center">
-                <div>GP</div>
-              </div>
-              <div class="sae-summary-group-body" layout="column" flex>
-                <div class="sae-annoton-node ph-15" layout="row">
-                  <div class="sae-annoton-node-heading" flex>
-                    <div class="sae-heading-title sae-ellipsis">
-                      <strong>{{summaryRow.annotonPresentation.geneProduct.label}}</strong> - {{summaryRow.annotonPresentation.geneProduct.term.control.value.label}}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div ng-repeat="nodeGroup in summaryRow.annotonPresentation.fd" class="sae-summary-group" layout="row">
-              <div class="sae-summary-group-heading" layout="column" layout-align="center center">
-                <div>{{nodeGroup.shorthand}}</div>
-              </div>
-              <div class="sae-summary-group-body" layout="column" flex>
-                {{summaryRow.annoton.status}}
-                <div ng-repeat="entity in nodeGroup.nodes" class="sae-annoton-node ph-15" layout="row" ng-class="{ 'sae-error': entity.errors.length>0,
-                'sae-error-sm': entity.status===2 }">
-                  <div class="sae-annoton-node-heading" flex>
-                    <div class="sae-heading-title sae-ellipsis">
-                      <strong>{{entity.label}}</strong> - {{entity.term.control.value.label}} - {{entity.evidence[0].evidence.control.value.label}}
-                    </div>
-                    <div class="sae-heading-subtitle sae-ellipsis">
-                      <span ng-if="entity.evidence[0].evidence.control.value.label">{{entity.evidence[0].evidence.control.value.label}}</span>
-                      <span class="" ng-if="!entity.evidence[0].evidence.control.value.label">no evidence</span>
-                    </div>
-                  </div>
-                  <md-button ng-if="entity.errors.length>0" class="sae-error-button" ng-click="appCtrl.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, entity.errors)">
-                    {{entity.errors.length}} error(s)
-                  </md-button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div ng-if="appCtrl.summaryView.selected===appCtrl.summaryView.options.grid" class="sae-container sae-summary" layout="row"
-          layout-align="start" layout-wrap>
-          <div ng-repeat="summaryRow in appCtrl.summaryData" class="sae-card-widget p-10" flex="33">
+        <div class="sae-container sae-summary" layout="row" layout-align="start" layout-wrap>
+          <div ng-repeat="summaryRow in appCtrl.summaryData.annotons" class="sae-card-widget p-10" flex="33">
             <div class="sae-card md-whiteframe-2dp" ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
             'sae-error': !summaryRow.annoton.parser.clean }" layout-fill>
               <div class="sae-card-header" layout="row" layout-align="start start" flex>
@@ -420,6 +355,96 @@
               <div class="sae-card-footer" layout="row" layout-align="start center" flex ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
           'sae-error': !summaryRow.annoton.parser.clean }">
 
+                <md-button ng-if="!summaryRow.annoton.parser.clean" class="" ng-click="appCtrl.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, summaryRow.annoton.parser.errors)">
+                  <span class="text-danger">
+                    {{summaryRow.annoton.parser.errors.length}} error(s)
+                  </span>
+                </md-button>
+                <span flex></span>
+                <md-button ng-if="true" class="ae-action-button" ng-click="appCtrl.openViewSummaryDialogDialog($event, summaryRow)">
+                  View
+                </md-button>
+                <md-menu md-position-mode="target-right target">
+                  <md-button aria-label="More Otions" class="md-icon-button sae-action-button" ng-click="$mdMenu.open($event)">
+                    <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
+                  </md-button>
+                  <md-menu-content width="2">
+                    <md-menu-item>
+                      <md-button class="" ng-click="appCtrl.graph.deleteAnnoton(summaryRow.annoton)">
+                        <md-icon md-font-icon="fa fa-trash"></md-icon> Delete
+                      </md-button>
+                    </md-menu-item>
+                  </md-menu-content>
+                </md-menu>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sae-container sae-summary" layout="column" layout-align="start stretch">
+        <div>
+          <h2>
+            CC Only in the Model
+          </h2>
+        </div>
+        <div ng-if="appCtrl.summaryData.ccComponents.length===0">
+          <div class="alert alert-info">
+            No CC Only Models
+          </div>
+        </div>
+        <div class="sae-container sae-summary" layout="row" layout-align="start" layout-wrap>
+          <div ng-repeat="summaryRow in appCtrl.summaryData.ccComponents" class="sae-card-widget p-10" flex="33">
+            <div class="sae-card md-whiteframe-2dp" ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
+            'sae-error': !summaryRow.annoton.parser.clean }" layout-fill>
+              <div class="sae-card-header" layout="row" layout-align="start start" flex>
+                <div class="sae-term sae-term-mf">
+                  <span class="sae-fa-stack fa-stack fa-lg">
+                    <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
+                    <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.simple.name" class="sae-fa-sm fa fa-cube fa-stack-1x"></i>
+                    <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.complex.name" class="sae-fa-sm fa fa-cubes fa-stack-1x"></i>
+                  </span>
+                </div>
+                <div class="sae-card-heading" flex>
+                  <div class="sae-heading-title sae-ellipsis">
+                    <strong>{{summaryRow.mf}}</strong>
+                  </div>
+                  <div class="sae-heading-subtitle sae-ellipsis">
+                    <span class="sae-predicate">enabled by: </span>{{summaryRow.gp}}
+                  </div>
+                </div>
+              </div>
+              <div class="sae-card-body">
+                <div class="sae-card-row" layout="row">
+                  <div class="sae-term sae-term-cc">
+                    <span class="sae-fa-stack fa-stack fa-lg">
+                      <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
+                      <i class="sae-fa-sm fa fa-map-marker fa-stack-1x"></i>
+                    </span>
+                  </div>
+                  <div class="sae-term-description" flex>
+                    <span class="sae-predicate">occurs in</span>
+                    <div class="sae-ellipsis">
+                      {{summaryRow.cc?summaryRow.cc: 'no data'}}
+                    </div>
+                  </div>
+                </div>
+                <div class="sae-card-row" layout="row">
+                  <div class="sae-term sae-term-bp">
+                    <span class="sae-fa-stack fa-stack fa-lg">
+                      <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
+                      <i class="sae-fa-sm fa fa-object-group fa-stack-1x"></i>
+                    </span>
+                  </div>
+                  <div class="sae-term-description" flex>
+                    <span class="sae-predicate">part of</span>
+                    <div class="sae-ellipsis">
+                      {{summaryRow.bp?summaryRow.bp: 'no data'}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="sae-card-footer" layout="row" layout-align="start center" flex ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
+          'sae-error': !summaryRow.annoton.parser.clean }">
                 <md-button ng-if="!summaryRow.annoton.parser.clean" class="" ng-click="appCtrl.openAnnotonErrorsDialogDialog($event, summaryRow.annoton, summaryRow.annoton.parser.errors)">
                   <span class="text-danger">
                     {{summaryRow.annoton.parser.errors.length}} error(s)

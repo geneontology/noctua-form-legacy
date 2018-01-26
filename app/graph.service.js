@@ -126,13 +126,16 @@ export default class GraphService {
       }
 
       let annotons = self.graphToAnnotons(self.graph);
-      let gridData = self.annotonsToTable(self.graph, annotons);
+      let ccComponents = self.graphToCCOnly(self.graph);
 
       self.title = self.graph.get_annotations_by_key('title');
 
       self.$timeout(() => {
         self.$rootScope.$emit('rebuilt', {
-          gridData: gridData
+          gridData: {
+            annotons: self.annotonsToTable(self.graph, annotons),
+            ccComponents: self.ccComponentsToTable(self.graph, ccComponents)
+          }
         });
       }, 10);
     }
@@ -331,6 +334,96 @@ export default class GraphService {
 
   }
 
+
+  graphToCCOnly(graph) {
+    const self = this;
+    var annotons = [];
+
+    each(graph.all_edges(), function (e) {
+      if (e.predicate_id() === self.saeConstants.edge.partOf) {
+        let gpId = e.subject_id();
+        let ccId = e.object_id();
+        let gpSubjectNode = self.subjectToTerm(graph, gpId);
+        let ccSubjectNode = self.subjectToTerm(graph, ccId);
+        let annoton = null;
+
+        //  if (gpSubjectNode.term.id && gpSubjectNode.term.id.startsWith('GO')) {
+        //  annoton = self.config.createComplexAnnotonModel();
+        // } else {
+        annoton = self.config.createAnnotonModel(
+          self.saeConstants.annotonType.options.simple.name,
+          self.saeConstants.annotonModelType.options.ccOnly.name
+        );
+        //   }
+
+        let evidence = self.edgeToEvidence(graph, e);
+        let ccEdgesIn = graph.get_edges_by_subject(ccId);
+        let annotonNode = annoton.getNode('gp');
+
+        annoton.parser = new AnnotonParser();
+        annoton.parser.saeConstants = self.saeConstants
+
+        annotonNode.setTerm(gpSubjectNode.term);
+        annotonNode.setEvidence(evidence);
+        annotonNode.setIsComplement(gpSubjectNode.isComplement)
+        annotonNode.modelId = gpId;
+
+        self.graphToCCOnlyDFS(graph, annoton, ccEdgesIn, annotonNode);
+
+        if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
+          annoton.populateComplexData();
+        }
+        annotons.push(annoton);
+      }
+    });
+
+    return annotons;
+  }
+
+  graphToCCOnlyDFS(graph, annoton, ccEdgesIn, annotonNode) {
+    const self = this;
+    let edge = annoton.getEdges(annotonNode.id);
+
+    each(ccEdgesIn, function (toCCEdge) {
+      if (!toCCEdge) {
+        return;
+      }
+      let predicateId = toCCEdge.predicate_id();
+      let evidence = self.edgeToEvidence(graph, toCCEdge);
+      let toMFObject = toCCEdge.object_id();
+
+      if (annotonNode.id === "mc" && predicateId === self.saeConstants.edge.hasPart) {
+        self.config.addGPAnnotonData(annoton, toMFObject);
+      }
+
+      each(edge.nodes, function (node) {
+        if (predicateId === node.edgeId) {
+          if (predicateId === self.saeConstants.edge.hasPart && toMFObject !== node.target.id) {
+            //do nothing
+          } else {
+            let subjectNode = self.subjectToTerm(graph, toMFObject);
+
+            node.target.modelId = toMFObject;
+            node.target.setEvidence(evidence);
+            node.target.setTerm(subjectNode.term);
+            node.target.setIsComplement(subjectNode.isComplement)
+
+            //self.check
+
+            if (subjectNode.term && subjectNode.term.id) {
+              annoton.parser.parseNodeOntology(node.target, subjectNode.term.id);
+            }
+            self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target);
+          }
+        }
+      });
+    });
+
+    annoton.parser.parseCardinality(graph, annotonNode, ccEdgesIn, edge.nodes);
+
+  }
+
+
   graphToAnnatonDFSError(annoton, annotonNode) {
     const self = this;
     let edge = annoton.getEdges(annotonNode.id);
@@ -382,14 +475,43 @@ export default class GraphService {
     row.mf = mfNode.term.control.value.label;
     row.evidence = mfNode.evidence
 
-    /*
-    if (mfNode.evidence.length > 0) {
-      each(mfNode.evidence, function (evidence) {
-        row.mf = mfNode.term.control.value.label;
-        row.evidence = mfNode.evidence.control.value;
-      })
+    return row;
+  }
+
+  ccComponentsToTable(graph, annotons) {
+    const self = this;
+    let result = [];
+
+    each(annotons, function (annoton) {
+      let annotonRows = self.ccComponentsToTableRows(graph, annoton);
+
+      result = result.concat(annotonRows);
+    });
+
+    return result;
+  }
+
+  ccComponentsToTableRows(graph, annoton) {
+    const self = this;
+    let result = [];
+
+    let gpNode = null;
+
+    if (annoton.annotonType === self.saeConstants.annotonType.options.simple.name) {
+      gpNode = annoton.getNode('gp');
+    } else {
+      gpNode = annoton.getNode('mc');
     }
-    */
+    let ccNode = annoton.getNode('cc');
+
+    let row = {
+      cc: ccNode.term.control.value.label,
+      original: JSON.parse(JSON.stringify(annoton)),
+      annoton: annoton,
+      annotonPresentation: self.formGrid.getAnnotonPresentation(annoton),
+    }
+
+    row.evidence = gpNode.evidence
 
     return row;
   }
