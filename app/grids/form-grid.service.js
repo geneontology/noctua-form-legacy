@@ -86,9 +86,10 @@ export default class FormGridService {
   clearForm() {
     const self = this;
 
+
     self.annoton = self.config.createAnnotonModel(
-      self.saeConstants.annotonType.options.simple.name,
-      self.saeConstants.annotonModelType.options.default.name
+      self.annoton.annotonType,
+      self.annoton.annotonModelType
     )
     self.initalizeForm();
   }

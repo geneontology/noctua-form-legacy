@@ -409,6 +409,10 @@ export default class ConfigService {
     let annoton = new Annoton();
     let gp = self.modelIds[modelType][annotonType];
 
+    annoton.setAnnotonType(annotonType);
+    annoton.setAnnotonModelType(modelType);
+
+
     each(self.modelIds[modelType].nodes, function (id) {
       annoton.addNode(self.generateNode(id));
     });
@@ -422,47 +426,6 @@ export default class ConfigService {
 
     self.addComplexAnnotonData(annoton);
 
-    return annoton;
-
-  }
-
-  createComplexAnnotonModel() {
-    const self = this;
-    let annoton = new Annoton();
-    let annotonComplexData = JSON.parse(JSON.stringify(self._complexAnnotonData));
-    let annotonData = Object.assign(annotonComplexData, JSON.parse(JSON.stringify(self._annotonData)));
-
-    delete annotonData.gp;
-    annoton.annotonType = self.saeConstants.annotonType.options.complex.name;
-
-    each(annotonData, function (node, key) {
-      let annotonNode = new AnnotonNode()
-
-      annotonNode.id = key;
-      annotonNode.ontologyClass = node.ontologyClass;
-      annotonNode.label = node.label;
-      annotonNode.displaySection = node.displaySection;
-      annotonNode.displayGroup = node.displayGroup;
-      annotonNode.treeLevel = node.treeLevel;
-      annotonNode.setTermLookup(node.term.lookup.requestParams);
-      annotonNode.setTermOntologyClass(node.term.ontologyClass);
-      annotonNode.setEvidenceMeta('eco', self.requestParams["evidence"]);
-
-      //annotonData[key].node = annotonNode
-      annoton.addNode(annotonNode);
-    });
-
-    annoton.addEdgeById('mf', 'mc', self.saeConstants.edge.enabledBy);
-    annoton.addEdgeById('mf', 'bp', self.saeConstants.edge.partOf);
-    annoton.addEdgeById('mf', 'cc', self.saeConstants.edge.occursIn);
-    annoton.addEdgeById('mf', 'mf-1', self.saeConstants.edge.hasInput);
-    annoton.addEdgeById('mf', 'mf-2', self.saeConstants.edge.happensDuring);
-    annoton.addEdgeById('bp', 'bp-1', self.saeConstants.edge.partOf);
-    annoton.addEdgeById('bp-1', 'bp-1-1', self.saeConstants.edge.partOf);
-    annoton.addEdgeById('cc', 'cc-1', self.saeConstants.edge.partOf);
-    annoton.addEdgeById('cc-1', 'cc-1-1', self.saeConstants.edge.partOf);
-
-    self.addComplexAnnotonData(annoton);
     return annoton;
 
   }

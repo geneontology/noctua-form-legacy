@@ -259,7 +259,10 @@ export default class GraphService {
         let annoton = null;
 
         if (gpSubjectNode.term.id && gpSubjectNode.term.id.startsWith('GO')) {
-          annoton = self.config.createComplexAnnotonModel();
+          annoton = self.config.createAnnotonModel(
+            self.saeConstants.annotonType.options.complex.name,
+            self.saeConstants.annotonModelType.options.default.name
+          );
         } else {
           annoton = self.config.createAnnotonModel(
             self.saeConstants.annotonType.options.simple.name,
@@ -567,7 +570,10 @@ export default class GraphService {
 
   convertToComplex(annoton) {
     const self = this;
-    let complexAnnoton = self.config.createComplexAnnotonModel();
+    let complexAnnoton = self.config.createAnnotonModel(
+      self.saeConstants.annotonType.options.complex.name,
+      self.saeConstants.annotonModelType.options.ccOnly.name
+    );
     complexAnnoton.complexAnnotonData = annoton.complexAnnotonData;
 
     let mcNode = complexAnnoton.getNode('mc');
@@ -592,7 +598,10 @@ export default class GraphService {
 
   convertToSimple(annoton) {
     const self = this;
-    let simpleAnnoton = self.config.createComplexAnnotonModel();
+    let simpleAnnoton = self.config.createAnnotonModel(
+      self.saeConstants.annotonType.options.complex.name,
+      self.saeConstants.annotonModelType.options.ccOnly.name
+    );
     let mcNode = annoton.getNode('mc');
     let mcEdge = annoton.getEdges('mc');
 
