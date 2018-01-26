@@ -174,7 +174,7 @@
               </md-menu-content>
             </md-menu>
           </div>
-          <div ng-if="appCtrl.formGrid.annoton.annotonModelType === appCtrl.saeConstants.annotonModelType.options.annoton.name" class="sae-section-body"
+          <div ng-if="appCtrl.formGrid.annoton.annotonModelType === appCtrl.saeConstants.annotonModelType.options.default.name" class="sae-section-body"
             layout="column" layout-align="start stretch">
             <div ng-repeat="nodeGroup in appCtrl.formGrid.annotonPresentation.fd" class="sae-term-group md-whiteframe-1dp" layout="row">
               <div ng-if="nodeGroup.isComplement" class="sae-group-side-heading" layout="column" layout-align="center center" flex>
@@ -248,7 +248,7 @@
                       </md-menu-item>
                       <md-menu-item ng-if="entity.treeLevel===0">
                         <md-button class="" ng-click="entity.toggleIsComplement()">
-                          Complement
+                          NOT
                         </md-button>
                       </md-menu-item>
                       <md-menu-item ng-if="entity.treeLevel===0">
@@ -267,7 +267,7 @@
               </div>
             </div>
           </div>
-          <div ng-if="appCtrl.formGrid.annoton.annotonModelType === appCtrl.saeConstants.annotonModelType.options.candidate.name" class="sae-section-body"
+          <div ng-if="appCtrl.formGrid.annoton.annotonModelType === appCtrl.saeConstants.annotonModelType.options.cconly.name" class="sae-section-body"
             layout="column" layout-align="start stretch">
           </div>
         </div>

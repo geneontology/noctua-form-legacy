@@ -7,7 +7,10 @@ export default class FormGridService {
     this.config = config;
     this.$timeout = $timeout;
     this.lookup = lookup;
-    this.annoton = this.config.createAnnotonModel();
+    this.annoton = this.config.createAnnotonModel(
+      this.saeConstants.annotonType.options.simple.name,
+      this.saeConstants.annotonModelType.options.default.name
+    );
 
   }
 
@@ -16,7 +19,14 @@ export default class FormGridService {
   }
 
   setAnnotonModelType(annoton, annotonModelType) {
+    const self = this;
     annoton.setAnnotonModelType(annotonModelType.name);
+
+    self.annoton = self.config.createAnnotonModel(
+      annoton.annotonType,
+      annoton.annotonModelType)
+    self.initalizeForm();
+
   }
 
   getAnnotonPresentation(annoton) {
@@ -77,7 +87,10 @@ export default class FormGridService {
   clearForm() {
     const self = this;
 
-    self.annoton = self.config.createAnnotonModel()
+    self.annoton = self.config.createAnnotonModel(
+      self.saeConstants.annotonType.options.simple.name,
+      self.saeConstants.annotonModelType.options.default.name
+    )
     self.initalizeForm();
   }
 

@@ -73,6 +73,24 @@ export default class ConfigService {
     }
 
     this._annotonData = {
+      "mc": {
+        'id': 'mc',
+        "label": 'Macromolecular Complex',
+        "displaySection": this.saeConstants.displaySection.gp,
+        "displayGroup": this.saeConstants.displayGroup.mc,
+        'treeLevel': 0,
+        "term": {
+          "ontologyClass": [],
+          "lookup": {
+            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
+              fq: [
+                'document_category:"ontology_class"',
+                'regulates_closure:"GO:0032991"'
+              ],
+            }),
+          }
+        }
+      },
       "gp": {
         "label": 'Gene Product',
         "displaySection": this.saeConstants.displaySection.gp,
@@ -246,6 +264,124 @@ export default class ConfigService {
         }
       },
     }
+
+    this.modelIds = {
+      default: {
+        nodes: [
+          'mf', 'mf-1', 'mf-2', 'bp', 'bp-1', 'bp-1-1', 'cc', 'cc-1', 'cc-1-1'
+        ],
+        triples: [{
+          subject: 'mf',
+          object: 'bp',
+          edge: this.saeConstants.edge.partOf
+        }, {
+          subject: 'mf',
+          object: 'cc',
+          edge: this.saeConstants.edge.occursIn
+        }, {
+          subject: 'mf',
+          object: 'mf-1',
+          edge: this.saeConstants.edge.hasInput
+        }, {
+          subject: 'mf',
+          object: 'mf-2',
+          edge: this.saeConstants.edge.happensDuring
+        }, {
+          subject: 'bp',
+          object: 'bp-1',
+          edge: this.saeConstants.edge.partOf
+        }, {
+          subject: 'bp-1',
+          object: 'bp-1-1',
+          edge: this.saeConstants.edge.partOf
+        }, {
+          subject: 'cc',
+          object: 'cc-1',
+          edge: this.saeConstants.edge.partOf
+        }, {
+          subject: 'cc-1',
+          object: 'cc-1-1',
+          edge: this.saeConstants.edge.partOf
+        }],
+        simple: {
+          node: 'gp',
+          triple: {
+            subject: 'mf',
+            object: 'gp',
+            edge: this.saeConstants.edge.enabledBy
+          }
+        },
+        complex: {
+          node: 'mc',
+          triple: {
+            subject: 'mf',
+            object: 'mc',
+            edge: this.saeConstants.edge.enabledBy
+          }
+        }
+      },
+      ccOnly: {
+        nodes: [
+          'cc', 'cc-1', 'cc-1-1'
+        ],
+        triples: [{
+          subject: 'cc',
+          object: 'cc-1',
+          edge: this.saeConstants.edge.partOf
+        }, {
+          subject: 'cc-1',
+          object: 'cc-1-1',
+          edge: this.saeConstants.edge.partOf
+        }],
+        simple: {
+          node: 'gp',
+          triple: {
+            subject: 'gp',
+            object: 'cc',
+            edge: this.saeConstants.edge.partOf
+          }
+        },
+        complex: {
+          node: 'mc',
+          triple: {
+            subject: 'mc',
+            object: 'cc',
+            edge: this.saeConstants.edge.partOf
+          }
+        }
+      },
+      bpOnly: {
+        nodes: [
+          'bp', 'bp-1', 'bp-1-1'
+        ],
+        triples: [{
+          subject: 'bp',
+          object: 'bp-1',
+          edge: this.saeConstants.edge.partOf
+        }, {
+          subject: 'bp-1',
+          object: 'bp-1-1',
+          edge: this.saeConstants.edge.partOf
+        }],
+
+        simple: {
+          node: 'gp',
+          triple: {
+            subject: 'gp',
+            object: 'bp',
+            edge: this.saeConstants.edge.partOf
+          }
+        },
+        complex: {
+          node: 'mc',
+          triple: {
+            subject: 'mc',
+            object: 'bp',
+            edge: this.saeConstants.edge.partOf
+          }
+        }
+      },
+    }
   }
 
   addComplexAnnotonData(annoton) {
@@ -268,37 +404,21 @@ export default class ConfigService {
     annoton.complexAnnotonData.mcNode = annotonNode;
   }
 
-  createAnnotonModel() {
+  createAnnotonModel(annotonType, modelType) {
     const self = this;
     let annoton = new Annoton();
-    let annotonData = JSON.parse(JSON.stringify(self._annotonData));
+    let gp = self.modelIds[modelType][annotonType];
 
-    each(annotonData, function (node, key) {
-      let annotonNode = new AnnotonNode()
-      annotonNode.id = key;
-      annotonNode.ontologyClass = node.ontologyClass;
-      annotonNode.label = node.label;
-      annotonNode.displaySection = node.displaySection;
-      annotonNode.displayGroup = node.displayGroup;
-      annotonNode.treeLevel = node.treeLevel;
-      annotonNode.setTermLookup(node.term.lookup.requestParams);
-      annotonNode.setTermOntologyClass(node.term.ontologyClass);
-      annotonNode.setEvidenceMeta('eco', self.requestParams["evidence"]);
-
-
-      annotonData[key].node = annotonNode
-      annoton.addNode(annotonNode);
+    each(self.modelIds[modelType].nodes, function (id) {
+      annoton.addNode(self.generateNode(id));
     });
 
-    annoton.addEdgeById('mf', 'gp', self.saeConstants.edge.enabledBy);
-    annoton.addEdgeById('mf', 'cc', self.saeConstants.edge.occursIn);
-    annoton.addEdgeById('mf', 'bp', self.saeConstants.edge.partOf);
-    annoton.addEdgeById('mf', 'mf-1', self.saeConstants.edge.hasInput);
-    annoton.addEdgeById('mf', 'mf-2', self.saeConstants.edge.happensDuring);
-    annoton.addEdgeById('bp', 'bp-1', self.saeConstants.edge.partOf);
-    annoton.addEdgeById('bp-1', 'bp-1-1', self.saeConstants.edge.partOf);
-    annoton.addEdgeById('cc', 'cc-1', self.saeConstants.edge.partOf);
-    annoton.addEdgeById('cc-1', 'cc-1-1', self.saeConstants.edge.partOf);
+    annoton.addNode(self.generateNode(gp.node));
+    annoton.addEdgeById(gp.triple.subject, gp.triple.object, gp.triple.edge);
+
+    each(self.modelIds[modelType].triples, function (triple) {
+      annoton.addEdgeById(triple.subject, triple.object, triple.edge);
+    });
 
     self.addComplexAnnotonData(annoton);
 
@@ -392,7 +512,11 @@ export default class ConfigService {
 
   createAnnotonModelFakeData() {
     const self = this;
-    let annoton = this.createAnnotonModel();
+
+    let annoton = self.createAnnotonModel(
+      self.saeConstants.annotonType.options.simple.name,
+      self.saeConstants.annotonModelType.options.default.name
+    );
     let nodes = [{
         "id": "gp",
         "term": {

@@ -258,7 +258,10 @@ export default class GraphService {
         if (gpSubjectNode.term.id && gpSubjectNode.term.id.startsWith('GO')) {
           annoton = self.config.createComplexAnnotonModel();
         } else {
-          annoton = self.config.createAnnotonModel();
+          annoton = self.config.createAnnotonModel(
+            self.saeConstants.annotonType.options.simple.name,
+            self.saeConstants.annotonModelType.options.default.name
+          );
         }
 
         let evidence = self.edgeToEvidence(graph, e);

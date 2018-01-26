@@ -71,13 +71,17 @@ app.constant('saeConstants', {
   },
   "annotonModelType": {
     "options": {
-      "annoton": {
-        "name": 'annoton',
-        "label": 'DEFAULT'
+      "default": {
+        "name": 'default',
+        "label": 'Default'
       },
-      "candidate": {
-        "name": 'candidate',
-        "label": 'COMPONENT ONLY'
+      "cconly": {
+        "name": 'ccOnly',
+        "label": 'CC only'
+      },
+      "bponly": {
+        "name": 'bpOnly',
+        "label": 'BP only'
       }
     }
   },

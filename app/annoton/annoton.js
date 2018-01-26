@@ -8,7 +8,7 @@ export default class Annoton extends SaeGraph {
   constructor() {
     super();
     this.annotonType = "simple";
-    this.annotonModelType = 'annoton';
+    this.annotonModelType = 'default';
     this.complexAnnotonData = {
       mcNode: {},
       gpTemplateNode: {},
