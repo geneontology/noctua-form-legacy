@@ -505,6 +505,7 @@ export default class GraphService {
     let ccNode = annoton.getNode('cc');
 
     let row = {
+      gp: gpNode.term.control.value.label,
       cc: ccNode.term.control.value.label,
       original: JSON.parse(JSON.stringify(annoton)),
       annoton: annoton,

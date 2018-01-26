@@ -176,8 +176,7 @@
               </md-menu-content>
             </md-menu>
           </div>
-          <div ng-if="appCtrl.formGrid.annoton.annotonModelType === appCtrl.saeConstants.annotonModelType.options.default.name" class="sae-section-body"
-            layout="column" layout-align="start stretch">
+          <div class="sae-section-body" layout="column" layout-align="start stretch">
             <div ng-repeat="nodeGroup in appCtrl.formGrid.annotonPresentation.fd" class="sae-term-group md-whiteframe-1dp" layout="row">
               <div ng-if="nodeGroup.isComplement" class="sae-group-side-heading" layout="column" layout-align="center center" flex>
                 <div>IS NOT</div>
@@ -270,9 +269,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div ng-if="appCtrl.formGrid.annoton.annotonModelType === appCtrl.saeConstants.annotonModelType.options.ccOnly.name" class="sae-section-body"
-            layout="column" layout-align="start stretch">
           </div>
         </div>
         <!-- END TABLE FORM -->
@@ -384,20 +380,20 @@
       <div class="sae-container sae-summary" layout="column" layout-align="start stretch">
         <div>
           <h2>
-            CC Only in the Model
+            Components in the Model
           </h2>
         </div>
         <div ng-if="appCtrl.summaryData.ccComponents.length===0">
           <div class="alert alert-info">
-            No CC Only Models
+            No Componets Only Models
           </div>
         </div>
         <div class="sae-container sae-summary" layout="row" layout-align="start" layout-wrap>
           <div ng-repeat="summaryRow in appCtrl.summaryData.ccComponents" class="sae-card-widget p-10" flex="33">
-            <div class="sae-card md-whiteframe-2dp" ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
+            <div class="sae-card-1 md-whiteframe-2dp" ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
             'sae-error': !summaryRow.annoton.parser.clean }" layout-fill>
               <div class="sae-card-header" layout="row" layout-align="start start" flex>
-                <div class="sae-term sae-term-mf">
+                <div class="sae-term sae-term-cc">
                   <span class="sae-fa-stack fa-stack fa-lg">
                     <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
                     <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.simple.name" class="sae-fa-sm fa fa-cube fa-stack-1x"></i>
@@ -406,28 +402,11 @@
                 </div>
                 <div class="sae-card-heading" flex>
                   <div class="sae-heading-title sae-ellipsis">
-                    <strong>{{summaryRow.mf}}</strong>
-                  </div>
-                  <div class="sae-heading-subtitle sae-ellipsis">
-                    <span class="sae-predicate">enabled by: </span>{{summaryRow.gp}}
+                    <strong>{{summaryRow.gp}}</strong>
                   </div>
                 </div>
               </div>
               <div class="sae-card-body">
-                <div class="sae-card-row" layout="row">
-                  <div class="sae-term sae-term-cc">
-                    <span class="sae-fa-stack fa-stack fa-lg">
-                      <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
-                      <i class="sae-fa-sm fa fa-map-marker fa-stack-1x"></i>
-                    </span>
-                  </div>
-                  <div class="sae-term-description" flex>
-                    <span class="sae-predicate">occurs in</span>
-                    <div class="sae-ellipsis">
-                      {{summaryRow.cc?summaryRow.cc: 'no data'}}
-                    </div>
-                  </div>
-                </div>
                 <div class="sae-card-row" layout="row">
                   <div class="sae-term sae-term-bp">
                     <span class="sae-fa-stack fa-stack fa-lg">
@@ -438,7 +417,7 @@
                   <div class="sae-term-description" flex>
                     <span class="sae-predicate">part of</span>
                     <div class="sae-ellipsis">
-                      {{summaryRow.bp?summaryRow.bp: 'no data'}}
+                      {{summaryRow.cc?summaryRow.cc: 'no data'}}
                     </div>
                   </div>
                 </div>
