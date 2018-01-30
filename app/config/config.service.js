@@ -361,7 +361,10 @@ export default class ConfigService {
         }, {
           subject: 'bp-1',
           object: 'bp-1-1',
-          edge: this.saeConstants.edge.partOf
+          edge: [
+            this.saeConstants.edge.upstreamOfOrWithin,
+            this.saeConstants.edge.upstreamOf
+          ]
         }],
 
         simple: {

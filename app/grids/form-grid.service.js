@@ -16,6 +16,13 @@ export default class FormGridService {
 
   setAnnotonType(annoton, annotonType) {
     annoton.setAnnotonType(annotonType.name);
+
+    const self = this;
+
+    self.annoton = self.config.createAnnotonModel(
+      annotonType.name,
+      annoton.annotonModelType)
+    self.initalizeForm();
   }
 
   setAnnotonModelType(annoton, annotonModelType) {
@@ -25,7 +32,6 @@ export default class FormGridService {
       annoton.annotonType,
       annotonModelType.name)
     self.initalizeForm();
-    self.annoton.setAnnotonModelType(annotonModelType.name);
   }
 
   getAnnotonPresentation(annoton) {

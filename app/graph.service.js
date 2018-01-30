@@ -4,6 +4,11 @@ import Evidence from './annoton/evidence.js';
 
 const each = require('lodash/forEach');
 var model = require('bbop-graph-noctua');
+var amigo = require('amigo2');
+var golr_response = require('bbop-response-golr');
+var golr_manager = require('bbop-manager-golr');
+var golr_conf = require("golr-conf");
+var node_engine = require('bbop-rest-manager').node;
 var barista_response = require('bbop-response-barista');
 var minerva_requests = require('minerva-requests');
 var jquery_engine = require('bbop-rest-manager').jquery;
@@ -26,14 +31,11 @@ var local_minerva_definition_name = typeof global_minerva_definition_name !== 'u
 var local_barista_token = typeof global_barista_token !== 'undefined' ? global_barista_token : 'global_barista_token';
 var local_collapsible_relations = typeof global_collapsible_relations !== 'undefined' ? global_collapsible_relations : 'global_collapsible_relations';
 
-const PredicateEnabledBy = 'RO:0002333';
-const PredicatePartOf = 'BFO:0000050';
-const PredicateOccursIn = 'BFO:0000066';
 const rootMF = 'GO:0003674';
 const noDataECO = 'ECO:0000035';
 
 export default class GraphService {
-  constructor(saeConstants, config, $rootScope, $timeout, $mdDialog, formGrid) {
+  constructor(saeConstants, config, $rootScope, $timeout, $mdDialog, lookup, formGrid) {
     this.config = config;
     this.saeConstants = saeConstants
     this.$rootScope = $rootScope;
@@ -49,6 +51,7 @@ export default class GraphService {
     this.manager = null;
     this.graph = null;
     this.loggedIn = local_barista_token && (local_barista_token.length > 0);
+    this.lookup = lookup;
     this.formGrid = formGrid;
   }
 
@@ -85,7 +88,7 @@ export default class GraphService {
     // Likely the result of unhappiness on Minerva.
     manager.register('warning', function (resp /*, man */ ) {
       alert('Warning: ' + resp.message() + '; ' +
-        'your opera tion was likely not performed');
+        'your operation was likely not performed');
     }, 10);
 
     // Likely the result of serious unhappiness on Minerva.
@@ -150,6 +153,46 @@ export default class GraphService {
     manager.get_model(this.model_id);
   }
 
+  setGolr() {
+    // var term_id = _param(req, 'term_id', null);
+    var term_id = "";
+
+    // Setup manager and basic.
+    var gconf = new golr_conf.conf(amigo.data.golr);
+    var engine = new node_engine(golr_response);
+    var manager = new golr_manager(local_golr_server, gconf, engine, 'async');
+    manager.set_personality('ontology');
+    manager.set_facet_limit(0); // care not about facets
+    manager.add_query_filter('document_category', 'ontology_class');
+
+    // Let's get information by target.
+    var max_result_count = 100;
+    manager.set_results_count(max_result_count);
+    manager.set_targets([term_id], ['annotation_class']);
+
+    // Failure callbacks.
+    manager.register('error', function (resp, man) {});
+
+    // Success callback.
+    manager.register('search', function (resp, man) {
+
+      // See what we got.
+      if (resp.documents().length === 0) {
+        console.log('Unknown ID: ' + term_id);
+      } else if (resp.documents().length > 1) {
+        console.log('Ambiguous ID: ' + term_id);
+      } else {
+        // Good response.
+        console.log('Found information for: ' + term_id);
+        console.log(resp.get_doc(0));
+      }
+
+      //res.json(envl.structure());
+    });
+
+    // Trigger async try.
+    manager.search();
+  }
 
   getNodeLabel(node) {
     var label = '';
@@ -689,4 +732,4 @@ export default class GraphService {
   }
 
 }
-GraphService.$inject = ['saeConstants', 'config', '$rootScope', '$timeout', '$mdDialog', 'formGrid'];
+GraphService.$inject = ['saeConstants', 'config', '$rootScope', '$timeout', '$mdDialog', 'lookup', 'formGrid'];

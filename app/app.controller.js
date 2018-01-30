@@ -6,14 +6,13 @@
 /* global angular */
 
 export default class AppController {
-  constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, $mdToast, uiGridTreeViewConstants, graph, lookup, formGrid) {
+  constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, $mdToast, graph, lookup, formGrid) {
     var appCtrl = this;
     this.saeConstants = saeConstants;
     this.$scope = $scope;
     this.$rootScope = $rootScope;
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
-    this.uiGridTreeViewConstants = uiGridTreeViewConstants;
     appCtrl.$timeout = $timeout;
     appCtrl.lookup = lookup;
     appCtrl.graph = graph;
@@ -31,6 +30,12 @@ export default class AppController {
     });
 
     graph.initialize();
+    //graph.setGolr();
+    //this.lookup.isGolrClosure("CL:0000003", 'CL:0010015')
+    // this.lookup.isGolrClosure("CHEBI:23367", 'GO:0071079')
+    // this.lookup.isGolrClosure("GO:0032991", 'GO:0006869')
+    // this.lookup.isGolrClosure("GO:0008150", 'GO:0005575')
+    // this.lookup.isGolrClosure("GO:0008150", 'GO:0006869')
   }
 
   setView(view) {
@@ -157,4 +162,4 @@ export default class AppController {
     }
   }
 }
-AppController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', '$mdToast', 'uiGridTreeViewConstants', 'graph', 'lookup', 'formGrid'];
+AppController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', '$mdToast', 'graph', 'lookup', 'formGrid'];

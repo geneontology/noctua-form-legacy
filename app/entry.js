@@ -6,7 +6,6 @@
 window.tableviewWorkbenchVersion = '0.1.1';
 
 import angular from 'angular';
-import 'angular-ui-grid/ui-grid.min.js';
 import nguibootstrap from 'angular-ui-bootstrap';
 
 import 'angular-aria/angular-aria.js';
@@ -17,7 +16,6 @@ import 'angular-material/angular-material.js';
 import '../node_modules/angular-material/angular-material.css';
 import 'jsonformatter';
 import 'jsonformatter/dist/json-formatter.min.css';
-import '../node_modules/angular-ui-grid/ui-grid.min.css';
 import './index.scss';
 import 'font-awesome/css/font-awesome.min.css';
 
@@ -38,17 +36,7 @@ import LookupService from './lookup.service.js';
 
 var app = angular.module('TVApp', ['ngMaterial',
   nguibootstrap,
-  'jsonFormatter',
-  'ui.grid',
-  'ui.grid.edit',
-  'ui.grid.rowEdit',
-  'ui.grid.cellNav',
-  'ui.grid.autoResize',
-  'ui.grid.resizeColumns',
-  'ui.grid.treeView',
-  'ui.grid.expandable',
-  'ui.grid.selection',
-  'ui.grid.pinning'
+  'jsonFormatter'
 ]);
 app.config(['JSONFormatterConfigProvider', function (JSONFormatterConfigProvider) {
 
@@ -129,6 +117,8 @@ app.constant('saeConstants', {
     occursIn: 'BFO:0000066',
     partOf: 'BFO:0000050',
     hasPart: 'BFO:0000051',
+    upstreamOfOrWithin: 'RO:0002264',
+    upstreamOf: 'RO:0002263'
   },
   "closure": {
     "mc": 'GO:0032991'
