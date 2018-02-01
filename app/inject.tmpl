@@ -186,7 +186,7 @@
                   <div class="" layout="column" layout-align="start stretch">
                     <div ng-if="entity.edgeOption" class="" flex="100">
                       <md-input-container class="md-block">
-                        <md-select ng-model="entity.edgeOption.selected" ng-change="entity.selectEdge(entity.edgeOption.selected)">
+                        <md-select ng-model="entity.edgeOption.selected" ng-change="entity.selectEdge(appCtrl.formGrid.annoton, entity.edgeOption.selected)">
                           <md-option ng-value="edgeOption" ng-repeat="edgeOption in entity.edgeOption.options">
                             {{edgeOption.label}}
                           </md-option>

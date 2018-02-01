@@ -589,6 +589,9 @@ export default class GraphService {
       let subject = node.saveMeta.term;
       let target = edgeNode.target.saveMeta.term;
       if (subject && target && edge) {
+        if (edgeNode.target.edgeOption) {
+          edgeNode.edge = edgeNode.target.edgeOption.selected
+        }
         edgeNode.target.saveMeta.edge = reqs.add_fact([
           node.saveMeta.term,
           edgeNode.target.saveMeta.term,
