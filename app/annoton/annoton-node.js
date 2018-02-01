@@ -25,7 +25,7 @@ export default class AnnotonNode {
         "requestParams": null
       }
     };
-    this.edgeOptions;
+    this.edgeOption;
     this._evidenceMeta = {
       lookupBase: "",
       ontologyClass: "eco"
@@ -54,10 +54,10 @@ export default class AnnotonNode {
     }
   }
 
-  addEdgeOptions(edgeOptions) {
+  addedgeOption(edgeOption) {
     const self = this;
 
-    self.edgeOptions = edgeOptions;
+    self.edgeOption = edgeOption;
   }
 
   setEvidence(evidence) {
@@ -116,6 +116,10 @@ export default class AnnotonNode {
 
     self.term.control.value = node.term.control.value;
     self.evidence = node.evidence;
+  }
+
+  selectEdge(edge) {
+    console.log("I am selected ", edge);
   }
 
   enableSubmit(errors) {

@@ -331,7 +331,7 @@ export default class ConfigService {
         }, {
           subject: 'cc-1',
           object: 'cc-1-1',
-          edge: this.saeConstants.edge.partOf
+          edge: this.saeConstants.edge.partOf,
         }],
         simple: {
           node: 'gp',
@@ -354,14 +354,26 @@ export default class ConfigService {
         nodes: [
           'mf', 'bp'
         ],
+        prepopulate: {
+          mf: {
+            id: 'mf',
+            term: {
+              'id': 'GO:0003674',
+              'label': 'molecular_function'
+            }
+          }
+        },
         triples: [{
           subject: 'mf',
           object: 'bp',
           edge: this.saeConstants.edge.upstreamOfOrWithin,
-          edgeOptions: [
-            this.saeConstants.edge.upstreamOfOrWithin,
-            this.saeConstants.edge.upstreamOf
-          ]
+          edgeOption: {
+            selected: this.saeConstants.edge.upstreamOfOrWithin,
+            options: [
+              this.saeConstants.edge.upstreamOfOrWithin,
+              this.saeConstants.edge.upstreamOf
+            ]
+          }
         }],
         simple: {
           node: 'gp',
@@ -420,9 +432,14 @@ export default class ConfigService {
 
     each(self.modelIds[modelType].triples, function (triple) {
       annoton.addEdgeById(triple.subject, triple.object, triple.edge);
-      if (triple.edgeOptions) {
-        annoton.addEdgeOptionsById(triple.object, triple.edgeOptions);
+      if (triple.edgeOption) {
+        annoton.addedgeOptionById(triple.object, triple.edgeOption);
       }
+    });
+
+    each(self.modelIds[modelType].prepopulate, function (prepopulateData) {
+      let node = annoton.getNode(prepopulateData.id);
+      node.setTerm(prepopulateData.term);
     });
 
     self.addComplexAnnotonData(annoton);
