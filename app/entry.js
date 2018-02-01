@@ -111,14 +111,38 @@ app.constant('saeConstants', {
     }
   },
   'edge': {
-    enabledBy: 'RO:0002333',
-    hasInput: 'RO:0002233',
-    happensDuring: 'RO:0002092',
-    occursIn: 'BFO:0000066',
-    partOf: 'BFO:0000050',
-    hasPart: 'BFO:0000051',
-    upstreamOfOrWithin: 'RO:0002264',
-    upstreamOf: 'RO:0002263'
+    enabledBy: {
+      id: 'RO:0002333',
+      label: 'enabled by'
+    },
+    hasInput: {
+      id: 'RO:0002233',
+      label: 'has input'
+    },
+    happensDuring: {
+      id: 'RO:0002092',
+      label: 'happens during'
+    },
+    occursIn: {
+      id: 'BFO:0000066',
+      label: 'occurs in'
+    },
+    partOf: {
+      id: 'BFO:0000050',
+      label: 'part of'
+    },
+    hasPart: {
+      id: 'BFO:0000051',
+      label: 'has part'
+    },
+    upstreamOfOrWithin: {
+      id: 'RO:0002264',
+      label: 'upstream of or within'
+    },
+    upstreamOf: {
+      id: 'RO:0002263',
+      label: 'upstream of'
+    }
   },
   "closure": {
     "mc": 'GO:0032991'

@@ -65,6 +65,13 @@ export default class Annoton extends SaeGraph {
     });
   }
 
+  addEdgeOptionsById(id, edgeOptions) {
+    const self = this;
+
+    let node = self.getNode(id);
+    node.addEdgeOptions(edgeOptions)
+  }
+
   enableSubmit() {
     const self = this;
     let result = true;

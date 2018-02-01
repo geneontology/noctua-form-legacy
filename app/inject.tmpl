@@ -183,6 +183,7 @@
               </div>
               <div class="pb-20" layout="column" flex>
                 <div ng-repeat="entity in nodeGroup.nodes" class="ph-15 sae-annoton-group-row" layout="row" ng-class="{'sae-input-heading' : entity.treeLevel===0}">
+
                   <div ng-if="entity.treeLevel>0" class="sae-tree-input sae-level-1">
 
                   </div>
@@ -243,6 +244,18 @@
                         <md-button class="" ng-click="entity.clearValues()">
                           Clear Node
                         </md-button>
+                      </md-menu-item>
+                      <md-menu-item>
+                        <md-menu>
+                          <md-button ng-click="$mdOpenMenu()">Edge ()</md-button>
+                          <md-menu-content width="4">
+                            <md-menu-item>
+                              <md-button ng-repeat="edgeOption in entity.edgeOptions" ng-click="ctrl.sampleAction('New Document', $event)">
+                                {{edgeOption}}
+                              </md-button>
+                            </md-menu-item>
+                          </md-menu-content>
+                        </md-menu>
                       </md-menu-item>
                       <md-menu-item>
                         <md-button class="" ng-click="appCtrl.openAddEvidenceDialogDialog($event, entity)">

@@ -43,7 +43,7 @@ export default class AnnotonParser {
         }
 
         let v = _.find(targetEdges, function (node) {
-          return node.edgeId === predicateId
+          return node.edge.id === predicateId
         });
 
         if (v) {
@@ -77,10 +77,10 @@ export default class AnnotonParser {
 
   getPredicateLabel(id) {
     const self = this;
-    let label = _.findKey(self.saeConstants.edge, function (val) {
-      return val === id;
+    let predicate = _.findKey(self.saeConstants.edge, function (val) {
+      return val.id === id;
     });
-    return label ? label : id;
+    return predicate ? predicate.label : id;
   }
 
   parseNodeOntology(node, ontologyId) {

@@ -352,35 +352,31 @@ export default class ConfigService {
       },
       bpOnly: {
         nodes: [
-          'bp', 'bp-1', 'bp-1-1'
+          'mf', 'bp'
         ],
         triples: [{
-          subject: 'bp',
-          object: 'bp-1',
-          edge: this.saeConstants.edge.partOf
-        }, {
-          subject: 'bp-1',
-          object: 'bp-1-1',
-          edge: [
+          subject: 'mf',
+          object: 'bp',
+          edge: this.saeConstants.edge.upstreamOfOrWithin,
+          edgeOptions: [
             this.saeConstants.edge.upstreamOfOrWithin,
             this.saeConstants.edge.upstreamOf
           ]
         }],
-
         simple: {
           node: 'gp',
           triple: {
-            subject: 'gp',
-            object: 'bp',
-            edge: this.saeConstants.edge.partOf
+            subject: 'mf',
+            object: 'gp',
+            edge: this.saeConstants.edge.enabledBy
           }
         },
         complex: {
           node: 'mc',
           triple: {
-            subject: 'mc',
-            object: 'bp',
-            edge: this.saeConstants.edge.partOf
+            subject: 'mf',
+            object: 'mc',
+            edge: this.saeConstants.edge.enabledBy
           }
         }
       },
@@ -415,7 +411,6 @@ export default class ConfigService {
     annoton.setAnnotonType(annotonType);
     annoton.setAnnotonModelType(modelType);
 
-
     each(self.modelIds[modelType].nodes, function (id) {
       annoton.addNode(self.generateNode(id));
     });
@@ -425,6 +420,9 @@ export default class ConfigService {
 
     each(self.modelIds[modelType].triples, function (triple) {
       annoton.addEdgeById(triple.subject, triple.object, triple.edge);
+      if (triple.edgeOptions) {
+        annoton.addEdgeOptionsById(triple.object, triple.edgeOptions);
+      }
     });
 
     self.addComplexAnnotonData(annoton);

@@ -294,7 +294,7 @@ export default class GraphService {
     var annotons = [];
 
     each(graph.all_edges(), function (e) {
-      if (e.predicate_id() === self.saeConstants.edge.enabledBy) {
+      if (e.predicate_id() === self.saeConstants.edge.enabledBy.id) {
         let mfId = e.subject_id();
         let gpId = e.object_id();
         let mfSubjectNode = self.subjectToTerm(graph, mfId);
@@ -349,13 +349,13 @@ export default class GraphService {
       let evidence = self.edgeToEvidence(graph, toMFEdge);
       let toMFObject = toMFEdge.object_id();
 
-      if (annotonNode.id === "mc" && predicateId === self.saeConstants.edge.hasPart) {
+      if (annotonNode.id === "mc" && predicateId === self.saeConstants.edge.hasPart.id) {
         self.config.addGPAnnotonData(annoton, toMFObject);
       }
 
       each(edge.nodes, function (node) {
-        if (predicateId === node.edgeId) {
-          if (predicateId === self.saeConstants.edge.hasPart && toMFObject !== node.target.id) {
+        if (predicateId === node.edge.id) {
+          if (predicateId === self.saeConstants.edge.hasPart.id && toMFObject !== node.target.id) {
             //do nothing
           } else {
             let subjectNode = self.subjectToTerm(graph, toMFObject);
@@ -386,7 +386,7 @@ export default class GraphService {
     var annotons = [];
 
     each(graph.all_edges(), function (e) {
-      if (e.predicate_id() === self.saeConstants.edge.partOf) {
+      if (e.predicate_id() === self.saeConstants.edge.partOf.id) {
         let gpId = e.subject_id();
         let ccId = e.object_id();
         let gpSubjectNode = self.subjectToTerm(graph, gpId);
@@ -438,13 +438,13 @@ export default class GraphService {
       let evidence = self.edgeToEvidence(graph, toCCEdge);
       let toMFObject = toCCEdge.object_id();
 
-      if (annotonNode.id === "mc" && predicateId === self.saeConstants.edge.hasPart) {
+      if (annotonNode.id === "mc" && predicateId === self.saeConstants.edge.hasPart.id) {
         self.config.addGPAnnotonData(annoton, toMFObject);
       }
 
       each(edge.nodes, function (node) {
-        if (predicateId === node.edgeId) {
-          if (predicateId === self.saeConstants.edge.hasPart && toMFObject !== node.target.id) {
+        if (predicateId === node.edge.id) {
+          if (predicateId === self.saeConstants.edge.hasPart.id && toMFObject !== node.target.id) {
             //do nothing
           } else {
             let subjectNode = self.subjectToTerm(graph, toMFObject);
@@ -588,12 +588,11 @@ export default class GraphService {
     each(edge.nodes, function (edgeNode) {
       let subject = node.saveMeta.term;
       let target = edgeNode.target.saveMeta.term;
-      let edgeId = edgeNode.edgeId;
       if (subject && target && edge) {
         edgeNode.target.saveMeta.edge = reqs.add_fact([
           node.saveMeta.term,
           edgeNode.target.saveMeta.term,
-          edgeNode.edgeId
+          edgeNode.edge.id
         ]);
 
         if (edgeNode.target.id === 'gp') {
