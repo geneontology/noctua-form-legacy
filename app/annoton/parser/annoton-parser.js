@@ -77,7 +77,7 @@ export default class AnnotonParser {
 
   getPredicateLabel(id) {
     const self = this;
-    let predicate = _.findKey(self.saeConstants.edge, function (val) {
+    let predicate = _.find(self.saeConstants.edge, function (val) {
       return val.id === id;
     });
     return predicate ? predicate.label : id;
