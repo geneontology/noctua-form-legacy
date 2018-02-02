@@ -26,7 +26,7 @@ export default class ConfigService {
       'facet.field': [
         'source',
         'subset',
-        'regulates_closure_label',
+        'isa_closure_label',
         'is_obsolete'
       ],
       qf: [
@@ -36,8 +36,8 @@ export default class ConfigService {
         'comment_searchable^0.5',
         'synonym_searchable^1',
         'alternate_id^1',
-        'regulates_closure^1',
-        'regulates_closure_label_searchable^1'
+        'isa_closure^1',
+        'isa_closure_label_searchable^1'
       ],
       _: Date.now()
     };
@@ -46,7 +46,7 @@ export default class ConfigService {
       "evidence": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
         fq: [
           'document_category:"ontology_class"',
-          'regulates_closure:"ECO:0000352"'
+          'isa_closure:"ECO:0000352"'
         ],
       })
     };
@@ -64,7 +64,7 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'regulates_closure:"GO:0032991"'
+                'isa_closure:"GO:0032991"'
               ],
             }),
           }
@@ -85,7 +85,7 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'regulates_closure:"GO:0032991"'
+                'isa_closure:"GO:0032991"'
               ],
             }),
           }
@@ -102,8 +102,8 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                //'regulates_closure:"CHEBI:33695"'
-                'regulates_closure:"CHEBI:23367"'
+                //'isa_closure:"CHEBI:33695"'
+                'isa_closure:"CHEBI:23367"'
               ],
             }),
           }
@@ -120,7 +120,7 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'regulates_closure_label:"molecular_function"'
+                'isa_closure_label:"molecular_function"'
               ],
             }),
           }
@@ -137,7 +137,7 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'regulates_closure:"CHEBI:23367"' //Generak Molecule + GP
+                'isa_closure:"CHEBI:23367"' //Generak Molecule + GP
               ],
             }),
           }
@@ -154,7 +154,7 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'regulates_closure:"GO:0044848"'
+                'isa_closure:"GO:0044848"'
               ],
             }),
           }
@@ -172,7 +172,7 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'regulates_closure_label:"cellular_component"'
+                'isa_closure_label:"cellular_component"'
               ],
             }),
           }
@@ -189,7 +189,7 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'regulates_closure:"CL:0000003"'
+                'isa_closure:"CL:0000003"'
               ],
             }),
           }
@@ -206,7 +206,7 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'regulates_closure:"UBERON:0000061"'
+                'isa_closure:"UBERON:0000061"'
               ],
             }),
           }
@@ -223,7 +223,7 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'regulates_closure_label:"biological_process"'
+                'isa_closure_label:"biological_process"'
               ],
             }),
           }
@@ -240,7 +240,7 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'regulates_closure_label:"biological_process"'
+                'isa_closure_label:"biological_process"'
               ],
             }),
           }
@@ -257,7 +257,7 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'regulates_closure_label:"biological_process"'
+                'isa_closure_label:"biological_process"'
               ],
             }),
           }
