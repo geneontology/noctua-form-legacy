@@ -31,11 +31,11 @@ export default class AppController {
 
     graph.initialize();
     //graph.setGolr();
-    // this.lookup.isGolrClosure(1, "CL:0000003", 'CL:0010015')
-    // this.lookup.isGolrClosure(2, "CHEBI:23367", 'GO:0071079')
-    // this.lookup.isGolrClosure(3, "GO:0032991", 'GO:0006869')
-    // this.lookup.isGolrClosure(4, "GO:0008150", 'GO:0005575')
-    // this.lookup.isGolrClosure(5, "GO:0008150", 'GO:0006869')
+    // this.lookup.isaClosure(1, "CL:0000003", 'CL:0010015')
+    // this.lookup.isaClosure(2, "CHEBI:23367", 'GO:0071079')
+    // this.lookup.isaClosure(3, "GO:0032991", 'GO:0006869')
+    // this.lookup.isaClosure(4, "GO:0008150", 'GO:0005575')
+    // this.lookup.isaClosure(5, "GO:0008150", 'GO:0006869')
   }
 
   setView(view) {

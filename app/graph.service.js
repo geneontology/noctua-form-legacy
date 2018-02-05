@@ -317,8 +317,7 @@ export default class GraphService {
         let mfEdgesIn = graph.get_edges_by_subject(mfId);
         let annotonNode = annoton.getNode('mf');
 
-        annoton.parser = new AnnotonParser();
-        annoton.parser.saeConstants = self.saeConstants
+        annoton.parser = new AnnotonParser(self.saeConstants);
 
         annotonNode.setTerm(mfSubjectNode.term);
         annotonNode.setEvidence(evidence);
@@ -406,8 +405,7 @@ export default class GraphService {
         let ccEdgesIn = graph.get_edges_by_subject(ccId);
         let annotonNode = annoton.getNode('gp');
 
-        annoton.parser = new AnnotonParser();
-        annoton.parser.saeConstants = self.saeConstants
+        annoton.parser = new AnnotonParser(self.saeConstants);
 
         annotonNode.setTerm(gpSubjectNode.term);
         annotonNode.setEvidence(evidence);

@@ -44,17 +44,19 @@ export default class FormGridService {
     }
 
     each(annoton.nodes, function (node) {
-      if (!result[node.displaySection.id][node.displayGroup.id]) {
-        result[node.displaySection.id][node.displayGroup.id] = {
-          shorthand: node.displayGroup.shorthand,
-          label: node.displayGroup.label,
-          nodes: []
-        };
-      }
-      result[node.displaySection.id][node.displayGroup.id].nodes.push(node);
-      node.nodeGroup = result[node.displaySection.id][node.displayGroup.id];
-      if (node.isComplement) {
-        node.nodeGroup.isComplement = true;
+      if (node.displaySection && node.displayGroup) {
+        if (!result[node.displaySection.id][node.displayGroup.id]) {
+          result[node.displaySection.id][node.displayGroup.id] = {
+            shorthand: node.displayGroup.shorthand,
+            label: node.displayGroup.label,
+            nodes: []
+          };
+        }
+        result[node.displaySection.id][node.displayGroup.id].nodes.push(node);
+        node.nodeGroup = result[node.displaySection.id][node.displayGroup.id];
+        if (node.isComplement) {
+          node.nodeGroup.isComplement = true;
+        }
       }
     });
 

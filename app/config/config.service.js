@@ -265,7 +265,7 @@ export default class ConfigService {
       },
     }
 
-    this.modelIds = {
+    this._modelIds = {
       default: {
         nodes: [
           'mf', 'mf-1', 'mf-2', 'bp', 'bp-1', 'bp-1-1', 'cc', 'cc-1', 'cc-1-1'
@@ -354,12 +354,16 @@ export default class ConfigService {
         nodes: [
           'mf', 'bp'
         ],
-        prepopulate: {
+        overrides: {
           mf: {
             id: 'mf',
+            display: {
+              displaySection: '',
+              displayGroup: '',
+            },
             term: {
-              'id': 'GO:0003674',
-              'label': 'molecular_function'
+              id: 'GO:0003674',
+              label: 'molecular_function'
             }
           }
         },
@@ -418,28 +422,31 @@ export default class ConfigService {
   createAnnotonModel(annotonType, modelType) {
     const self = this;
     let annoton = new Annoton();
-    let gp = self.modelIds[modelType][annotonType];
+    let modelIds = _.cloneDeep(self._modelIds);
+
+    let gp = modelIds[modelType][annotonType];
 
     annoton.setAnnotonType(annotonType);
     annoton.setAnnotonModelType(modelType);
 
-    each(self.modelIds[modelType].nodes, function (id) {
+    each(modelIds[modelType].nodes, function (id) {
       annoton.addNode(self.generateNode(id));
     });
 
     annoton.addNode(self.generateNode(gp.node));
     annoton.addEdgeById(gp.triple.subject, gp.triple.object, gp.triple.edge);
 
-    each(self.modelIds[modelType].triples, function (triple) {
+    each(modelIds[modelType].triples, function (triple) {
       annoton.addEdgeById(triple.subject, triple.object, triple.edge);
       if (triple.edgeOption) {
-        annoton.addedgeOptionById(triple.object, triple.edgeOption);
+        annoton.addEdgeOptionById(triple.object, triple.edgeOption);
       }
     });
 
-    each(self.modelIds[modelType].prepopulate, function (prepopulateData) {
-      let node = annoton.getNode(prepopulateData.id);
-      node.setTerm(prepopulateData.term);
+    each(modelIds[modelType].overrides, function (overridesData) {
+      let node = annoton.getNode(overridesData.id);
+      overridesData.term ? node.setTerm(overridesData.term) : angular.noop;
+      overridesData.display ? node.setDisplay(overridesData.display) : angular.noop;
     });
 
     self.addComplexAnnotonData(annoton);

@@ -4,8 +4,8 @@ const each = require('lodash/forEach');
 import AnnotonError from './annoton-error.js';
 
 export default class AnnotonParser {
-  constructor() {
-    this.saeConstants = {};
+  constructor(saeConstants) {
+    this.saeConstants = saeConstants;
     this.rules = [];
     this.errors = [];
     this.clean = true;

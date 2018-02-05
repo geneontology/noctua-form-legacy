@@ -54,7 +54,15 @@ export default class AnnotonNode {
     }
   }
 
-  addedgeOption(edgeOption) {
+  setDisplay(value) {
+    if (value) {
+      this.displaySection = value.displaySection;
+      this.displayGroup = value.displayGroup;
+    }
+  }
+
+
+  addEdgeOption(edgeOption) {
     const self = this;
 
     self.edgeOption = edgeOption;

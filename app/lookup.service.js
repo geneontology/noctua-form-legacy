@@ -46,7 +46,7 @@ export default class LookupService {
       );
   }
 
-  isGolrClosure(a, b) {
+  isaClosure(a, b) {
     const self = this;
 
     let requestParams = {
@@ -82,8 +82,8 @@ export default class LookupService {
         //'comment_searchable^0.5',
         //'synonym_searchable^1',
         // 'alternate_id^1',
-        //'regulates_closure^1',
-        // 'regulates_closure_label_searchable^1'
+        'isa_closure^1',
+        //'regulates_closure_label_searchable^1'
       ],
       _: Date.now()
     };
