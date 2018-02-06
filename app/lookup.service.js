@@ -4,9 +4,10 @@ import {
 } from 'fs';
 
 export default class LookupService {
-  constructor($http, $timeout, $location, $sce, $rootScope, $mdDialog) {
+  constructor($http, $q, $timeout, $location, $sce, $rootScope, $mdDialog) {
     this.name = 'DefaultLookupName';
     this.$http = $http;
+    this.$q = $q;
     this.$timeout = $timeout;
     this.$location = $location;
     this.$sce = $sce;
@@ -48,6 +49,7 @@ export default class LookupService {
 
   isaClosure(a, b) {
     const self = this;
+    let deferred = self.$q.defer();
 
     let requestParams = {
       q: b,
@@ -89,7 +91,7 @@ export default class LookupService {
     };
 
 
-    return this.$http.jsonp(
+    this.$http.jsonp(
         self.trusted, {
           // withCredentials: false,
           jsonpCallbackParam: 'json.wrf',
@@ -97,17 +99,21 @@ export default class LookupService {
         })
       .then(function (response) {
           var data = response.data.response.docs;
-
           var result = data.length > 0;
           // console.log('GOLR success', response, requestParams, data, result);
           console.log(a, b, result);
-          return result;
 
+          deferred.resolve(result);
         },
         function (error) {
           console.log('GOLR isClosure error: ', error);
+          deferred.reject(error);
         }
-      );
+      ).catch(function (response) {
+        deferred.reject(response);
+      });;
+
+    return deferred.promise;
   }
 
   openPopulateDialog(ev) {
@@ -158,4 +164,4 @@ export default class LookupService {
     // return matches;
   }
 }
-LookupService.$inject = ['$http', '$timeout', '$location', '$sce', '$rootScope', '$mdDialog'];
+LookupService.$inject = ['$http', '$q', '$timeout', '$location', '$sce', '$rootScope', '$mdDialog'];

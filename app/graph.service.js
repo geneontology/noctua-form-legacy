@@ -35,9 +35,10 @@ const rootMF = 'GO:0003674';
 const noDataECO = 'ECO:0000035';
 
 export default class GraphService {
-  constructor(saeConstants, config, $rootScope, $timeout, $mdDialog, lookup, formGrid) {
+  constructor(saeConstants, config, $q, $rootScope, $timeout, $mdDialog, lookup, formGrid) {
     this.config = config;
     this.saeConstants = saeConstants
+    this.$q = $q;
     this.$rootScope = $rootScope;
     this.$timeout = $timeout;
     this.$mdDialog = $mdDialog;
@@ -128,6 +129,7 @@ export default class GraphService {
         self.modelTitle = annotations[0].value(); // there should be only one
       }
 
+      self.graphPreParse(self.graph);
       let annotons = self.graphToAnnotons(self.graph);
       let ccComponents = self.graphToCCOnly(self.graph);
 
@@ -289,6 +291,53 @@ export default class GraphService {
     return result;
   }
 
+  graphPreParseNodes(graph) {
+    const self = this;
+    var promises = [];
+
+    each(graph.all_nodes(), function (node) {
+      //isaClosure(a, b)
+      let termId = self.getNodeId(node)
+      // console.log(termId);
+      promises.push(self.lookup.isaClosure(self.saeConstants.rootNode.mf.id, termId));
+    });
+    return $q.all(promises);
+  }
+
+  foo(subjectNode, objectNode, predicateId, promises) {
+    const self = this;
+
+    let subjectTermId = self.getNodeId(subjectNode);
+    let objectTermId = self.getNodeId(objectNode);
+
+    if (self.config.closureCheck[predicateId]) {
+      each(self.config.closureCheck[predicateId].nodes, function (node) {
+        if (node.object) {
+          promises.push(self.lookup.isaClosure(node.object.id, objectTermId));
+        } else {
+          promises.push(self.lookup.isaClosure(node.subject.id, subjectTermId));
+        }
+      });
+    }
+  }
+
+  graphPreParse(graph) {
+    const self = this;
+    var promises = [];
+
+    each(graph.all_edges(), function (edge) {
+      //subject
+      let subjectNode = graph.get_node(edge.subject_id());
+      let subjectNodeTermId = self.getNodeId(subjectNode);
+      //object
+      let objectNode = graph.get_node(edge.object_id());
+      let objectNodeTermId = self.getNodeId(objectNode);
+      self.foo(subjectNode, objectNode, edge.predicate_id(), promises);
+    });
+
+    return self.$q.all(promises);
+  }
+
   graphToAnnotons(graph) {
     const self = this;
     var annotons = [];
@@ -358,6 +407,8 @@ export default class GraphService {
             //do nothing
           } else {
             let subjectNode = self.subjectToTerm(graph, toMFObject);
+
+            self.graphPreParse(graph, )
 
             node.target.modelId = toMFObject;
             node.target.setEvidence(evidence);
@@ -732,4 +783,4 @@ export default class GraphService {
   }
 
 }
-GraphService.$inject = ['saeConstants', 'config', '$rootScope', '$timeout', '$mdDialog', 'lookup', 'formGrid'];
+GraphService.$inject = ['saeConstants', 'config', '$q', '$rootScope', '$timeout', '$mdDialog', 'lookup', 'formGrid'];

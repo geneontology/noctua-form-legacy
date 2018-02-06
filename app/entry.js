@@ -174,6 +174,32 @@ app.constant('saeConstants', {
       'label': 'cellular_component'
     }
   },
+  closures: {
+    mf: {
+      'id': 'GO:0003674',
+    },
+    bp: {
+      'id': 'GO:0008150',
+    },
+    cc: {
+      'id': 'GO:0005575',
+    },
+    gp: {
+      'id': 'CHEBI:23367',
+    },
+    mc: {
+      'id': 'GO:0032991'
+    },
+    tp: {
+      'id': 'GO:0044848'
+    },
+    cl: {
+      'id': 'CL:0000003'
+    },
+    ub: {
+      'id': 'UBERON:0000061'
+    }
+  },
   causalEdges: [{
     name: 'causally upstream of or within',
     term: 'RO:0002418'

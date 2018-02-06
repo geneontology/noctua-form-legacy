@@ -397,6 +397,97 @@ export default class ConfigService {
         }
       },
     }
+
+
+    this.closureCheck = {}
+
+    this.closureCheck[this.saeConstants.edge.enabledBy.id] = {
+      edge: this.saeConstants.edge.enabledBy,
+      nodes: [{
+        object: this.saeConstants.closures.mf
+      }, {
+        subject: this.saeConstants.closures.gp
+      }, {
+        subject: this.saeConstants.closures.mc
+      }]
+    };
+
+    this.closureCheck[this.saeConstants.edge.upstreamOf.id] = {
+      edge: this.saeConstants.edge.upstreamOf,
+      nodes: [{
+        object: this.saeConstants.closures.bp
+      }, {
+        subject: this.saeConstants.closures.mf
+      }]
+    }
+
+    this.closureCheck[this.saeConstants.edge.upstreamOfOrWithin.id] = {
+      edge: this.saeConstants.edge.upstreamOfOrWithin,
+      nodes: [{
+        object: this.saeConstants.closures.bp
+      }, {
+        subject: this.saeConstants.closures.mf
+      }]
+    }
+
+    this.closureCheck[this.saeConstants.edge.partOf.id] = {
+      edge: this.saeConstants.edge.partOf,
+      nodes: [{
+        subject: this.saeConstants.closures.bp
+      }, {
+        subject: this.saeConstants.closures.cl
+      }, {
+        subject: this.saeConstants.closures.ub
+      }, {
+        subject: this.saeConstants.closures.gp
+      }, {
+        object: this.saeConstants.closures.bp
+      }, {
+        object: this.saeConstants.closures.cl
+      }, {
+        object: this.saeConstants.closures.ub
+      }, {
+        object: this.saeConstants.closures.cc
+      }]
+    };
+
+    this.closureCheck[this.saeConstants.edge.occursIn.id] = {
+      edge: this.saeConstants.edge.occursIn,
+      nodes: [{
+        object: this.saeConstants.closures.bp
+      }, {
+        subject: this.saeConstants.closures.mf
+      }]
+    }
+
+    this.closureCheck[this.saeConstants.edge.hasInput.id] = {
+      edge: this.saeConstants.edge.hasInput,
+      nodes: [{
+        object: this.saeConstants.closures.mf
+      }, {
+        subject: this.saeConstants.closures.gp
+      }, {
+        subject: this.saeConstants.closures.mc
+      }]
+    };
+
+    this.closureCheck[this.saeConstants.edge.happensDuring.id] = {
+      edge: this.saeConstants.edge.happensDuring,
+      nodes: [{
+        subject: this.saeConstants.closures.mf
+      }, {
+        object: this.saeConstants.closures.tp
+      }]
+    }
+
+    this.closureCheck[this.saeConstants.edge.hasPart.id] = {
+      edge: this.saeConstants.edge.hasPart,
+      nodes: [{
+        subject: this.saeConstants.closures.mc
+      }, {
+        object: this.saeConstants.closures.gp
+      }]
+    }
   }
 
   addComplexAnnotonData(annoton) {
