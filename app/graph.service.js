@@ -680,37 +680,23 @@ export default class GraphService {
 
   convertToComplex(annoton) {
     const self = this;
-    let complexAnnoton = self.config.createAnnotonModel(
-      self.saeConstants.annotonType.options.complex.name,
-      self.saeConstants.annotonModelType.options.ccOnly.name
-    );
-    complexAnnoton.complexAnnotonData = annoton.complexAnnotonData;
+    let mcNode = annoton.getNode('mc');
 
-    let mcNode = complexAnnoton.getNode('mc');
     mcNode.copyValues(annoton.complexAnnotonData.mcNode);
 
-    each(complexAnnoton.nodes, function (complexNode) {
-      let node = annoton.getNode(complexNode.id);
-      if (node) {
-        complexNode.copyValues(node);
-      }
-    });
-
-    each(complexAnnoton.complexAnnotonData.geneProducts, function (geneProduct) {
-      let id = 'gp-' + complexAnnoton.nodes.length;
-      let node = self.config.addGPAnnotonData(complexAnnoton, id);
+    each(annoton.complexAnnotonData.geneProducts, function (geneProduct) {
+      let id = 'gp-' + annoton.nodes.length;
+      let node = self.config.addGPAnnotonData(annoton, id);
       node.setTerm(geneProduct);
     });
-
-    return complexAnnoton;
 
   }
 
   convertToSimple(annoton) {
     const self = this;
     let simpleAnnoton = self.config.createAnnotonModel(
-      self.saeConstants.annotonType.options.complex.name,
-      self.saeConstants.annotonModelType.options.ccOnly.name
+      annoton.annotonType,
+      annoton.annotonModelType
     );
     let mcNode = annoton.getNode('mc');
     let mcEdge = annoton.getEdges('mc');
@@ -740,11 +726,14 @@ export default class GraphService {
     console.log('save annoton', annoton)
     const self = this;
     const manager = this.manager;
-
     let saved = false;
+    let geneProduct;
 
     if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
-      annoton = self.convertToComplex(annoton);
+      self.convertToComplex(annoton);
+      geneProduct = annoton.getNode('mc');
+    } else {
+      geneProduct = annoton.getNode('gp');
     }
 
     let reqs = new minerva_requests.request_set(manager.user_token(), local_id);
@@ -755,7 +744,6 @@ export default class GraphService {
       });
     }
 
-    let geneProduct = annoton.getNode('gp');
 
     if (!this.modelTitle) {
       const defaultTitle = 'Model involving ' + geneProduct.term.control.value.label;
