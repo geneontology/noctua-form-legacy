@@ -129,7 +129,7 @@ export default class GraphService {
         self.modelTitle = annotations[0].value(); // there should be only one
       }
 
-      self.graphPreParse(self.graph);
+      // self.graphPreParse(self.graph);
       let annotons = self.graphToAnnotons(self.graph);
       let ccComponents = self.graphToCCOnly(self.graph);
 
@@ -297,11 +297,25 @@ export default class GraphService {
 
     each(graph.all_nodes(), function (node) {
       //isaClosure(a, b)
-      let termId = self.getNodeId(node)
-      // console.log(termId);
-      promises.push(self.lookup.isaClosure(self.saeConstants.rootNode.mf.id, termId));
+      //let termId = self.getNodeId(node)
+      console.log('--- ', node);
     });
-    return $q.all(promises);
+  }
+
+  isaClosure(a, b, node) {
+    const self = this;
+    let deferred = self.$q.defer();
+
+    self.lookup.isaClosure(a, b).then(function (data) {
+      if (!node.saeParser) {
+        node.saeParser = {}
+      }
+      node.saeParser[a] = data
+      // console.log("aaaa", node)
+      deferred.resolve(data);
+    });
+
+    return deferred.promise;
   }
 
   foo(subjectNode, objectNode, predicateId, promises) {
@@ -313,9 +327,9 @@ export default class GraphService {
     if (self.config.closureCheck[predicateId]) {
       each(self.config.closureCheck[predicateId].nodes, function (node) {
         if (node.object) {
-          promises.push(self.lookup.isaClosure(node.object.id, objectTermId));
+          promises.push(self.isaClosure(node.object.id, objectTermId, objectNode));
         } else {
-          promises.push(self.lookup.isaClosure(node.subject.id, subjectTermId));
+          promises.push(self.isaClosure(node.subject.id, subjectTermId, subjectNode));
         }
       });
     }
@@ -323,6 +337,7 @@ export default class GraphService {
 
   graphPreParse(graph) {
     const self = this;
+    let deferred = self.$q.defer();
     var promises = [];
 
     each(graph.all_edges(), function (edge) {
@@ -335,7 +350,10 @@ export default class GraphService {
       self.foo(subjectNode, objectNode, edge.predicate_id(), promises);
     });
 
-    return self.$q.all(promises);
+    return self.$q.all(promises).then(function (data) {
+      self.graphPreParseNodes(graph);
+      console.log("done", data)
+    });
   }
 
   graphToAnnotons(graph) {
@@ -407,8 +425,6 @@ export default class GraphService {
             //do nothing
           } else {
             let subjectNode = self.subjectToTerm(graph, toMFObject);
-
-            self.graphPreParse(graph, )
 
             node.target.modelId = toMFObject;
             node.target.setEvidence(evidence);

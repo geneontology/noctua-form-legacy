@@ -136,11 +136,13 @@ app.constant('saeConstants', {
       label: 'has part'
     },
     upstreamOfOrWithin: {
-      id: 'RO:0002264',
+      id: 'RO:0002418',
+      actsId: 'RO:0002264',
       label: 'acts upstream of or within'
     },
     upstreamOf: {
-      id: 'RO:0002263',
+      id: 'RO:0002411',
+      actsId: 'RO:0002263',
       label: 'acts upstream of'
     }
   },
