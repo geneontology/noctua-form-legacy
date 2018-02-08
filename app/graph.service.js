@@ -121,6 +121,13 @@ export default class GraphService {
     function rebuild(resp) {
       var noctua_graph = model.graph;
       self.graph = new noctua_graph();
+      self.model_id = local_id = global_id = resp.data().id;
+
+
+      // let reqs = new minerva_requests.request_set(manager.user_token(), local_id);
+      //  const defaultTitle = 'Model involving ' + 'pppp';
+      // reqs.add_annotation_to_model(annotationTitleKey, defaultTitle);
+
       self.graph.load_data_basic(resp.data());
 
       self.modelTitle = null;
@@ -153,6 +160,11 @@ export default class GraphService {
     }, 10);
 
     manager.get_model(this.model_id);
+  }
+
+  addModel() {
+    const self = this
+    self.manager.add_model();
   }
 
   setGolr() {
@@ -310,7 +322,10 @@ export default class GraphService {
       if (!node.saeParser) {
         node.saeParser = {}
       }
-      node.saeParser[a] = data
+      node.saeParser[a] = data;
+      node.metadata({
+        a: 12
+      });
       // console.log("aaaa", node)
       deferred.resolve(data);
     });
@@ -335,10 +350,18 @@ export default class GraphService {
     }
   }
 
-  graphPreParse(graph) {
+  xgraphPreParse(graph) {
     const self = this;
     let deferred = self.$q.defer();
     var promises = [];
+
+    each(graph.all_nodes(), function (node) {
+      //isaClosure(a, b)
+      //let termId = self.getNodeId(node)
+      node.metadata({
+        a: 124555
+      });
+    });
 
     each(graph.all_edges(), function (edge) {
       //subject
@@ -347,12 +370,44 @@ export default class GraphService {
       //object
       let objectNode = graph.get_node(edge.object_id());
       let objectNodeTermId = self.getNodeId(objectNode);
-      self.foo(subjectNode, objectNode, edge.predicate_id(), promises);
+      subjectNode.metadata({
+        a: 124
+      });
+
+      //self.foo(subjectNode, objectNode, edge.predicate_id(), promises);
     });
 
-    return self.$q.all(promises).then(function (data) {
+    self.$timeout(() => {
       self.graphPreParseNodes(graph);
+    }, 10000);
+
+    self.$q.all(promises).then(function (data) {
       console.log("done", data)
+      //self.graphPreParseNodes(graph);
+    });
+
+
+  }
+
+
+  graphPreParse(graph) {
+    const self = this;
+
+    each(graph.all_edges(), function (edge) {
+      let subjectNode = graph.get_node(edge.subject_id());
+      let objectNode = graph.get_node(edge.object_id());
+
+      objectNode.metadata({
+        b: 1245678
+      });
+
+      subjectNode.metadata({
+        a: 124
+      });
+    });
+
+    each(graph.all_nodes(), function (node) {
+      console.log(node)
     });
   }
 
@@ -722,6 +777,19 @@ export default class GraphService {
 
   }
 
+  saveTitle() {
+    const self = this;
+    let titleAnnotations = self.graph.get_annotations_by_key(annotationTitleKey);
+
+    let reqs = new minerva_requests.request_set(self.manager.user_token(), local_id);
+
+    if (titleAnnotations.length > 0) {
+      reqs.remove_annotation_from_model(annotationTitleKey, titleAnnotations[0].value())
+    }
+    reqs.add_annotation_to_model(annotationTitleKey, self.modelTitle);
+    self.manager.request_with(reqs);
+  }
+
   saveAnnoton(annoton, edit) {
     console.log('save annoton', annoton)
     const self = this;
@@ -757,6 +825,8 @@ export default class GraphService {
     each(annoton.nodes, function (node) {
       self.addFact(reqs, annoton, node);
     });
+
+    reqs.store_model(local_id);
 
     saved = manager.request_with(reqs);
 

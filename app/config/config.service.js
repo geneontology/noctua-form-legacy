@@ -51,27 +51,6 @@ export default class ConfigService {
       })
     };
 
-    this._complexAnnotonData = {
-      "mc": {
-        'id': 'mc',
-        "label": 'Macromolecular Complex',
-        "displaySection": this.saeConstants.displaySection.gp,
-        "displayGroup": this.saeConstants.displayGroup.mc,
-        'treeLevel': 0,
-        "term": {
-          "ontologyClass": [],
-          "lookup": {
-            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
-              fq: [
-                'document_category:"ontology_class"',
-                'isa_closure:"GO:0032991"'
-              ],
-            }),
-          }
-        }
-      }
-    }
-
     this._annotonData = {
       "mc": {
         'id': 'mc',
@@ -265,7 +244,7 @@ export default class ConfigService {
       },
     }
 
-    this._modelIds = {
+    this._modelRelationship = {
       default: {
         nodes: [
           'mf', 'mf-1', 'mf-2', 'bp', 'bp-1', 'bp-1-1', 'cc', 'cc-1', 'cc-1-1'
@@ -490,30 +469,10 @@ export default class ConfigService {
     }
   }
 
-  addComplexAnnotonData(annoton) {
-    const self = this;
-
-    let annotonNode = new AnnotonNode();
-    let complexAnnotonData = JSON.parse(JSON.stringify(self._complexAnnotonData.mc));
-
-    annotonNode.id = complexAnnotonData.id;
-    annotonNode.ontologyClass = complexAnnotonData.ontologyClass;
-    annotonNode.label = complexAnnotonData.label;
-    annotonNode.displaySection = complexAnnotonData.displaySection;
-    annotonNode.displayGroup = complexAnnotonData.displayGroup;
-    annotonNode.treeLevel = complexAnnotonData.treeLevel;
-    annotonNode.setTermLookup(complexAnnotonData.term.lookup.requestParams);
-    annotonNode.setTermOntologyClass(complexAnnotonData.term.ontologyClass);
-    annotonNode.setEvidenceMeta('eco', self.requestParams["evidence"]);
-
-    annoton.complexAnnotonData.gpTemplateNode = self.generateNode('gp');
-    annoton.complexAnnotonData.mcNode = annotonNode;
-  }
-
   createAnnotonModel(annotonType, modelType) {
     const self = this;
     let annoton = new Annoton();
-    let modelIds = _.cloneDeep(self._modelIds);
+    let modelIds = _.cloneDeep(self._modelRelationship);
 
     let gp = modelIds[modelType][annotonType];
 
@@ -540,7 +499,8 @@ export default class ConfigService {
       overridesData.display ? node.setDisplay(overridesData.display) : angular.noop;
     });
 
-    self.addComplexAnnotonData(annoton);
+    annoton.complexAnnotonData.gpTemplateNode = self.generateNode('gp');
+    annoton.complexAnnotonData.mcNode = self.generateNode('mc')
 
     return annoton;
 

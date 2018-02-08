@@ -19,6 +19,38 @@
         <div class="sae-gp sae-form-section md-whiteframe-2dp" layout="column" layout-align="start stretch" flex>
           <div class="sae-section-header" layout="row" layout-align="start start" flex>
             <div class="sae-section-heading">
+              Model
+            </div>
+            <span flex></span>
+            <md-button class="md-primary" ng-click="appCtrl.graph.addModel()">
+              Add New
+            </md-button>
+            <md-menu ng-if="false" md-position-mode="target-right target">
+              <md-button aria-label="Open Annoton Type" class="sae-action-button" ng-click="$mdMenu.open($event)">
+                {{appCtrl.graph.title[0].value()}} ({{appCtrl.graph.model_id}})
+                <b class="caret"></b>
+              </md-button>
+              <md-menu-content width="3">
+                <md-menu-item ng-repeat="annotonType in appCtrl.saeConstants.annotonType.options">
+                  <md-button ng-click="appCtrl.formGrid.setAnnotonType(appCtrl.formGrid.annoton, annotonType)">
+                    {{annotonType.label}}
+                  </md-button>
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>
+          </div>
+          <div class="sae-section-body pt-15 ph-15" layout="column" layout-align="start stretch">
+            <div layout="row">
+              <md-input-container class="md-block" flex>
+                <input aria-describedby="Model Title" type="text" ng-model="appCtrl.graph.modelTitle" ng-blur="appCtrl.graph.saveTitle()"
+                  placeholder="Title" ng-minlength='1'>
+              </md-input-container>
+            </div>
+          </div>
+        </div>
+        <div class="sae-gp sae-form-section md-whiteframe-2dp" layout="column" layout-align="start stretch" flex>
+          <div class="sae-section-header" layout="row" layout-align="start start" flex>
+            <div class="sae-section-heading">
               Gene Product
             </div>
             <span flex></span>
@@ -56,7 +88,6 @@
                 No Results Found
               </div>
             </div>
-
           </div>
           <div ng-if="appCtrl.formGrid.annoton.annotonType === appCtrl.saeConstants.annotonType.options.complex.name" class="sae-section-body pt-15 ph-15 pb-25"
             layout="column" layout-align="start stretch">
@@ -296,6 +327,10 @@
             <md-button type="button" ng-disabled="!appCtrl.formGrid.annoton.enableSubmit()" ng-click="appCtrl.saveAnnoton()" class="md-primary md-raised"
               aria-label="Save Form">
               Create
+            </md-button>
+            <md-button type="button" ng-disabled="!appCtrl.formGrid.annoton.enableSubmit()" ng-click="appCtrl.saveAnnoton(); appCtrl.graph.addModel()"
+              class="md-primary md-raised" aria-label="Save Form">
+              Create & Add New
             </md-button>
           </div>
         </div>

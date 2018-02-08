@@ -34,7 +34,6 @@ div.input-group.input-group-sm div.no-results {
   padding: 2px;
 }
 
-
 /* shouldn't have to do this, but the Noctua-injected Bootstrap
 styles aren't behaving properly, and because they don't go through the SCSS processor,
 I need to explicitly tweak the classes. There has to be a better way.
@@ -42,13 +41,13 @@ I need to explicitly tweak the classes. There has to be a better way.
 
 .navbar {
   height: 50px;
-  background-color: #005888!important;
+  background-color: #005888 !important;
   border: none;
-  color: #EEE!important;
+  color: #EEE !important;
   a {
-    color: #DDD!important;
+    color: #DDD !important;
     &:hover {
-      color: #FFF!important;
+      color: #FFF !important;
     }
   }
   .navbar-collapse {
@@ -70,7 +69,7 @@ I need to explicitly tweak the classes. There has to be a better way.
   text-transform: uppercase;
   border: none;
   line-height: 25px;
-  background-color: #307e3d!important;
+  background-color: #307e3d !important;
 }
 
 #action_barista_logout {
@@ -79,7 +78,7 @@ I need to explicitly tweak the classes. There has to be a better way.
   text-transform: uppercase;
   border: none;
   line-height: 25px;
-  background-color: #7a4242!important;
+  background-color: #7a4242 !important;
 }
 
 .tv-container .input-group.input-group-sm .form-control {
@@ -102,7 +101,6 @@ ul li.error-reason {
   color: darkslateblue;
 }
 
-
 /*Tools*/
 
 .sae-truncate {
@@ -116,7 +114,6 @@ ul li.error-reason {
   max-width: 100%;
 }
 
-
 /* wrapping around the sae form*/
 
 .sae-form-grid {
@@ -129,7 +126,7 @@ ul li.error-reason {
     background-color: #91d4a5;
   }
   .ui-grid-cell-contents {
-    white-space: nowrap!important;
+    white-space: nowrap !important;
   }
   .ui-grid-row .ui-grid-cell {
     padding: 3px;
@@ -187,14 +184,14 @@ ul li.error-reason {
     // height: 100% !important;
   }
   .ui-grid-cell-contents {
-    white-space: nowrap!important;
+    white-space: nowrap !important;
     background-color: transparent;
   }
   .sae-row-status-1 {
-    background-color: #ce8a8a!important;
+    background-color: #ce8a8a !important;
   }
   .sae-row-status-2 {
-    background-color: #e0bcbc!important;
+    background-color: #e0bcbc !important;
   }
   .ui-grid-row .ui-grid-cell {
     padding: 3px; //  background-color: inherit !important;
@@ -217,10 +214,10 @@ ul li.error-reason {
   .ui-grid-cell {
     .sae-error {
       position: relative;
-      background-color: #d49191!important;
+      background-color: #d49191 !important;
       .sae-cell-info-button {
         @include position(absolute, 0 0 0 null);
-        background-color: #91d4a5!important;
+        background-color: #91d4a5 !important;
       }
     }
     input {
@@ -341,7 +338,7 @@ ul li.error-reason {
           margin: 0; //border-bottom: #555 solid 1px; 
           label {
             top: 0px;
-            bottom: auto!important;
+            bottom: auto !important;
             left: 5px;
             font-size: 14px; //color: #656565;
           }
@@ -387,7 +384,7 @@ ul li.error-reason {
       padding-top: 20px;
       label {
         top: 0px;
-        bottom: auto!important;
+        bottom: auto !important;
         left: 5px;
       }
       .md-errors-spacer {
