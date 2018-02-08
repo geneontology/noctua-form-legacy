@@ -117,10 +117,10 @@ export default class AppController {
       .then(function (answer) {}, function () {});
   }
 
-  saveAnnoton() {
+  saveAnnoton(addNew) {
     const self = this;
 
-    if (this.graph.saveAnnoton(this.formGrid.annoton)) {
+    if (this.graph.saveAnnoton(this.formGrid.annoton, null, addNew)) {
       this.formGrid.clearForm();
       self.$mdToast.show(
         self.$mdToast.simple()

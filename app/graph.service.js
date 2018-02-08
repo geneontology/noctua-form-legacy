@@ -790,7 +790,7 @@ export default class GraphService {
     self.manager.request_with(reqs);
   }
 
-  saveAnnoton(annoton, edit) {
+  saveAnnoton(annoton, edit, addNew) {
     console.log('save annoton', annoton)
     const self = this;
     const manager = this.manager;
@@ -827,6 +827,10 @@ export default class GraphService {
     });
 
     reqs.store_model(local_id);
+
+    if (addNew) {
+      reqs.add_model();
+    }
 
     saved = manager.request_with(reqs);
 
