@@ -21,7 +21,9 @@ export default class FormGridService {
 
     self.annoton = self.config.createAnnotonModel(
       annotonType.name,
-      annoton.annotonModelType)
+      annoton.annotonModelType,
+      annoton
+    )
     self.initalizeForm();
   }
 
@@ -30,7 +32,8 @@ export default class FormGridService {
 
     self.annoton = self.config.createAnnotonModel(
       annoton.annotonType,
-      annotonModelType.name)
+      annotonModelType.name,
+      annoton)
     self.initalizeForm();
   }
 

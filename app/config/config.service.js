@@ -469,7 +469,7 @@ export default class ConfigService {
     }
   }
 
-  createAnnotonModel(annotonType, modelType) {
+  createAnnotonModel(annotonType, modelType, srcAnnoton) {
     const self = this;
     let annoton = new Annoton();
     let modelIds = _.cloneDeep(self._modelRelationship);
@@ -502,8 +502,11 @@ export default class ConfigService {
     annoton.complexAnnotonData.gpTemplateNode = self.generateNode('gp');
     annoton.complexAnnotonData.mcNode = self.generateNode('mc')
 
-    return annoton;
+    if (srcAnnoton) {
+      annoton.copyValues(srcAnnoton);
+    }
 
+    return annoton;
   }
 
   generateNode(id) {

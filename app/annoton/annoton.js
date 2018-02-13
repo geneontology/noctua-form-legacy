@@ -18,6 +18,20 @@ export default class Annoton extends SaeGraph {
     this.submitErrors = []
   }
 
+  copyValues(srcAnnoton) {
+    const self = this;
+
+    self.complexAnnotonData.geneProducts = srcAnnoton.complexAnnotonData.geneProducts;
+    self.complexAnnotonData.mcNode.copyValues(srcAnnoton.complexAnnotonData.mcNode);
+
+    each(self.nodes, function (destNode) {
+      let srcNode = srcAnnoton.getNode(destNode.id);
+      if (srcNode) {
+        destNode.copyValues(srcNode);
+      }
+    });
+  }
+
   insertTermNode(annotonModel, id, value) {
     let node = null;
 
