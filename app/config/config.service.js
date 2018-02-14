@@ -493,18 +493,18 @@ export default class ConfigService {
       }
     });
 
-    each(modelIds[modelType].overrides, function (overridesData) {
-      let node = annoton.getNode(overridesData.id);
-      overridesData.term ? node.setTerm(overridesData.term) : angular.noop;
-      overridesData.display ? node.setDisplay(overridesData.display) : angular.noop;
-    });
-
     annoton.complexAnnotonData.gpTemplateNode = self.generateNode('gp');
     annoton.complexAnnotonData.mcNode = self.generateNode('mc')
 
     if (srcAnnoton) {
       annoton.copyValues(srcAnnoton);
     }
+
+    each(modelIds[modelType].overrides, function (overridesData) {
+      let node = annoton.getNode(overridesData.id);
+      overridesData.term ? node.setTerm(overridesData.term) : angular.noop;
+      overridesData.display ? node.setDisplay(overridesData.display) : angular.noop;
+    });
 
     return annoton;
   }

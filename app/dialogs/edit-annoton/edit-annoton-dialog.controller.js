@@ -2,13 +2,12 @@ import _ from 'lodash';
 const each = require('lodash/forEach');
 
 export default class EditAnnotonDIalogController {
-    constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, uiGridTreeViewConstants, graph, lookup, formGrid, row) {
+    constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, graph, lookup, formGrid, row) {
         var vm = this;
         vm.saeConstants = saeConstants;
         vm.$scope = $scope;
         vm.$rootScope = $rootScope;
         vm.$mdDialog = $mdDialog;
-        vm.uiGridTreeViewConstants = uiGridTreeViewConstants;
         vm.$timeout = $timeout;
         vm.lookup = lookup;
         vm.graph = graph;
@@ -46,4 +45,4 @@ export default class EditAnnotonDIalogController {
     }
 
 }
-EditAnnotonDIalogController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', 'uiGridTreeViewConstants', 'graph', 'lookup', 'formGrid', 'row'];
+EditAnnotonDIalogController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', 'graph', 'lookup', 'formGrid', 'row'];
