@@ -131,9 +131,16 @@ export default class GraphService {
       self.graph.load_data_basic(resp.data());
 
       self.modelTitle = null;
-      var annotations = self.graph.get_annotations_by_key(annotationTitleKey);
+      self.modelState = null;
+      let annotations = self.graph.get_annotations_by_key(annotationTitleKey);
+      let stateAnnotations = self.graph.get_annotations_by_key('state');
+
       if (annotations.length > 0) {
         self.modelTitle = annotations[0].value(); // there should be only one
+      }
+
+      if (stateAnnotations.length > 0) {
+        self.modelState = stateAnnotations[0].value(); // there should be only one
       }
 
       // self.graphPreParse(self.graph);
@@ -790,12 +797,38 @@ export default class GraphService {
     self.manager.request_with(reqs);
   }
 
+  saveModelAnnotation(key, value) {
+    const self = this;
+
+    let annotations = self.graph.get_annotations_by_key(key);
+    let reqs = new minerva_requests.request_set(self.manager.user_token(), local_id);
+
+    each(annotations, function (annotation) {
+      reqs.remove_annotation_from_model(key, annotation.value())
+    });
+
+    reqs.add_annotation_to_model(key, value);
+    self.manager.request_with(reqs);
+  }
+
+  adjustAnnoton(annoton) {
+    const self = this;
+
+    //Check Evidence on BP Only
+    if (annoton.annotonModelType === self.saeConstants.annotonModelType.options.bpOnly.name) {
+      let mfNode = annoton.getNode('mf');
+      let bpNode = annoton.getNode('bp');
+
+      mfNode.evidence = bpNode.evidence;
+    }
+  }
+
   saveAnnoton(annoton, edit, addNew) {
-    console.log('save annoton', annoton)
     const self = this;
     const manager = this.manager;
-    let saved = false;
+    let reqs = new minerva_requests.request_set(manager.user_token(), local_id);
     let geneProduct;
+
 
     if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
       self.convertToComplex(annoton);
@@ -804,7 +837,8 @@ export default class GraphService {
       geneProduct = annoton.getNode('gp');
     }
 
-    let reqs = new minerva_requests.request_set(manager.user_token(), local_id);
+    self.adjustAnnoton(annoton);
+
 
     if (edit) {
       each(annoton.nodes, function (node) {
@@ -831,9 +865,7 @@ export default class GraphService {
       reqs.add_model();
     }
 
-    saved = manager.request_with(reqs);
-
-    return true
+    return manager.request_with(reqs);
   }
 
   deleteAnnoton(annoton, ev) {

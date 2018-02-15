@@ -28,10 +28,22 @@
           </div>
           <div class="sae-section-body pt-15 ph-15" layout="column" layout-align="start stretch">
             <div layout="row">
-              <md-input-container class="md-block" flex>
-                <input aria-describedby="Model Title" type="text" ng-model="appCtrl.graph.modelTitle" ng-blur="appCtrl.graph.saveTitle()"
-                  placeholder="Title" ng-minlength='1'>
-              </md-input-container>
+              <div flex="50">
+                <md-input-container class="md-block" flex>
+                  <input aria-describedby="Model Title" type="text" ng-model="appCtrl.graph.modelTitle" ng-blur="appCtrl.graph.saveModelAnnotation('title', appCtrl.graph.modelTitle)"
+                    placeholder="Title" ng-minlength='1'>
+                </md-input-container>
+              </div>
+              <div flex="50">
+                <md-input-container class="md-block" flex>
+                  <label>State</label>
+                  <md-select ng-model="appCtrl.graph.modelState" ng-change="appCtrl.graph.saveModelAnnotation('state', appCtrl.graph.modelState)">
+                    <md-option ng-value="modelState.name" ng-repeat="modelState in appCtrl.saeConstants.modelState.options">
+                      {{modelState.label}}
+                    </md-option>
+                  </md-select>
+                </md-input-container>
+              </div>
             </div>
           </div>
         </div>

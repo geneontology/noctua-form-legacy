@@ -73,6 +73,18 @@ app.constant('saeConstants', {
       }
     }
   },
+  "modelState": {
+    "options": {
+      'development': {
+        "name": 'development',
+        "label": 'Development'
+      },
+      'production': {
+        "name": 'production',
+        "label": 'Production'
+      }
+    }
+  },
   "displaySection": {
     "gp": {
       id: "gp",

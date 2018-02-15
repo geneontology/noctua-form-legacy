@@ -123,8 +123,8 @@ export default class AppController {
   saveAnnoton(addNew) {
     const self = this;
 
-    if (this.graph.saveAnnoton(this.formGrid.annoton, null, addNew)) {
-      this.formGrid.clearForm();
+    self.graph.saveAnnoton(self.formGrid.annoton, null, addNew).then(function (data) {
+      self.formGrid.clearForm();
       self.$mdToast.show(
         self.$mdToast.simple()
         .textContent('Annoton Saved Successfully')
@@ -133,8 +133,7 @@ export default class AppController {
         .theme("success-toast")
         .hideDelay(10000)
       );
-    }
-
+    });
   }
 
   toggleIsComplement(entity, ev) {
