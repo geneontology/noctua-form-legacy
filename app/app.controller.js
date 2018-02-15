@@ -5,6 +5,10 @@
 
 /* global angular */
 
+import _ from 'lodash';
+const each = require('lodash/forEach');
+import AnnotonError from "./annoton/parser/annoton-error.js";
+
 export default class AppController {
   constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, $mdToast, graph, lookup, formGrid) {
     var appCtrl = this;
@@ -105,16 +109,15 @@ export default class AppController {
 
   openAnnotonErrorsDialogDialog(ev, annoton, errors) {
     this.$mdDialog.show({
-        controller: 'AnnotonErrorsDialogController as errorsCtrl',
-        templateUrl: './dialogs/annoton-errors/annoton-errors-dialog.html',
-        targetEvent: ev,
-        clickOutsideToClose: false,
-        locals: {
-          annoton: annoton,
-          errors: errors
-        }
-      })
-      .then(function (answer) {}, function () {});
+      controller: 'AnnotonErrorsDialogController as errorsCtrl',
+      templateUrl: './dialogs/annoton-errors/annoton-errors-dialog.html',
+      targetEvent: ev,
+      clickOutsideToClose: false,
+      locals: {
+        annoton: annoton,
+        errors: errors
+      }
+    })
   }
 
   saveAnnoton(addNew) {
@@ -130,8 +133,33 @@ export default class AppController {
         .theme("success-toast")
         .hideDelay(10000)
       );
+    }
 
+  }
 
+  toggleIsComplement(entity, ev) {
+    const self = this;
+    let canToggle = true;
+    let errors = [];
+
+    each(entity.nodeGroup.nodes, function (node) {
+      if (node.treeLevel > 0) {
+        let nodeEmpty = !node.hasValue();
+        canToggle = canToggle && nodeEmpty
+        if (!nodeEmpty) {
+          let meta = {
+            aspect: self.label
+          }
+          let error = new AnnotonError(1, "Cannot add 'NOT', Remove '" + node.label + "'  value (" + node.term.control.value.label + ")")
+          errors.push(error);
+        }
+      }
+    });
+
+    if (canToggle) {
+      entity.toggleIsComplement();
+    } else {
+      self.openAnnotonErrorsDialogDialog(ev, entity, errors)
     }
 
   }

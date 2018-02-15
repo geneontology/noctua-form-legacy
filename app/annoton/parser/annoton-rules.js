@@ -10,7 +10,6 @@ export default class AnnotonRules {
 
     this.allowedEdges = "";
 
-
   }
 
   populateAllowedEdges() {

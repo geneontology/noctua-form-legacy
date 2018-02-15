@@ -20,5 +20,7 @@ export default class AnnotonErrorsDIalogController {
         this.$mdDialog.cancel();
     }
 
+
+
 }
 AnnotonErrorsDIalogController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', 'graph', 'lookup', 'formGrid', 'annoton', 'errors'];

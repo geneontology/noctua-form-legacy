@@ -111,6 +111,12 @@ export default class AnnotonNode {
     self.isComplement = complement;
   }
 
+  hasValue() {
+    const self = this;
+
+    return self.term.control.value.id;
+  }
+
   clearValues() {
     const self = this;
 
@@ -128,6 +134,19 @@ export default class AnnotonNode {
 
   selectEdge(edge) {
     console.log("I am selected ", edge);
+  }
+
+  enableRow() {
+    const self = this;
+    let result = true;
+
+    if (self.nodeGroup) {
+      if (self.nodeGroup.isComplement && self.treeLevel > 0)[
+        result = false
+      ]
+    }
+
+    return result;
   }
 
   enableSubmit(errors) {

@@ -23,21 +23,8 @@
             </div>
             <span flex></span>
             <md-button class="md-primary" ng-click="appCtrl.graph.addModel()">
-              Add New
+              Start New Model
             </md-button>
-            <md-menu ng-if="false" md-position-mode="target-right target">
-              <md-button aria-label="Open Annoton Type" class="sae-action-button" ng-click="$mdMenu.open($event)">
-                {{appCtrl.graph.title[0].value()}} ({{appCtrl.graph.model_id}})
-                <b class="caret"></b>
-              </md-button>
-              <md-menu-content width="3">
-                <md-menu-item ng-repeat="annotonType in appCtrl.saeConstants.annotonType.options">
-                  <md-button ng-click="appCtrl.formGrid.setAnnotonType(appCtrl.formGrid.annoton, annotonType)">
-                    {{annotonType.label}}
-                  </md-button>
-                </md-menu-item>
-              </md-menu-content>
-            </md-menu>
           </div>
           <div class="sae-section-body pt-15 ph-15" layout="column" layout-align="start stretch">
             <div layout="row">
@@ -55,7 +42,7 @@
             </div>
             <span flex></span>
             <md-menu md-position-mode="target-right target">
-              <md-button aria-label="Open Annoton Type" class="sae-action-button" ng-click="$mdMenu.open($event)">
+              <md-button aria-label="Open Annoton Type" class="sae-action-button md-primary" ng-click="$mdMenu.open($event)">
                 {{appCtrl.saeConstants.annotonType.options[appCtrl.formGrid.annoton.annotonType].label}}
                 <b class="caret"></b>
               </md-button>
@@ -139,7 +126,6 @@
                 <div class="no-results" ng-show="appCtrl.editingModel[term].length > 2 && noResults[term]">
                   No Results Found
                 </div>
-                <address></address>
               </div>
               <div class="typeaheadcontainer" flex="30">
                 <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term + 'e']">
@@ -194,7 +180,7 @@
             </div>
             <span flex></span>
             <md-menu md-position-mode="target-right target">
-              <md-button aria-label="Open Annoton Model Type" class="sae-action-button" ng-click="$mdMenu.open($event)">
+              <md-button aria-label="Open Annoton Model Type" class="sae-action-button md-primary" ng-click="$mdMenu.open($event)">
                 {{appCtrl.saeConstants.annotonModelType.options[appCtrl.formGrid.annoton.annotonModelType].label}}
                 <b class="caret"></b>
               </md-button>
@@ -213,7 +199,8 @@
                 <div>IS NOT</div>
               </div>
               <div class="pb-20" layout="column" flex>
-                <div ng-repeat="entity in nodeGroup.nodes" class="ph-15 sae-annoton-group-row" layout="column" ng-class="{'sae-input-heading' : entity.treeLevel===0}">
+                <div ng-repeat="entity in nodeGroup.nodes" class="ph-15 sae-annoton-group-row" layout="column" ng-class="{'sae-input-heading' : entity.treeLevel===0,
+                 'sae-row-disabled': !entity.enableRow()}">
                   <div class="" layout="column" layout-align="start stretch">
                     <div ng-if="entity.edgeOption" class="" flex="100">
                       <md-input-container class="md-block">
@@ -293,7 +280,7 @@
                             </md-button>
                           </md-menu-item>
                           <md-menu-item ng-if="entity.treeLevel===0">
-                            <md-button class="" ng-click="entity.toggleIsComplement()">
+                            <md-button class="" ng-click="appCtrl.toggleIsComplement(entity)">
                               NOT
                             </md-button>
                           </md-menu-item>
@@ -326,11 +313,11 @@
             </md-button>
             <md-button type="button" ng-disabled="!appCtrl.formGrid.annoton.enableSubmit()" ng-click="appCtrl.saveAnnoton()" class="md-primary md-raised"
               aria-label="Save Form">
-              Create
+              Save
             </md-button>
             <md-button type="button" ng-disabled="!appCtrl.formGrid.annoton.enableSubmit()" ng-click="appCtrl.saveAnnoton(true)" class="md-primary md-raised"
               aria-label="Save Form">
-              Create & Add New
+              Save & Start New Model
             </md-button>
           </div>
         </div>

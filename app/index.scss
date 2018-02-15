@@ -332,6 +332,10 @@ ul li.error-reason {
       font-size: 18px;
     }
     .sae-annoton-group-row {
+      &.sae-row-disabled {
+        opacity: 0.2;
+        pointer-events: none;
+      }
       &.sae-input-heading {
         margin-top: 10px;
         md-input-container {

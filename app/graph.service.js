@@ -812,7 +812,6 @@ export default class GraphService {
       });
     }
 
-
     if (!this.modelTitle) {
       const defaultTitle = 'Model involving ' + geneProduct.term.control.value.label;
       reqs.add_annotation_to_model(annotationTitleKey, defaultTitle);

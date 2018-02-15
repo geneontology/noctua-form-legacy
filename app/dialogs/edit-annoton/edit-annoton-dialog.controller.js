@@ -25,6 +25,7 @@ export default class EditAnnotonDIalogController {
         let result = self.graph.saveAnnoton(annoton, true);
         self.$mdDialog.hide(result);
     }
+
     getTerm(field) {
         let result = null;
         if (field && field.control.value && field.control.value.length >= 3) {
@@ -43,6 +44,5 @@ export default class EditAnnotonDIalogController {
     setAnnotonModelType(annoton, annotonModelType) {
         annoton.setAnnotonModelType(annotonModelType.name);
     }
-
 }
 EditAnnotonDIalogController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', 'graph', 'lookup', 'formGrid', 'row'];
