@@ -28,13 +28,13 @@
           </div>
           <div class="sae-section-body pt-15 ph-15" layout="column" layout-align="start stretch">
             <div layout="row">
-              <div flex="50">
+              <div flex="60">
                 <md-input-container class="md-block" flex>
                   <input aria-describedby="Model Title" type="text" ng-model="appCtrl.graph.modelTitle" ng-blur="appCtrl.graph.saveModelAnnotation('title', appCtrl.graph.modelTitle)"
                     placeholder="Title" ng-minlength='1'>
                 </md-input-container>
               </div>
-              <div flex="50">
+              <div flex="40">
                 <md-input-container class="md-block" flex>
                   <label>State</label>
                   <md-select ng-model="appCtrl.graph.modelState" ng-change="appCtrl.graph.saveModelAnnotation('state', appCtrl.graph.modelState)">

@@ -392,8 +392,6 @@ export default class GraphService {
       console.log("done", data)
       //self.graphPreParseNodes(graph);
     });
-
-
   }
 
 
@@ -784,19 +782,6 @@ export default class GraphService {
 
   }
 
-  saveTitle() {
-    const self = this;
-    let titleAnnotations = self.graph.get_annotations_by_key(annotationTitleKey);
-
-    let reqs = new minerva_requests.request_set(self.manager.user_token(), local_id);
-
-    if (titleAnnotations.length > 0) {
-      reqs.remove_annotation_from_model(annotationTitleKey, titleAnnotations[0].value())
-    }
-    reqs.add_annotation_to_model(annotationTitleKey, self.modelTitle);
-    self.manager.request_with(reqs);
-  }
-
   saveModelAnnotation(key, value) {
     const self = this;
 
@@ -814,12 +799,31 @@ export default class GraphService {
   adjustAnnoton(annoton) {
     const self = this;
 
-    //Check Evidence on BP Only
-    if (annoton.annotonModelType === self.saeConstants.annotonModelType.options.bpOnly.name) {
-      let mfNode = annoton.getNode('mf');
-      let bpNode = annoton.getNode('bp');
+    switch (annoton.annotonModelType) {
+      case self.saeConstants.annotonModelType.options.default.name:
+        {
+          let mfNode = annoton.getNode('mf');
+          let cc1Node = annoton.getNode('cc');
+          let clNode = annoton.getNode('cc-1');
+          let cc11Node = annoton.getNode('cc-1-1');
 
-      mfNode.evidence = bpNode.evidence;
+          if (!cc1Node.hasValue()) {
+            if (clNode.hasValue()) {
+              annoton.addEdge(mfNode, clNode, self.saeConstants.edge.occursIn);
+            } else if (cc11Node.hasValue()) {
+              annoton.addEdge(mfNode, cc11Node, self.saeConstants.edge.occursIn);
+            }
+          }
+          break;
+        }
+      case self.saeConstants.annotonModelType.options.bpOnly.name:
+        {
+          let mfNode = annoton.getNode('mf');
+          let bpNode = annoton.getNode('bp');
+
+          mfNode.evidence = bpNode.evidence;
+          break;
+        }
     }
   }
 
