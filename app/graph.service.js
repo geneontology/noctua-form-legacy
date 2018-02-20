@@ -1,5 +1,6 @@
 import Annoton from './annoton/annoton.js';
 import AnnotonParser from './annoton/parser/annoton-parser.js';
+import AnnotonError from "./annoton/parser/annoton-error.js";
 import Evidence from './annoton/evidence.js';
 
 const each = require('lodash/forEach');
@@ -796,6 +797,51 @@ export default class GraphService {
     self.manager.request_with(reqs);
   }
 
+  annotonAdjustments(annoton) {
+    const self = this;
+    let infos = [];
+
+    switch (annoton.annotonModelType) {
+      case self.saeConstants.annotonModelType.options.default.name:
+        {
+          let mfNode = annoton.getNode('mf');
+          let ccNode = annoton.getNode('cc');
+          let cclNode = annoton.getNode('cc-1');
+          let cc11Node = annoton.getNode('cc-1-1');
+
+          if (!ccNode.hasValue()) {
+            if (cclNode.hasValue()) {
+              annoton.addEdge(mfNode, cclNode, self.saeConstants.edge.occursIn);
+              let meta = {
+                aspect: cc1Node.label,
+                subjectNode: {
+                  label: mfNode.term.control.value.label
+                },
+                edge: {
+                  label: self.saeConstants.edge.occursIn
+                },
+                targetNode: {
+                  label: cc1Node.term.control.value.label
+                },
+              }
+              let info = new AnnotonError(2, "No CC found, added  ", meta);
+
+              infos.push(info);
+            } else if (cc11Node.hasValue()) {}
+          }
+          break;
+        }
+      case self.saeConstants.annotonModelType.options.bpOnly.name:
+        {
+          let mfNode = annoton.getNode('mf');
+          let bpNode = annoton.getNode('bp');
+
+          break;
+        }
+    }
+    return infos;
+  }
+
   adjustAnnoton(annoton) {
     const self = this;
 
@@ -803,15 +849,18 @@ export default class GraphService {
       case self.saeConstants.annotonModelType.options.default.name:
         {
           let mfNode = annoton.getNode('mf');
-          let cc1Node = annoton.getNode('cc');
-          let clNode = annoton.getNode('cc-1');
+          let ccNode = annoton.getNode('cc');
+          let cc1Node = annoton.getNode('cc-1');
           let cc11Node = annoton.getNode('cc-1-1');
 
-          if (!cc1Node.hasValue()) {
-            if (clNode.hasValue()) {
-              annoton.addEdge(mfNode, clNode, self.saeConstants.edge.occursIn);
+          if (!ccNode.hasValue()) {
+            if (cc1Node.hasValue()) {
+              ccNode.setTerm(self.saeConstants.rootNode[ccNode.id]);
+              ccNode.evidence = cc1Node.evidence;
             } else if (cc11Node.hasValue()) {
-              annoton.addEdge(mfNode, cc11Node, self.saeConstants.edge.occursIn);
+              ccNode.setTerm(self.saeConstants.rootNode[ccNode.id]);
+              ccNode.evidence = cc11Node.evidence;
+              annoton.addEdge(ccNode, cc11Node, self.saeConstants.edge.partOf);
             }
           }
           break;
@@ -832,7 +881,7 @@ export default class GraphService {
     const manager = this.manager;
     let reqs = new minerva_requests.request_set(manager.user_token(), local_id);
     let geneProduct;
-
+    let infos;
 
     if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
       self.convertToComplex(annoton);
@@ -841,8 +890,12 @@ export default class GraphService {
       geneProduct = annoton.getNode('gp');
     }
 
-    self.adjustAnnoton(annoton);
 
+    // let infos = self.annotonAdjustments(annoton);
+
+    // if()
+
+    self.adjustAnnoton(annoton);
 
     if (edit) {
       each(annoton.nodes, function (node) {
