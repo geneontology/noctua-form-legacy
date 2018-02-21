@@ -27,7 +27,7 @@ import AddEvidenceDialogController from './dialogs/add-evidence/add-evidence-dia
 import GeneListDialogController from './dialogs/gene-list/gene-list-dialog.controller.js';
 import ViewSummaryDialogController from './dialogs/view-summary/view-summary-dialog.controller.js';
 
-
+import DialogService from './dialogs/dialog.service';
 import ConfigService from './config/config.service.js';
 import FormGridService from './grids/form-grid.service.js';
 import GraphService from './graph.service.js';
@@ -260,6 +260,7 @@ app.controller('GeneListDialogController', GeneListDialogController)
 app.controller('AddEvidenceDialogController', AddEvidenceDialogController)
 app.controller('ViewSummaryDialogController', ViewSummaryDialogController)
 
+app.service('dialogService', DialogService);
 app.service('config', ConfigService);
 app.service('formGrid', FormGridService);
 app.service('graph', GraphService);

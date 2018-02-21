@@ -890,10 +890,11 @@ export default class GraphService {
       geneProduct = annoton.getNode('gp');
     }
 
+    infos = self.annotonAdjustments(annoton);
 
-    // let infos = self.annotonAdjustments(annoton);
+    if (infos) {
 
-    // if()
+    }
 
     self.adjustAnnoton(annoton);
 
@@ -947,6 +948,5 @@ export default class GraphService {
 
     });
   }
-
 }
 GraphService.$inject = ['saeConstants', 'config', '$q', '$rootScope', '$timeout', '$mdDialog', 'lookup', 'formGrid'];

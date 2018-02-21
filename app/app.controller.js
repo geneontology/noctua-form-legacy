@@ -10,17 +10,18 @@ const each = require('lodash/forEach');
 import AnnotonError from "./annoton/parser/annoton-error.js";
 
 export default class AppController {
-  constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, $mdToast, graph, lookup, formGrid) {
+  constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, $mdToast, dialogService, graph, lookup, formGrid) {
     var appCtrl = this;
     this.saeConstants = saeConstants;
     this.$scope = $scope;
     this.$rootScope = $rootScope;
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
-    appCtrl.$timeout = $timeout;
-    appCtrl.lookup = lookup;
-    appCtrl.graph = graph;
-    appCtrl.formGrid = formGrid;
+    this.$timeout = $timeout;
+    this.dialogService = dialogService;
+    this.lookup = lookup;
+    this.graph = graph;
+    this.formGrid = formGrid;
 
     var userNameInfo = document.getElementById('user_name_info');
     if (userNameInfo) {
@@ -55,84 +56,12 @@ export default class AppController {
     return result;
   }
 
-  openGeneListnDialogDialog(ev, row) {
-    this.$mdDialog.show({
-        controller: 'GeneListnDialogController as annotonCtrl',
-        templateUrl: './dialogs/gene-list/gene-list-dialog.html',
-        targetEvent: ev,
-        clickOutsideToClose: false,
-        locals: {
-          row: row
-        }
-      })
-      .then(function (answer) {}, function () {});
-  }
-
-  openViewSummaryDialogDialog(ev, summaryRow) {
-    this.$mdDialog.show({
-        controller: 'ViewSummaryDialogController as annotonCtrl',
-        templateUrl: './dialogs/view-summary/view-summary-dialog.html',
-        targetEvent: ev,
-        clickOutsideToClose: false,
-        locals: {
-          summaryRow: summaryRow
-        }
-      })
-      .then(function (answer) {}, function () {});
-  }
-
-  openEditAnnotonDialogDialog(ev, row) {
-    this.$mdDialog.show({
-        controller: 'EditAnnotonDialogController as annotonCtrl',
-        templateUrl: './dialogs/edit-annoton/edit-annoton-dialog.html',
-        targetEvent: ev,
-        clickOutsideToClose: false,
-        locals: {
-          row: row
-        }
-      })
-      .then(function (answer) {}, function () {});
-  }
-
-  openAddEvidenceDialogDialog(ev, entity) {
-    this.$mdDialog.show({
-        controller: 'AddEvidenceDialogController as annotonCtrl',
-        templateUrl: './dialogs/add-evidence/add-evidence-dialog.html',
-        targetEvent: ev,
-        clickOutsideToClose: false,
-        locals: {
-          entity: entity
-        }
-      })
-      .then(function (answer) {}, function () {});
-  }
-
-  openAnnotonErrorsDialogDialog(ev, annoton, errors) {
-    this.$mdDialog.show({
-      controller: 'AnnotonErrorsDialogController as errorsCtrl',
-      templateUrl: './dialogs/annoton-errors/annoton-errors-dialog.html',
-      targetEvent: ev,
-      clickOutsideToClose: false,
-      locals: {
-        annoton: annoton,
-        errors: errors
-      }
-    })
-  }
-
   saveAnnoton(addNew) {
     const self = this;
 
     self.graph.saveAnnoton(self.formGrid.annoton, null, addNew).then(function (data) {
       self.formGrid.clearForm();
-      self.$mdToast.show(
-        self.$mdToast.simple()
-        .textContent('Annoton Saved Successfully')
-        .position('top right')
-        .action('OK')
-        .theme("success-toast")
-        .hideDelay(10000)
-      );
+      self.dialogService.openSuccessfulSaveToast();
     });
   }
 
@@ -147,9 +76,9 @@ export default class AppController {
         canToggle = canToggle && nodeEmpty
         if (!nodeEmpty) {
           let meta = {
-            aspect: self.label
+            aspect: node.label
           }
-          let error = new AnnotonError(1, "Cannot add 'NOT', Remove '" + node.label + "'  value (" + node.term.control.value.label + ")")
+          let error = new AnnotonError(1, "Cannot add 'NOT', Remove '" + node.label + "'  value (" + node.term.control.value.label + ")", meta)
           errors.push(error);
         }
       }
@@ -158,7 +87,7 @@ export default class AppController {
     if (canToggle) {
       entity.toggleIsComplement();
     } else {
-      self.openAnnotonErrorsDialogDialog(ev, entity, errors)
+      self.dialogService.openAnnotonErrorsDialogDialog(ev, entity, errors)
     }
 
   }
@@ -189,4 +118,4 @@ export default class AppController {
     }
   }
 }
-AppController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', '$mdToast', 'graph', 'lookup', 'formGrid'];
+AppController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', '$mdToast', 'dialogService', 'graph', 'lookup', 'formGrid'];
