@@ -36,9 +36,10 @@ const rootMF = 'GO:0003674';
 const noDataECO = 'ECO:0000035';
 
 export default class GraphService {
-  constructor(saeConstants, config, $q, $rootScope, $timeout, $mdDialog, lookup, formGrid) {
+  constructor(saeConstants, config, $http, $q, $rootScope, $timeout, $mdDialog, lookup, formGrid) {
     this.config = config;
     this.saeConstants = saeConstants
+    this.$http = $http;
     this.$q = $q;
     this.$rootScope = $rootScope;
     this.$timeout = $timeout;
@@ -55,11 +56,17 @@ export default class GraphService {
     this.loggedIn = local_barista_token && (local_barista_token.length > 0);
     this.lookup = lookup;
     this.formGrid = formGrid;
+    this.userInfo = {
+      groups: []
+    }
   }
 
   initialize() {
     console.log('initialize');
+
     const self = this;
+
+    self.getUserInfo();
     this.engine = new jquery_engine(barista_response);
     this.engine.method('POST');
     var manager = new minerva_manager(
@@ -168,6 +175,19 @@ export default class GraphService {
     }, 10);
 
     manager.get_model(this.model_id);
+  }
+
+  getUserInfo() {
+    const self = this;
+    let url = self.barista_location + "/user_info_by_token/" + self.barista_token;
+
+    return this.$http.get(url)
+      .then(function (response) {
+        if (response.data) {
+          self.userInfo.groups = response.data['groups'];
+          self.manager.use_groups(self.userInfo.groups[0].id);
+        }
+      });
   }
 
   addModel() {
@@ -923,6 +943,10 @@ export default class GraphService {
       reqs.add_model();
     }
 
+    if (self.userInfo.groups.length > 0) {
+      reqs.use_groups(self.userInfo.groups[0].id);
+    }
+
     return manager.request_with(reqs);
   }
 
@@ -949,4 +973,4 @@ export default class GraphService {
     });
   }
 }
-GraphService.$inject = ['saeConstants', 'config', '$q', '$rootScope', '$timeout', '$mdDialog', 'lookup', 'formGrid'];
+GraphService.$inject = ['saeConstants', 'config', '$http', '$q', '$rootScope', '$timeout', '$mdDialog', 'lookup', 'formGrid'];
