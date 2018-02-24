@@ -185,7 +185,7 @@ export default class GraphService {
       .then(function (response) {
         if (response.data) {
           self.userInfo.groups = response.data['groups'];
-          self.manager.use_groups(self.userInfo.groups[0].id);
+          self.manager.use_groups([self.userInfo.groups[0].id]);
         }
       });
   }
@@ -944,7 +944,7 @@ export default class GraphService {
     }
 
     if (self.userInfo.groups.length > 0) {
-      reqs.use_groups(self.userInfo.groups[0].id);
+      reqs.use_groups([self.userInfo.groups[0].id]);
     }
 
     return manager.request_with(reqs);
