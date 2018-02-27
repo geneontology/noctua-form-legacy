@@ -15,16 +15,24 @@
       </div>
     </div>
     <div class="sae-body" layout="column" layout-align="start center">
+      <div>
+        <md-button class="sae-success" ng-click="appCtrl.startGuide()">
+          Take a Tour
+        </md-button>
+      </div>
       <div class="sae-annoton-form sae-container" layout="column" layout-align="start stretch">
-        <div class="sae-gp sae-form-section md-whiteframe-2dp" layout="column" layout-align="start stretch" flex>
+        <div id="sae-model-section" class="sae-gp sae-form-section md-whiteframe-2dp" layout="column" layout-align="start stretch"
+          flex>
           <div class="sae-section-header" layout="row" layout-align="start start" flex>
             <div class="sae-section-heading">
               Model
             </div>
             <span flex></span>
-            <md-button class="md-primary" ng-click="appCtrl.graph.addModel()">
-              Start New Model
-            </md-button>
+            <div id="sae-start-model-button">
+              <md-button class="md-primary" ng-click="appCtrl.graph.addModel()">
+                Start New Model
+              </md-button>
+            </div>
           </div>
           <div class="sae-section-body pt-15 ph-15" layout="column" layout-align="start stretch">
             <div layout="row">
@@ -47,13 +55,13 @@
             </div>
           </div>
         </div>
-        <div class="sae-gp sae-form-section md-whiteframe-2dp" layout="column" layout-align="start stretch" flex>
+        <div id="sae-gp-section" class="sae-gp sae-form-section md-whiteframe-2dp" layout="column" layout-align="start stretch" flex>
           <div class="sae-section-header" layout="row" layout-align="start start" flex>
             <div class="sae-section-heading">
               Gene Product
             </div>
             <span flex></span>
-            <md-menu md-position-mode="target-right target">
+            <md-menu id="sae-gp-toggle-button" md-position-mode="target-right target">
               <md-button aria-label="Open Annoton Type" class="sae-action-button md-primary" ng-click="$mdMenu.open($event)">
                 {{appCtrl.saeConstants.annotonType.options[appCtrl.formGrid.annoton.annotonType].label}}
                 <b class="caret"></b>
@@ -185,7 +193,7 @@
           </div>
         </div>
         <!-- TABLE FORM  -->
-        <div class="sae-table-form sae-form-section" layout="column" layout-align="start stretch">
+        <div id="sae-fd-section" class="sae-table-form sae-form-section" layout="column" layout-align="start stretch">
           <div class="sae-section-header" layout="row" layout-align="start start" flex>
             <div class="sae-section-heading">
               Function Description
@@ -315,7 +323,7 @@
             </div>
           </div>
           <!-- END TABLE FORM -->
-          <div layout="row" class="sae-submit-row md-whiteframe-2dp">
+          <div id="sae-submit-row" layout="row" class="sae-submit-row md-whiteframe-2dp">
             <button ng-if="appCtrl.formGrid.annoton.submitErrors.length > 0" class="btn btn-link" ng-click="appCtrl.dialogService.openAnnotonErrorsDialogDialog($event, appCtrl.formGrid.annoton, appCtrl.formGrid.annoton.submitErrors)">
               Why is the "save" button disabled?
             </button>
@@ -327,13 +335,23 @@
               aria-label="Save Form">
               Save
             </md-button>
-            <md-button type="button" ng-disabled="!appCtrl.formGrid.annoton.enableSubmit()" ng-click="appCtrl.saveAnnoton(true)" class="md-primary md-raised"
-              aria-label="Save Form">
+            <md-button ng-if="false" type="button" ng-disabled="!appCtrl.formGrid.annoton.enableSubmit()" ng-click="appCtrl.saveAnnoton(true)"
+              class="md-primary md-raised" aria-label="Save Form">
               Save & Start New Model
             </md-button>
           </div>
         </div>
-        <div class="sae-container sae-summary" layout="column" layout-align="start stretch">
+        <br>
+        <div layout="row" class="sae-submit-row md-whiteframe-2dp">
+          <p>
+
+          </p>
+          <span flex></span>
+          <md-button class="md-primary" ng-click="appCtrl.graph.addModel()">
+            Start New Model
+          </md-button>
+        </div>
+        <div id="sae-molecular-activities" class="sae-container sae-summary" layout="column" layout-align="start stretch">
           <div>
             <h2>
               Molecular Activities in the Model
@@ -499,6 +517,7 @@
         </div>
       </div>
     </div>
+    <joyride></joyride>
     <script type="text/ng-template" id="customTemplate.html">
       <a>
         <span style="display:inline-block;width:200px;font-size:0.9em;font-style:italic;" ng-bind-html="match.model.id | uibTypeaheadHighlight:query"></span>
@@ -506,4 +525,5 @@
       </a>
     </script>
   </div>
-  <!-- <%={{ }}=%> -->
+</div>
+<!-- <%={{ }}=%> -->

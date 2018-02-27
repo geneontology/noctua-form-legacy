@@ -78,6 +78,7 @@
     "angular": "^1.6.8",
     "angular-animate": "^1.6.8",
     "angular-aria": "^1.6.8",
+    "angular-joyride": "^1.0.10",
     "angular-material": "^1.1.6",
     "angular-messages": "^1.6.8",
     "angular-ui-bootstrap": "^2.5.0",

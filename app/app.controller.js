@@ -10,7 +10,7 @@ const each = require('lodash/forEach');
 import AnnotonError from "./annoton/parser/annoton-error.js";
 
 export default class AppController {
-  constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, $mdToast, dialogService, graph, lookup, formGrid) {
+  constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, $mdToast, config, joyrideService, dialogService, graph, lookup, formGrid) {
     var appCtrl = this;
     this.saeConstants = saeConstants;
     this.$scope = $scope;
@@ -18,6 +18,8 @@ export default class AppController {
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
     this.$timeout = $timeout;
+    this.config = config;
+    this.joyrideService = joyrideService;
     this.dialogService = dialogService;
     this.lookup = lookup;
     this.graph = graph;
@@ -35,6 +37,7 @@ export default class AppController {
     });
 
     graph.initialize();
+    this.config.createJoyrideSteps();
     //graph.setGolr();
     // this.lookup.isaClosure(1, "CL:0000003", 'CL:0010015')
     // this.lookup.isaClosure(2, "CHEBI:23367", 'GO:0071079')
@@ -117,5 +120,20 @@ export default class AppController {
       this.graph.deleteAnnoton(row.Annoton);
     }
   }
+
+  startGuide() {
+    const self = this;
+    let canToggle = true;
+    let errors = [];
+
+    self.joyrideService.start = true;
+    self.joyrideService.config = {
+      overlay: true,
+      onStepChange: function () {},
+      onStart: function () {},
+      onFinish: function () {},
+      steps: self.config.createJoyrideSteps()
+    }
+  }
 }
-AppController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', '$mdToast', 'dialogService', 'graph', 'lookup', 'formGrid'];
+AppController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', '$mdToast', 'config', 'joyrideService', 'dialogService', 'graph', 'lookup', 'formGrid'];

@@ -61,7 +61,6 @@ md-toast {
   }
 }
 
-
 /*
 html {
   display: block;
@@ -111,10 +110,9 @@ md-sidenav {
   position: relative;
   width: 1148px;
   .sae-full-w {
-    width: 100%!important;
+    width: 100% !important;
   }
 }
-
 
 /*
           ANGULAR MATERIAL OVERRIDES
@@ -123,6 +121,14 @@ md-sidenav {
 .md-button {
   min-width: 20px;
   padding: 0 12px;
+  &.sae-success {
+    background-color: #529952;
+    color: #EEE;
+    &:hover {
+      background-color: rgba(#529952, 0.7);
+      color: #DDD;
+    }
+  }
 }
 
 .widget-group {
@@ -157,7 +163,6 @@ md-dialog {
     padding: 14px;
   }
 }
-
 
 /*
           BOOTSTRAP OVERRIDES

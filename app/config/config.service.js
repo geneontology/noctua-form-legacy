@@ -697,6 +697,56 @@ export default class ConfigService {
     });
     return annoton;
   }
+
+  createJoyrideSteps() {
+    const self = this;
+
+    let steps = [{
+      type: 'element',
+      selector: "#sae-model-section",
+      title: "Model Creation",
+      content: `Define model's title and state. <a target="_blank" href="http://wiki.geneontology.org/index.php/Noctua#Starting_a_new_model">more</a>`,
+      placement: 'bottom'
+    }, {
+      type: 'element',
+      selector: "#sae-gp-section",
+      title: "Enter gene product",
+      content: `Enter gene product or macromolecular complex to be annotated <a target="_blank" href="http://wiki.geneontology.org/index.php/Noctua#Starting_a_new_model">more</a>`,
+      placement: 'bottom'
+    }, {
+      type: 'element',
+      selector: "#sae-gp-toggle-button",
+      title: "Select",
+      content: `Toggle between gene product or macromolecular complex <a target="_blank" href="http://wiki.geneontology.org/index.php/Noctua#Starting_a_new_model">more</a>`,
+      placement: 'left'
+    }, {
+      type: 'element',
+      selector: "#sae-fd-section",
+      title: "Enter Molecular Function",
+      content: `Enter the molecular function, evidence, and reference. Then enter other optional fields <a target="_blank" href="http://wiki.geneontology.org/index.php/Noctua#Starting_a_new_model">more</a>`,
+      placement: 'top'
+    }, {
+      type: 'element',
+      selector: "#sae-submit-row",
+      title: "Create The Activity",
+      content: 'Check if there are any errors (create button not greyed out). Add the new activity to a model. <a href="http://wiki.geneontology.org/index.php/Noctua#Starting_a_new_model">more</a>',
+      placement: 'top'
+    }, {
+      type: 'element',
+      selector: "#sae-start-model-button",
+      title: "Model Creation",
+      content: `You can also start a new model <a target="_blank" href="http://wiki.geneontology.org/index.php/Noctua#Starting_a_new_model">more</a>`,
+      placement: 'left'
+    }, {
+      type: 'element',
+      selector: "#sae-molecular-activities",
+      title: "Molecular Activities in the Model",
+      content: 'This is where all the molecular activities in this model appear.',
+      placement: 'top'
+    }];
+
+    return steps;
+  }
 }
 
 ConfigService.$inject = ['saeConstants'];

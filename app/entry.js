@@ -6,13 +6,16 @@
 window.tableviewWorkbenchVersion = '0.1.1';
 
 import angular from 'angular';
+
+//const angular = require('angular');
 import nguibootstrap from 'angular-ui-bootstrap';
 
 import 'angular-aria/angular-aria.js';
 import 'angular-animate/angular-animate.js';
 import 'angular-material/angular-material.js';
+import '../node_modules/angular-joyride/dist/joyride.js'
 
-
+import '../node_modules/angular-joyride/dist/joyride.css'
 import '../node_modules/angular-material/angular-material.css';
 import 'jsonformatter';
 import 'jsonformatter/dist/json-formatter.min.css';
@@ -36,6 +39,7 @@ import LookupService from './lookup.service.js';
 
 var app = angular.module('TVApp', ['ngMaterial',
   nguibootstrap,
+  'angular-joyride',
   'jsonFormatter'
 ]);
 app.config(['JSONFormatterConfigProvider', function (JSONFormatterConfigProvider) {
