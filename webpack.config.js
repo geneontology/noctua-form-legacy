@@ -47,6 +47,7 @@ var config = {
   },
 
   plugins: [
+    new webpack.IgnorePlugin(/ringo\/httpclient/),
     new webpack.HotModuleReplacementPlugin(),
 
     new webpack.DefinePlugin({
