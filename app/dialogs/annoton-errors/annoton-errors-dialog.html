@@ -1,0 +1,54 @@
+<!-- NOTE DIALOG -->
+<md-dialog class="sae-annoton-errors-dialog" aria-label="Annoton Errors Dialog" ng-cloak>
+    <md-toolbar class="gb-heading" layout="column" layout-align="start center" flex>
+        <div class="md-toolbar-tools sae-container">
+            <div class="sae-heading-title">
+                <span class="ellipsis">
+                    Errors
+                </span>
+            </div>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="errorsCtrl.closeDialog()" aria-label="Close Dialog" translate translate-attr-aria-label="SB.CLOSE_DIALOG">
+                <md-icon md-font-icon="icon-close"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="" layout="column" layout-align="start stretch">
+            <div ng-repeat="error in errorsCtrl.errors" class="sae-error-row" layout="row">
+                <div class="sae-number">
+                    {{$index+1}}
+                </div>
+                <div flex class="sae-error-row-body">
+                    <div class="sae-heading">
+                        <strong>{{error.meta.aspect}}</strong>: {{error.message}}
+                    </div>
+                    <div ng-if="error.type===2 || error.type===3" class="pb-10" layout="row">
+                        <div class="sae-node-card" layout="column" layout-align="center center">
+                            <div> {{error.meta.subjectNode.label}}</div>
+                        </div>
+                        <div class="sae-edge-card" flex>
+                            <div class="sae-line">
+                                {{error.meta.edge.label}}
+                            </div>
+                        </div>
+                        <div class="sae-node-card" layout="column" layout-align="center center">
+                            <div>{{error.meta.targetNode.label}}</div>
+                        </div>
+                    </div>
+                    <div ng-if="error.type===4" class="pb-10" layout="row" layout-align="center center">
+                        <div class="sae-node-card sae-lg" layout="column" layout-align="center center">
+                            {{error.meta.subjectNode.label}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button ng-click="errorsCtrl.closeDialog()" aria-label="Cancel">
+            Close
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

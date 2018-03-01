@@ -5,7 +5,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var WriteFilePlugin = require('write-file-webpack-plugin');
 var path = require('path');
 
-const ASSETS_LIMIT = typeof process.env.ASSETS_LIMIT !== 'undefined' ? parseInt(process.env.ASSETS_LIMIT, 10) : 5000;// limit bellow the assets will be inlines
+const ASSETS_LIMIT = typeof process.env.ASSETS_LIMIT !== 'undefined' ? parseInt(process.env.ASSETS_LIMIT, 10) : 5000; // limit bellow the assets will be inlines
 
 var nodeEnvironment = process.env.BUILD;
 var dist = path.join(__dirname, 'workbenches/simple-annoton-editor/public');
@@ -52,7 +52,7 @@ var config = {
     new webpack.DefinePlugin({
       'INCLUDE_ALL_MODULES': function includeAllModulesGlobalFn(modulesArray, application) {
         modulesArray.forEach(function executeModuleIncludesFn(moduleFn) {
-            moduleFn(application);
+          moduleFn(application);
         });
       },
       ENVIRONMENT: JSON.stringify(nodeEnvironment)
@@ -60,8 +60,7 @@ var config = {
   ],
 
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.css$/,
         loader: 'style-loader!css-loader'
       },
@@ -87,9 +86,9 @@ var config = {
         test: /\.js$/,
         loader: 'babel-loader',
         query: {
-            // https://github.com/babel/babel-loader#options
-            cacheDirectory: true,
-            presets: ['env']
+          // https://github.com/babel/babel-loader#options
+          cacheDirectory: true,
+          presets: ['env']
         },
         exclude: /node_modules/,
         include: [app]
@@ -107,12 +106,30 @@ var config = {
       //   include: [fa, bs, bss, uigrid]
       // },
 
-      { test: /\.(png)$/, loader: 'url-loader?limit=' + ASSETS_LIMIT + '&name=assets/[hash].[ext]' },
-      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=' + ASSETS_LIMIT + '&mimetype=application/font-woff&name=assets/[hash].[ext]' },
-      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=' + ASSETS_LIMIT + '&mimetype=application/font-woff&name=assets/[hash].[ext]' },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=' + ASSETS_LIMIT + '&mimetype=application/octet-stream&name=assets/[hash].[ext]' },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader?&name=assets/[hash].[ext]' },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=' + ASSETS_LIMIT + '&mimetype=image/svg+xml&&name=assets/[hash].[ext]' },
+      {
+        test: /\.(png)$/,
+        loader: 'url-loader?limit=' + ASSETS_LIMIT + '&name=assets/[hash].[ext]'
+      },
+      {
+        test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url-loader?limit=' + ASSETS_LIMIT + '&mimetype=application/font-woff&name=assets/[hash].[ext]'
+      },
+      {
+        test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url-loader?limit=' + ASSETS_LIMIT + '&mimetype=application/font-woff&name=assets/[hash].[ext]'
+      },
+      {
+        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url-loader?limit=' + ASSETS_LIMIT + '&mimetype=application/octet-stream&name=assets/[hash].[ext]'
+      },
+      {
+        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'file-loader?&name=assets/[hash].[ext]'
+      },
+      {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url-loader?limit=' + ASSETS_LIMIT + '&mimetype=image/svg+xml&&name=assets/[hash].[ext]'
+      },
 
       {
         test: /\.(html)$/,
@@ -138,14 +155,22 @@ var config = {
     contentBase: dist,
     watchContentBase: true,
     historyApiFallback: true,
-   headers: { "Access-Control-Allow-Origin": "*" }
+    headers: {
+      "Access-Control-Allow-Origin": "*"
+    }
   },
 };
 
 config.plugins.push(
-  new CopyWebpackPlugin([
-    { from: 'inject.tmpl' }
-  ]));
+  new CopyWebpackPlugin([{
+    from: 'inject.tmpl'
+  }, {
+    from: 'templates/**/*'
+  }, {
+    from: 'dialogs/**/*'
+  }, {
+    from: 'assets/**/*'
+  }]));
 
 config.plugins.push(
   new WriteFilePlugin());
