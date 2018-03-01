@@ -57,7 +57,8 @@ export default class GraphService {
     this.lookup = lookup;
     this.formGrid = formGrid;
     this.userInfo = {
-      groups: []
+      groups: [],
+      selectedGroup: {}
     }
   }
 
@@ -183,9 +184,10 @@ export default class GraphService {
 
     return this.$http.get(url)
       .then(function (response) {
-        if (response.data) {
+        if (response.data && response.data.groups.length > 0) {
           self.userInfo.groups = response.data['groups'];
-          self.manager.use_groups([self.userInfo.groups[0].id]);
+          self.userInfo.selectedGroup = self.userInfo.groups[0];
+          self.manager.use_groups([self.userInfo.selectedGroup.id]);
         }
       });
   }
@@ -803,6 +805,14 @@ export default class GraphService {
 
   }
 
+
+  saveModelGroup() {
+    const self = this
+
+    self.manager.use_groups([self.userInfo.selectedGroup.id]);
+  }
+
+
   saveModelAnnotation(key, value) {
     const self = this;
 
@@ -944,7 +954,7 @@ export default class GraphService {
     }
 
     if (self.userInfo.groups.length > 0) {
-      reqs.use_groups([self.userInfo.groups[0].id]);
+      reqs.use_groups([self.userInfo.selectedGroup.id]);
     }
 
     return manager.request_with(reqs);
