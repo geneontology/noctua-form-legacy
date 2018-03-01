@@ -1,48 +1,37 @@
-// Bootstrap Overrides
-
-$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
-@fa-font-path:   "~font-awesome/fonts/";
-
-$navbar-height:         30px;
-$navbar-padding-vertical:   2;
-
-$nav-link-padding:    0 12px;
-$navbar-border-radius:  0;
-$navbar-margin-bottom:  0;
-
-$grid-float-breakpoint: (768px - 200);
-
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
-
+@import "./scss/global.scss";
+@import "~bourbon/app/assets/stylesheets/bourbon";
+$sae-header-bg-color: #cbd9e6;
 pre.pre-scrollable {
-  font-size:12px;
+  font-size: 12px;
+}
+
+.dropdown-menu {
+  z-index: 9999;
 }
 
 .ui-grid-cell-contents {
-  font-size:12px;
+  font-size: 12px;
   xborder: 1px solid green;
   word-wrap: break-word;
   white-space: normal !important;
 }
 
-
 button.btn.btn-compact {
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
 }
 
-
 div.input-group.input-group-sm div.no-results {
-  top:32px;
-  font-face:italic;
-  font-weight:500;
-  font-size:10px;
-  border:1px solid lightgray;
-  background:lightyellow;
-  position:absolute;
-  z-index:500;
-  margin:1px;
-  padding:2px;
+  top: 32px;
+  font-face: italic;
+  font-weight: 500;
+  font-size: 10px;
+  border: 1px solid lightgray;
+  background: lightyellow;
+  position: absolute;
+  z-index: 500;
+  margin: 1px;
+  padding: 2px;
 }
 
 /* shouldn't have to do this, but the Noctua-injected Bootstrap
@@ -52,15 +41,44 @@ I need to explicitly tweak the classes. There has to be a better way.
 
 .navbar {
   height: 50px;
+  background-color: #005888 !important;
+  border: none;
+  color: #EEE !important;
+  a {
+    color: #DDD !important;
+    &:hover {
+      color: #FFF !important;
+    }
+  }
+  .navbar-collapse {
+    padding: 0;
+  }
 }
 
-
 .navbar .nav.navbar-nav {
-  margin:5px 0 0 0;
+  margin: 5px 0 0 0;
 }
 
 .navbar .nav.navbar-right {
-  margin:3px 0 0 0;
+  margin: 3px 0 0 0;
+}
+
+#action_barista_login {
+  background-color: transparent;
+  margin-top: 5px;
+  text-transform: uppercase;
+  border: none;
+  line-height: 25px;
+  background-color: #307e3d !important;
+}
+
+#action_barista_logout {
+  background-color: transparent;
+  margin-top: 5px;
+  text-transform: uppercase;
+  border: none;
+  line-height: 25px;
+  background-color: #7a4242 !important;
 }
 
 .tv-container .input-group.input-group-sm .form-control {
@@ -69,8 +87,8 @@ I need to explicitly tweak the classes. There has to be a better way.
 
 .tv-container .input-group-addon {
   height: 30px;
-  min-width:35px;
-  padding:0 2px;
+  min-width: 35px;
+  padding: 0 2px;
   margin: 0;
 }
 
@@ -81,4 +99,765 @@ I need to explicitly tweak the classes. There has to be a better way.
 ul li.error-reason {
   font-weight: 500;
   color: darkslateblue;
+}
+
+/*Tools*/
+
+.sae-truncate {
+  float: left;
+  height: 30px;
+  line-height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* new css */
+  max-width: 100%;
+}
+
+/* wrapping around the sae form*/
+
+.sae-form-grid {
+  &.grid {
+    margin: 0;
+    padding: 0; // height: 80%;
+    width: 100%;
+  }
+  .ui-grid-header-cell {
+    background-color: #91d4a5;
+  }
+  .ui-grid-cell-contents {
+    white-space: nowrap !important;
+  }
+  .ui-grid-row .ui-grid-cell {
+    padding: 3px;
+    background-color: inherit !important;
+    color: inherit !important;
+    border: none;
+  }
+  .ui-grid-row .ui-grid-cell.ui-grid-cell {
+    //  background-color: #7c7499;
+    //  border-bottom: solid 1px #d4d4d4;
+  }
+  .sae-row-level-0 {
+    // background-color: rgba($primary-color, 0.2);
+  }
+  .sae-row-level-1 {
+    // background-color: rgba($primary-color, 0.1);
+  }
+  .sae-row-level-2 {
+    //background-color: rgba($primary-color, 0.05);
+  }
+  .ui-grid-cell {
+    input {
+      &.form-control {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555;
+        vertical-align: middle;
+        background-color: transparent;
+        border: 1px solid #ccc;
+        borderß-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+      }
+    }
+  }
+}
+
+.sae-summary-grid {
+  .grid {
+    margin: 0;
+    padding: 0; // 
+    height: 2000px;
+    width: 100%;
+  }
+  .ui-grid,
+  .ui-grid-viewport,
+  .ui-grid-contents-wrapper,
+  .ui-grid-canvas {
+    // height: 100% !important;
+  }
+  .ui-grid-cell-contents {
+    white-space: nowrap !important;
+    background-color: transparent;
+  }
+  .sae-row-status-1 {
+    background-color: #ce8a8a !important;
+  }
+  .sae-row-status-2 {
+    background-color: #e0bcbc !important;
+  }
+  .ui-grid-row .ui-grid-cell {
+    padding: 3px; //  background-color: inherit !important;
+    //  color: inherit !important;
+    //   border: none;
+  }
+  .ui-grid-row .ui-grid-cell.ui-grid-cell {
+    //  background-color: #7c7499;
+    //  border-bottom: solid 1px #d4d4d4;
+  }
+  .sae-row-level-0 {
+    // background-color: rgba($primary-color, 0.2);
+  }
+  .sae-row-level-1 {
+    // background-color: rgba($primary-color, 0.1);
+  }
+  .sae-row-level-2 {
+    //background-color: rgba($primary-color, 0.05);
+  }
+  .ui-grid-cell {
+    .sae-error {
+      position: relative;
+      background-color: #d49191 !important;
+      .sae-cell-info-button {
+        @include position(absolute, 0 0 0 null);
+        background-color: #91d4a5 !important;
+      }
+    }
+    input {
+      &.form-control {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555;
+        vertical-align: middle;
+        background-color: transparent;
+        border: 1px solid #ccc;
+        borderß-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+      }
+    }
+  }
+}
+
+.sae-subheader {
+  padding: 0px 20px;
+  height: 30px;
+  background-color: $sae-primary-color; // border-bottom: #BBB solid 1px;
+  .sae-title {
+    line-height: 28px;
+    color: #DDD;
+    font-size: 12px;
+  }
+}
+
+.sae-body {
+  width: 100%;
+  padding: 20px;
+  background-color: #E2E2E2;
+}
+
+.sae-toolbar {
+  padding: 0px 20px;
+  height: 40px;
+  width: 100%;
+  background-color: #EEE;
+  border-bottom: #BBB solid 1px;
+  .sae-title {
+    line-height: 38px;
+    color: #555;
+    font-size: 14px;
+    font-weight: bold;
+  }
+}
+
+.sae-annoton-form {
+  .sae-toolbar {
+    padding: 0px 20px;
+    height: 40px;
+    width: 100%;
+    background-color: #F2F2F2;
+    border-bottom: #BBB solid 1px;
+    .sae-title {
+      line-height: 38px;
+      color: #555;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+  .sae-gp {
+    background-color: #FFF;
+  }
+  .sae-form-section {
+    margin: 10px 0;
+    width: 100%;
+    background-color: #FFF;
+    .sae-section-header {
+      height: 50px;
+      background-color: $sae-header-bg-color;
+      border-bottom: #DDD solid 1px;
+      .sae-section-heading {
+        padding-left: 8px;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 50px;
+        color: #222;
+      }
+      .sae-action-button {
+        margin: 5px;
+        height: 40px; // line-height: 36px;
+      }
+    }
+    .sae-section-body {
+      //padding: 16px 14px;
+    }
+  }
+  .sae-group-side-heading {
+    @include deep-width(50px);
+    background-color: #DDD;
+    font-size: 10px;
+    text-align: center;
+  }
+  .sae-term-group {
+    // padding-bottom: 20px;
+    margin-bottom: 3px;
+    border-bottom: #CCC solid 1px;
+    background-color: #FFF;
+    .sae-group-heading {
+      margin-bottom: 20px;
+      height: 40px;
+      font-weight: 500;
+      font-size: 18px;
+    }
+    .sae-annoton-group-row {
+      &.sae-row-disabled {
+        opacity: 0.2;
+        pointer-events: none;
+      }
+      &.sae-input-heading {
+        margin-top: 10px;
+        md-input-container {
+          margin: 0; //border-bottom: #555 solid 1px; 
+          label {
+            top: 0px;
+            bottom: auto !important;
+            left: 5px;
+            font-size: 14px; //color: #656565;
+          }
+        }
+      }
+      .sae-action-button {
+        margin: 8px 0 0 0;
+        background-color: #FAFAFA;
+        width: 35px;
+        height: 35px;
+        md-icon {
+          @include sae-icon-size(14px);
+          color: #AAA;
+          line-height: 18px;
+        }
+        &:hover {
+          background-color: #999;
+          md-icon {
+            color: #222;
+          }
+        }
+      }
+    }
+  }
+  .sae-table-form {
+    width: 1148px;
+    .sae-tree-input {
+      $border-color: rgba(#000, 0.12);
+      @include deep-width(20px);
+      &.sae-level-0 {
+        // border-left: $border-color solid 1px;
+        //  @include deep-width(1px);
+      }
+      &.sae-level-1 {
+        border-right: $border-color solid 1px;
+      }
+      &.sae-level-2 {
+        border-right: $border-color solid 1px;
+      }
+    }
+    md-input-container {
+      margin: 0; //border-bottom: #555 solid 1px; 
+      padding-top: 20px;
+      label {
+        top: 0px;
+        bottom: auto !important;
+        left: 5px;
+      }
+      .md-errors-spacer {
+        visibility: hidden;
+        display: none;
+      }
+      input {
+        padding-left: 10px;
+      }
+    }
+  }
+  .sae-submit-row {
+    margin: 10px 0;
+    padding: 10px 0;
+    background-color: #FFF;
+  }
+}
+
+.sae-linear-column {
+  width: 400px;
+}
+
+.sae-table {
+  .sae-header {
+    background-color: #E4EBF3
+  }
+}
+
+.sae-summary {
+  margin-top: 30px;
+  .sae-panel {
+    background-color: #FFF;
+  }
+  .sae-panel-header {
+    height: 60px;
+    background-color: rgba($sae-header-bg-color, 0.4);
+    border-bottom: #DDD solid 1px;
+    &.sae-error {
+      background-color: rgba(#f8d7da, 0.5);
+    }
+    &.sae-success {
+      background-color: rgba(#c3e6cb, 0.5);
+    }
+    .sae-panel-heading {
+      padding: 10px 0;
+      height: 100%;
+      padding-left: 8px;
+      .sae-heading-title {
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 5px;
+      }
+      .sae-heading-subtitle {
+        font-weight: 500;
+        font-size: 12px;
+        color: #555;
+      }
+    }
+    .sae-action-button {
+      margin: 0;
+      width: 60px; // line-height: 36px;
+      height: 60px; // border: #DDD solid 1px;
+      md-icon {
+        @include sae-icon-size(16px);
+        line-height: 16px;
+      }
+    }
+    .sae-error-button {
+      font-size: 12px;
+      margin: 0;
+      height: 65px; // border: #DDD solid 1px;
+      color: #8b3c3c;
+    }
+  }
+  .sae-card {
+    overflow: hidden;
+    background-color: #FFF;
+    &.sae-error {
+      background-color: #ebcccc;
+    }
+    &.sae-success {
+      // background-color: rgba(#c3e6cb, 0.5);
+    }
+    .sae-card-header {
+      height: 60px;
+      border-bottom: #DDD solid 1px;
+      .sae-card-heading {
+        padding: 10px 8px;
+        height: 100%;
+        padding-left: 15px;
+        .sae-heading-title {
+          font-size: 14px;
+          color: #333;
+          margin-bottom: 5px;
+        }
+        .sae-heading-subtitle {
+          font-weight: 500;
+          font-size: 12px;
+          color: #555;
+        }
+      }
+      .sae-action-button {
+        margin: 0;
+        width: 60px; // line-height: 36px;
+        height: 60px; // border: #DDD solid 1px;
+        md-icon {
+          @include sae-icon-size(16px);
+          line-height: 16px;
+        }
+      }
+      .sae-error-button {
+        font-size: 12px;
+        margin: 0;
+        height: 65px; // border: #DDD solid 1px;
+        color: #8b3c3c;
+      }
+    }
+    .sae-card-footer {
+      padding: 0 10px;
+      height: 50px;
+      border-top: #DDD solid 1px;
+      .sae-action-button {
+        margin: 0;
+        width: 40px; // line-height: 36px;
+        height: 40px; // border: #DDD solid 1px;
+        md-icon {
+          @include sae-icon-size(20px);
+          line-height: 20px;
+        }
+      }
+    }
+    .sae-term {
+      @include deep-height(30px);
+      @include deep-width(30px);
+      margin-top: 5px;
+      text-align: center;
+      line-height: 30px;
+      color: #CCC;
+      &.sae-term-mf {
+        @include deep-height(40px);
+        @include deep-width(40px);
+        margin-top: 5px;
+        line-height: 40px;
+        .sae-fa-lg {
+          font-size: 30px;
+        }
+        .sae-fa-sm {
+          bottom: -5px;
+          right: -8px;
+          color: $sae-mf-color;
+          font-size: 20px;
+        }
+      }
+      &.sae-term-cc {
+        .sae-fa-sm {
+          color: $sae-cc-color;
+        }
+      }
+      &.sae-term-bp {
+        .sae-fa-sm {
+          color: $sae-bp-color;
+        }
+      }
+    }
+    .sae-card-row {
+      padding: 8px 0;
+      width: 100%;
+      height: 50px;
+      padding-left: 8px;
+      border-bottom: #EEE solid 1px;
+      .sae-term-description {
+        padding: 0 10px 0 16px;
+      }
+      .sae-predicate {
+        color: #888;
+      }
+    }
+  }
+  .sae-card-1 {
+    overflow: hidden;
+    background-color: #FFF;
+    &.sae-error {
+      background-color: #ebcccc;
+    }
+    &.sae-success {
+      // background-color: rgba(#c3e6cb, 0.5);
+    }
+    .sae-card-header {
+      height: 40px;
+      border-bottom: #DDD solid 1px;
+      .sae-card-heading {
+        padding: 10px 8px;
+        height: 100%;
+        padding-left: 15px;
+        .sae-heading-title {
+          font-size: 14px;
+          color: #333;
+          margin-bottom: 5px;
+        }
+        .sae-heading-subtitle {
+          font-weight: 500;
+          font-size: 12px;
+          color: #555;
+        }
+      }
+      .sae-action-button {
+        margin: 0;
+        width: 60px; // line-height: 36px;
+        height: 60px; // border: #DDD solid 1px;
+        md-icon {
+          @include sae-icon-size(16px);
+          line-height: 16px;
+        }
+      }
+      .sae-error-button {
+        font-size: 12px;
+        margin: 0;
+        height: 65px; // border: #DDD solid 1px;
+        color: #8b3c3c;
+      }
+    }
+    .sae-card-footer {
+      padding: 0 10px;
+      height: 50px;
+      border-top: #DDD solid 1px;
+      .sae-action-button {
+        margin: 0;
+        width: 40px; // line-height: 36px;
+        height: 40px; // border: #DDD solid 1px;
+        md-icon {
+          @include sae-icon-size(20px);
+          line-height: 20px;
+        }
+      }
+    }
+    .sae-term {
+      @include deep-height(30px);
+      @include deep-width(30px);
+      margin-top: 5px;
+      text-align: center;
+      line-height: 30px;
+      color: #CCC;
+      &.sae-term-mf {
+        @include deep-height(40px);
+        @include deep-width(40px);
+        margin-top: 5px;
+        line-height: 40px;
+        .sae-fa-lg {
+          font-size: 30px;
+        }
+        .sae-fa-sm {
+          bottom: -5px;
+          right: -8px;
+          color: $sae-mf-color;
+          font-size: 20px;
+        }
+      }
+      &.sae-term-cc {
+        .sae-fa-sm {
+          color: $sae-cc-color;
+        }
+      }
+      &.sae-term-bp {
+        .sae-fa-sm {
+          color: $sae-bp-color;
+        }
+      }
+    }
+    .sae-card-row {
+      padding: 8px 0;
+      width: 100%;
+      height: 50px;
+      padding-left: 8px;
+      border-bottom: #EEE solid 1px;
+      .sae-term-description {
+        padding: 0 10px 0 16px;
+      }
+      .sae-predicate {
+        color: #888;
+      }
+    }
+  }
+  .sae-summary-group {
+    border-bottom: #555 solid 1px;
+    .sae-summary-group-heading {
+      @include deep-width(65px);
+      border-right: #555 solid 1px; //background-color: rgba($sae-header-bg-color, 0.2);
+      font-size: 18px;
+      font-weight: nold;
+    }
+    .sae-summary-group-body {}
+  }
+  .sae-annoton-node {
+    // height: 50px;
+    //padding: 15px 10px;
+    border-bottom: #CCC solid 1px;
+    &.sae-error {
+      background-color: rgba(#f8d7da, 0.5);
+    }
+    &.sae-error-sm {
+      background-color: rgba(#f8d7da, 0.3);
+    }
+    .sae-annoton-node-heading {
+      padding: 10px 0;
+      height: 100%;
+      padding-left: 8px;
+      .sae-heading-title {
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 5px;
+      }
+      .sae-heading-subtitle {
+        font-weight: 500;
+        font-size: 12px;
+        color: #555;
+      }
+    }
+    .sae-error-button {
+      @include deep-height(100%);
+      font-size: 12px;
+    }
+  }
+  .sae-fa-stack {
+    .sae-fa-lg {
+      font-size: 18px;
+    }
+    .sae-fa-sm {
+      bottom: 0px;
+      right: -8px;
+      left: auto;
+      font-size: 16px;
+    }
+  }
+}
+
+md-dialog {
+  &.sae-annoton-errors-dialog {
+    //@include position(absolute, 40px 0 0 0);
+    background-color: #ECEFF1;
+    width: 600px;
+    overflow: hidden;
+    .sae-container {
+      width: 100%;
+    }
+    .sae-annoton-form {
+      .sae-table-form {
+        width: 100%;
+      }
+    }
+    md-toolbar {
+      height: 50px;
+      min-height: 50px;
+      max-height: 50px;
+    }
+    md-dialog-content {
+      padding: 0;
+    }
+  }
+  &.sae-edit-annoton-dialog {
+    //@include position(absolute, 40px 0 0 0);
+    background-color: #ECEFF1;
+    width: 1148px; //max-width: 100%;
+    // min-height: 90%;
+    overflow: hidden;
+    .sae-container {
+      width: 100%;
+    }
+    .sae-annoton-form {
+      .sae-table-form {
+        width: 100%;
+      }
+    }
+    md-toolbar {
+      height: 50px;
+      min-height: 50px;
+      max-height: 50px; // background-color: rgba($gb-primary-color, 0.8);
+    }
+  }
+}
+
+.sae-error-row {
+  border-bottom: #CCC double 1px;
+  .sae-number {
+    padding: 18px 2px;
+    @include deep-width(40px);
+    background-color: #DDD;
+    font-size: 12px;
+    text-align: center;
+  }
+  .sae-error-row-body {
+    padding: 8px 10px 8px 10px;
+  }
+  .sae-heading {
+    padding: 8px 0px;
+    font-size: 14px;
+  }
+  .sae-node-card {
+    padding: 5px;
+    @include deep-height(65px);
+    @include deep-width(120px);
+    border-radius: 10px;
+    border: #AAA double 2px;
+    font-size: 10px;
+    text-align: center;
+    overflow: hidden;
+    &.sae-lg {
+      @include deep-height(100px);
+      @include deep-width(150px);
+    }
+  }
+  .sae-edge-card {
+    .sae-line {
+      padding-top: 15px;
+      @include deep-height(35px);
+      @include deep-width(100%);
+      border-bottom: #AAA solid 2px;
+      text-align: center;
+    }
+  }
+}
+
+.chipsdemoBasicUsage .errors {
+  font-size: 12px;
+  color: #dd2c00;
+  margin-top: 10px;
+}
+
+.chipsdemoBasicUsage .custom-chips md-chip {
+  position: relative;
+}
+
+.chipsdemoBasicUsage .custom-chips md-chip .md-chip-remove-container {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  margin-right: 0;
+  height: 24px;
+}
+
+.chipsdemoBasicUsage .custom-chips md-chip .md-chip-remove-container button.vegetablechip {
+  position: relative;
+  height: 24px;
+  width: 24px;
+  line-height: 30px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  transition: background 0.15s linear;
+  display: block;
+}
+
+.chipsdemoBasicUsage .custom-chips md-chip .md-chip-remove-container button.vegetablechip md-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0) scale(0.7);
+  color: white;
+  fill: white;
+}
+
+.chipsdemoBasicUsage .custom-chips md-chip .md-chip-remove-container button.vegetablechip:hover,
+.chipsdemoBasicUsage .custom-chips md-chip .md-chip-remove-container button.vegetablechip:focus {
+  background: rgba(255, 0, 0, 0.8);
+}
+
+.chipsdemoBasicUsage .custom-chips md-chips-wrap.md-removable md-chip md-chip-template {
+  padding-right: 5px;
 }

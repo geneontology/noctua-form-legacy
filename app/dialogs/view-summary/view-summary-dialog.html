@@ -1,0 +1,89 @@
+<!-- NOTE DIALOG -->
+<md-dialog class="sae-edit-annoton-dialog" aria-label="Edit Annoton Dialog" ng-cloak>
+    <md-toolbar class="gb-heading" layout="column" layout-align="start center" flex>
+        <div class="md-toolbar-tools sae-container">
+            <div class="sae-heading-title">
+                <span class="ellipsis">
+                    Edit Annoton -- {{annotonCtrl.row.row.annoton.annotonModelType}}
+                </span>
+            </div>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="annotonCtrl.closeDialog()" aria-label="Close Dialog" translate translate-attr-aria-label="SB.CLOSE_DIALOG">
+                <md-icon md-font-icon="icon-close"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="sae-annoton-form sae-container sae-summary" layout="column" layout-align="start stretch">
+            <div class="sae-panel md-whiteframe-2dp mb-10">
+                <div class="sae-panel-header" layout="row" layout-align="start start" flex ng-class="{ 'sae-success': annotonCtrl.summaryRow.annoton.parser.clean,
+                'sae-error': !annotonCtrl.summaryRow.annoton.parser.clean }">
+                    <div class="sae-panel-heading" flex>
+                        <div class="sae-heading-title sae-ellipsis">
+                            <strong>{{annotonCtrl.summaryRow.gp}}</strong> - {{annotonCtrl.summaryRow.mf}}
+                        </div>
+                        <div class="sae-heading-subtitle sae-ellipsis">
+                            <span ng-if="annotonCtrl.summaryRow.evidence[0].evidence.control.value.label">{{annotonCtrl.summaryRow.evidence[0].evidence.control.value.label}}</span>
+                            <span class="text-danger" ng-if="!annotonCtrl.summaryRow.evidence[0].evidence.control.value.label">no evidence</span>
+                        </div>
+                    </div>
+                    <span flex></span>
+                    <md-button ng-if="!annotonCtrl.summaryRow.annoton.parser.clean" class="sae-error-button" ng-click="annotonCtrl.dialogService.openAnnotonErrorsDialogDialog($event, annotonCtrl.summaryRow.annoton, annotonCtrl.summaryRow.annoton.parser.errors)">
+                        {{annotonCtrl.summaryRow.annoton.parser.errors.length}} error(s)
+                    </md-button>
+                    <md-button ng-if="false" class="md-icon-button sae-action-button" ng-click="annotonCtrl.dialogService.openEditAnnotonDialogDialog($event, annotonCtrl.summaryRow)">
+                        <md-icon md-font-icon="fa fa-pencil"></md-icon>
+                    </md-button>
+                </div>
+                <div class="sae-panel-body animate-slide-down animate-slide-up">
+                    <div ng-if="false" class="sae-summary-group" layout="row">
+                        <div class="sae-summary-group-heading" layout="column" layout-align="center center">
+                            <div>GP</div>
+                        </div>
+                        <div class="sae-summary-group-body" layout="column" flex>
+                            <div class="sae-annoton-node ph-15" layout="row">
+                                <div class="sae-annoton-node-heading" flex>
+                                    <div class="sae-heading-title sae-ellipsis">
+                                        <strong>{{annotonCtrl.summaryRow.annotonPresentation.geneProduct.label}}</strong> - {{annotonCtrl.summaryRow.annotonPresentation.geneProduct.term.control.value.label}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-repeat="nodeGroup in annotonCtrl.summaryRow.annotonPresentation.fd" class="sae-summary-group" layout="row">
+                        <div class="sae-summary-group-heading" layout="column" layout-align="center center">
+                            <div>{{nodeGroup.shorthand}}</div>
+                        </div>
+                        <div ng-if="nodeGroup.isComplement" class="sae-group-side-heading" layout="column" layout-align="center center" flex>
+                            <div>IS NOT</div>
+                        </div>
+                        <div class="sae-summary-group-body" layout="column" flex>
+                            {{annotonCtrl.summaryRow.annoton.status}}
+                            <div ng-repeat="entity in nodeGroup.nodes" class="sae-annoton-node ph-15" layout="row" ng-class="{ 'sae-error': entity.errors.length>0,
+                      'sae-error-sm': entity.status===2 }">
+                                <div class="sae-annoton-node-heading" flex>
+                                    <div class="sae-heading-title sae-ellipsis">
+                                        <strong>{{entity.label}}</strong> - {{entity.term.control.value.label}} - {{entity.evidence[0].evidence.control.value.label}}
+                                    </div>
+                                    <div class="sae-heading-subtitle sae-ellipsis">
+                                        <span ng-if="entity.evidence[0].evidence.control.value.label">{{entity.evidence[0].evidence.control.value.label}}</span>
+                                        <span class="text-danger" ng-if="!entity.evidence[0].evidence.control.value.label">no evidence</span>
+                                    </div>
+                                </div>
+                                <md-button ng-if="entity.errors.length>0" class="sae-error-button" ng-click="annotonCtrl.openAnnotonErrorsDialogDialog($event, annotonCtrl.summaryRow.annoton, entity.errors)">
+                                    {{entity.errors.length}} error(s)
+                                </md-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button ng-click="annotonCtrl.closeDialog()" class="md-raised" aria-label="Cancel">
+            Close
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>
