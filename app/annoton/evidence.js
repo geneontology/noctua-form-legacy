@@ -81,6 +81,7 @@ export default class Evidence {
   enableSubmit(errors, node) {
     const self = this;
     let result = true;
+    var pattern = new RegExp("^.+:.+$");
 
 
     if (!self.evidence.control.value.id) {
@@ -103,10 +104,21 @@ export default class Evidence {
       let error = new AnnotonError(1, "You provided an evidence for '" + node.label + "' but no reference", meta)
       errors.push(error);
       result = false;
+    } else if (self.reference.control.value) {
+
+      let found = self.reference.control.value.match(pattern);
+      self.reference.control.required = true;
+      if (!found) {
+        let meta = {
+          aspect: node.label
+        }
+        let error = new AnnotonError(1, "The proper format for references in a GO annotation is 'DB:accession_number '", meta)
+        errors.push(error);
+        result = false;
+      }
     } else {
       self.reference.control.required = false;
     }
-
     return result;
   }
 }
