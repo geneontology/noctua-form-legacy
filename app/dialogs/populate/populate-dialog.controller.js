@@ -20,7 +20,7 @@ export default class PopulateDialogController {
     initialize() {
         const self = this;
 
-        self.lookup.companionLookup(self.data.gpNode.term.control.value.id, self.data.aspect).then(function (data) {
+        self.lookup.companionLookup(self.data.gpNode.term.control.value.id, self.data.aspect, self.data.params).then(function (data) {
             self.rows = data;
         });
     }

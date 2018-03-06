@@ -90,6 +90,7 @@ export default class ConfigService {
       },
       'mf': {
         "label": 'Molecular Function',
+        'aspect': 'F',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.mf,
         'treeLevel': 0,
@@ -142,6 +143,7 @@ export default class ConfigService {
 
       'cc': {
         "label": 'Cellular Component',
+        'aspect': 'C',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.cc,
         'treeLevel': 0,
@@ -193,6 +195,7 @@ export default class ConfigService {
       },
       'bp': {
         "label": 'Biological Process',
+        'aspect': 'P',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.bp,
         'treeLevel': 0,
@@ -210,6 +213,7 @@ export default class ConfigService {
       },
       'bp-1': {
         "label": 'Part Of (BP)',
+        'aspect': 'P',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.bp,
         'treeLevel': 1,
@@ -227,6 +231,7 @@ export default class ConfigService {
       },
       'bp-1-1': {
         "label": 'Part Of (BP)',
+        'aspect': 'P',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.bp,
         'treeLevel': 2,
@@ -516,6 +521,7 @@ export default class ConfigService {
     let annotonNode = new AnnotonNode()
 
     annotonNode.id = id;
+    annotonNode.aspect = nodeData.aspect;
     annotonNode.ontologyClass = nodeData.ontologyClass;
     annotonNode.label = nodeData.label;
     annotonNode.displaySection = nodeData.displaySection;
@@ -535,6 +541,7 @@ export default class ConfigService {
     let annotonNode = new AnnotonNode()
 
     annotonNode.id = id;
+    annotonNode.aspect = nodeData.aspect;
     annotonNode.ontologyClass = nodeData.ontologyClass;
     annotonNode.label = nodeData.label;
     annotonNode.displaySection = nodeData.displaySection;

@@ -66,8 +66,12 @@ export default class AppController {
     if (gpNode.term.control.value.id) {
       let data = {
         gpNode: gpNode,
-        aspect: 'C',
-        entity: entity
+        aspect: entity.aspect,
+        entity: entity,
+        params: {
+          term: entity.term.control.value.id,
+          evidence: entity.evidence[0].evidence.control.value.id
+        }
       }
       let success = function (selected) {
         entity.setTerm(selected.getTerm());

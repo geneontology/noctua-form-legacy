@@ -95,6 +95,13 @@ export default class LookupService {
       _: Date.now()
     }
 
+    if (params.term) {
+      requestParams.fq.push('annotation_class:"' + params.term + '"')
+    }
+
+    if (params.evidence) {
+      requestParams.fq.push('evidence:"' + params.evidence + '"')
+    }
 
     self.$http.jsonp(
         self.$sce.trustAsResourceUrl('http://amigo-dev-golr.berkeleybop.org/select'), {
