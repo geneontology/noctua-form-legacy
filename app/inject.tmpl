@@ -309,6 +309,11 @@
                               More Evidence
                             </md-button>
                           </md-menu-item>
+                          <md-menu-item>
+                            <md-button class="" ng-click="appCtrl.dialogService.openPopulateDialogDialog($event, entity)">
+                              Populate
+                            </md-button>
+                          </md-menu-item>
                           <md-menu-item ng-if="entity.treeLevel===0">
                             <md-button class="" ng-click="appCtrl.toggleIsComplement(entity)">
                               NOT

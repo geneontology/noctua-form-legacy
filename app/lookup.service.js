@@ -1,7 +1,11 @@
 import _ from 'lodash';
+const each = require('lodash/forEach');
+
 import {
   read
 } from 'fs';
+
+import AnnotonNode from './annoton/annoton-node.js';
 
 export default class LookupService {
   constructor($http, $q, $timeout, $location, $sce, $rootScope, $mdDialog) {
@@ -45,6 +49,82 @@ export default class LookupService {
           console.log('GOLR error: ', self.golrURLBase, field.lookup.requestParams, error);
         }
       );
+  }
+
+  companionLookup() {
+    const self = this;
+    let deferred = self.$q.defer();
+
+    let requestParams = {
+      defType: 'edismax',
+      qt: 'standard',
+      indent: 'on',
+      wt: 'json',
+      rows: 10,
+      start: 0,
+      fl: "*,score",
+      facet: true,
+      'facet.mincount': 1,
+      'facet.sort': 'count',
+      'json.nl': 'arrarr',
+      "facet.limit": 25,
+      fq: [
+        'document_category: "annotation"',
+        'aspect: "C"',
+        'bioentity: "UniProtKB:O95477"'
+      ],
+      'facet.field': [
+        'source',
+        'assigned_by',
+        'aspect',
+        'evidence_type_closure',
+        'panther_family_label',
+        'qualifier',
+        'taxon_label',
+        'annotation_class_label',
+        'regulates_closure_label',
+        'annotation_extension_class_closure_label'
+      ],
+      q: '*:*',
+      packet: '1',
+      callback_type: 'search',
+      _: Date.now()
+    }
+
+
+    self.$http.jsonp(
+        self.$sce.trustAsResourceUrl('http://amigo-dev-golr.berkeleybop.org/select'), {
+          // withCredentials: false,
+          jsonpCallbackParam: 'json.wrf',
+          params: requestParams
+        })
+      .then(function (response) {
+          var docs = response.data.response.docs;
+          let result = [];
+          let annoton
+          // console.log('poo', data);
+
+          each(docs, function (doc) {
+            let annotonNode = new AnnotonNode();
+            annotonNode.setTerm({
+              id: doc.annotation_class,
+              label: doc.annotation_class_label
+            })
+            result.push(annotonNode);
+
+          });
+
+          deferred.resolve(result);
+        },
+        function (error) {
+          console.log('Companion Lookup: ', error);
+          deferred.reject(error);
+        }
+      ).catch(function (response) {
+        deferred.reject(response);
+      });;
+
+    return deferred.promise;
   }
 
   isaClosure(a, b) {
@@ -164,4 +244,32 @@ export default class LookupService {
     // return matches;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 LookupService.$inject = ['$http', '$q', '$timeout', '$location', '$sce', '$rootScope', '$mdDialog'];

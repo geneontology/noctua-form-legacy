@@ -35,7 +35,6 @@ import ConfigService from './config/config.service.js';
 import FormGridService from './grids/form-grid.service.js';
 import GraphService from './graph.service.js';
 import LookupService from './lookup.service.js';
-//import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
 
 var app = angular.module('TVApp', ['ngMaterial',
   nguibootstrap,

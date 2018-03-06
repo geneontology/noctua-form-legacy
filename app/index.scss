@@ -767,6 +767,26 @@ md-dialog {
       max-height: 50px; // background-color: rgba($gb-primary-color, 0.8);
     }
   }
+  &.sae-companion-dialog {
+    //@include position(absolute, 40px 0 0 0);
+    background-color: #ECEFF1;
+    width: 1148px; //max-width: 100%;
+    // min-height: 90%;
+    overflow: hidden;
+    .sae-container {
+      width: 100%;
+    }
+    .sae-annoton-form {
+      .sae-table-form {
+        width: 100%;
+      }
+    }
+    md-toolbar {
+      height: 50px;
+      min-height: 50px;
+      max-height: 50px; // background-color: rgba($gb-primary-color, 0.8);
+    }
+  }
 }
 
 .sae-error-row {

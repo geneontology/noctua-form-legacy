@@ -69,6 +69,18 @@ export default class DialogService {
     })
   }
 
+  openPopulateDialogDialog(ev, data) {
+    this.$mdDialog.show({
+      controller: 'PopulateDialogController as annotonCtrl',
+      templateUrl: './dialogs/populate/populate-dialog.html',
+      targetEvent: ev,
+      clickOutsideToClose: false,
+      locals: {
+        data: data
+      }
+    })
+  }
+
   openSuccessfulSaveToast() {
     const self = this;
     self.$mdToast.show(
