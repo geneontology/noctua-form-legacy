@@ -63,7 +63,7 @@ export default class AppController {
     const self = this;
     let gpNode = self.formGrid.annotonPresentation.geneProduct;
 
-    if (gpNode.term.control.value.id) {
+    if (gpNode && gpNode.term.control.value.id) {
       let data = {
         gpNode: gpNode,
         aspect: entity.aspect,
@@ -80,10 +80,11 @@ export default class AppController {
       }
       self.dialogService.openPopulateDialogDialog(ev, data, success);
     } else {
+      let errors = [];
       let meta = {
-        aspect: gpNode.label
+        aspect: gpNode ? gpNode.label : 'Gene Product'
       }
-      let error = new AnnotonError(1, "Pleae enter a gene product", meta)
+      let error = new AnnotonError(1, "Please enter a gene product", meta)
       errors.push(error);
       self.dialogService.openAnnotonErrorsDialogDialog(ev, entity, errors)
     }
