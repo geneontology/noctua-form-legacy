@@ -6,6 +6,10 @@ import {
 } from 'fs';
 
 import AnnotonNode from './annoton/annoton-node.js';
+import Evidence from './annoton/evidence.js';
+import {
+  ECHILD
+} from 'constants';
 
 export default class LookupService {
   constructor($http, $q, $timeout, $location, $sce, $rootScope, $mdDialog) {
@@ -51,7 +55,7 @@ export default class LookupService {
       );
   }
 
-  companionLookup() {
+  companionLookup(gp, aspect, params) {
     const self = this;
     let deferred = self.$q.defer();
 
@@ -70,8 +74,8 @@ export default class LookupService {
       "facet.limit": 25,
       fq: [
         'document_category: "annotation"',
-        'aspect: "C"',
-        'bioentity: "UniProtKB:O95477"'
+        'aspect: "' + aspect + '"',
+        'bioentity: "' + gp + '"'
       ],
       'facet.field': [
         'source',
@@ -106,10 +110,21 @@ export default class LookupService {
 
           each(docs, function (doc) {
             let annotonNode = new AnnotonNode();
+            let evidence = new Evidence();
+
+            evidence.setEvidence({
+              id: doc.evidence,
+              label: doc.evidence_label
+            });
+            evidence.setReference();
+            if (doc.reference.length > 0) {
+              evidence.setReference(doc.reference[0]);
+            }
             annotonNode.setTerm({
               id: doc.annotation_class,
               label: doc.annotation_class_label
             })
+            annotonNode.evidence[0] = evidence;
             result.push(annotonNode);
 
           });

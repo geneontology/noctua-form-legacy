@@ -15,17 +15,49 @@
     </md-toolbar>
     <md-dialog-content>
         <div class="" layout="column" layout-align="start stretch">
-            <div ng-repeat="row in annotonCtrl.data" class="sae-error-row" layout="row">
-                <div>
+            Gene Product
+            <h2>
+                {{annotonCtrl.data.gpNode.term.control.value.label}}
+            </h2>
+            <div layout="row" class="">
+                <div class="" flex="20">
+                    Term
+                </div>
+                <div class="" flex="20">
+                    Evidence
+                </div>
+                <div class="" flex="20">
+                    Reference
+                </div>
+                <div class="" flex="20">
+                </div>
+            </div>
+            <div ng-repeat="row in annotonCtrl.rows" class="sae-polate-row" layout="row" ng-class="{'sae-selected': row.selected}">
+                <div flex="20">
                     {{row.term.control.value.label}}
                 </div>
+                <div flex="20">
+                    {{row.evidence[0].evidence.control.value.label}}
+                </div>
+                <div flex="20">
+                    {{row.evidence[0].reference.control.value}}
+                </div>
+                <div class="" flex="20">
+                </div>
+                <span flex></span>
+                <md-button aria-label="Select" class="md-icon-button sae-action-button md-raised" ng-click="annotonCtrl.select(row)">
+                    <md-icon md-font-icon="fa fa-check"></md-icon>
+                </md-button>
             </div>
         </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">
         <span flex></span>
         <md-button ng-click="annotonCtrl.closeDialog()" aria-label="Cancel">
-            Close
+            Cancel
+        </md-button>
+        <md-button class="md-primary md-raised" ng-click="annotonCtrl.save()" aria-label="Save">
+            Save
         </md-button>
     </md-dialog-actions>
 </md-dialog>

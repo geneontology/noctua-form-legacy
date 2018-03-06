@@ -59,6 +59,33 @@ export default class AppController {
     return result;
   }
 
+  openPopulateDialogDialog(ev, entity) {
+    const self = this;
+    let gpNode = self.formGrid.annotonPresentation.geneProduct;
+
+    if (gpNode.term.control.value.id) {
+      let data = {
+        gpNode: gpNode,
+        aspect: 'C',
+        entity: entity
+      }
+      let success = function (selected) {
+        entity.setTerm(selected.getTerm());
+        entity.evidence[0].setEvidence(selected.evidence[0].getEvidence());
+        entity.evidence[0].setReference(selected.evidence[0].getReference());
+      }
+      self.dialogService.openPopulateDialogDialog(ev, data, success);
+    } else {
+      let meta = {
+        aspect: gpNode.label
+      }
+      let error = new AnnotonError(1, "Pleae enter a gene product", meta)
+      errors.push(error);
+      self.dialogService.openAnnotonErrorsDialogDialog(ev, entity, errors)
+    }
+
+  }
+
   saveAnnoton(addNew) {
     const self = this;
 

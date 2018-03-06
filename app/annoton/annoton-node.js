@@ -38,6 +38,10 @@ export default class AnnotonNode {
 
   }
 
+  getTerm(value) {
+    return this.term.control.value;
+  }
+
   setTermLookup(value) {
     this.term.lookup.requestParams = value;
   }

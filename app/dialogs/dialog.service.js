@@ -69,7 +69,7 @@ export default class DialogService {
     })
   }
 
-  openPopulateDialogDialog(ev, data) {
+  openPopulateDialogDialog(ev, data, success) {
     this.$mdDialog.show({
       controller: 'PopulateDialogController as annotonCtrl',
       templateUrl: './dialogs/populate/populate-dialog.html',
@@ -78,7 +78,7 @@ export default class DialogService {
       locals: {
         data: data
       }
-    })
+    }).then(success)
   }
 
   openSuccessfulSaveToast() {

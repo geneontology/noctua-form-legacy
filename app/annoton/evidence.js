@@ -41,6 +41,18 @@ export default class Evidence {
 
   }
 
+  getEvidence(value) {
+    return this.evidence.control.value;
+  }
+
+  getReference(value) {
+    return this.reference.control.value;
+  }
+
+  getWith(value) {
+    return this.with.control.value;
+  }
+
   setEvidenceLookup(value) {
     this.evidence.lookup.requestParams = value;
   }
