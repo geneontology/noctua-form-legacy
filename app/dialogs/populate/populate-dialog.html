@@ -4,7 +4,7 @@
         <div class="md-toolbar-tools sae-container">
             <div class="sae-heading-title">
                 <span class="ellipsis">
-                    Populate
+                    Database Search
                 </span>
             </div>
             <span flex></span>
@@ -15,13 +15,23 @@
     </md-toolbar>
     <md-dialog-content>
         <div class="" layout="column" layout-align="start stretch">
-            Gene Product
-            <h2>
-                {{annotonCtrl.data.gpNode.term.control.value.label}}
-            </h2>
+            <h3>
+                Filter Summary
+            </h3>
+            <div>
+                <strong>Gene Product </strong> {{annotonCtrl.data.gpNode.term.control.value.label}}
+            </div>
+            <div ng-if="annotonCtrl.data.params.evidence">
+                <strong>Evidence </strong> {{annotonCtrl.data.entity.evidence[0].evidence.control.value.label}}
+            </div>
+            <br>
+            <h3>
+                Results
+            </h3>
             <div ng-repeat="row in annotonCtrl.rows" class="sae-populate-group md-whiteframe-1dp" layout="column">
                 <div class="sae-populate-group-header" layout="column" flex>
-                    <md-checkbox class="m-0" ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
+                    <md-checkbox class="sae-primary m-0" ng-checked="annotonCtrl.isRowChecked(row)" md-indeterminate="annotonCtrl.isRowIndeterminate(row)"
+                        ng-click="annotonCtrl.toggleRow(row)" aria-label="Term Checkbox">
                         {{row.term.label}}
                     </md-checkbox>
                 </div>
@@ -36,12 +46,16 @@
                             Reference
                         </div>
                         <div flex="20">
+                            With
+                        </div>
+                        <div flex>
                             Assigned By
                         </div>
                     </div>
                     <div ng-repeat="annotation in row.annotations" class="sae-populate-row" layout="row">
                         <div class="sae-checkbox-container">
-                            <md-checkbox class="m-0" ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
+                            <md-checkbox class="sae-primary m-0" ng-checked="annotonCtrl.exists(annotation)" ng-click="annotonCtrl.toggleAnnotation(annotation)"
+                                aria-label="Term Label">
                             </md-checkbox>
                         </div>
                         <div flex="40">
@@ -55,6 +69,11 @@
                             </div>
                         </div>
                         <div flex="20">
+                            <div class="sae-ellipsis">
+                                {{annotation.evidence[0].with.control.value}}
+                            </div>
+                        </div>
+                        <div flex>
                             <div class="sae-ellipsis">
                                 {{annotation.assignedBy}}
                             </div>

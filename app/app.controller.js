@@ -74,9 +74,18 @@ export default class AppController {
         }
       }
       let success = function (selected) {
-        entity.setTerm(selected.getTerm());
-        entity.evidence[0].setEvidence(selected.evidence[0].getEvidence());
-        entity.evidence[0].setReference(selected.evidence[0].getReference());
+        entity.setTerm(selected.term);
+        entity.resetEvidence();
+        for (let i = 0; i < selected.annotations.length; i++) {
+          let evidence = entity.evidence[0];
+          if (i > 0) {
+            evidence = entity.addEvidence()
+          }
+
+          evidence.setEvidence(selected.annotations[i].evidence[0].getEvidence());
+          evidence.setReference(selected.annotations[i].evidence[0].getReference());
+          evidence.setWith(selected.annotations[i].evidence[0].getWith());
+        };
       }
       self.dialogService.openPopulateDialogDialog(ev, data, success);
     } else {

@@ -124,10 +124,13 @@ export default class LookupService {
               id: doc.evidence,
               label: doc.evidence_label
             });
-            evidence.setReference();
-            if (doc.reference.length > 0) {
+            if (doc.reference && doc.reference.length > 0) {
               evidence.setReference(doc.reference[0]);
             }
+            if (doc.evidence_with && doc.evidence_with.length > 0) {
+              evidence.setWith(doc.evidence_with[0]);
+            }
+
             annotonNode.setTerm({
               id: doc.annotation_class,
               label: doc.annotation_class_label
@@ -137,10 +140,7 @@ export default class LookupService {
 
             if (!result[doc.annotation_class]) {
               result[doc.annotation_class] = {};
-              result[doc.annotation_class].term = {
-                id: doc.annotation_class,
-                label: doc.annotation_class_label
-              }
+              result[doc.annotation_class].term = annotonNode.getTerm();
               result[doc.annotation_class].annotations = [];
             }
             result[doc.annotation_class].annotations.push(annotonNode);

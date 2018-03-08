@@ -3,6 +3,9 @@ const each = require('lodash/forEach');
 
 import Evidence from './evidence.js';
 import AnnotonError from "./parser/annoton-error.js";
+import {
+  ECHILD
+} from 'constants';
 
 export default class AnnotonNode {
   constructor() {
@@ -87,6 +90,7 @@ export default class AnnotonNode {
     evidence.setEvidenceOntologyClass(self._evidenceMeta.ontologyClass);
 
     self.evidence.push(evidence);
+    return evidence;
   }
 
   removeEvidence(evidence) {
@@ -97,6 +101,12 @@ export default class AnnotonNode {
     } else {
       self.evidence[0].clearValues();
     }
+  }
+
+  resetEvidence() {
+    const self = this;
+
+    self.evidence = [self.evidence[0]];
   }
 
   setTermOntologyClass(value) {
