@@ -677,7 +677,7 @@ ul li.error-reason {
       @include deep-width(65px);
       border-right: #555 solid 1px; //background-color: rgba($sae-header-bg-color, 0.2);
       font-size: 18px;
-      font-weight: nold;
+      font-weight: bold;
     }
     .sae-summary-group-body {}
   }
@@ -776,9 +776,32 @@ md-dialog {
     .sae-container {
       width: 100%;
     }
-    .sae-polate-row {
-      &.sae-selected {
-        background-color: #91d4a5;
+    .sae-populate-group {
+      margin-top: 8px;
+      margin-bottom: 8px; // border-bottom: #555 solid 1px;
+      background-color: #FFF;
+      .sae-populate-group-header {
+        padding: 10px;
+        border-bottom: #AAA solid 1px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+      .sae-populate-group-body {
+        .sae-checkbox-container {
+          @include deep-width(30px);
+        }
+        .sae-populate-row-header {
+          padding: 5px 10px 5px 20px;
+          font-size: 10px;
+          color: #888;
+        }
+        .sae-populate-row {
+          padding: 5px 10px 5px 20px;
+          border-bottom: #CCC solid 1px;
+          &.sae-selected {
+            background-color: #91d4a5;
+          }
+        }
       }
     }
     .sae-annoton-form {

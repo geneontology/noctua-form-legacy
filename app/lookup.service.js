@@ -64,6 +64,7 @@ export default class LookupService {
       qt: 'standard',
       indent: 'on',
       wt: 'json',
+      sort: 'annotation_class_label asc',
       rows: 100,
       start: 0,
       fl: "*,score",
@@ -82,12 +83,12 @@ export default class LookupService {
         'assigned_by',
         'aspect',
         'evidence_type_closure',
-        'panther_family_label',
-        'qualifier',
-        'taxon_label',
+        // 'panther_family_label',
+        // 'qualifier',
+        // 'taxon_label',
         'annotation_class_label',
-        'regulates_closure_label',
-        'annotation_extension_class_closure_label'
+        //'regulates_closure_label',
+        // 'annotation_extension_class_closure_label'
       ],
       q: '*:*',
       packet: '1',
@@ -104,14 +105,14 @@ export default class LookupService {
     }
 
     self.$http.jsonp(
-        self.$sce.trustAsResourceUrl('http://amigo-dev-golr.berkeleybop.org/select'), {
+        self.$sce.trustAsResourceUrl('http://golr.berkeleybop.org/select'), {
           // withCredentials: false,
           jsonpCallbackParam: 'json.wrf',
           params: requestParams
         })
       .then(function (response) {
           var docs = response.data.response.docs;
-          let result = [];
+          let result = {};
           let annoton
           // console.log('poo', data);
 
@@ -132,7 +133,17 @@ export default class LookupService {
               label: doc.annotation_class_label
             })
             annotonNode.evidence[0] = evidence;
-            result.push(annotonNode);
+            annotonNode.assignedBy = doc.assigned_by;
+
+            if (!result[doc.annotation_class]) {
+              result[doc.annotation_class] = {};
+              result[doc.annotation_class].term = {
+                id: doc.annotation_class,
+                label: doc.annotation_class_label
+              }
+              result[doc.annotation_class].annotations = [];
+            }
+            result[doc.annotation_class].annotations.push(annotonNode);
 
           });
 

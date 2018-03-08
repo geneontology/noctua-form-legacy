@@ -19,35 +19,48 @@
             <h2>
                 {{annotonCtrl.data.gpNode.term.control.value.label}}
             </h2>
-            <div layout="row" class="">
-                <div class="" flex="20">
-                    Term
+            <div ng-repeat="row in annotonCtrl.rows" class="sae-populate-group md-whiteframe-1dp" layout="column">
+                <div class="sae-populate-group-header" layout="column" flex>
+                    <md-checkbox class="m-0" ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
+                        {{row.term.label}}
+                    </md-checkbox>
                 </div>
-                <div class="" flex="20">
-                    Evidence
+                <div class="sae-populate-group-body" layout="column" flex>
+                    <div class="sae-populate-row-header" layout="row">
+                        <div class="sae-checkbox-container">
+                        </div>
+                        <div flex="40">
+                            Evidence
+                        </div>
+                        <div flex="20">
+                            Reference
+                        </div>
+                        <div flex="20">
+                            Assigned By
+                        </div>
+                    </div>
+                    <div ng-repeat="annotation in row.annotations" class="sae-populate-row" layout="row">
+                        <div class="sae-checkbox-container">
+                            <md-checkbox class="m-0" ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
+                            </md-checkbox>
+                        </div>
+                        <div flex="40">
+                            <div class="sae-ellipsis">
+                                {{annotation.evidence[0].evidence.control.value.label}}
+                            </div>
+                        </div>
+                        <div flex="20">
+                            <div class="sae-ellipsis">
+                                {{annotation.evidence[0].reference.control.value}}
+                            </div>
+                        </div>
+                        <div flex="20">
+                            <div class="sae-ellipsis">
+                                {{annotation.assignedBy}}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="" flex="20">
-                    Reference
-                </div>
-                <div class="" flex="20">
-                </div>
-            </div>
-            <div ng-repeat="row in annotonCtrl.rows" class="sae-polate-row" layout="row" ng-class="{'sae-selected': row.selected}">
-                <div flex="20">
-                    {{row.term.control.value.label}}
-                </div>
-                <div flex="20">
-                    {{row.evidence[0].evidence.control.value.label}}
-                </div>
-                <div flex="20">
-                    {{row.evidence[0].reference.control.value}}
-                </div>
-                <div class="" flex="20">
-                </div>
-                <span flex></span>
-                <md-button aria-label="Select" class="md-icon-button sae-action-button md-raised" ng-click="annotonCtrl.select(row)">
-                    <md-icon md-font-icon="fa fa-check"></md-icon>
-                </md-button>
             </div>
         </div>
     </md-dialog-content>
