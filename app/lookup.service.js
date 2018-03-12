@@ -1,6 +1,9 @@
 import _ from 'lodash';
 const each = require('lodash/forEach');
 
+var bbop = require('bbop-core');
+var amigo = require('amigo2');
+
 import {
   read
 } from 'fs';
@@ -21,7 +24,7 @@ export default class LookupService {
     this.$sce = $sce;
     this.$rootScope = $rootScope;
     this.$mdDialog = $mdDialog;
-
+    this.linker = new amigo.linker();
     /* global global_golr_neo_server */
     this.golrURLBase = `${global_golr_neo_server}/select`;
     this.trusted = this.$sce.trustAsResourceUrl(this.golrURLBase);
@@ -124,11 +127,13 @@ export default class LookupService {
               id: doc.evidence,
               label: doc.evidence_label
             });
+
             if (doc.reference && doc.reference.length > 0) {
-              evidence.setReference(doc.reference[0]);
+              evidence.setReference(doc.reference[0], self.linker.url(doc.reference[0]));
             }
+
             if (doc.evidence_with && doc.evidence_with.length > 0) {
-              evidence.setWith(doc.evidence_with[0]);
+              evidence.setWith(doc.evidence_with[0], self.linker.url(doc.evidence_with[0]));
             }
 
             annotonNode.setTerm({

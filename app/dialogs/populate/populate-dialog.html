@@ -65,12 +65,16 @@
                         </div>
                         <div flex="20">
                             <div class="sae-ellipsis">
-                                {{annotation.evidence[0].reference.control.value}}
+                                <a ng-href="{{annotation.evidence[0].reference.control.link}}" target="_blank">
+                                    {{annotation.evidence[0].reference.control.value}}
+                                </a>
                             </div>
                         </div>
                         <div flex="20">
                             <div class="sae-ellipsis">
-                                {{annotation.evidence[0].with.control.value}}
+                                <a ng-href="{{annotation.evidence[0].with.control.link}}" target="_blank">
+                                    {{annotation.evidence[0].with.control.value}}
+                                </a>
                             </div>
                         </div>
                         <div flex>

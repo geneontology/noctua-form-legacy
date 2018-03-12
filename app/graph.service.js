@@ -4,6 +4,8 @@ import AnnotonError from "./annoton/parser/annoton-error.js";
 import Evidence from './annoton/evidence.js';
 
 const each = require('lodash/forEach');
+const annotationTitleKey = 'title';
+
 var model = require('bbop-graph-noctua');
 var amigo = require('amigo2');
 var golr_response = require('bbop-response-golr');
@@ -15,16 +17,6 @@ var minerva_requests = require('minerva-requests');
 var jquery_engine = require('bbop-rest-manager').jquery;
 var class_expression = require('class-expression');
 var minerva_manager = require('bbop-manager-minerva');
-const annotationTitleKey = 'title';
-
-//
-//  Globals passed to Workbench from Noctua
-/* global global_id */
-/* global global_golr_server */
-/* global global_barista_location */
-/* global global_minerva_definition_name */
-/* global global_barista_token */
-/* global global_collapsible_relations */
 var local_id = typeof global_id !== 'undefined' ? global_id : 'global_id';
 var local_golr_server = typeof global_golr_server !== 'undefined' ? global_golr_server : 'global_id';
 var local_barista_location = typeof global_barista_location !== 'undefined' ? global_barista_location : 'global_barista_location';
@@ -63,8 +55,6 @@ export default class GraphService {
   }
 
   initialize() {
-    console.log('initialize');
-
     const self = this;
 
     self.getUserInfo();
@@ -90,7 +80,7 @@ export default class GraphService {
     manager.register('prerun', _shields_up);
     manager.register('postrun', _shields_down, 9);
     manager.register('manager_error',
-      function (resp /*, man */ ) {
+      function (resp) {
         console.log('There was a manager error (' +
           resp.message_type() + '): ' + resp.message());
       }, 10);
@@ -114,15 +104,9 @@ export default class GraphService {
         alert('Error: it seems like you have a bad token...');
       } else {
         console.log('error:', resp, resp.message_type(), resp.message());
-        // // Generic error.
-        // alert('Error (' +
-        // resp.message_type() + '): ' +
-        // resp.message() + '; ' +
-        // 'your operation was likely not performed.');
       }
     }, 10);
 
-    // ???
     manager.register('meta', function ( /* resp , man */ ) {
       console.log('## a meta callback?');
     });
@@ -131,12 +115,6 @@ export default class GraphService {
       var noctua_graph = model.graph;
       self.graph = new noctua_graph();
       self.model_id = local_id = global_id = resp.data().id;
-
-
-      // let reqs = new minerva_requests.request_set(manager.user_token(), local_id);
-      //  const defaultTitle = 'Model involving ' + 'pppp';
-      // reqs.add_annotation_to_model(annotationTitleKey, defaultTitle);
-
       self.graph.load_data_basic(resp.data());
 
       self.modelTitle = null;
@@ -349,14 +327,26 @@ export default class GraphService {
     let deferred = self.$q.defer();
 
     self.lookup.isaClosure(a, b).then(function (data) {
-      if (!node.saeParser) {
-        node.saeParser = {}
+
+      console.log("aaaa", data, node)
+
+      deferred.resolve(data);
+    });
+
+    return deferred.promise;
+  }
+
+  isaCCClosure(a, b, annoton) {
+    const self = this;
+    let deferred = self.$q.defer();
+
+    self.lookup.isaClosure(a, b).then(function (data) {
+
+      console.log("aaaa", data, annoton)
+
+      if (data === true) {
+        annoton.ccOnlyVerified = true;
       }
-      node.saeParser[a] = data;
-      node.metadata({
-        a: 12
-      });
-      // console.log("aaaa", node)
       deferred.resolve(data);
     });
 
@@ -571,6 +561,8 @@ export default class GraphService {
       }
     });
 
+    self.filterCCOnly(annotons);
+
     return annotons;
   }
 
@@ -605,16 +597,39 @@ export default class GraphService {
             //self.check
 
             if (subjectNode.term && subjectNode.term.id) {
-              annoton.parser.parseNodeOntology(node.target, subjectNode.term.id);
+              //   annoton.parser.parseNodeOntology(node.target, subjectNode.term.id);
             }
-            self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target);
+            self.graphToCCOnlyDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target);
           }
         }
       });
     });
 
-    annoton.parser.parseCardinality(graph, annotonNode, ccEdgesIn, edge.nodes);
+    //  annoton.parser.parseCardinality(graph, annotonNode, ccEdgesIn, edge.nodes);
 
+  }
+
+  filterCCOnly(annotons) {
+    const self = this;
+    let promises = [];
+
+    each(annotons, function (annoton) {
+      each(annoton.nodes, function (node) {
+        let term = node.getTerm();
+        if (term) {
+          promises.push(self.isaCCClosure(node.getTerm().id, "CHEBI:33695", annoton));
+          promises.push(self.isaCCClosure(node.getTerm().id, "GO:0032991", annoton));
+        }
+      });
+    });
+
+    self.$q.all(promises).then(function (data) {
+      console.log("done", data)
+
+      each(annotons, function (annoton) {
+
+      });
+    });
   }
 
 

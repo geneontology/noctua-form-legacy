@@ -25,7 +25,8 @@ export default class Evidence {
       "control": {
         "required": false,
         "placeholder": '',
-        "value": ''
+        "value": '',
+        "link": ''
       }
     };
     this.with = {
@@ -35,7 +36,8 @@ export default class Evidence {
       "control": {
         "required": false,
         "placeholder": '',
-        "value": ''
+        "value": '',
+        "link": ''
       }
     };
 
@@ -65,12 +67,14 @@ export default class Evidence {
     this.evidence.control.value = value;
   }
 
-  setReference(value) {
+  setReference(value, link) {
     this.reference.control.value = value;
+    this.reference.control.link = link;
   }
 
-  setWith(value) {
+  setWith(value, link) {
     this.with.control.value = value;
+    this.with.control.link = link;
   }
 
 

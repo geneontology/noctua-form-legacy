@@ -469,7 +469,8 @@
             </div>
           </div>
           <div class="sae-container sae-summary" layout="row" layout-align="start" layout-wrap>
-            <div ng-repeat="summaryRow in appCtrl.summaryData.ccComponents" class="sae-card-widget p-10" flex="33">
+            <div ng-repeat="summaryRow in appCtrl.summaryData.ccComponents" ng-if="summaryRow.annoton.ccOnlyVerified" class="sae-card-widget p-10"
+              flex="33">
               <div class="sae-card-1 md-whiteframe-2dp" ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
             'sae-error': !summaryRow.annoton.parser.clean }" layout-fill>
                 <div class="sae-card-header" layout="row" layout-align="start start" flex>
