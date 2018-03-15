@@ -359,7 +359,11 @@ export default class ConfigService {
             selected: this.saeConstants.edge.upstreamOfOrWithin,
             options: [
               this.saeConstants.edge.upstreamOfOrWithin,
-              this.saeConstants.edge.upstreamOf
+              this.saeConstants.edge.upstreamOf,
+              this.saeConstants.edge.upstreamOfPositiveEffect,
+              this.saeConstants.edge.upstreamOfNegativeEffect,
+              this.saeConstants.edge.upstreamOfOrWithinPositiveEffect,
+              this.saeConstants.edge.upstreamOfOrWithinNegativeEffect,
             ]
           }
         }],

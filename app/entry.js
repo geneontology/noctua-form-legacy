@@ -151,16 +151,36 @@ app.constant('saeConstants', {
       id: 'BFO:0000051',
       label: 'has part'
     },
+    upstreamOf: {
+      id: 'RO:0002411',
+      actsId: 'RO:0002263',
+      label: 'acts upstream of'
+    },
     upstreamOfOrWithin: {
       id: 'RO:0002418',
       actsId: 'RO:0002264',
       label: 'acts upstream of or within'
     },
-    upstreamOf: {
-      id: 'RO:0002411',
-      actsId: 'RO:0002263',
-      label: 'acts upstream of'
-    }
+    upstreamOfPositiveEffect: {
+      id: 'RO:0002304',
+      actsId: 'RO:0004034',
+      label: 'acts upstream of, positive effect'
+    },
+    upstreamOfNegativeEffect: {
+      id: 'RO:0002305',
+      actsId: 'RO:0004035',
+      label: 'acts upstream of, negative effect'
+    },
+    upstreamOfOrWithinPositiveEffect: {
+      id: 'RO:0002629',
+      actsId: 'RO:0004032',
+      label: 'acts upstream of or within, positive effect'
+    },
+    upstreamOfOrWithinNegativeEffect: {
+      id: 'RO:0002630',
+      actsId: 'RO:0004033',
+      label: 'acts upstream of or within, negative effect'
+    },
   },
   "closure": {
     "mc": 'GO:0032991'
