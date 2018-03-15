@@ -136,12 +136,13 @@ export default class LookupService {
               evidence.setWith(doc.evidence_with[0], self.linker.url(doc.evidence_with[0]));
             }
 
+            evidence.setAssignedBy(doc.assigned_by);
+
             annotonNode.setTerm({
               id: doc.annotation_class,
               label: doc.annotation_class_label
             })
             annotonNode.evidence[0] = evidence;
-            annotonNode.assignedBy = doc.assigned_by;
 
             if (!result[doc.annotation_class]) {
               result[doc.annotation_class] = {};

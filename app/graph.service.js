@@ -764,16 +764,31 @@ export default class GraphService {
         if (edgeNode.target.id === 'gp') {
           each(node.evidence, function (evidence) {
             let evidenceWith = evidence.with.control.value ? evidence.with.control.value : null;
+
             reqs.add_evidence(evidence.evidence.control.value.id, [evidence.reference.control.value], evidenceWith, edgeNode.target.saveMeta.edge);
           });
         } else {
           each(edgeNode.target.evidence, function (evidence) {
             let evidenceWith = evidence.with.control.value ? evidence.with.control.value : null;
+
             reqs.add_evidence(evidence.evidence.control.value.id, [evidence.reference.control.value], evidenceWith, edgeNode.target.saveMeta.edge);
           });
         }
       }
     });
+  }
+
+  evidenceUseGroups(reqs, evidence) {
+    const self = this;
+    let assignedBy = evidence.getAssignedBy();
+
+    if (assignedBy) {
+      reqs.use_groups(['http://purl.obolibrary.org/go/groups/' + assignedBy]);
+    } else if (self.userInfo.groups.length > 0) {
+      reqs.use_groups([self.userInfo.selectedGroup.id]);
+    } else {
+      reqs.use_groups([]);
+    }
   }
 
   convertToComplex(annoton) {
@@ -967,6 +982,7 @@ export default class GraphService {
     if (addNew) {
       reqs.add_model();
     }
+
 
     if (self.userInfo.groups.length > 0) {
       reqs.use_groups([self.userInfo.selectedGroup.id]);

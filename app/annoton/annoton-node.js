@@ -79,7 +79,9 @@ export default class AnnotonNode {
   setEvidence(evidence) {
     const self = this;
 
-    self.evidence = evidence;
+    if (evidence && evidence.length > 0) {
+      self.evidence = evidence;
+    }
   }
 
   addEvidence() {
@@ -144,6 +146,7 @@ export default class AnnotonNode {
     const self = this;
 
     self.term.control.value = node.term.control.value;
+    // if()
     self.evidence = node.evidence;
   }
 

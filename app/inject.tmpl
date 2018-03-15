@@ -446,7 +446,12 @@
                     </md-button>
                     <md-menu-content width="2">
                       <md-menu-item>
-                        <md-button class="" ng-click="appCtrl.graph.deleteAnnoton(summaryRow.annoton)">
+                        <md-button class="" ng-click="appCtrl.formGrid.cloneForm(summaryRow.annoton, $event)">
+                          <md-icon md-font-icon="fa fa-clone"></md-icon> Clone
+                        </md-button>
+                      </md-menu-item>
+                      <md-menu-item>
+                        <md-button class="" ng-click="appCtrl.graph.deleteAnnoton(summaryRow.annoton, $event)">
                           <md-icon md-font-icon="fa fa-trash"></md-icon> Delete
                         </md-button>
                       </md-menu-item>

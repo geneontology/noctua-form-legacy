@@ -93,6 +93,18 @@ export default class FormGridService {
 
   }
 
+  cloneForm(srcAnnoton, ev) {
+    const self = this;
+
+    self.annoton = self.config.createAnnotonModel(
+      srcAnnoton.annotonType,
+      srcAnnoton.annotonModelType
+    );
+
+    self.annoton.copyValues(srcAnnoton);
+    self.initalizeForm();
+  }
+
 
   clearForm() {
     const self = this;

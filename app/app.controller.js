@@ -85,6 +85,7 @@ export default class AppController {
           evidence.setEvidence(selected.annotations[i].evidence[0].getEvidence());
           evidence.setReference(selected.annotations[i].evidence[0].getReference());
           evidence.setWith(selected.annotations[i].evidence[0].getWith());
+          evidence.setAssignedBy(selected.annotations[i].evidence[0].getAssignedBy());
         };
       }
       self.dialogService.openPopulateDialogDialog(ev, data, success);

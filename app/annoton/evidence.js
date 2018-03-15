@@ -41,6 +41,22 @@ export default class Evidence {
       }
     };
 
+    this.assignedBy = {
+      "validation": {
+        "errors": []
+      },
+      "control": {
+        "required": false,
+        "placeholder": '',
+        "value": '',
+        "link": ''
+      }
+    };
+
+  }
+
+  getAssignedBy(value) {
+    return this.assignedBy.control.value;
   }
 
   getEvidence(value) {
@@ -53,6 +69,10 @@ export default class Evidence {
 
   getWith(value) {
     return this.with.control.value;
+  }
+
+  setAssignedBy(value) {
+    this.assignedBy.control.value = value;
   }
 
   setEvidenceLookup(value) {
