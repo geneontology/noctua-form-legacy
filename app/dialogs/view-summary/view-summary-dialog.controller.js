@@ -19,7 +19,7 @@ export default class EditAnnotonDIalogController {
         this.$mdDialog.cancel();
     }
 
-    openAnnotonErrorsDialogDialog(ev, annoton, errors) {
+    openAnnotonErrorsDialog(ev, annoton, errors) {
         this.$mdDialog.show({
                 controller: 'AnnotonErrorsDialogController as errorsCtrl',
                 templateUrl: './dialogs/annoton-errors/annoton-errors-dialog.html',

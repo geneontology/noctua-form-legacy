@@ -23,6 +23,7 @@ import './index.scss';
 import 'font-awesome/css/font-awesome.min.css';
 
 import AppController from 'app.controller';
+import CreateFromExistingDialogController from './dialogs/create-from-existing/create-from-existing-dialog.controller.js'
 import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
 import AnnotonErrorsDialogController from './dialogs/annoton-errors/annoton-errors-dialog.controller.js';
 import EditAnnotonDialogController from './dialogs/edit-annoton/edit-annoton-dialog.controller.js';
@@ -256,6 +257,7 @@ app.constant('saeConstants', {
 });
 
 app.controller('AppController', AppController);
+app.controller('CreateFromExistingDialogController', CreateFromExistingDialogController);
 app.controller('PopulateDialogController', PopulateDialogController);
 app.controller('AnnotonErrorsDialogController', AnnotonErrorsDialogController)
 app.controller('EditAnnotonDialogController', EditAnnotonDialogController)

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 const each = require('lodash/forEach');
-
+const uuid = require('uuid/v1');
 import SaeGraph from './sae-graph.js';
 import AnnotonError from "./parser/annoton-error.js";
 
@@ -15,7 +15,8 @@ export default class Annoton extends SaeGraph {
       geneProducts: []
     };
     this.errors = [];
-    this.submitErrors = []
+    this.submitErrors = [];
+    this.id = uuid();
   }
 
   copyValues(srcAnnoton) {

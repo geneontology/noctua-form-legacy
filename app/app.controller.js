@@ -59,7 +59,22 @@ export default class AppController {
     return result;
   }
 
-  openPopulateDialogDialog(ev, entity) {
+
+  openCreateFromExistingDialog(ev) {
+    const self = this;
+
+    let data = {
+      annotonData: self.summaryData.annotons
+    };
+
+    let success = function (srcAnnoton) {
+      self.formGrid.cloneForm(srcAnnoton);
+    }
+
+    self.dialogService.openCreateFromExistingDialog(ev, data, success);
+  }
+
+  openPopulateDialog(ev, entity) {
     const self = this;
     let gpNode = self.formGrid.annotonPresentation.geneProduct;
 
@@ -88,7 +103,7 @@ export default class AppController {
           evidence.setAssignedBy(selected.annotations[i].evidence[0].getAssignedBy());
         };
       }
-      self.dialogService.openPopulateDialogDialog(ev, data, success);
+      self.dialogService.openPopulateDialog(ev, data, success);
     } else {
       let errors = [];
       let meta = {
@@ -96,7 +111,7 @@ export default class AppController {
       }
       let error = new AnnotonError(1, "Please enter a gene product", meta)
       errors.push(error);
-      self.dialogService.openAnnotonErrorsDialogDialog(ev, entity, errors)
+      self.dialogService.openAnnotonErrorsDialog(ev, entity, errors)
     }
 
   }
@@ -132,7 +147,7 @@ export default class AppController {
     if (canToggle) {
       entity.toggleIsComplement();
     } else {
-      self.dialogService.openAnnotonErrorsDialogDialog(ev, entity, errors)
+      self.dialogService.openAnnotonErrorsDialog(ev, entity, errors)
     }
 
   }

@@ -98,6 +98,7 @@
     "jsonformatter": "^0.6.0",
     "lodash": "^4.17.4",
     "minerva-requests": "0.0.15",
-    "node-bourbon": "^4.2.8"
+    "node-bourbon": "^4.2.8",
+    "uuid": "^3.2.1"
   }
 }

@@ -28,10 +28,10 @@
                         </div>
                     </div>
                     <span flex></span>
-                    <md-button ng-if="!annotonCtrl.summaryRow.annoton.parser.clean" class="sae-error-button" ng-click="annotonCtrl.dialogService.openAnnotonErrorsDialogDialog($event, annotonCtrl.summaryRow.annoton, annotonCtrl.summaryRow.annoton.parser.errors)">
+                    <md-button ng-if="!annotonCtrl.summaryRow.annoton.parser.clean" class="sae-error-button" ng-click="annotonCtrl.dialogService.openAnnotonErrorsDialog($event, annotonCtrl.summaryRow.annoton, annotonCtrl.summaryRow.annoton.parser.errors)">
                         {{annotonCtrl.summaryRow.annoton.parser.errors.length}} error(s)
                     </md-button>
-                    <md-button ng-if="false" class="md-icon-button sae-action-button" ng-click="annotonCtrl.dialogService.openEditAnnotonDialogDialog($event, annotonCtrl.summaryRow)">
+                    <md-button ng-if="false" class="md-icon-button sae-action-button" ng-click="annotonCtrl.dialogService.openEditAnnotonDialog($event, annotonCtrl.summaryRow)">
                         <md-icon md-font-icon="fa fa-pencil"></md-icon>
                     </md-button>
                 </div>
@@ -70,7 +70,7 @@
                                         <span class="text-danger" ng-if="!entity.evidence[0].evidence.control.value.label">no evidence</span>
                                     </div>
                                 </div>
-                                <md-button ng-if="entity.errors.length>0" class="sae-error-button" ng-click="annotonCtrl.openAnnotonErrorsDialogDialog($event, annotonCtrl.summaryRow.annoton, entity.errors)">
+                                <md-button ng-if="entity.errors.length>0" class="sae-error-button" ng-click="annotonCtrl.openAnnotonErrorsDialog($event, annotonCtrl.summaryRow.annoton, entity.errors)">
                                     {{entity.errors.length}} error(s)
                                 </md-button>
                             </div>

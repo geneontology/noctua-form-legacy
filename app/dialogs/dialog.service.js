@@ -8,7 +8,7 @@ export default class DialogService {
 
   }
 
-  openGeneListnDialogDialog(ev, row) {
+  openGeneListnDialog(ev, row) {
     this.$mdDialog.show({
       controller: 'GeneListnDialogController as annotonCtrl',
       templateUrl: './dialogs/gene-list/gene-list-dialog.html',
@@ -20,7 +20,7 @@ export default class DialogService {
     })
   }
 
-  openViewSummaryDialogDialog(ev, summaryRow) {
+  openViewSummaryDialog(ev, summaryRow) {
     this.$mdDialog.show({
       controller: 'ViewSummaryDialogController as annotonCtrl',
       templateUrl: './dialogs/view-summary/view-summary-dialog.html',
@@ -32,7 +32,7 @@ export default class DialogService {
     })
   }
 
-  openEditAnnotonDialogDialog(ev, row) {
+  openEditAnnotonDialog(ev, row) {
     this.$mdDialog.show({
       controller: 'EditAnnotonDialogController as annotonCtrl',
       templateUrl: './dialogs/edit-annoton/edit-annoton-dialog.html',
@@ -44,7 +44,7 @@ export default class DialogService {
     })
   }
 
-  openAddEvidenceDialogDialog(ev, entity) {
+  openAddEvidenceDialog(ev, entity) {
     this.$mdDialog.show({
       controller: 'AddEvidenceDialogController as annotonCtrl',
       templateUrl: './dialogs/add-evidence/add-evidence-dialog.html',
@@ -56,7 +56,7 @@ export default class DialogService {
     })
   }
 
-  openAnnotonErrorsDialogDialog(ev, annoton, errors) {
+  openAnnotonErrorsDialog(ev, annoton, errors) {
     this.$mdDialog.show({
       controller: 'AnnotonErrorsDialogController as errorsCtrl',
       templateUrl: './dialogs/annoton-errors/annoton-errors-dialog.html',
@@ -69,7 +69,19 @@ export default class DialogService {
     })
   }
 
-  openPopulateDialogDialog(ev, data, success) {
+  openCreateFromExistingDialog(ev, data, success) {
+    this.$mdDialog.show({
+      controller: 'CreateFromExistingDialogController as annotonCtrl',
+      templateUrl: './dialogs/create-from-existing/create-from-existing-dialog.html',
+      targetEvent: ev,
+      clickOutsideToClose: false,
+      locals: {
+        data: data
+      }
+    }).then(success)
+  }
+
+  openPopulateDialog(ev, data, success) {
     this.$mdDialog.show({
       controller: 'PopulateDialogController as annotonCtrl',
       templateUrl: './dialogs/populate/populate-dialog.html',
