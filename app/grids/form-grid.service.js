@@ -93,7 +93,7 @@ export default class FormGridService {
 
   }
 
-  cloneForm(srcAnnoton, ev) {
+  cloneForm(srcAnnoton, filterNodes) {
     const self = this;
 
     self.annoton = self.config.createAnnotonModel(
@@ -101,7 +101,21 @@ export default class FormGridService {
       srcAnnoton.annotonModelType
     );
 
-    self.annoton.copyValues(srcAnnoton);
+    if (filterNodes) {
+      each(filterNodes, function (srcNode) {
+
+        //self.complexAnnotonData.geneProducts = srcAnnoton.complexAnnotonData.geneProducts;
+        // self.complexAnnotonData.mcNode.copyValues(srcAnnoton.complexAnnotonData.mcNode);
+
+        let destNode = self.annoton.getNode(srcNode.id);
+        if (destNode) {
+          destNode.copyValues(srcNode);
+        }
+      })
+    } else {
+      self.annoton.copyValues(srcAnnoton);
+    }
+
     self.initalizeForm();
   }
 

@@ -81,6 +81,20 @@ export default class DialogService {
     }).then(success)
   }
 
+  openSelectEvidenceDialog(ev, data, success) {
+    this.$mdDialog.show({
+      controller: 'SelectEvidenceDialogController as annotonCtrl',
+      templateUrl: './dialogs/create-from-existing/select-evidence/select-evidence-dialog.html',
+      targetEvent: ev,
+      clickOutsideToClose: false,
+      multiple: true,
+      locals: {
+        data: data
+      }
+    }).then(success)
+  }
+
+
   openPopulateDialog(ev, data, success) {
     this.$mdDialog.show({
       controller: 'PopulateDialogController as annotonCtrl',

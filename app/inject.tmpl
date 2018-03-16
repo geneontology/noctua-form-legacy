@@ -29,22 +29,25 @@
             </div>
             <span flex></span>
             <div id="sae-start-model-button">
-              <md-button class="md-primary" ng-click="appCtrl.graph.addModel()">
-                Start New Model
-              </md-button>
+              <md-menu md-position-mode="target-right target">
+                <md-button aria-label="Open Annoton Model Type" class="sae-action-button md-primary" ng-click="$mdMenu.open($event)">
+                  Model Options
+                  <b class="caret"></b>
+                </md-button>
+                <md-menu-content width="3">
+                  <md-menu-item>
+                    <md-button class="md-primary" ng-click="appCtrl.graph.addModel()">
+                      Start New Model
+                    </md-button>
+                  </md-menu-item>
+                  <md-menu-item>
+                    <md-button class="" ng-click="appCtrl.openCreateFromExistingDialog($event)">
+                      Create From an Existing Activity
+                    </md-button>
+                  </md-menu-item>
+                </md-menu-content>
+              </md-menu>
             </div>
-            <md-menu md-position-mode="target-right target">
-              <md-button aria-label="Open Annoton Model Type" class="sae-action-button md-primary" ng-click="$mdMenu.open($event)">
-                <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
-              </md-button>
-              <md-menu-content width="3">
-                <md-menu-item>
-                  <md-button class="" ng-click="appCtrl.openCreateFromExistingDialog($event)">
-                    Create From an Existing Activity
-                  </md-button>
-                </md-menu-item>
-              </md-menu-content>
-            </md-menu>
           </div>
           <div class="sae-section-body pt-15 ph-15" layout="column" layout-align="start stretch">
             <div layout="row">
@@ -458,7 +461,7 @@
                     </md-button>
                     <md-menu-content width="2">
                       <md-menu-item>
-                        <md-button class="" ng-click="appCtrl.formGrid.cloneForm(summaryRow.annoton, $event)">
+                        <md-button class="" ng-click="appCtrl.formGrid.cloneForm(summaryRow.annoton)">
                           <md-icon md-font-icon="fa fa-clone"></md-icon> Clone
                         </md-button>
                       </md-menu-item>

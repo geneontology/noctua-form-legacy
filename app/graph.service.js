@@ -327,9 +327,6 @@ export default class GraphService {
     let deferred = self.$q.defer();
 
     self.lookup.isaClosure(a, b).then(function (data) {
-
-      console.log("aaaa", data, node)
-
       deferred.resolve(data);
     });
 
@@ -341,9 +338,6 @@ export default class GraphService {
     let deferred = self.$q.defer();
 
     self.lookup.isaClosure(a, b).then(function (data) {
-
-      console.log("aaaa", data, annoton)
-
       if (data === true) {
         annoton.ccOnlyVerified = true;
       }
@@ -402,7 +396,6 @@ export default class GraphService {
     }, 10000);
 
     self.$q.all(promises).then(function (data) {
-      console.log("done", data)
       //self.graphPreParseNodes(graph);
     });
   }
@@ -425,7 +418,7 @@ export default class GraphService {
     });
 
     each(graph.all_nodes(), function (node) {
-      console.log(node)
+      //   console.log(node)
     });
   }
 
@@ -624,7 +617,6 @@ export default class GraphService {
     });
 
     self.$q.all(promises).then(function (data) {
-      console.log("done", data)
 
       each(annotons, function (annoton) {
 

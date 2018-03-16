@@ -220,7 +220,7 @@ export default class LookupService {
           var data = response.data.response.docs;
           var result = data.length > 0;
           // console.log('GOLR success', response, requestParams, data, result);
-          console.log(a, b, result);
+          // console.log(a, b, result);
 
           deferred.resolve(result);
         },

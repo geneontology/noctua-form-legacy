@@ -3,20 +3,32 @@ const each = require('lodash/forEach');
 
 
 export default class CreateFromExistingDialogController {
-    constructor($scope, $rootScope, $mdDialog, lookup, data) {
+    constructor($scope, $rootScope, $mdDialog, dialogService, lookup, data) {
         var populateCtrl = this;
         this.$scope = $scope;
         this.$rootScope = $rootScope;
         this.$mdDialog = $mdDialog;
         this.lookup = lookup;
-        this.data = data
+        this.dialogService = dialogService;
+        this.data = data;
         this.selected = {
             annoton: {},
             nodes: []
         };
-
     }
 
+    openSelectEvidenceDialog(ev, node) {
+        const self = this;
+        let data = {
+            node: node
+        }
+
+        let success = function (selected) {
+
+        }
+
+        self.dialogService.openSelectEvidenceDialog(ev, data, success);
+    }
 
     toggleAnnoton(annoton) {
         const self = this;
@@ -38,15 +50,15 @@ export default class CreateFromExistingDialogController {
         return (self.selected.annoton.id === annoton.id && self.selected.nodes.length === annoton.nodes.length);
     };
 
-    toggleNode(node) {
+    toggleNode(annoton, node) {
         const self = this;
 
-        if (self.selected.annoton.id !== node.term.control.value.id) {
+        if (self.selected.annoton.id !== annoton.id) {
             self.selected.nodes = [];
         }
 
         let idx = self.selected.nodes.indexOf(node);
-        self.selected.annoton = node.term.control.value;
+        self.selected.annoton = annoton;
         if (idx > -1) {
             self.selected.nodes.splice(idx, 1);
         } else {
@@ -85,19 +97,6 @@ export default class CreateFromExistingDialogController {
 
         self.$mdDialog.hide(self.selected);
     }
-
-    select(selectedAnnoton) {
-        const self = this;
-
-        each(self.annotons, function (annoton) {
-            annoton.selected = false;
-        })
-        selectedAnnoton.selected = true;
-        self.selectedAnnoton = selectedAnnoton;
-    }
-
-
-
 }
 
-CreateFromExistingDialogController.$inject = ['$scope', '$rootScope', '$mdDialog', 'lookup', 'data'];
+CreateFromExistingDialogController.$inject = ['$scope', '$rootScope', '$mdDialog', 'dialogService', 'lookup', 'data'];

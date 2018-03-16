@@ -67,8 +67,8 @@ export default class AppController {
       annotonData: self.summaryData.annotons
     };
 
-    let success = function (srcAnnoton) {
-      self.formGrid.cloneForm(srcAnnoton);
+    let success = function (selected) {
+      self.formGrid.cloneForm(selected.annoton, selected.nodes);
     }
 
     self.dialogService.openCreateFromExistingDialog(ev, data, success);
