@@ -145,7 +145,6 @@ export default class ConfigService {
           }
         }
       },
-
       'cc': {
         "label": 'Cellular Component',
         'aspect': 'C',
@@ -166,11 +165,30 @@ export default class ConfigService {
         }
       },
       'cc-1': {
+        "label": 'Cellular Component',
+        'aspect': 'C',
+        "displaySection": this.saeConstants.displaySection.fd,
+        "displayGroup": this.saeConstants.displayGroup.cc,
+        "lookupGroup": 'cellular_component',
+        'treeLevel': 1,
+        "term": {
+          "ontologyClass": ['go'],
+          "lookup": {
+            "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
+              fq: [
+                'document_category:"ontology_class"',
+                'isa_closure_label:"cellular_component"'
+              ],
+            }),
+          }
+        }
+      },
+      'cc-1-1': {
         "label": 'Part Of (Cell Type)',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.cc,
         "lookupGroup": 'CL:0000003',
-        'treeLevel': 1,
+        'treeLevel': 2,
         "term": {
           "ontologyClass": ['cl'],
           "lookup": {
@@ -183,12 +201,12 @@ export default class ConfigService {
           }
         }
       },
-      'cc-1-1': {
+      'cc-1-1-1': {
         "label": 'Part Of (Anatomy)',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.cc,
         "lookupGroup": 'UBERON:0000061',
-        'treeLevel': 2,
+        'treeLevel': 3,
         "term": {
           "ontologyClass": ['uberon'],
           "lookup": {
@@ -263,7 +281,7 @@ export default class ConfigService {
     this._modelRelationship = {
       default: {
         nodes: [
-          'mf', 'mf-1', 'mf-2', 'bp', 'bp-1', 'bp-1-1', 'cc', 'cc-1', 'cc-1-1'
+          'mf', 'mf-1', 'mf-2', 'bp', 'bp-1', 'bp-1-1', 'cc', 'cc-1', 'cc-1-1', 'cc-1-1-1'
         ],
         triples: [{
           subject: 'mf',
@@ -297,6 +315,10 @@ export default class ConfigService {
           subject: 'cc-1',
           object: 'cc-1-1',
           edge: this.saeConstants.edge.partOf
+        }, {
+          subject: 'cc-1-1',
+          object: 'cc-1-1-1',
+          edge: this.saeConstants.edge.partOf
         }],
         simple: {
           node: 'gp',
@@ -317,7 +339,7 @@ export default class ConfigService {
       },
       ccOnly: {
         nodes: [
-          'cc', 'cc-1', 'cc-1-1'
+          'cc', 'cc-1', 'cc-1-1', 'cc-1-1-1'
         ],
         triples: [{
           subject: 'cc',
@@ -327,6 +349,10 @@ export default class ConfigService {
           subject: 'cc-1',
           object: 'cc-1-1',
           edge: this.saeConstants.edge.partOf,
+        }, {
+          subject: 'cc-1-1',
+          object: 'cc-1-1-1',
+          edge: this.saeConstants.edge.partOf
         }],
         simple: {
           node: 'gp',
@@ -584,133 +610,147 @@ export default class ConfigService {
       self.saeConstants.annotonModelType.options.default.name
     );
     let nodes = [{
-        "id": "gp",
-        "term": {
-          "id": "UniProtKB:O95477",
-          "label": "ABCA1 Hsap (UniProtKB:O95477)"
-        },
-        "evidence": {},
-        "reference": "",
-        "with": ""
+      "id": "gp",
+      "term": {
+        "id": "UniProtKB:O95477",
+        "label": "ABCA1 Hsap (UniProtKB:O95477)"
       },
-      {
-        "id": "mf",
-        "term": {
-          "id": "GO:0017127",
-          "label": "cholesterol transporter activity (GO:0017127)"
-        },
-        "evidence": {
-          "id": "ECO:0000314",
-          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
-        },
-        "reference": "PMID:1234",
-        "with": ""
+      "evidence": {},
+      "reference": "",
+      "with": ""
+    }, {
+      "id": "mf",
+      "term": {
+        "id": "GO:0017127",
+        "label": "cholesterol transporter activity (GO:0017127)"
       },
-      {
-        "id": "mf-1",
-        "term": {
-          "id": "UniProtKB:P02649",
-          "label": "APOE Hsap (UniProtKB:P02649)"
-        },
-        "evidence": {
-          "id": "ECO:0000314",
-          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
-        },
-        "reference": "PMID:1234",
-        "with": ""
+      "evidence": {
+        "id": "ECO:0000314",
+        "label": "direct assay evidence used in manual assertion (ECO:0000314)"
       },
-      {
-        "id": "mf-2",
-        "term": {
-          "id": "GO:0000279",
-          "label": "M phase (GO:0000279)"
-        },
-        "evidence": {
-          "id": "ECO:0000314",
-          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
-        },
-        "reference": "PMID:1234",
-        "with": ""
+      "reference": "PMID:1234",
+      "with": ""
+    }, {
+      "id": "mf-1",
+      "term": {
+        "id": "UniProtKB:P02649",
+        "label": "APOE Hsap (UniProtKB:P02649)"
       },
-      {
-        "id": "bp",
-        "term": {
-          "id": "GO:0006869",
-          "label": "lipid transport (GO:0006869)"
-        },
-        "evidence": {
-          "id": "ECO:0000314",
-          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
-        },
-        "reference": "PMID:1234",
-        "with": ""
+      "evidence": {
+        "id": "ECO:0000314",
+        "label": "direct assay evidence used in manual assertion (ECO:0000314)"
       },
-      {
-        "id": "bp-1",
-        "term": {
-          "id": "GO:0042632",
-          "label": "cholesterol homeostasis (GO:0042632)"
-        },
-        "evidence": {
-          "id": "ECO:0000314",
-          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
-        },
-        "reference": "PMID:1234",
-        "with": ""
+      "reference": "PMID:1234",
+      "with": ""
+    }, {
+      "id": "mf-2",
+      "term": {
+        "id": "GO:0000279",
+        "label": "M phase (GO:0000279)"
       },
-      {
-        "id": "bp-1-1",
-        "term": {
-          "id": "GO:0003013",
-          "label": "circulatory system process (GO:0003013)"
-        },
-        "evidence": {
-          "id": "ECO:0000314",
-          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
-        },
-        "reference": "PMID:1234",
-        "with": ""
+      "evidence": {
+        "id": "ECO:0000314",
+        "label": "direct assay evidence used in manual assertion (ECO:0000314)"
       },
-      {
-        "id": "cc",
-        "term": {
-          "id": "GO:0005886",
-          "label": "plasma membrane (GO:0005886)"
-        },
-        "evidence": {
-          "id": "ECO:0000314",
-          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
-        },
-        "reference": "PMID:1234",
-        "with": ""
+      "reference": "PMID:1234",
+      "with": ""
+    }, {
+      "id": "bp",
+      "term": {
+        "id": "GO:0006869",
+        "label": "lipid transport (GO:0006869)"
       },
-      {
-        "id": "cc-1",
-        "term": {
-          "id": "CL:2000054",
-          "label": "hepatic pit cell (CL:2000054)"
-        },
-        "evidence": {
-          "id": "ECO:0000314",
-          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
-        },
-        "reference": "PMID:1234",
-        "with": ""
+      "evidence": {
+        "id": "ECO:0000314",
+        "label": "direct assay evidence used in manual assertion (ECO:0000314)"
       },
-      {
-        "id": "cc-1-1",
-        "term": {
-          "id": "UBERON:0002107",
-          "label": "liver (UBERON:0002107)"
-        },
-        "evidence": {
-          "id": "ECO:0000314",
-          "label": "direct assay evidence used in manual assertion (ECO:0000314)"
-        },
-        "reference": "PMID:1234",
-        "with": ""
-      }
-    ]
+      "reference": "PMID:1234",
+      "with": ""
+    }, {
+      "id": "bp-1",
+      "term": {
+        "id": "GO:0042632",
+        "label": "cholesterol homeostasis (GO:0042632)"
+      },
+      "evidence": {
+        "id": "ECO:0000314",
+        "label": "direct assay evidence used in manual assertion (ECO:0000314)"
+      },
+      "reference": "PMID:1234",
+      "with": ""
+    }, {
+      "id": "bp-1-1",
+      "term": {
+        "id": "GO:0003013",
+        "label": "circulatory system process (GO:0003013)"
+      },
+      "evidence": {
+        "id": "ECO:0000314",
+        "label": "direct assay evidence used in manual assertion (ECO:0000314)"
+      },
+      "reference": "PMID:1234",
+      "with": ""
+    }, {
+      "id": "cc",
+      "term": {
+        "id": "GO:0005886",
+        "label": "plasma membrane (GO:0005886)"
+      },
+      "evidence": {
+        "id": "ECO:0000314",
+        "label": "direct assay evidence used in manual assertion (ECO:0000314)"
+      },
+      "reference": "PMID:1234",
+      "with": ""
+    }, {
+      "id": "cc",
+      "term": {
+        "id": "GO:0005886",
+        "label": "plasma membrane (GO:0005886)"
+      },
+      "evidence": {
+        "id": "ECO:0000314",
+        "label": "direct assay evidence used in manual assertion (ECO:0000314)"
+      },
+      "reference": "PMID:1234",
+      "with": ""
+    }, {
+      "id": "cc-1",
+      "term": {
+        "id": "GO:0005886",
+        "label": "plasma membrane (GO:0005886)"
+      },
+      "evidence": {
+        "id": "ECO:0000314",
+        "label": "direct assay evidence used in manual assertion (ECO:0000314)"
+      },
+      "reference": "PMID:1234",
+      "with": ""
+    }, {
+      "id": "cc-1-1",
+      "term": {
+        "id": "CL:2000054",
+        "label": "hepatic pit cell (CL:2000054)"
+      },
+      "evidence": {
+        "id": "ECO:0000314",
+        "label": "direct assay evidence used in manual assertion (ECO:0000314)"
+      },
+      "reference": "PMID:1234",
+      "with": ""
+    }, {
+      "id": "cc-1-1-1",
+      "term": {
+        "id": "UBERON:0002107",
+        "label": "liver (UBERON:0002107)"
+      },
+      "evidence": {
+        "id": "ECO:0000314",
+        "label": "direct assay evidence used in manual assertion (ECO:0000314)"
+      },
+      "reference": "PMID:1234",
+      "with": ""
+    }]
 
     each(nodes, function (node) {
       let annotonNode = annoton.getNode(node.id);
