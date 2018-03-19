@@ -263,7 +263,6 @@
                       <div ng-if="entity.treeLevel>1" class="sae-tree-input sae-level-2">
 
                       </div>
-
                       <div class="typeaheadcontainer" flex="40">
                         <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term]">
                           <i class="fa fa-spinner fa-spin fa-fw"></i>
@@ -285,7 +284,13 @@
                         <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term + 'e']">
                           <i class="fa fa-spinner fa-spin fa-fw"></i>
                         </div>
+
                         <md-input-container class="md-block">
+                          <div ng-if="entity.evidence.length>1" class="sae-more-evidence-link">
+                            <a ng-click="appCtrl.dialogService.openAddEvidenceDialog($event, entity)">
+                              +{{entity.evidence.length-1}} evidence(s)
+                            </a>
+                          </div>
                           <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value" ng-trim="false" tabindex="0"
                             ng-model-options="{allowInvalid: true}" ng-required="entity.evidence[0].evidence.control.required"
                             uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.evidence[0].evidence)" typeahead-append-to-body="true"
