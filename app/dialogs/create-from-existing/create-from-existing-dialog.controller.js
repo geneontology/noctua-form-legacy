@@ -17,8 +17,18 @@ export default class CreateFromExistingDialogController {
         };
     }
 
+    enableToggle(entity) {
+        const self = this;
+
+        if (self.data.entityFilter) {
+            return self.data.entityFilter.lookupGroup !== entity.lookupGroup;
+        }
+        return false;
+    }
+
     openSelectEvidenceDialog(ev, node) {
         const self = this;
+
         let data = {
             node: node
         }

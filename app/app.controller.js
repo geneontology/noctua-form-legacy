@@ -59,11 +59,11 @@ export default class AppController {
     return result;
   }
 
-
-  openCreateFromExistingDialog(ev) {
+  openCreateFromExistingDialog(ev, entity) {
     const self = this;
 
     let data = {
+      entityFilter: entity,
       annotonData: self.summaryData.annotons
     };
 

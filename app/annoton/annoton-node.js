@@ -25,6 +25,7 @@ export default class AnnotonNode {
         "value": ''
       },
       "lookup": {
+        "category": "",
         "requestParams": null
       }
     };

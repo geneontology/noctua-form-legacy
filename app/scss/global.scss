@@ -204,6 +204,11 @@ md-dialog {
   text-overflow: ellipsis;
 }
 
+.sae-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .sae-tabs-1 {
   background-color: #F2F2F2;
   position: relative;

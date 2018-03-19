@@ -15,11 +15,12 @@
     <md-dialog-content>
         <div class="" layout="column" layout-align="start stretch">
             <div ng-repeat="annotonData in annotonCtrl.data.annotonData" class="sae-populate-group md-whiteframe-1dp" layout="column">
-                <div class="sae-populate-group-header" layout="column" flex>
-                    <md-checkbox class="sae-primary m-0" ng-checked="annotonCtrl.isAnnotonChecked(annotonData.annoton)" md-indeterminate="annotonCtrl.isAnnotonIndeterminate(annotonData.annoton)"
-                        ng-click="annotonCtrl.toggleAnnoton(annotonData.annoton)" aria-label="Term Checkbox">
-                        <strong>{{annotonData.gp}}</strong> - {{annotonData.mf}}
+                <div annotonCtrl.enableToggle(node) class="sae-ellipsis sae-populate-group-header" layout="column" flex>
+                    <md-checkbox ng-if="!annotonCtrl.data.entityFilter" class="sae-primary m-0" ng-checked="annotonCtrl.isAnnotonChecked(annotonData.annoton)"
+                        md-indeterminate="annotonCtrl.isAnnotonIndeterminate(annotonData.annoton)" ng-click="annotonCtrl.toggleAnnoton(annotonData.annoton)"
+                        aria-label="Term Checkbox">
                     </md-checkbox>
+                    <strong>{{annotonData.gp}}</strong> - {{annotonData.mf}}
                 </div>
                 <div class="sae-populate-group-body" layout="column" flex>
                     <div class="sae-populate-row-header" layout="row">
@@ -35,7 +36,8 @@
                             Evidence
                         </div>
                     </div>
-                    <div ng-repeat="node in annotonData.annoton.nodes" ng-if="node.term.control.value.id" class="sae-populate-row" layout="row">
+                    <div ng-repeat="node in annotonData.annoton.nodes" ng-if="node.term.control.value.id" class="sae-populate-row" ng-class="{'sae-disabled': annotonCtrl.enableToggle(node) }"
+                        layout="row">
                         <div class="sae-checkbox-container">
                             <md-checkbox class="sae-primary m-0" ng-checked="annotonCtrl.exists(node)" ng-click="annotonCtrl.toggleNode(annotonData.annoton, node)"
                                 aria-label="Term Label">
