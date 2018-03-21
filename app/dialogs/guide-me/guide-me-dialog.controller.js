@@ -1,8 +1,8 @@
 import _ from 'lodash';
 const each = require('lodash/forEach');
 
-export default class AnnotonErrorsDialogController {
-    constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, graph, lookup, formGrid, annoton, errors) {
+export default class GuideMeDialogController {
+    constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, WizardHandler, graph, lookup, formGrid, data) {
         var vm = this;
         vm.saeConstants = saeConstants;
         vm.$scope = $scope;
@@ -12,15 +12,12 @@ export default class AnnotonErrorsDialogController {
         vm.lookup = lookup;
         vm.graph = graph;
         vm.formGrid = formGrid;
-        vm.annoton = annoton;
-        vm.errors = errors;
+        vm.data = data;
     }
 
     closeDialog() {
         this.$mdDialog.cancel();
     }
 
-
-
 }
-AnnotonErrorsDialogController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', 'graph', 'lookup', 'formGrid', 'annoton', 'errors'];
+GuideMeDialogController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', 'WizardHandler', 'graph', 'lookup', 'formGrid', 'data'];

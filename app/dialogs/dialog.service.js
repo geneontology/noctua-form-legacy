@@ -8,6 +8,19 @@ export default class DialogService {
 
   }
 
+  openGuideMeDialog(ev, data, success) {
+    this.$mdDialog.show({
+      controller: 'GuideMeDialogController as annotonCtrl',
+      templateUrl: './dialogs/guide-me/guide-me-dialog.html',
+      targetEvent: ev,
+      clickOutsideToClose: false,
+      multiple: true,
+      locals: {
+        data: data
+      }
+    }).then(success)
+  }
+
   openGeneListnDialog(ev, row) {
     this.$mdDialog.show({
       controller: 'GeneListnDialogController as annotonCtrl',

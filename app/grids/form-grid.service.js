@@ -123,7 +123,6 @@ export default class FormGridService {
   clearForm() {
     const self = this;
 
-
     self.annoton = self.config.createAnnotonModel(
       self.annoton.annotonType,
       self.annoton.annotonModelType

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 const each = require('lodash/forEach');
 
-export default class AddEvidenceDIalogController {
+export default class AddEvidenceDialogController {
     constructor(saeConstants, $scope, $rootScope, $mdDialog, graph, lookup, formGrid, entity) {
         var vm = this;
         vm.saeConstants = saeConstants;
@@ -34,4 +34,4 @@ export default class AddEvidenceDIalogController {
     }
 
 }
-AddEvidenceDIalogController.$inject = ['saeConstants', '$scope', '$rootScope', '$mdDialog', 'graph', 'lookup', 'formGrid', 'entity'];
+AddEvidenceDialogController.$inject = ['saeConstants', '$scope', '$rootScope', '$mdDialog', 'graph', 'lookup', 'formGrid', 'entity'];

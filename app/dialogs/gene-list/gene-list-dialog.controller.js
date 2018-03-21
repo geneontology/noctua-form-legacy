@@ -1,7 +1,7 @@
 import _ from 'lodash';
 const each = require('lodash/forEach');
 
-export default class GeneListDIalogController {
+export default class GeneListDialogController {
     constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, graph, lookup, formGrid, row) {
         var vm = this;
         vm.saeConstants = saeConstants;
@@ -45,4 +45,4 @@ export default class GeneListDIalogController {
     }
 
 }
-GeneListDIalogController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', 'graph', 'lookup', 'formGrid', 'row'];
+GeneListDialogController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', 'graph', 'lookup', 'formGrid', 'row'];

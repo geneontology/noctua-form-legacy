@@ -9,6 +9,9 @@
           {{appCtrl.graph.title[0].value()}} ({{appCtrl.graph.model_id}})
         </div>
         <span flex></span>
+        <md-button class="" ng-click="appCtrl.openGuideMeDialog($event)">
+          .
+        </md-button>
         <md-button ng-click="appCtrl.formGrid.initalizeFormData()">
           .
         </md-button>
@@ -561,15 +564,21 @@
             </div>
           </div>
         </div>
+        <div class="sae-summary-grid">
+          <div ui-grid="appCtrl.summaryGrid.gridOptions" ui-grid-tree-view ui-grid-resize-columns ui-grid-auto-resize ui-grid-pinning
+            class="grid">
+          </div>
+        </div>
       </div>
     </div>
-    <joyride></joyride>
-    <script type="text/ng-template" id="customTemplate.html">
-      <a>
-        <span style="display:inline-block;width:200px;font-size:0.9em;font-style:italic;" ng-bind-html="match.model.id | uibTypeaheadHighlight:query"></span>
-        <span ng-bind-html="match.model.label | uibTypeaheadHighlight:query"></span>
-      </a>
-    </script>
   </div>
+  <joyride></joyride>
+  <script type="text/ng-template" id="customTemplate.html">
+    <a>
+      <span style="display:inline-block;width:200px;font-size:0.9em;font-style:italic;" ng-bind-html="match.model.id | uibTypeaheadHighlight:query"></span>
+      <span ng-bind-html="match.model.label | uibTypeaheadHighlight:query"></span>
+    </a>
+  </script>
+</div>
 </div>
 <!-- <%={{ }}=%> -->

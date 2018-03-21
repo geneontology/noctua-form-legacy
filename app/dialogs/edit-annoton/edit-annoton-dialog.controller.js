@@ -1,7 +1,7 @@
 import _ from 'lodash';
 const each = require('lodash/forEach');
 
-export default class EditAnnotonDIalogController {
+export default class EditAnnotonDialogController {
     constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, graph, lookup, formGrid, row) {
         var vm = this;
         vm.saeConstants = saeConstants;
@@ -45,4 +45,4 @@ export default class EditAnnotonDIalogController {
         annoton.setAnnotonModelType(annotonModelType.name);
     }
 }
-EditAnnotonDIalogController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', 'graph', 'lookup', 'formGrid', 'row'];
+EditAnnotonDialogController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', 'graph', 'lookup', 'formGrid', 'row'];

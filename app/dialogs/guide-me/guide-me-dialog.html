@@ -1,0 +1,56 @@
+<md-dialog class="sae-guide-me-dialog" aria-label="Edit Annoton Dialog" ng-cloak>
+    <md-toolbar class="gb-heading" layout="column" layout-align="start center" flex>
+        <div class="md-toolbar-tools sae-container">
+            <div class="sae-heading-title">
+                <span class="ellipsis">
+                    Guide Me
+                </span>
+            </div>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="annotonCtrl.closeDialog()" aria-label="Close Dialog" translate translate-attr-aria-label="SB.CLOSE_DIALOG">
+                <md-icon md-font-icon="icon-close"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div layout="row">
+            <div flex="70">
+                <wizard on-finish="finishedWizard()" on-cancel="cancelledWizard()">
+                    <wz-step wz-title="Starting">
+                        <h1>Choose model </h1>
+
+                        <div ng-repeat="annotonType in annotonCtrl.saeConstants.annotonType.options">
+                            <md-button ng-click="appCtrl.formGrid.setAnnotonType(appCtrl.formGrid.annoton, annotonType)">
+                                {{annotonType.label}}
+                            </md-button>
+                        </div>
+                        <div ng-repeat="annotonModelType in appCtrl.saeConstants.annotonModelType.options">
+                            <md-button ng-click="appCtrl.formGrid.setAnnotonModelType(appCtrl.formGrid.annoton, annotonModelType)">
+                                {{annotonModelType.label}}
+                            </md-button>
+                            </md-menu-item>
+                            <input type="submit" wz-next value="Continue" />
+                    </wz-step>
+                    <wz-step wz-title="Continuing">
+                        <h1>Continuing</h1>
+                        <p>You have continued here!</p>
+                        <input type="submit" wz-next value="Go on" />
+                    </wz-step>
+                    <wz-step wz-title="More steps">
+                        <p>Even more steps!!</p>
+                        <input type="submit" wz-next value="Finish now" />
+                    </wz-step>
+                </wizard>
+                </div>
+                <div flex="30">
+                    Summary
+                </div>
+            </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button ng-click="annotonCtrl.closeDialog()" class="md-raised" aria-label="Cancel">
+            Close
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

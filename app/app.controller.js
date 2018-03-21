@@ -10,9 +10,10 @@ const each = require('lodash/forEach');
 import AnnotonError from "./annoton/parser/annoton-error.js";
 
 export default class AppController {
-  constructor(saeConstants, $scope, $rootScope, $http, $timeout, $mdDialog, $mdToast, config, joyrideService, dialogService, graph, lookup, formGrid) {
+  constructor(saeConstants, uiGridTreeViewConstants, $scope, $rootScope, $http, $timeout, $mdDialog, $mdToast, config, joyrideService, dialogService, graph, lookup, formGrid, summaryGrid) {
     var appCtrl = this;
     this.saeConstants = saeConstants;
+    this.uiGridTreeViewConstants = uiGridTreeViewConstants;
     this.$scope = $scope;
     this.$rootScope = $rootScope;
     this.$mdDialog = $mdDialog;
@@ -24,6 +25,17 @@ export default class AppController {
     this.lookup = lookup;
     this.graph = graph;
     this.formGrid = formGrid;
+    this.summaryGrid = summaryGrid;
+
+    this.viewMode = {
+      options: {
+        grid: 1,
+        linear: 2,
+        table: 3,
+        graph: 4
+      }
+    };
+    this.viewMode.selected = this.viewMode.options.table;
 
     var userNameInfo = document.getElementById('user_name_info');
     if (userNameInfo) {
@@ -34,6 +46,11 @@ export default class AppController {
 
     $rootScope.$on('rebuilt', function (event, data) {
       appCtrl.summaryData = data.gridData;
+      // appCtrl.summaryGrid.gridOptions.data = data.gridData.annotons;
+      appCtrl.summaryGrid.gridOptions.appScopeProvider = appCtrl;
+      //  appCtrl.summaryGrid.gridOptions.expandableRowScope = appCtrl;
+      appCtrl.summaryGrid.setGrid(data.gridData.annotons)
+      appCtrl.summaryGrid.registerApi();
     });
 
     graph.initialize();
@@ -57,6 +74,20 @@ export default class AppController {
       // console.log('result', result);
     }
     return result;
+  }
+
+  openGuideMeDialog(ev) {
+    const self = this;
+
+    let data = {
+
+    };
+
+    let success = function (selected) {
+      // self.formGrid.cloneForm(selected.annoton, selected.nodes);
+    }
+
+    self.dialogService.openGuideMeDialog(ev, data, success);
   }
 
   openCreateFromExistingDialog(ev, entity) {
@@ -193,4 +224,4 @@ export default class AppController {
     }
   }
 }
-AppController.$inject = ['saeConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', '$mdToast', 'config', 'joyrideService', 'dialogService', 'graph', 'lookup', 'formGrid'];
+AppController.$inject = ['saeConstants', 'uiGridTreeViewConstants', '$scope', '$rootScope', '$http', '$timeout', '$mdDialog', '$mdToast', 'config', 'joyrideService', 'dialogService', 'graph', 'lookup', 'formGrid', 'summaryGrid'];

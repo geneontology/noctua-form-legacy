@@ -168,6 +168,8 @@ config.plugins.push(
   }, {
     from: 'templates/**/*'
   }, {
+    from: 'grid-templates/**/*'
+  }, {
     from: 'dialogs/**/*'
   }, {
     from: 'assets/**/*'

@@ -9,12 +9,16 @@ import angular from 'angular';
 
 //const angular = require('angular');
 import nguibootstrap from 'angular-ui-bootstrap';
+import 'angular-ui-grid/ui-grid.min.js';
 
 import 'angular-aria/angular-aria.js';
 import 'angular-animate/angular-animate.js';
 import 'angular-material/angular-material.js';
 import '../node_modules/angular-joyride/dist/joyride.js'
+import '../node_modules/angular-wizard/dist/angular-wizard.js'
 
+import '../node_modules/angular-ui-grid/ui-grid.min.css';
+import '../node_modules/angular-wizard/dist/angular-wizard.css'
 import '../node_modules/angular-joyride/dist/joyride.css'
 import '../node_modules/angular-material/angular-material.css';
 import 'jsonformatter';
@@ -31,17 +35,31 @@ import EditAnnotonDialogController from './dialogs/edit-annoton/edit-annoton-dia
 import AddEvidenceDialogController from './dialogs/add-evidence/add-evidence-dialog.controller.js';
 import GeneListDialogController from './dialogs/gene-list/gene-list-dialog.controller.js';
 import ViewSummaryDialogController from './dialogs/view-summary/view-summary-dialog.controller.js';
+import GuideMeDialogController from './dialogs/guide-me/guide-me-dialog.controller.js';
+
 
 import DialogService from './dialogs/dialog.service';
 import ConfigService from './config/config.service.js';
 import FormGridService from './grids/form-grid.service.js';
+import SummaryGridService from './grids/summary-grid.service.js';
 import GraphService from './graph.service.js';
 import LookupService from './lookup.service.js';
 
 var app = angular.module('TVApp', ['ngMaterial',
+  'mgo-angular-wizard',
   nguibootstrap,
   'angular-joyride',
-  'jsonFormatter'
+  'jsonFormatter',
+  'ui.grid',
+  'ui.grid.edit',
+  'ui.grid.rowEdit',
+  'ui.grid.cellNav',
+  'ui.grid.autoResize',
+  'ui.grid.resizeColumns',
+  'ui.grid.treeView',
+  'ui.grid.expandable',
+  'ui.grid.selection',
+  'ui.grid.pinning'
 ]);
 app.config(['JSONFormatterConfigProvider', function (JSONFormatterConfigProvider) {
 
@@ -286,9 +304,11 @@ app.controller('EditAnnotonDialogController', EditAnnotonDialogController)
 app.controller('GeneListDialogController', GeneListDialogController)
 app.controller('AddEvidenceDialogController', AddEvidenceDialogController)
 app.controller('ViewSummaryDialogController', ViewSummaryDialogController)
+app.controller('GuideMeDialogController', GuideMeDialogController)
 
 app.service('dialogService', DialogService);
 app.service('config', ConfigService);
 app.service('formGrid', FormGridService);
+app.service('summaryGrid', SummaryGridService);
 app.service('graph', GraphService);
 app.service('lookup', LookupService);
