@@ -196,7 +196,7 @@ export default class SummaryGridService {
       each(row.annoton.nodes, function (node) {
         let term = node.getTerm();
 
-        if (node.id !== 'mc' || node.id !== 'gp' || term.id) {
+        if ((node.id !== 'mc' || node.id !== 'gp') && term.id) {
           gridData.push({
             gp: row.gp,
             label: node.label,
