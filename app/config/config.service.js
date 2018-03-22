@@ -165,7 +165,7 @@ export default class ConfigService {
         }
       },
       'cc-1': {
-        "label": 'Cellular Component',
+        "label": 'Part Of (CC)',
         'aspect': 'C',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.cc,
@@ -585,11 +585,11 @@ export default class ConfigService {
     annotonNode.id = id;
     annotonNode.aspect = nodeData.aspect;
     annotonNode.ontologyClass = nodeData.ontologyClass;
-    annotonNode.label = nodeData.label;
+    annotonNode.label = "has part (GP)";
     annotonNode.displaySection = nodeData.displaySection;
     annotonNode.displayGroup = nodeData.displayGroup;
     annotonNode.lookupGroup = nodeData.lookupGroup;
-    annotonNode.treeLevel = nodeData.treeLevel;
+    annotonNode.treeLevel = 1;
     annotonNode.setTermLookup(nodeData.term.lookup.requestParams);
     annotonNode.setTermOntologyClass(nodeData.term.ontologyClass);
     annotonNode.setEvidenceMeta('eco', self.requestParams["evidence"]);

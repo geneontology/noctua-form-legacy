@@ -419,10 +419,11 @@
                   </div>
                   <div class="sae-card-heading" flex>
                     <div class="sae-heading-title sae-ellipsis">
-                      <strong>{{summaryRow.mf}}</strong>
+                      {{summaryRow.mf}}
                     </div>
                     <div class="sae-heading-subtitle sae-ellipsis">
-                      <span class="sae-predicate">enabled by: </span>{{summaryRow.gp}}
+                      <span class="sae-predicate">enabled by: </span>
+                      <strong> {{summaryRow.gp}}</strong>
                     </div>
                   </div>
                 </div>
@@ -563,12 +564,17 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="sae-summary-grid">
-          <div ui-grid="appCtrl.summaryGrid.gridOptions" ui-grid-tree-view ui-grid-resize-columns ui-grid-auto-resize ui-grid-pinning
-            class="grid">
+          <h2>
+            Molecular Activities in the Model (Table View)
+          </h2>
+          <br>
+          <div class="sae-summary-grid">
+            <div ui-grid="appCtrl.summaryGrid.gridOptions" ui-grid-tree-view ui-grid-resize-columns ui-grid-auto-resize ui-grid-pinning
+              ui-grid-move-columns class="grid">
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>

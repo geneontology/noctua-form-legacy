@@ -51,7 +51,11 @@ export default class AppController {
       //  appCtrl.summaryGrid.gridOptions.expandableRowScope = appCtrl;
       appCtrl.summaryGrid.setGrid(data.gridData.annotons)
       appCtrl.summaryGrid.registerApi();
+      appCtrl.summaryGrid.expandAll();
     });
+
+
+
 
     graph.initialize();
     this.config.createJoyrideSteps();
@@ -62,7 +66,9 @@ export default class AppController {
     // this.lookup.isaClosure(4, "GO:0008150", 'GO:0005575')
     // this.lookup.isaClosure(5, "GO:0008150", 'GO:0006869')
   }
-
+  expandAll() {
+    $scope.gridApi.treeBase.expandAllRows();
+  };
   setView(view) {
     this.viewMode.selected = view;
   }

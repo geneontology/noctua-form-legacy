@@ -14,17 +14,30 @@ export default class SummaryGridService {
 
 
     this.columnDefs = [{
+      name: 'gp',
+      displayName: 'Gene Product',
+      width: 200,
+      field: 'gp',
+      resizable: false,
+      //headerCellTemplate: './grid-templates/header-cell-template.html',
+      enableCellSelection: false,
+      enableCellEditOnFocus: false,
+      enableSorting: false,
+      allowCellFocus: false,
+      enableHiding: true,
+      enableColumnMenu: false
+    }, {
       name: 'label',
       displayName: '',
       width: 200,
       field: 'label',
       resizable: false,
-      headerCellTemplate: './grid-templates/header-cell-template.html',
+      //headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellSelection: false,
       enableCellEditOnFocus: false,
       enableSorting: false,
       allowCellFocus: false,
-      enableHiding: false,
+      enableHiding: true,
       enableColumnMenu: false
     }, {
       name: 'term',
@@ -32,14 +45,14 @@ export default class SummaryGridService {
       width: 200,
       field: 'term',
       resizable: false,
-      headerCellTemplate: './grid-templates/header-cell-template.html',
+      //headerCellTemplate: './grid-templates/header-cell-template.html',
       cellTemplate: './grid-templates/summary/term-validator-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
       enableSorting: false,
       allowCellFocus: false,
-      enableHiding: false,
+      enableHiding: true,
       enableColumnMenu: false
     }, {
       name: 'aspect',
@@ -47,13 +60,13 @@ export default class SummaryGridService {
       width: 60,
       field: 'aspect',
       resizable: false,
-      headerCellTemplate: './grid-templates/header-cell-template.html',
+      //headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
       enableSorting: false,
       allowCellFocus: false,
-      enableHiding: false,
+      enableHiding: true,
       enableColumnMenu: false
     }, {
       name: 'qualifier',
@@ -61,13 +74,13 @@ export default class SummaryGridService {
       width: 70,
       field: 'qualifier',
       resizable: false,
-      headerCellTemplate: './grid-templates/header-cell-template.html',
+      //headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
       enableSorting: false,
       allowCellFocus: false,
-      enableHiding: false,
+      enableHiding: true,
       enableColumnMenu: false
     }, {
       name: 'evidence',
@@ -75,14 +88,14 @@ export default class SummaryGridService {
       originalName: 'evidence',
       displayName: 'Evidence',
       minWidth: 200,
-      headerCellTemplate: './grid-templates/header-cell-template.html',
+      //headerCellTemplate: './grid-templates/header-cell-template.html',
       cellTemplate: './grid-templates/summary/evidence-validator-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
       enableSorting: false,
       allowCellFocus: false,
-      enableHiding: false,
+      enableHiding: true,
       enableColumnMenu: false
     }, {
       name: 'reference',
@@ -90,13 +103,13 @@ export default class SummaryGridService {
       width: 120,
       field: 'reference',
       resizable: false,
-      headerCellTemplate: './grid-templates/header-cell-template.html',
+      //headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
       enableSorting: false,
       allowCellFocus: false,
-      enableHiding: false,
+      enableHiding: true,
       enableColumnMenu: false
     }, {
       name: 'with',
@@ -104,13 +117,13 @@ export default class SummaryGridService {
       width: 120,
       field: 'with',
       resizable: false,
-      headerCellTemplate: './grid-templates/header-cell-template.html',
+      //headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
       enableSorting: false,
       allowCellFocus: false,
-      enableHiding: false,
+      enableHiding: true,
       enableColumnMenu: false
     }, {
       name: 'assignedBy',
@@ -118,13 +131,13 @@ export default class SummaryGridService {
       width: 120,
       field: 'assignedBy',
       resizable: false,
-      headerCellTemplate: './grid-templates/header-cell-template.html',
+      //headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
       enableSorting: false,
       allowCellFocus: false,
-      enableHiding: false,
+      enableHiding: true,
       enableColumnMenu: false
     }];
 
@@ -132,10 +145,12 @@ export default class SummaryGridService {
       // rowHeight: 50,
       width: 100,
       minWidth: 100,
+      exporterMenuCsv: false,
+      enableGridMenu: true,
       enableCellSelection: false,
       // rowEditWaitInterval: -1,
-      enableCellEdit: false,
-      enableCellEditOnFocus: false,
+      //  enableCellEdit: false,
+      // enableCellEditOnFocus: false,
       multiSelect: false,
       // minRowsToShow: 1,
       //rowTemplate: './grid-templates/summary/row-template.html',
@@ -181,8 +196,9 @@ export default class SummaryGridService {
       each(row.annoton.nodes, function (node) {
         let term = node.getTerm();
 
-        if (term.id) {
+        if (node.id !== 'mc' || node.id !== 'gp' || term.id) {
           gridData.push({
+            gp: row.gp,
             label: node.label,
             term: term.label,
             aspect: node.aspect,
@@ -197,6 +213,8 @@ export default class SummaryGridService {
 
           for (let i = 1; i < node.evidence.length; i++) {
             gridData.push({
+              gp: row.gp,
+              label: "''",
               evidence: node.evidence[i].evidence.control.value.label,
               reference: node.evidence[i].reference.control.value,
               with: node.evidence[i].with.control.value,
@@ -211,6 +229,7 @@ export default class SummaryGridService {
       self.gridOptions.data = gridData;
     });
   }
+
 
   setSubGridEdit(row) {
     const self = this;

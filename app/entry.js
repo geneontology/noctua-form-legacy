@@ -54,11 +54,13 @@ var app = angular.module('TVApp', ['ngMaterial',
   'ui.grid.edit',
   'ui.grid.rowEdit',
   'ui.grid.cellNav',
+  'ui.grid.moveColumns',
   'ui.grid.autoResize',
   'ui.grid.resizeColumns',
   'ui.grid.treeView',
   'ui.grid.expandable',
   'ui.grid.selection',
+  'ui.grid.exporter',
   'ui.grid.pinning'
 ]);
 app.config(['JSONFormatterConfigProvider', function (JSONFormatterConfigProvider) {
