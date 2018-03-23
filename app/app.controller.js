@@ -111,6 +111,21 @@ export default class AppController {
     self.dialogService.openCreateFromExistingDialog(ev, data, success);
   }
 
+  openLinkToExistingDialog(ev, entity) {
+    const self = this;
+
+    let data = {
+      entity: entity,
+      annotonData: self.summaryData.annotons
+    };
+
+    let success = function (selected) {
+      self.formGrid.linkFormNode(entity, selected.node);
+    }
+
+    self.dialogService.openLinkToExistingDialog(ev, data, success);
+  }
+
   openPopulateDialog(ev, entity) {
     const self = this;
     let gpNode = self.formGrid.annotonPresentation.geneProduct;

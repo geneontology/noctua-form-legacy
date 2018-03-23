@@ -271,6 +271,11 @@
                           <i class="fa fa-spinner fa-spin fa-fw"></i>
                         </div>
                         <md-input-container class="md-block">
+                          <div ng-if="entity.modelId" class="sae-node-link">
+                            <a class="sae-ellipsis" ng-click="appCtrl.openLinkToExistingDialog($event, entity)">
+                              linked To Existing
+                            </a>
+                          </div>
                           <input aria-label="term" type="INPUT_TYPE" ng-model="entity.term.control.value" ng-model-options="{allowInvalid: true}" tabindex="0"
                             ng-trim="false" ng-required="entity.term.control.required" uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.term)"
                             typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false"
@@ -338,7 +343,7 @@
                             </md-button>
                           </md-menu-item>
                           <md-menu-item>
-                            <md-button class="" ng-click="appCtrl.openCreateFromExistingDialog($event, entity)">
+                            <md-button class="" ng-click="appCtrl.openLinkToExistingDialog($event, entity)">
                               Choose From an Existing Activity
                             </md-button>
                           </md-menu-item>
@@ -494,12 +499,12 @@
         <div class="sae-container sae-summary" layout="column" layout-align="start stretch">
           <div>
             <h2>
-              Components in the Model
+              CC Only Annotations
             </h2>
           </div>
           <div ng-if="appCtrl.summaryData.ccComponents.length===0">
             <div class="alert alert-info">
-              No Componets Only Models
+              CC Only Annotations
             </div>
           </div>
           <div class="sae-container sae-summary" layout="row" layout-align="start" layout-wrap>

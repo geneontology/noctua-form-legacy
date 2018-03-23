@@ -721,7 +721,9 @@ export default class GraphService {
   addIndividual(reqs, node) {
     node.saveMeta = {};
     if (node.term.control.value && node.term.control.value.id) {
-      if (node.isComplement) {
+      if (node.modelId) {
+        node.saveMeta.term = node.modelId;
+      } else if (node.isComplement) {
         let ce = new class_expression();
         ce.as_complement(node.term.control.value.id);
         node.saveMeta.term = reqs.add_individual(ce);

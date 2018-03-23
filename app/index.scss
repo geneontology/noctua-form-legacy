@@ -735,7 +735,22 @@ md-dialog {
   }
 }
 
-.sae-more-evidence-link {
+.sae-more-evidence-link,
+  {
+  position: absolute;
+  top: 7px;
+  right: 5px;
+  @include deep-height(20px);
+  @include deep-width(85px);
+  font-size: 8px;
+  text-align: right;
+  a {
+    color: #0000EE;
+    cursor: pointer;
+  }
+}
+
+.sae-node-link {
   position: absolute;
   top: 7px;
   right: 5px;
@@ -793,8 +808,8 @@ md-dialog {
 .sae-summary-grid {
   md-icon,
   i {
-    @include sae-icon-size(14px);
-    line-height: 14px;
+    @include sae-icon-size(initial);
+    line-height: initial;
   }
   .grid {
     margin: 0;

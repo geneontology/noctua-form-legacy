@@ -1,0 +1,49 @@
+<md-dialog class="sae-companion-dialog" aria-label="Companion Dialog" ng-cloak>
+    <md-toolbar class="gb-heading" layout="column" layout-align="start center" flex>
+        <div class="md-toolbar-tools sae-container">
+            <div class="sae-heading-title">
+                <span class="ellipsis">
+                    Link To an Existing Activity
+                </span>
+            </div>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="annotonCtrl.closeDialog()" aria-label="Close Dialog" translate translate-attr-aria-label="SB.CLOSE_DIALOG">
+                <md-icon md-font-icon="icon-close"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="sae-populate-group" layout="column" layout-align="start stretch">
+            <div class="sae-populate-group-body" layout="column" flex>
+                <div class="sae-populate-row-header" layout="row">
+                    <div class="sae-checkbox-container">
+                    </div>
+                    <div flex="40">
+                        Term
+                    </div>
+                </div>
+                <div ng-repeat="node in annotonCtrl.nodes" class="sae-populate-row" layout="row">
+                    <div class="sae-checkbox-container">
+                        <md-checkbox class="sae-primary m-0" ng-checked="annotonCtrl.isNodeChecked(node)" ng-click="annotonCtrl.toggleNode(node)"
+                            aria-label="Term Label">
+                        </md-checkbox>
+                    </div>
+                    <div flex="40">
+                        <div class="sae-ellipsis">
+                            {{node.term.control.value.label}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button ng-click="annotonCtrl.closeDialog()" aria-label="Cancel">
+            Cancel
+        </md-button>
+        <md-button class="md-primary md-raised" ng-click="annotonCtrl.save()" aria-label="Save">
+            Save
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

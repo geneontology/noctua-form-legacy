@@ -27,6 +27,7 @@ import './index.scss';
 import 'font-awesome/css/font-awesome.min.css';
 
 import AppController from 'app.controller';
+import LinkToExistingDialogController from './dialogs/link-to-existing/link-to-existing-dialog.controller.js'
 import CreateFromExistingDialogController from './dialogs/create-from-existing/create-from-existing-dialog.controller.js'
 import SelectEvidenceDialogController from './dialogs/create-from-existing/select-evidence/select-evidence-dialog.controller.js'
 import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
@@ -299,6 +300,7 @@ app.constant('saeConstants', {
 
 app.controller('AppController', AppController);
 app.controller('CreateFromExistingDialogController', CreateFromExistingDialogController);
+app.controller('LinkToExistingDialogController', LinkToExistingDialogController);
 app.controller('SelectEvidenceDialogController', SelectEvidenceDialogController);
 app.controller('PopulateDialogController', PopulateDialogController);
 app.controller('AnnotonErrorsDialogController', AnnotonErrorsDialogController)

@@ -94,6 +94,18 @@ export default class DialogService {
     }).then(success)
   }
 
+  openLinkToExistingDialog(ev, data, success) {
+    this.$mdDialog.show({
+      controller: 'LinkToExistingDialogController as annotonCtrl',
+      templateUrl: './dialogs/link-to-existing/link-to-existing-dialog.html',
+      targetEvent: ev,
+      clickOutsideToClose: false,
+      locals: {
+        data: data
+      }
+    }).then(success)
+  }
+
   openSelectEvidenceDialog(ev, data, success) {
     this.$mdDialog.show({
       controller: 'SelectEvidenceDialogController as annotonCtrl',

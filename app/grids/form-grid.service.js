@@ -93,6 +93,15 @@ export default class FormGridService {
 
   }
 
+  linkFormNode(entity, srcNode) {
+    const self = this;
+
+    // let destNode = self.annoton.getNode(srcNode.id);
+
+    entity.modelId = srcNode.modelId;
+    entity.setTerm(srcNode.getTerm());
+  }
+
   cloneForm(srcAnnoton, filterNodes) {
     const self = this;
 
