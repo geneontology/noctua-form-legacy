@@ -27,6 +27,8 @@ import './index.scss';
 import 'font-awesome/css/font-awesome.min.css';
 
 import AppController from 'app.controller';
+//Dialogs
+import BeforeSaveDialogController from './dialogs/before-save/before-save-dialog.controller.js';
 import LinkToExistingDialogController from './dialogs/link-to-existing/link-to-existing-dialog.controller.js'
 import CreateFromExistingDialogController from './dialogs/create-from-existing/create-from-existing-dialog.controller.js'
 import SelectEvidenceDialogController from './dialogs/create-from-existing/select-evidence/select-evidence-dialog.controller.js'
@@ -38,7 +40,7 @@ import GeneListDialogController from './dialogs/gene-list/gene-list-dialog.contr
 import ViewSummaryDialogController from './dialogs/view-summary/view-summary-dialog.controller.js';
 import GuideMeDialogController from './dialogs/guide-me/guide-me-dialog.controller.js';
 
-
+//Services
 import DialogService from './dialogs/dialog.service';
 import ConfigService from './config/config.service.js';
 import FormGridService from './grids/form-grid.service.js';
@@ -299,6 +301,7 @@ app.constant('saeConstants', {
 });
 
 app.controller('AppController', AppController);
+app.controller('BeforeSaveDialogController', BeforeSaveDialogController)
 app.controller('CreateFromExistingDialogController', CreateFromExistingDialogController);
 app.controller('LinkToExistingDialogController', LinkToExistingDialogController);
 app.controller('SelectEvidenceDialogController', SelectEvidenceDialogController);

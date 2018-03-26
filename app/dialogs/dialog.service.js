@@ -8,6 +8,18 @@ export default class DialogService {
 
   }
 
+  openBeforeSaveDialog(ev, data, success) {
+    this.$mdDialog.show({
+      controller: 'BeforeSaveDialogController as annotonCtrl',
+      templateUrl: './dialogs/before-save/before-save-dialog.html',
+      targetEvent: ev,
+      clickOutsideToClose: false,
+      locals: {
+        data: data
+      }
+    }).then(success)
+  }
+
   openGuideMeDialog(ev, data, success) {
     this.$mdDialog.show({
       controller: 'GuideMeDialogController as annotonCtrl',

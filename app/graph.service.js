@@ -137,11 +137,12 @@ export default class GraphService {
       self.title = self.graph.get_annotations_by_key('title');
 
       self.$timeout(() => {
+        self.gridData = {
+          annotons: self.annotonsToTable(self.graph, annotons),
+          ccComponents: self.ccComponentsToTable(self.graph, ccComponents)
+        };
         self.$rootScope.$emit('rebuilt', {
-          gridData: {
-            annotons: self.annotonsToTable(self.graph, annotons),
-            ccComponents: self.ccComponentsToTable(self.graph, ccComponents)
-          }
+          gridData: self.gridData
         });
       }, 10);
     }
@@ -896,8 +897,29 @@ export default class GraphService {
     return infos;
   }
 
+  checkIfNodeExist(srcAnnoton) {
+    const self = this;
+    let result = false;
+
+    each(self.gridData.annotons, function (annotonData) {
+      each(annotonData.annoton.nodes, function (node) {
+        let srcNode = srcAnnoton.getNode(node.id);
+        if (srcNode && srcNode.getTerm().id === node.getTerm().id) {
+          console.log('exists', srcNode.getTerm().label, srcNode);
+          result = true;
+        }
+      });
+    });
+
+    return result;
+  }
+
   adjustAnnoton(annoton) {
     const self = this;
+
+    if (self.checkIfNodeExist(annoton)) {
+      return;
+    }
 
     switch (annoton.annotonModelType) {
       case self.saeConstants.annotonModelType.options.default.name:
