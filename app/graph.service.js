@@ -28,7 +28,7 @@ const rootMF = 'GO:0003674';
 const noDataECO = 'ECO:0000035';
 
 export default class GraphService {
-  constructor(saeConstants, config, $http, $q, $rootScope, $timeout, $mdDialog, lookup, formGrid) {
+  constructor(saeConstants, config, $http, $q, $rootScope, $timeout, $mdDialog, dialogService, lookup, formGrid) {
     this.config = config;
     this.saeConstants = saeConstants
     this.$http = $http;
@@ -48,6 +48,7 @@ export default class GraphService {
     this.loggedIn = local_barista_token && (local_barista_token.length > 0);
     this.lookup = lookup;
     this.formGrid = formGrid;
+    this.dialogService = dialogService;
     this.userInfo = {
       groups: [],
       selectedGroup: {}
@@ -728,6 +729,7 @@ export default class GraphService {
         let ce = new class_expression();
         ce.as_complement(node.term.control.value.id);
         node.saveMeta.term = reqs.add_individual(ce);
+
       } else {
         node.saveMeta.term = reqs.add_individual(node.term.control.value.id);
       }
@@ -852,9 +854,51 @@ export default class GraphService {
     self.manager.request_with(reqs);
   }
 
-  annotonAdjustments(annoton) {
+  checkIfNodeExist(srcAnnoton) {
     const self = this;
     let infos = [];
+
+    each(srcAnnoton.nodes, function (srcNode) {
+      let srcTerm = srcNode.getTerm();
+
+      if (srcTerm.id && !srcNode.modelId) {
+        let meta = {
+          aspect: srcNode.label,
+          subjectNode: {
+            node: srcNode,
+            label: srcNode.term.control.value.label
+          },
+          linkedNodes: []
+        }
+
+        each(self.gridData.annotons, function (annotonData) {
+          each(annotonData.annoton.nodes, function (node) {
+
+            if (srcTerm.id === node.getTerm().id) {
+              if (!_.find(meta.linkedNodes, {
+                  modelId: node.modelId
+                })) {
+                meta.linkedNodes.push(node);
+              }
+            }
+          });
+        });
+
+        if (meta.linkedNodes.length > 0) {
+          let info = new AnnotonError(5, "Instance exists " + srcNode.term.control.value.label, meta);
+
+          infos.push(info);
+        }
+      }
+
+    });
+
+    return infos;
+  }
+
+  annotonAdjustments(annoton) {
+    const self = this;
+    let infos = self.checkIfNodeExist(annoton);
 
     switch (annoton.annotonModelType) {
       case self.saeConstants.annotonModelType.options.default.name:
@@ -897,29 +941,8 @@ export default class GraphService {
     return infos;
   }
 
-  checkIfNodeExist(srcAnnoton) {
-    const self = this;
-    let result = false;
-
-    each(self.gridData.annotons, function (annotonData) {
-      each(annotonData.annoton.nodes, function (node) {
-        let srcNode = srcAnnoton.getNode(node.id);
-        if (srcNode && srcNode.getTerm().id === node.getTerm().id) {
-          console.log('exists', srcNode.getTerm().label, srcNode);
-          result = true;
-        }
-      });
-    });
-
-    return result;
-  }
-
   adjustAnnoton(annoton) {
     const self = this;
-
-    if (self.checkIfNodeExist(annoton)) {
-      return;
-    }
 
     switch (annoton.annotonModelType) {
       case self.saeConstants.annotonModelType.options.default.name:
@@ -952,32 +975,17 @@ export default class GraphService {
     }
   }
 
-  saveAnnoton(annoton, edit, addNew) {
+  saveAnnoton(annoton) {
     const self = this;
     const manager = this.manager;
     let reqs = new minerva_requests.request_set(manager.user_token(), local_id);
     let geneProduct;
-    let infos;
 
     if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
       self.convertToComplex(annoton);
       geneProduct = annoton.getNode('mc');
     } else {
       geneProduct = annoton.getNode('gp');
-    }
-
-    infos = self.annotonAdjustments(annoton);
-
-    if (infos) {
-
-    }
-
-    self.adjustAnnoton(annoton);
-
-    if (edit) {
-      each(annoton.nodes, function (node) {
-        self.deleteIndividual(reqs, node);
-      });
     }
 
     if (!this.modelTitle) {
@@ -994,11 +1002,6 @@ export default class GraphService {
     });
 
     reqs.store_model(local_id);
-
-    if (addNew) {
-      reqs.add_model();
-    }
-
 
     if (self.userInfo.groups.length > 0) {
       reqs.use_groups([self.userInfo.selectedGroup.id]);
@@ -1030,4 +1033,4 @@ export default class GraphService {
     });
   }
 }
-GraphService.$inject = ['saeConstants', 'config', '$http', '$q', '$rootScope', '$timeout', '$mdDialog', 'lookup', 'formGrid'];
+GraphService.$inject = ['saeConstants', 'config', '$http', '$q', '$rootScope', '$timeout', '$mdDialog', 'dialogService', 'lookup', 'formGrid'];

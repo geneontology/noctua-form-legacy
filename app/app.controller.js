@@ -168,13 +168,32 @@ export default class AppController {
 
   }
 
-  saveAnnoton(addNew) {
+  saveAnnoton() {
     const self = this;
+    let infos;
 
-    self.graph.saveAnnoton(self.formGrid.annoton, null, addNew).then(function (data) {
-      self.formGrid.clearForm();
-      self.dialogService.openSuccessfulSaveToast();
-    });
+    let saveAnnoton = function (selected) {
+      //self.formGrid.linkFormNode(entity, selected.node);
+      self.graph.saveAnnoton(self.formGrid.annoton).then(function (data) {
+        self.formGrid.clearForm();
+        self.dialogService.openSuccessfulSaveToast();
+      });
+    }
+
+    infos = self.graph.annotonAdjustments(self.formGrid.annoton);
+
+    //temporarily off
+    if (infos.length > 0) {
+      let data = {
+        annoton: self.formGrid.annoton,
+        infos: infos
+      };
+
+      //self.dialogService.openBeforeSaveDialog(null, data, saveAnnoton);
+      saveAnnoton();
+    } else {
+      saveAnnoton();
+    }
   }
 
   toggleIsComplement(entity, ev) {

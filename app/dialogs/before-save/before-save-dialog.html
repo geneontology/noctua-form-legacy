@@ -1,9 +1,9 @@
-<md-dialog class="sae-companion-dialog" aria-label="Companion Dialog" ng-cloak>
+<md-dialog class="sae-annoton-errors-dialog" aria-label="Annoton Errors Dialog" ng-cloak>
     <md-toolbar class="gb-heading" layout="column" layout-align="start center" flex>
         <div class="md-toolbar-tools sae-container">
             <div class="sae-heading-title">
                 <span class="ellipsis">
-                    Link To an Existing Activity
+                    Before You Save
                 </span>
             </div>
             <span flex></span>
@@ -13,24 +13,48 @@
         </div>
     </md-toolbar>
     <md-dialog-content>
-        <div class="sae-populate-group" layout="column" layout-align="start stretch">
-            <div class="sae-populate-group-body" layout="column" flex>
-                <div class="sae-populate-row-header" layout="row">
-                    <div class="sae-checkbox-container">
-                    </div>
-                    <div flex="40">
-                        Term
-                    </div>
+        <div class="" layout="column" layout-align="start stretch">
+            <div ng-repeat="info in annotonCtrl.data.infos" class="sae-error-row" layout="row">
+                <div class="sae-number">
+                    {{$index+1}}
                 </div>
-                <div ng-repeat="node in annotonCtrl.nodes" class="sae-populate-row" layout="row">
-                    <div class="sae-checkbox-container">
-                        <md-checkbox class="sae-primary m-0" ng-checked="annotonCtrl.isNodeChecked(node)" ng-click="annotonCtrl.toggleNode(node)"
-                            aria-label="Term Label">
-                        </md-checkbox>
+                <div flex class="sae-error-row-body">
+                    <div class="sae-heading">
+                        <strong>{{info.meta.aspect}}</strong>: {{info.message}}
                     </div>
-                    <div flex="40">
-                        <div class="sae-ellipsis">
-                            {{node.term.control.value.label}}
+                    <div ng-if="info.type===2 || info.type===3" class="pb-10" layout="row">
+                        <div class="sae-node-card" layout="column" layout-align="center center">
+                            <div> {{info.meta.subjectNode.label}}</div>
+                        </div>
+                        <div class="sae-edge-card" flex>
+                            <div class="sae-line">
+                                {{info.meta.edge.label}}
+                            </div>
+                        </div>
+                        <div class="sae-node-card" layout="column" layout-align="center center">
+                            <div>{{info.meta.targetNode.label}}</div>
+                        </div>
+                    </div>
+                    <div ng-if="info.type===4" class="pb-10" layout="row" layout-align="center center">
+                        <div class="sae-node-card sae-lg" layout="column" layout-align="center center">
+                            {{info.meta.subjectNode.label}}
+                        </div>
+                    </div>
+                    <div ng-if="info.type===5" class="pb-10" layout="column" layout-align="start start">
+                        Select Instance to Link
+                        <div class="sae-populate-group" layout="column" layout-align="start stretch">
+                            <div class="sae-populate-group-body" layout="column" flex>
+                                <div ng-repeat="node in info.meta.linkedNodes" class="sae-populate-row" layout="row" layout-align="start center">
+                                    <div class="sae-checkbox-container">
+                                        <md-checkbox class="sae-primary m-0" ng-checked="annotonCtrl.isNodeChecked(info.meta.subjectNode.node, node)" ng-click="annotonCtrl.toggleNode(info.meta.subjectNode.node, node)"
+                                            aria-label="Term Label">
+                                        </md-checkbox>
+                                    </div>
+                                    <div class="sae-node-card sae-long" layout="column" layout-align="center center">
+                                        {{node.term.control.value.label}}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

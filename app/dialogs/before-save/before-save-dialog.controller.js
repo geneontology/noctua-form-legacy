@@ -13,38 +13,37 @@ export default class BeforeSaveDialogController {
         this.data = data;
         this.nodes = [];
         this.selected = {
-            node: null
+            nodes: {}
         };
 
-        this.initialize()
+        this.initialize();
     }
 
     initialize() {
         const self = this;
 
-        self.nodes = [];
-        each(self.data.annotonData, function (annotonData) {
-            each(annotonData.annoton.nodes, function (node) {
-                if (node.getTerm().id && self.data.entity.lookupGroup === node.lookupGroup) {
-                    self.nodes.push(node);
-                }
-            })
+        each(self.data.annoton.nodes, function (node) {
+            self.selected.nodes[node.id] = {
+                node: null
+            };
         });
     }
 
-    isNodeChecked(node) {
+    isNodeChecked(srcNode, linkedNode) {
         const self = this;
 
-        return self.selected.node && self.selected.node.modelId === node.modelId;
+        return self.selected.nodes[srcNode.id].node && self.selected.nodes[srcNode.id].node.modelId === linkedNode.modelId;
     };
 
-    toggleNode(node) {
+    toggleNode(srcNode, linkedNode) {
         const self = this;
 
-        if (self.selected.node && self.selected.node.id === node.id) {
-            self.selected.node = null;
+        if (self.selected.nodes[srcNode.id].node) {
+            self.selected.nodes[srcNode.id].node = null;
+            srcNode.modelId = null
         } else {
-            self.selected.node = node;
+            self.selected.nodes[srcNode.id].node = linkedNode;
+            srcNode.modelId = linkedNode.modelId;
         }
     };
 

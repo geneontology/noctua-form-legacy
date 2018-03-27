@@ -17,22 +17,58 @@
             <div flex="70">
                 <wizard on-finish="finishedWizard()" on-cancel="cancelledWizard()">
                     <wz-step wz-title="Starting">
+                        <div class="sae-section-body pt-15 ph-15" layout="column" layout-align="start stretch">
+                            <div layout="row">
+                                <div flex="100">
+                                    <md-input-container class="md-block" flex>
+                                        <input aria-describedby="Model Title" type="text" ng-model="annotonCtrl.graph.modelTitle" ng-blur="annotonCtrl.graph.saveModelAnnotation('title', annotonCtrl.graph.modelTitle)"
+                                            placeholder="Title" ng-minlength='1'>
+                                    </md-input-container>
+                                </div>
+                                <div flex="50">
+                                    <md-input-container class="md-block" flex>
+                                        <label>State</label>
+                                        <md-select ng-model="annotonCtrl.graph.modelState" ng-change="annotonCtrl.graph.saveModelAnnotation('state', annotonCtrl.graph.modelState)">
+                                            <md-option ng-value="modelState.name" ng-repeat="modelState in annotonCtrl.saeConstants.modelState.options">
+                                                {{modelState.label}}
+                                            </md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+                                <div flex="50">
+                                    <md-input-container class="md-block" flex>
+                                        <label>Group</label>
+                                        <md-select ng-model="annotonCtrl.graph.userInfo.selectedGroup" ng-change="annotonCtrl.graph.saveModelGroup()">
+                                            <md-option ng-value="modelGroup" ng-repeat="modelGroup in annotonCtrl.graph.userInfo.groups">
+                                                {{modelGroup.label}}
+                                            </md-option>
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+                            </div>
+                        </div>
+                        <md-button class="" ng-click="annotonCtrl.openCreateFromExistingDialog($event)">
+                            Create From an Existing Activity
+                        </md-button>
                         <h1>Choose model </h1>
-
                         <div ng-repeat="annotonType in annotonCtrl.saeConstants.annotonType.options">
-                            <md-button ng-click="appCtrl.formGrid.setAnnotonType(appCtrl.formGrid.annoton, annotonType)">
+                            <md-button ng-click="annotonCtrl.formGrid.setAnnotonType(annotonCtrl.formGrid.annoton, annotonType)">
                                 {{annotonType.label}}
                             </md-button>
                         </div>
-                        <div ng-repeat="annotonModelType in appCtrl.saeConstants.annotonModelType.options">
-                            <md-button ng-click="appCtrl.formGrid.setAnnotonModelType(appCtrl.formGrid.annoton, annotonModelType)">
+
+                        <h1>Choose model type </h1>
+                        <div ng-repeat="annotonModelType in annotonCtrl.saeConstants.annotonModelType.options">
+                            <md-button ng-click="annotonCtrl.formGrid.setAnnotonModelType(annotonCtrl.formGrid.annoton, annotonModelType)">
                                 {{annotonModelType.label}}
                             </md-button>
-                            </md-menu-item>
-                            <input type="submit" wz-next value="Continue" />
+                        </div>
+                        <input type="submit" wz-next value="Continue" />
                     </wz-step>
                     <wz-step wz-title="Continuing">
                         <h1>Continuing</h1>
+
+
                         <p>You have continued here!</p>
                         <input type="submit" wz-next value="Go on" />
                     </wz-step>
@@ -41,11 +77,11 @@
                         <input type="submit" wz-next value="Finish now" />
                     </wz-step>
                 </wizard>
-                </div>
-                <div flex="30">
-                    Summary
-                </div>
             </div>
+            <div flex="30">
+                Summary
+            </div>
+        </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">
         <span flex></span>

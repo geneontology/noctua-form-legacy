@@ -26,7 +26,11 @@ export default class LinkToExistingDialogController {
         each(self.data.annotonData, function (annotonData) {
             each(annotonData.annoton.nodes, function (node) {
                 if (node.getTerm().id && self.data.entity.lookupGroup === node.lookupGroup) {
-                    self.nodes.push(node);
+                    if (!_.find(self.nodes, {
+                            modelId: node.modelId
+                        })) {
+                        self.nodes.push(node);
+                    }
                 }
             })
         });
