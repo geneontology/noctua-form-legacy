@@ -111,7 +111,7 @@
               </div>
               <md-input-container class="md-block" flex>
                 <input aria-describedby="igGP" type="text" ng-model="appCtrl.formGrid.annotonPresentation.geneProduct.term.control.value"
-                  ng-model-options="{allowInvalid: true}" ng-trim="false" placeholder="Gene Product" ng-blur="noResultsGP = false"
+                  ng-model-options="{allowInvalid: true}" ng-trim="true" placeholder="Gene Product" ng-blur="noResultsGP = false"
                   uib-typeahead="term as term.label + ' (' +term.id + ') ' for term in appCtrl.getTerm(appCtrl.formGrid.annotonPresentation.geneProduct.term)"
                   ng-required="appCtrl.formGrid.annotonPresentation.geneProduct.term.control.required" typeahead-append-to-body="true"
                   xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP" typeahead-no-results="noResultsGP"
@@ -132,7 +132,7 @@
               </div>
               <md-input-container class="md-block">
                 <input aria-describedby="igGP" type="text" ng-model="appCtrl.formGrid.annoton.complexAnnotonData.mcNode.term.control.value"
-                  ng-trim="false" placeholder="Macromolecular Complex GO Term" ng-blur="noResultsGP = false" uib-typeahead="term as term.label + ' (' +term.id + ') ' for term in appCtrl.getTerm(appCtrl.formGrid.annoton.complexAnnotonData.mcNode.term)"
+                  ng-trim="true" placeholder="Macromolecular Complex GO Term" ng-blur="noResultsGP = false" uib-typeahead="term as term.label + ' (' +term.id + ') ' for term in appCtrl.getTerm(appCtrl.formGrid.annoton.complexAnnotonData.mcNode.term)"
                   typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP"
                   typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html" typeahead-editable="true"
                   typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected('GP', $item, $model, $label, $event)"
@@ -164,7 +164,7 @@
                   <i class="fa fa-spinner fa-spin fa-fw"></i>
                 </div>
                 <md-input-container class="md-block">
-                  <input aria-label="term" type="INPUT_TYPE" ng-model="entity.term.control.value" tabindex="0" ng-trim="false" ng-blur="noResults[entity.term] = false"
+                  <input aria-label="term" type="INPUT_TYPE" ng-model="entity.term.control.value" tabindex="0" ng-trim="true" ng-blur="noResults[entity.term] = false"
                     uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.term)" typeahead-append-to-body="true"
                     xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]"
                     typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html" typeahead-editable="true"
@@ -180,7 +180,7 @@
                   <i class="fa fa-spinner fa-spin fa-fw"></i>
                 </div>
                 <md-input-container class="md-block">
-                  <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value" ng-trim="false" tabindex="0"
+                  <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value" ng-trim="true" tabindex="0"
                     ng-blur="noResults[entity.term + 'e'] = false" uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.evidence[0].evidence)"
                     typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
                     typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html" typeahead-editable="true"
@@ -277,7 +277,7 @@
                             </a>
                           </div>
                           <input aria-label="term" type="INPUT_TYPE" ng-model="entity.term.control.value" ng-model-options="{allowInvalid: true}" tabindex="0"
-                            ng-trim="false" ng-required="entity.term.control.required" uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.term)"
+                            ng-trim="true" ng-required="entity.term.control.required" uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.term)"
                             typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false"
                             typeahead-loading="loadingItems[term]" typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html"
                             typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
@@ -299,7 +299,7 @@
                               +{{entity.evidence.length-1}} evidence(s)
                             </a>
                           </div>
-                          <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value" ng-trim="false" tabindex="0"
+                          <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value" ng-trim="true" tabindex="0"
                             ng-model-options="{allowInvalid: true}" ng-required="entity.evidence[0].evidence.control.required"
                             uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.evidence[0].evidence)" typeahead-append-to-body="true"
                             xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
@@ -313,13 +313,15 @@
                       </div>
                       <div class="" flex="15">
                         <md-input-container class="md-block">
-                          <input tabindex="0" ng-model-options="{allowInvalid: true}" ng-model="entity.evidence[0].reference.control.value" type="text"
-                            ng-required="entity.evidence[0].reference.control.required" class="" placeholder="Reference" aria-label="reference">
+                          <input tabindex="0" ng-trim="true" ng-model-options="{allowInvalid: true}" ng-model="entity.evidence[0].reference.control.value"
+                            type="text" ng-required="entity.evidence[0].reference.control.required" class="" placeholder="Reference"
+                            aria-label="reference">
                         </md-input-container>
                       </div>
                       <div class="" flex="15">
                         <md-input-container class="md-block">
-                          <input tabindex="0" ng-model="entity.evidence[0].with.control.value" type="text" class="" placeholder="With" aria-label="With"> </md-input-container>
+                          <input tabindex="0" ng-trim="true" ng-model="entity.evidence[0].with.control.value" type="text" class="" placeholder="With"
+                            aria-label="With"> </md-input-container>
                       </div>
                       <span flex></span>
                       <md-menu md-position-mode="target-right target">
