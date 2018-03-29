@@ -681,6 +681,15 @@ export default class GraphService {
     return row;
   }
 
+  getUniProt() {
+    const self = this;
+    self.$http.get('https://www.uniprot.org/uniprot/Q8IVM8.xml')
+      .then(function (r) {
+        console.log('data uni', r)
+      });
+
+  }
+
   ccComponentsToTable(graph, annotons) {
     const self = this;
     let result = [];

@@ -1,92 +1,452 @@
 <md-dialog class="sae-guide-me-dialog" aria-label="Edit Annoton Dialog" ng-cloak>
-    <md-toolbar class="gb-heading" layout="column" layout-align="start center" flex>
-        <div class="md-toolbar-tools sae-container">
-            <div class="sae-heading-title">
-                <span class="ellipsis">
-                    Guide Me
-                </span>
+  <md-toolbar class="gb-heading" layout="column" layout-align="start center" flex>
+    <div class="md-toolbar-tools sae-container">
+      <div class="sae-heading-title">
+        <span class="ellipsis">
+          Guide Me
+        </span>
+      </div>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="appCtrl.closeDialog()" aria-label="Close Dialog" translate translate-attr-aria-label="SB.CLOSE_DIALOG">
+        <md-icon md-font-icon="icon-close"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <div layout="row">
+      <div flex="70" layout="column">
+        <div class="toggle-options">
+          <md-button class="md-primary md-raised" ng-click="appCtrl.toggleMobileStepText();">Toggle MobileStepText</md-button>
+          <md-button class="md-primary md-raised" ng-click="appCtrl.toggleVertical();">Toggle Vertical</md-button>
+          <md-button class="md-primary md-raised" ng-click="appCtrl.toggleLinear();">Toggle Linear</md-button>
+          <md-button class="md-primary md-raised" ng-click="appCtrl.toggleAlternative();">Toggle Alternative</md-button>
+          <md-button class="md-primary md-raised" ng-click="appCtrl.showError();">Show error</md-button>
+          <md-button class="md-primary md-raised" ng-click="appCtrl.clearError();">Clear error</md-button>
+          <md-button class="md-primary md-raised" ng-click="appCtrl.showFeedback();">Show Feedback</md-button>
+          <md-button class="md-primary md-raised" ng-click="appCtrl.clearFeedback();">Clear Feedback</md-button>
+        </div>
+
+        <md-stepper id="stepper-demo" md-mobile-step-text="appCtrl.isMobileStepText" md-vertical="appCtrl.isVertical" md-linear="appCtrl.isLinear"
+          md-alternative="appCtrl.isAlternative">
+          <md-step md-label="Define">
+            <md-step-body>
+              <div class="sae-section-body pt-15 ph-15" layout="column" layout-align="start stretch">
+                <div layout="row">
+                  <div flex="100">
+                    <md-input-container class="md-block" flex>
+                      <input aria-describedby="Model Title" type="text" ng-model="appCtrl.graph.modelTitle" ng-blur="appCtrl.graph.saveModelAnnotation('title', appCtrl.graph.modelTitle)"
+                        placeholder="Title" ng-minlength='1'>
+                    </md-input-container>
+                  </div>
+                  <div flex="50">
+                    <md-input-container class="md-block" flex>
+                      <label>State</label>
+                      <md-select ng-model="appCtrl.graph.modelState" ng-change="appCtrl.graph.saveModelAnnotation('state', appCtrl.graph.modelState)">
+                        <md-option ng-value="modelState.name" ng-repeat="modelState in appCtrl.saeConstants.modelState.options">
+                          {{modelState.label}}
+                        </md-option>
+                      </md-select>
+                    </md-input-container>
+                  </div>
+                  <div flex="50">
+                    <md-input-container class="md-block" flex>
+                      <label>Group</label>
+                      <md-select ng-model="appCtrl.graph.userInfo.selectedGroup" ng-change="appCtrl.graph.saveModelGroup()">
+                        <md-option ng-value="modelGroup" ng-repeat="modelGroup in appCtrl.graph.userInfo.groups">
+                          {{modelGroup.label}}
+                        </md-option>
+                      </md-select>
+                    </md-input-container>
+                  </div>
+                </div>
+              </div>
+              <md-button class="" ng-click="appCtrl.openCreateFromExistingDialog($event)">
+                Create From an Existing Activity
+              </md-button>
+              <h1>Choose model </h1>
+              <div ng-repeat="annotonType in appCtrl.saeConstants.annotonType.options">
+                <md-button ng-click="appCtrl.formGrid.setAnnotonType(appCtrl.formGrid.annoton, annotonType)">
+                  {{annotonType.label}}
+                </md-button>
+              </div>
+
+              <md-radio-group ng-model="appCtrl.formGrid.annoton.annotonType" ng-change="appCtrl.formGrid.setAnnotonType(appCtrl.formGrid.annoton, annotonType)">
+                <md-radio-button ng-repeat="annotonType in appCtrl.saeConstants.annotonType.options" value="annotonType.label" class="md-primary">
+                  {{annotonType.label}}
+                </md-radio-button>
+              </md-radio-group>
+
+              <h1>Choose model type </h1>
+              <div ng-repeat="annotonModelType in appCtrl.saeConstants.annotonModelType.options">
+                <md-button ng-click="appCtrl.formGrid.setAnnotonModelType(appCtrl.formGrid.annoton, annotonModelType)">
+                  {{annotonModelType.label}}
+                </md-button>
+              </div>
+            </md-step-body>
+            <md-step-actions>
+              <md-button class="md-primary md-raised" ng-click="appCtrl.selectCampaign();">Continue</md-button>
+              <md-button class="md-primary" ng-click="appCtrl.cancel();">Cancel</md-button>
+            </md-step-actions>
+          </md-step>
+
+          <md-step md-label="Create an group">
+            <md-step-body>
+              <md-input-container>
+                <label>Username</label>
+                <input type="text" ng-model="appCtrl.user.name">
+              </md-input-container>
+
+              <md-input-container>
+                <label>Email</label>
+                <input type="email" ng-model="appCtrl.user.email">
+              </md-input-container>
+
+              <md-input-container>
+                <label>Password</label>
+                <input type="password" ng-model="appCtrl.user.password">
+              </md-input-container>
+
+              <md-input-container>
+                <label>Confirm password</label>
+                <input type="password" ng-model="appCtrl.user.confirmPassword">
+              </md-input-container>
+            </md-step-body>
+
+            <md-step-actions>
+              <md-button class="md-primary md-raised" ng-click="appCtrl.nextStep();">Continue</md-button>
+              <md-button class="md-primary" ng-click="appCtrl.previousStep();">Back</md-button>
+            </md-step-actions>
+          </md-step>
+
+          <md-step md-label="Create an ad">
+            <md-step-body>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur nobis saepe facere suscipit atque, sapiente,
+                natus mollitia ipsum odit accusamus repellendus deserunt. Odio sit similique, labore maxime voluptatibus,
+                eaque autem!</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur nobis saepe facere suscipit atque, sapiente,
+                natus mollitia ipsum odit accusamus repellendus deserunt. Odio sit similique, labore maxime voluptatibus,
+                eaque autem!</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur nobis saepe facere suscipit atque, sapiente,
+                natus mollitia ipsum odit accusamus repellendus deserunt. Odio sit similique, labore maxime voluptatibus,
+                eaque autem!</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur nobis saepe facere suscipit atque, sapiente,
+                natus mollitia ipsum odit accusamus repellendus deserunt. Odio sit similique, labore maxime voluptatibus,
+                eaque autem!</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur nobis saepe facere suscipit atque, sapiente,
+                natus mollitia ipsum odit accusamus repellendus deserunt. Odio sit similique, labore maxime voluptatibus,
+                eaque autem!</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur nobis saepe facere suscipit atque, sapiente,
+                natus mollitia ipsum odit accusamus repellendus deserunt. Odio sit similique, labore maxime voluptatibus,
+                eaque autem!</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur nobis saepe facere suscipit atque, sapiente,
+                natus mollitia ipsum odit accusamus repellendus deserunt. Odio sit similique, labore maxime voluptatibus,
+                eaque autem!</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur nobis saepe facere suscipit atque, sapiente,
+                natus mollitia ipsum odit accusamus repellendus deserunt. Odio sit similique, labore maxime voluptatibus,
+                eaque autem!</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur nobis saepe facere suscipit atque, sapiente,
+                natus mollitia ipsum odit accusamus repellendus deserunt. Odio sit similique, labore maxime voluptatibus,
+                eaque autem!</p>
+            </md-step-body>
+
+            <md-step-actions>
+              <md-button class="md-primary md-raised" ng-click="appCtrl.nextStep();">Continue</md-button>
+              <md-button class="md-primary" ng-click="appCtrl.previousStep();">Back</md-button>
+            </md-step-actions>
+          </md-step>
+
+          <md-step md-label="Publish the ad" md-optional="Optional">
+            <md-step-body>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur nobis saepe facere suscipit atque, sapiente,
+                natus mollitia ipsum odit accusamus repellendus deserunt. Odio sit similique, labore maxime voluptatibus,
+                eaque autem!</p>
+            </md-step-body>
+            <md-step-actions>
+              <md-button class="md-primary md-raised" ng-click="appCtrl.nextStep();">Complete</md-button>
+              <md-button class="md-primary" ng-click="appCtrl.previousStep();">Back</md-button>
+            </md-step-actions>
+          </md-step>
+
+
+        </md-stepper>
+
+
+
+
+        <wizard ng-if="false" on-finish="finishedWizard()" on-cancel="cancelledWizard()" template="templates/stepper/stepper.html">
+          <wz-step wz-title="Starting">
+            <div class="sae-section-body pt-15 ph-15" layout="column" layout-align="start stretch">
+              <div layout="row">
+                <div flex="100">
+                  <md-input-container class="md-block" flex>
+                    <input aria-describedby="Model Title" type="text" ng-model="appCtrl.graph.modelTitle" ng-blur="appCtrl.graph.saveModelAnnotation('title', appCtrl.graph.modelTitle)"
+                      placeholder="Title" ng-minlength='1'>
+                  </md-input-container>
+                </div>
+                <div flex="50">
+                  <md-input-container class="md-block" flex>
+                    <label>State</label>
+                    <md-select ng-model="appCtrl.graph.modelState" ng-change="appCtrl.graph.saveModelAnnotation('state', appCtrl.graph.modelState)">
+                      <md-option ng-value="modelState.name" ng-repeat="modelState in appCtrl.saeConstants.modelState.options">
+                        {{modelState.label}}
+                      </md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
+                <div flex="50">
+                  <md-input-container class="md-block" flex>
+                    <label>Group</label>
+                    <md-select ng-model="appCtrl.graph.userInfo.selectedGroup" ng-change="appCtrl.graph.saveModelGroup()">
+                      <md-option ng-value="modelGroup" ng-repeat="modelGroup in appCtrl.graph.userInfo.groups">
+                        {{modelGroup.label}}
+                      </md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
+              </div>
             </div>
-            <span flex></span>
-            <md-button class="md-icon-button" ng-click="annotonCtrl.closeDialog()" aria-label="Close Dialog" translate translate-attr-aria-label="SB.CLOSE_DIALOG">
-                <md-icon md-font-icon="icon-close"></md-icon>
+            <md-button class="" ng-click="appCtrl.openCreateFromExistingDialog($event)">
+              Create From an Existing Activity
             </md-button>
-        </div>
-    </md-toolbar>
-    <md-dialog-content>
-        <div layout="row">
-            <div flex="70">
-                <wizard on-finish="finishedWizard()" on-cancel="cancelledWizard()">
-                    <wz-step wz-title="Starting">
-                        <div class="sae-section-body pt-15 ph-15" layout="column" layout-align="start stretch">
-                            <div layout="row">
-                                <div flex="100">
-                                    <md-input-container class="md-block" flex>
-                                        <input aria-describedby="Model Title" type="text" ng-model="annotonCtrl.graph.modelTitle" ng-blur="annotonCtrl.graph.saveModelAnnotation('title', annotonCtrl.graph.modelTitle)"
-                                            placeholder="Title" ng-minlength='1'>
-                                    </md-input-container>
-                                </div>
-                                <div flex="50">
-                                    <md-input-container class="md-block" flex>
-                                        <label>State</label>
-                                        <md-select ng-model="annotonCtrl.graph.modelState" ng-change="annotonCtrl.graph.saveModelAnnotation('state', annotonCtrl.graph.modelState)">
-                                            <md-option ng-value="modelState.name" ng-repeat="modelState in annotonCtrl.saeConstants.modelState.options">
-                                                {{modelState.label}}
-                                            </md-option>
-                                        </md-select>
-                                    </md-input-container>
-                                </div>
-                                <div flex="50">
-                                    <md-input-container class="md-block" flex>
-                                        <label>Group</label>
-                                        <md-select ng-model="annotonCtrl.graph.userInfo.selectedGroup" ng-change="annotonCtrl.graph.saveModelGroup()">
-                                            <md-option ng-value="modelGroup" ng-repeat="modelGroup in annotonCtrl.graph.userInfo.groups">
-                                                {{modelGroup.label}}
-                                            </md-option>
-                                        </md-select>
-                                    </md-input-container>
-                                </div>
+            <h1>Choose model </h1>
+            <div ng-repeat="annotonType in appCtrl.saeConstants.annotonType.options">
+              <md-button ng-click="appCtrl.formGrid.setAnnotonType(appCtrl.formGrid.annoton, annotonType)">
+                {{annotonType.label}}
+              </md-button>
+            </div>
+
+            <h1>Choose model type </h1>
+            <div ng-repeat="annotonModelType in appCtrl.saeConstants.annotonModelType.options">
+              <md-button ng-click="appCtrl.formGrid.setAnnotonModelType(appCtrl.formGrid.annoton, annotonModelType)">
+                {{annotonModelType.label}}
+              </md-button>
+            </div>
+            <input type="submit" wz-next value="Continue" />
+          </wz-step>
+          <wz-step wz-title="Continuing">
+            <div id="sae-gp-section" class="sae-gp sae-form-section md-whiteframe-2dp" layout="column" layout-align="start stretch" flex>
+              <div class="sae-section-header" layout="row" layout-align="start start" flex>
+                <div class="sae-section-heading">
+                  Gene Product
+                </div>
+                <span flex></span>
+                <md-menu id="sae-gp-toggle-button" md-position-mode="target-right target">
+                  <md-button aria-label="Open Annoton Type" class="sae-action-button md-primary" ng-click="$mdMenu.open($event)">
+                    {{appCtrl.saeConstants.annotonType.options[appCtrl.formGrid.annoton.annotonType].label}}
+                    <b class="caret"></b>
+                  </md-button>
+                  <md-menu-content width="3">
+                    <md-menu-item ng-repeat="annotonType in appCtrl.saeConstants.annotonType.options">
+                      <md-button ng-click="appCtrl.formGrid.setAnnotonType(appCtrl.formGrid.annoton, annotonType)">
+                        {{annotonType.label}}
+                      </md-button>
+                    </md-menu-item>
+                  </md-menu-content>
+                </md-menu>
+              </div>
+              <div ng-if="appCtrl.formGrid.annoton.annotonType === appCtrl.saeConstants.annotonType.options.simple.name" class="sae-section-body pt-15 ph-15"
+                layout="column" layout-align="start stretch">
+                <div class="typeaheadcontainer" layout="row">
+                  <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItemsGP">
+                    <i class="fa fa-spinner fa-spin fa-fw"></i>
+                  </div>
+                  <md-input-container class="md-block" flex>
+                    <input aria-describedby="igGP" type="text" ng-model="appCtrl.formGrid.annotonPresentation.geneProduct.term.control.value"
+                      ng-model-options="{allowInvalid: true}" ng-trim="false" placeholder="Gene Product" ng-blur="noResultsGP = false"
+                      uib-typeahead="term as term.label + ' (' +term.id + ') ' for term in appCtrl.getTerm(appCtrl.formGrid.annotonPresentation.geneProduct.term)"
+                      ng-required="appCtrl.formGrid.annotonPresentation.geneProduct.term.control.required" typeahead-append-to-body="true"
+                      xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP"
+                      typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html" typeahead-editable="true"
+                      typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected('GP', $item, $model, $label, $event)"
+                      class="typeaheadcontrol form-contro" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                  </md-input-container>
+                  <div class="no-results" ng-show="appCtrl.editingModel.GP.length > 2 && noResultsGP">
+                    No Results Found
+                  </div>
+                </div>
+              </div>
+              <div ng-if="appCtrl.formGrid.annoton.annotonType === appCtrl.saeConstants.annotonType.options.complex.name" class="sae-section-body pt-15 ph-15 pb-25"
+                layout="column" layout-align="start stretch">
+                <div class="typeaheadcontainer">
+                  <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItemsGP">
+                    <i class="fa fa-spinner fa-spin fa-fw"></i>
+                  </div>
+                  <md-input-container class="md-block">
+                    <input aria-describedby="igGP" type="text" ng-model="appCtrl.formGrid.annoton.complexAnnotonData.mcNode.term.control.value"
+                      ng-trim="false" placeholder="Macromolecular Complex GO Term" ng-blur="noResultsGP = false" uib-typeahead="term as term.label + ' (' +term.id + ') ' for term in appCtrl.getTerm(appCtrl.formGrid.annoton.complexAnnotonData.mcNode.term)"
+                      typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP"
+                      typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html" typeahead-editable="true"
+                      typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected('GP', $item, $model, $label, $event)"
+                      class="typeaheadcontrol" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                  </md-input-container>
+                  <div class="no-results" ng-show="appCtrl.editingModel.GP.length > 2 && noResultsGP">
+                    No Results Found
+                  </div>
+                </div>
+                <md-chips ng-model="appCtrl.formGrid.annoton.complexAnnotonData.geneProducts" md-autocomplete-snap md-require-match=true>
+                  <md-autocomplete md-selected-item="appCtrl.selectedItem" md-search-text="appCtrl.formGrid.annoton.complexAnnotonData.gpTemplateNode.term.control.value"
+                    md-items="item in appCtrl.getTerm(appCtrl.formGrid.annoton.complexAnnotonData.gpTemplateNode.term)" md-item-text="item.label"
+                    placeholder="Gene Products">
+                    <span md-highlight-text="appCtrl.searchText">{{item.label}} :: {{item.id}}</span>
+                  </md-autocomplete>
+                  <md-chip-template>
+                    <span>
+                      <strong>[{{$index}}] {{$chip.id}}</strong>
+                      <em>({{$chip.label}})</em>
+                    </span>
+                  </md-chip-template>
+                  <button md-chip-remove class="md-primary">
+                    <md-icon md-font-icon="fa fa-times"></md-icon>
+                  </button>
+                </md-chips>
+              </div>
+            </div>
+            <input type="submit" wz-next value="Go on" />
+          </wz-step>
+          <wz-step wz-title="More steps">
+            <div class="sae-section-body" layout="column" layout-align="start stretch">
+              <div ng-repeat="nodeGroup in appCtrl.formGrid.annotonPresentation.fd" class="sae-term-group md-whiteframe-1dp" layout="row">
+                <div ng-if="nodeGroup.isComplement" class="sae-group-side-heading" layout="column" layout-align="center center" flex>
+                  <div>IS NOT</div>
+                </div>
+                <div class="pb-20" layout="column" flex>
+                  <div ng-repeat="entity in nodeGroup.nodes" class="ph-15 sae-annoton-group-row" layout="column" ng-class="{'sae-input-heading' : entity.treeLevel===0,
+                                 'sae-row-disabled': !entity.enableRow()}">
+                    <div class="" layout="column" layout-align="start stretch">
+                      <div ng-if="entity.edgeOption" class="" flex="100">
+                        <md-input-container class="md-block">
+                          <md-select ng-model="entity.edgeOption.selected" ng-change="entity.selectEdge(appCtrl.formGrid.annoton, entity.edgeOption.selected)">
+                            <md-option ng-value="edgeOption" ng-repeat="edgeOption in entity.edgeOption.options">
+                              {{edgeOption.label}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+                      <div class="" layout="row">
+                        <div ng-if="entity.treeLevel>0" class="sae-tree-input sae-level-1">
+                        </div>
+                        <div ng-if="entity.treeLevel>1" class="sae-tree-input sae-level-2">
+                        </div>
+                        <div ng-if="entity.treeLevel>2" class="sae-tree-input sae-level-3">
+                        </div>
+                        <div class="typeaheadcontainer" flex="40">
+                          <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term]">
+                            <i class="fa fa-spinner fa-spin fa-fw"></i>
+                          </div>
+                          <md-input-container class="md-block">
+                            <div ng-if="entity.modelId" class="sae-node-link">
+                              <a class="sae-ellipsis" ng-click="appCtrl.openLinkToExistingDialog($event, entity)">
+                                linked To Existing
+                              </a>
                             </div>
+                            <input aria-label="term" type="INPUT_TYPE" ng-model="entity.term.control.value" ng-model-options="{allowInvalid: true}" tabindex="0"
+                              ng-trim="false" ng-required="entity.term.control.required" uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.term)"
+                              typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false"
+                              typeahead-loading="loadingItems[term]" typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html"
+                              typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
+                              typeahead-on-select="appCtrl.termSelected(term, $item, $model, $label, $event)" class="typeaheadcontrol"
+                              placeholder="{{entity.label}}" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                          </md-input-container>
+                          <div class="no-results" ng-show="appCtrl.editingModel[term].length > 2 && noResults[term]">
+                            No Results Foundd
+                          </div>
                         </div>
-                        <md-button class="" ng-click="annotonCtrl.openCreateFromExistingDialog($event)">
-                            Create From an Existing Activity
-                        </md-button>
-                        <h1>Choose model </h1>
-                        <div ng-repeat="annotonType in annotonCtrl.saeConstants.annotonType.options">
-                            <md-button ng-click="annotonCtrl.formGrid.setAnnotonType(annotonCtrl.formGrid.annoton, annotonType)">
-                                {{annotonType.label}}
-                            </md-button>
+                        <div class="typeaheadcontainer" flex="30">
+                          <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term + 'e']">
+                            <i class="fa fa-spinner fa-spin fa-fw"></i>
+                          </div>
+
+                          <md-input-container class="md-block">
+                            <div ng-if="entity.evidence.length>1" class="sae-more-evidence-link">
+                              <a ng-click="appCtrl.dialogService.openAddEvidenceDialog($event, entity)">
+                                +{{entity.evidence.length-1}} evidence(s)
+                              </a>
+                            </div>
+                            <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value" ng-trim="false" tabindex="0"
+                              ng-model-options="{allowInvalid: true}" ng-required="entity.evidence[0].evidence.control.required"
+                              uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.evidence[0].evidence)" typeahead-append-to-body="true"
+                              xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
+                              typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html" typeahead-editable="true"
+                              typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected(term + 'e', $item, $model, $label, $event)"
+                              class="typeaheadcontrol" placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                          </md-input-container>
+                          <div class="no-results" ng-show="appCtrl.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
+                            No Results Found
+                          </div>
                         </div>
-
-                        <h1>Choose model type </h1>
-                        <div ng-repeat="annotonModelType in annotonCtrl.saeConstants.annotonModelType.options">
-                            <md-button ng-click="annotonCtrl.formGrid.setAnnotonModelType(annotonCtrl.formGrid.annoton, annotonModelType)">
-                                {{annotonModelType.label}}
-                            </md-button>
+                        <div class="" flex="15">
+                          <md-input-container class="md-block">
+                            <input tabindex="0" ng-model-options="{allowInvalid: true}" ng-model="entity.evidence[0].reference.control.value" type="text"
+                              ng-required="entity.evidence[0].reference.control.required" class="" placeholder="Reference"
+                              aria-label="reference">
+                          </md-input-container>
                         </div>
-                        <input type="submit" wz-next value="Continue" />
-                    </wz-step>
-                    <wz-step wz-title="Continuing">
-                        <h1>Continuing</h1>
-
-
-                        <p>You have continued here!</p>
-                        <input type="submit" wz-next value="Go on" />
-                    </wz-step>
-                    <wz-step wz-title="More steps">
-                        <p>Even more steps!!</p>
-                        <input type="submit" wz-next value="Finish now" />
-                    </wz-step>
-                </wizard>
+                        <div class="" flex="15">
+                          <md-input-container class="md-block">
+                            <input tabindex="0" ng-model="entity.evidence[0].with.control.value" type="text" class="" placeholder="With" aria-label="With"> </md-input-container>
+                        </div>
+                        <span flex></span>
+                        <md-menu md-position-mode="target-right target">
+                          <md-button aria-label="Open Annoton Model Type" class="md-icon-button sae-action-button md-raised" ng-click="$mdMenu.open($event)">
+                            <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
+                          </md-button>
+                          <md-menu-content width="3">
+                            <md-menu-item>
+                              <md-button class="" ng-click="entity.clearValues()">
+                                Clear Node
+                              </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                              <md-button class="" ng-click="appCtrl.dialogService.openAddEvidenceDialog($event, entity)">
+                                More Evidence
+                              </md-button>
+                            </md-menu-item>
+                            <md-menu-item ng-if="entity.aspect">
+                              <md-button class="" ng-click="appCtrl.openPopulateDialog($event, entity)">
+                                Search Database
+                              </md-button>
+                            </md-menu-item>
+                            <md-menu-item hide>
+                              <md-button class="" ng-click="appCtrl.openLinkToExistingDialog($event, entity)">
+                                Choose From an Existing Activity
+                              </md-button>
+                            </md-menu-item>
+                            <md-menu-item ng-if="entity.treeLevel===0">
+                              <md-button class="" ng-click="appCtrl.toggleIsComplement(entity)">
+                                NOT
+                              </md-button>
+                            </md-menu-item>
+                            <md-menu-item ng-if="entity.treeLevel===0">
+                              <md-button class="" ng-click="appCtrl.addRootNode(entity)">
+                                Root Node
+                              </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                              <md-button class="" ng-click="appCtrl.addNDEvidence(entity.evidence[0])">
+                                Add ND Reference
+                              </md-button>
+                            </md-menu-item>
+                          </md-menu-content>
+                        </md-menu>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div flex="30">
-                Summary
-            </div>
-        </div>
-    </md-dialog-content>
-    <md-dialog-actions layout="row">
-        <span flex></span>
-        <md-button ng-click="annotonCtrl.closeDialog()" class="md-raised" aria-label="Cancel">
-            Close
-        </md-button>
-    </md-dialog-actions>
+            <input type="submit" wz-next value="Finish now" />
+          </wz-step>
+        </wizard>
+      </div>
+      <div flex="30">
+        Summary
+      </div>
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions layout="row">
+    <span flex></span>
+    <md-button ng-click="appCtrl.closeDialog()" class="md-raised" aria-label="Cancel">
+      Close
+    </md-button>
+  </md-dialog-actions>
 </md-dialog>

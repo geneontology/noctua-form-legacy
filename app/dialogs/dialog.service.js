@@ -22,7 +22,7 @@ export default class DialogService {
 
   openGuideMeDialog(ev, data, success) {
     this.$mdDialog.show({
-      controller: 'GuideMeDialogController as annotonCtrl',
+      controller: 'GuideMeDialogController as appCtrl',
       templateUrl: './dialogs/guide-me/guide-me-dialog.html',
       targetEvent: ev,
       clickOutsideToClose: false,

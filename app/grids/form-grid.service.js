@@ -67,6 +67,36 @@ export default class FormGridService {
 
   }
 
+  getAnnotonGuideMePresentation(annoton) {
+    const self = this;
+
+    let result = {
+      geneProduct: annoton.getNode('gp'),
+      gp: {},
+      fd: {},
+    }
+
+    each(annoton.nodes, function (node) {
+      if (node.displaySection && node.displayGroup) {
+        if (!result[node.displaySection.id][node.displayGroup.id]) {
+          result[node.displaySection.id][node.displayGroup.id] = {
+            shorthand: node.displayGroup.shorthand,
+            label: node.displayGroup.label,
+            nodes: []
+          };
+        }
+        result[node.displaySection.id][node.displayGroup.id].nodes.push(node);
+        node.nodeGroup = result[node.displaySection.id][node.displayGroup.id];
+        if (node.isComplement) {
+          node.nodeGroup.isComplement = true;
+        }
+      }
+    });
+
+    return result;
+
+  }
+
   /**
    *  Populates the grid with GO Terms, MF, CC, BP as roots
    */

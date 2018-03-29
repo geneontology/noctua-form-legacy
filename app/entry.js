@@ -17,6 +17,9 @@ import 'angular-material/angular-material.js';
 import '../node_modules/angular-joyride/dist/joyride.js'
 import '../node_modules/angular-wizard/dist/angular-wizard.js'
 
+import '../node_modules/material-steppers/dist/material-steppers.js'
+import '../node_modules/material-steppers/dist/material-steppers.css'
+
 import '../node_modules/angular-ui-grid/ui-grid.min.css';
 import '../node_modules/angular-wizard/dist/angular-wizard.css'
 import '../node_modules/angular-joyride/dist/joyride.css'
@@ -49,6 +52,7 @@ import GraphService from './graph.service.js';
 import LookupService from './lookup.service.js';
 
 var app = angular.module('TVApp', ['ngMaterial',
+  'mdSteppers',
   'mgo-angular-wizard',
   nguibootstrap,
   'angular-joyride',

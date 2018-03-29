@@ -99,6 +99,7 @@
     "jquery": "^3.3.1",
     "jsonformatter": "^0.6.0",
     "lodash": "^4.17.4",
+    "material-steppers": "^2.0.0",
     "minerva-requests": "0.0.15",
     "node-bourbon": "^4.2.8",
     "uuid": "^3.2.1"
