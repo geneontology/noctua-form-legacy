@@ -225,9 +225,8 @@ export default class SummaryGridService {
           }
         }
       })
-
-      self.gridOptions.data = gridData;
     });
+    self.gridOptions.data = gridData;
   }
 
 

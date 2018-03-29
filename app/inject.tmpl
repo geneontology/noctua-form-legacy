@@ -466,7 +466,6 @@
                 </div>
                 <div class="sae-card-footer" layout="row" layout-align="start center" flex ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
           'sae-error': !summaryRow.annoton.parser.clean }">
-
                   <md-button ng-if="!summaryRow.annoton.parser.clean" class="" ng-click="appCtrl.dialogService.openAnnotonErrorsDialog($event, summaryRow.annoton, summaryRow.annoton.parser.errors)">
                     <span class="text-danger">
                       {{summaryRow.annoton.parser.errors.length}} error(s)
@@ -581,7 +580,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
