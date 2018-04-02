@@ -95,7 +95,7 @@ export default class ConfigService {
         'aspect': 'F',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.mf,
-        "lookupGroup": 'molecular_function',
+        "lookupGroup": 'GO:0003674',
         'treeLevel': 0,
         "term": {
           "ontologyClass": ['go'],
@@ -103,7 +103,7 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'isa_closure_label:"molecular_function"'
+                'isa_closure:"GO:0003674"'
               ],
             }),
           }
@@ -150,7 +150,7 @@ export default class ConfigService {
         'aspect': 'C',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.cc,
-        "lookupGroup": 'cellular_component',
+        "lookupGroup": 'GO:0005575',
         'treeLevel': 0,
         "term": {
           "ontologyClass": ['go'],
@@ -158,7 +158,7 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'isa_closure_label:"cellular_component"'
+                'isa_closure:"GO:0005575"'
               ],
             }),
           }
@@ -169,7 +169,7 @@ export default class ConfigService {
         'aspect': 'C',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.cc,
-        "lookupGroup": 'cellular_component',
+        "lookupGroup": 'GO:0005575',
         'treeLevel': 1,
         "term": {
           "ontologyClass": ['go'],
@@ -177,7 +177,7 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'isa_closure_label:"cellular_component"'
+                'isa_closure:"GO:0005575"'
               ],
             }),
           }
@@ -224,7 +224,7 @@ export default class ConfigService {
         'aspect': 'P',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.bp,
-        "lookupGroup": 'biological_process',
+        "lookupGroup": 'GO:0008150',
         'treeLevel': 0,
         "term": {
           "ontologyClass": ['go'],
@@ -232,7 +232,7 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'isa_closure_label:"biological_process"'
+                'isa_closure:"GO:0008150"'
               ],
             }),
           }
@@ -243,7 +243,7 @@ export default class ConfigService {
         'aspect': 'P',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.bp,
-        "lookupGroup": 'biological_process',
+        "lookupGroup": 'GO:0008150',
         'treeLevel': 1,
         "term": {
           "ontologyClass": ['go'],
@@ -251,7 +251,7 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'isa_closure_label:"biological_process"'
+                'isa_closure:"GO:0008150"'
               ],
             }),
           }
@@ -262,7 +262,7 @@ export default class ConfigService {
         'aspect': 'P',
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.bp,
-        "lookupGroup": 'biological_process',
+        "lookupGroup": 'GO:0008150',
         'treeLevel': 2,
         "term": {
           "ontologyClass": ['go'],
@@ -270,7 +270,7 @@ export default class ConfigService {
             "requestParams": Object.assign({}, JSON.parse(JSON.stringify(this.baseRequestParams)), {
               fq: [
                 'document_category:"ontology_class"',
-                'isa_closure_label:"biological_process"'
+                'isa_closure:"GO:0008150"'
               ],
             }),
           }

@@ -335,6 +335,21 @@ export default class GraphService {
     return deferred.promise;
   }
 
+  isaNodeClosure(a, b, node, annoton) {
+    const self = this;
+    let deferred = self.$q.defer();
+
+    self.lookup.isaClosure(a, b).then(function (data) {
+      if (!data) {
+        annoton.parser.parseNodeOntology(node, data);
+      }
+      console.log("node closure", data, node);
+      deferred.resolve(data);
+    });
+
+    return deferred.promise;
+  }
+
   isaCCClosure(a, b, annoton) {
     const self = this;
     let deferred = self.$q.defer();
@@ -468,6 +483,8 @@ export default class GraphService {
       }
     });
 
+    self.parseNodeClosure(annotons);
+
     return annotons;
   }
 
@@ -522,18 +539,12 @@ export default class GraphService {
       each(annoton.nodes, function (node) {
         let term = node.getTerm();
         if (term) {
-          promises.push(self.lookup.isAClosure(node.getTerm().id, node.lookupGroup));
-          // annoton.parser.parseNodeOntology(node, );
+          promises.push(self.isaNodeClosure(node.lookupGroup, term.id, node, annoton));
         }
       });
     });
 
-    self.$q.all(promises).then(function (data) {
-
-      each(annotons, function (annoton) {
-
-      });
-    });
+    self.$q.all(promises).then(function (data) {});
   }
 
 

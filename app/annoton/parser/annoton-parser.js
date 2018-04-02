@@ -83,7 +83,30 @@ export default class AnnotonParser {
     return predicate ? predicate.label : id;
   }
 
-  parseNodeOntology(node, ontologyId) {
+
+  parseNodeOntology(node, isaClosure) {
+    const self = this;
+    let result = true;
+    let error = "";
+
+    if (!isaClosure) {
+      let meta = {
+        aspect: node.label,
+        subjectNode: {
+          label: node.term.control.value.label
+        }
+      }
+      error = new AnnotonError(4, "Wrong ontology class. Expected " + JSON.stringify(node.lookupGroup), meta);
+      self.errors.push(error);
+      node.errors.push(error);
+      result = false;
+    }
+
+    self.clean &= result;
+    return result;
+  }
+
+  parseNodeOntologyAll(node, ontologyId) {
     const self = this;
     let result = true;
     let error = "";
