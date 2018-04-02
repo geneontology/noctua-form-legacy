@@ -65,21 +65,21 @@ export default class AppController {
     // this.lookup.isaClosure(3, "GO:0032991", 'GO:0006869')
     // this.lookup.isaClosure(4, "GO:0008150", 'GO:0005575')
     // this.lookup.isaClosure(5, "GO:0008150", 'GO:0006869')
+
+
+
+    this.selected = undefined;
+    this.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+
+
+
+
   }
   expandAll() {
     $scope.gridApi.treeBase.expandAllRows();
   };
   setView(view) {
     this.viewMode.selected = view;
-  }
-
-  getTerm(field) {
-    let result = null;
-    if (field && field.control.value && field.control.value.length >= 3) {
-      result = this.lookup.golrLookup(field);
-      // console.log('result', result);
-    }
-    return result;
   }
 
   openGuideMeDialog(ev) {

@@ -25,13 +25,5 @@ export default class AddEvidenceDialogController {
         self.$mdDialog.hide(result);
     }
 
-    getTerm(field) {
-        let result = null;
-        if (field && field.control.value && field.control.value.length >= 3) {
-            result = this.lookup.golrLookup(field); // delete?, this.fieldToRoot[field]);
-        }
-        return result;
-    }
-
 }
 AddEvidenceDialogController.$inject = ['saeConstants', '$scope', '$rootScope', '$mdDialog', 'graph', 'lookup', 'formGrid', 'entity'];

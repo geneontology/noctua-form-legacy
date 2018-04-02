@@ -22,7 +22,8 @@ export default class AnnotonNode {
       "control": {
         "required": false,
         "placeholder": '',
-        "value": ''
+        "value": '',
+        "searchText": ''
       },
       "lookup": {
         "category": "",

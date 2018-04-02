@@ -112,12 +112,12 @@
               <md-input-container class="md-block" flex>
                 <input aria-describedby="igGP" type="text" ng-model="appCtrl.formGrid.annotonPresentation.geneProduct.term.control.value"
                   ng-model-options="{allowInvalid: true}" ng-trim="true" placeholder="Gene Product" ng-blur="noResultsGP = false"
-                  uib-typeahead="term as term.label + ' (' +term.id + ') ' for term in appCtrl.getTerm(appCtrl.formGrid.annotonPresentation.geneProduct.term)"
+                  uib-typeahead="term as term.label + ' (' +term.id + ') ' for term in appCtrl.lookup.golrLookup($viewValue, appCtrl.formGrid.annotonPresentation.geneProduct.term.lookup.requestParams)"
                   ng-required="appCtrl.formGrid.annotonPresentation.geneProduct.term.control.required" typeahead-append-to-body="true"
                   xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP" typeahead-no-results="noResultsGP"
-                  typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen"
+                  typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length="1" xtypeahead-is-open="isOpen"
                   typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected('GP', $item, $model, $label, $event)"
-                  class="typeaheadcontrol form-contro" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                  class="typeaheadcontrol" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
               </md-input-container>
               <div class="no-results" ng-show="appCtrl.editingModel.GP.length > 2 && noResultsGP">
                 No Results Found
@@ -132,10 +132,10 @@
               </div>
               <md-input-container class="md-block">
                 <input aria-describedby="igGP" type="text" ng-model="appCtrl.formGrid.annoton.complexAnnotonData.mcNode.term.control.value"
-                  ng-trim="true" placeholder="Macromolecular Complex GO Term" ng-blur="noResultsGP = false" uib-typeahead="term as term.label + ' (' +term.id + ') ' for term in appCtrl.getTerm(appCtrl.formGrid.annoton.complexAnnotonData.mcNode.term)"
+                  ng-trim="true" placeholder="Macromolecular Complex GO Term" ng-blur="noResultsGP = false" uib-typeahead="term as term.label + ' (' +term.id + ') ' for term in appCtrl.lookup.golrLookup($viewValue, appCtrl.formGrid.annoton.complexAnnotonData.mcNode.term.lookup.requestParams)"
                   typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP"
                   typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                  typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected('GP', $item, $model, $label, $event)"
+                  typeahead-min-length="1" xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected('GP', $item, $model, $label, $event)"
                   class="typeaheadcontrol" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
               </md-input-container>
               <div class="no-results" ng-show="appCtrl.editingModel.GP.length > 2 && noResultsGP">
@@ -144,8 +144,8 @@
             </div>
             <md-chips ng-model="appCtrl.formGrid.annoton.complexAnnotonData.geneProducts" md-autocomplete-snap md-require-match=true>
               <md-autocomplete md-selected-item="appCtrl.selectedItem" md-search-text="appCtrl.formGrid.annoton.complexAnnotonData.gpTemplateNode.term.control.value"
-                md-items="item in appCtrl.getTerm(appCtrl.formGrid.annoton.complexAnnotonData.gpTemplateNode.term)" md-item-text="item.label"
-                placeholder="Gene Products">
+                md-items="item in appCtrl.lookup.golrLookup($viewValue, appCtrl.formGrid.annoton.complexAnnotonData.gpTemplateNode.term.lookup.requestParams)"
+                md-item-text="item.label" placeholder="Gene Products">
                 <span md-highlight-text="appCtrl.searchText">{{item.label}} :: {{item.id}}</span>
               </md-autocomplete>
               <md-chip-template>
@@ -164,11 +164,11 @@
                   <i class="fa fa-spinner fa-spin fa-fw"></i>
                 </div>
                 <md-input-container class="md-block">
-                  <input aria-label="term" type="INPUT_TYPE" ng-model="entity.term.control.value" tabindex="0" ng-trim="true" ng-blur="noResults[entity.term] = false"
-                    uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.term)" typeahead-append-to-body="true"
-                    xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]"
+                  <input aria-label="term" type="text" ng-model="entity.term.control.value" tabindex="0" ng-trim="true" ng-blur="noResults[entity.term] = false"
+                    uib-typeahead="term as term.label for term in appCtrl.lookup.golrLookup($viewValue, entity.term.lookup.requestParams)"
+                    typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term]"
                     typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                    typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected(term, $item, $model, $label, $event)"
+                    typeahead-min-length="1" xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected(term, $item, $model, $label, $event)"
                     class="typeaheadcontrol" placeholder="{{entity.label}}" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
                 </md-input-container>
                 <div class="no-results" ng-show="appCtrl.editingModel[term].length > 2 && noResults[term]">
@@ -181,10 +181,10 @@
                 </div>
                 <md-input-container class="md-block">
                   <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value" ng-trim="true" tabindex="0"
-                    ng-blur="noResults[entity.term + 'e'] = false" uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.evidence[0].evidence)"
+                    ng-blur="noResults[entity.term + 'e'] = false" uib-typeahead="term as term.label for term in appCtrl.lookup.golrLookup($viewValue, entity.evidence[0].evidence.lookup.requestParams)"
                     typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
                     typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                    typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected(term + 'e', $item, $model, $label, $event)"
+                    typeahead-min-length="1" xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected(term + 'e', $item, $model, $label, $event)"
                     class="typeaheadcontrol" placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
                 </md-input-container>
                 <div class="no-results" ng-show="appCtrl.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
@@ -276,11 +276,11 @@
                               linked To Existing
                             </a>
                           </div>
-                          <input aria-label="term" type="INPUT_TYPE" ng-model="entity.term.control.value" ng-model-options="{allowInvalid: true}" tabindex="0"
-                            ng-trim="true" ng-required="entity.term.control.required" uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.term)"
+                          <input aria-label="term" type="text" ng-model="entity.term.control.value" ng-model-options="{allowInvalid: true}" tabindex="0"
+                            ng-trim="true" ng-required="entity.term.control.required" uib-typeahead="term as term.label for term in appCtrl.lookup.golrLookup($viewValue, entity.term.lookup.requestParams)"
                             typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false"
                             typeahead-loading="loadingItems[term]" typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html"
-                            typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
+                            typeahead-editable="true" typeahead-min-length="1" xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
                             typeahead-on-select="appCtrl.termSelected(term, $item, $model, $label, $event)" class="typeaheadcontrol"
                             placeholder="{{entity.label}}" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
                         </md-input-container>
@@ -301,11 +301,12 @@
                           </div>
                           <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value" ng-trim="true" tabindex="0"
                             ng-model-options="{allowInvalid: true}" ng-required="entity.evidence[0].evidence.control.required"
-                            uib-typeahead="term as term.label for term in appCtrl.getTerm(entity.evidence[0].evidence)" typeahead-append-to-body="true"
-                            xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
-                            typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                            typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected(term + 'e', $item, $model, $label, $event)"
-                            class="typeaheadcontrol" placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                            uib-typeahead="term as term.label for term in appCtrl.lookup.golrLookup($viewValue, entity.evidence[0].evidence.lookup.requestParams)"
+                            typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false"
+                            typeahead-loading="loadingItems[term + 'e']" typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html"
+                            typeahead-editable="true" typeahead-min-length="1" xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
+                            typeahead-on-select="appCtrl.termSelected(term + 'e', $item, $model, $label, $event)" class="typeaheadcontrol"
+                            placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
                         </md-input-container>
                         <div class="no-results" ng-show="appCtrl.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
                           No Results Found

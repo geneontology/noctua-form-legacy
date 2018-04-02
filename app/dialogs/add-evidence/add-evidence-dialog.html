@@ -24,10 +24,10 @@
                                 </div>
                                 <md-input-container class="md-block">
                                     <input aria-label="evidence" type="text" ng-model="evidence.evidence.control.value" ng-trim="false" tabindex="0" ng-blur="noResults[annotonCtrl.entity.term + 'e'] = false"
-                                        uib-typeahead="term as term.label for term in annotonCtrl.getTerm(evidence.evidence)"
+                                        uib-typeahead="term as term.label for term in annotonCtrl.lookup.golrLookup($viewValue, evidence.evidence.lookup.requestParams)"
                                         xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
                                         typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html"
-                                        typeahead-editable="true" typeahead-min-length=0 xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
+                                        typeahead-editable="true" typeahead-min-length="1" xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
                                         typeahead-on-select="annotonCtrl.termSelected(term + 'e', $item, $model, $label, $event)"
                                         class="typeaheadcontrol" placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
                                 </md-input-container>

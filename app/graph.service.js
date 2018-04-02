@@ -502,7 +502,7 @@ export default class GraphService {
             //self.check
 
             if (subjectNode.term && subjectNode.term.id) {
-              annoton.parser.parseNodeOntology(node.target, subjectNode.term.id);
+              //annoton.parser.parseNodeOntology(node.target, subjectNode.term.id);
             }
             self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target);
           }
@@ -512,6 +512,28 @@ export default class GraphService {
 
     annoton.parser.parseCardinality(graph, annotonNode, mfEdgesIn, edge.nodes);
 
+  }
+
+  parseNodeClosure(annotons) {
+    const self = this;
+    let promises = [];
+
+    each(annotons, function (annoton) {
+      each(annoton.nodes, function (node) {
+        let term = node.getTerm();
+        if (term) {
+          promises.push(self.lookup.isAClosure(node.getTerm().id, node.lookupGroup));
+          // annoton.parser.parseNodeOntology(node, );
+        }
+      });
+    });
+
+    self.$q.all(promises).then(function (data) {
+
+      each(annotons, function (annoton) {
+
+      });
+    });
   }
 
 

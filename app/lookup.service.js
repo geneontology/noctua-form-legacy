@@ -31,15 +31,16 @@ export default class LookupService {
 
   }
 
-  golrLookup(field) {
+  golrLookup(searchText, requestParams) {
     const self = this;
-    field.lookup.requestParams.q = field.control.value + '*';
+
+    requestParams.q = searchText + '*';
 
     return this.$http.jsonp(
         self.trusted, {
           // withCredentials: false,
           jsonpCallbackParam: 'json.wrf',
-          params: field.lookup.requestParams
+          params: requestParams
         })
       .then(function (response) {
           var data = response.data.response.docs;
@@ -49,11 +50,11 @@ export default class LookupService {
               label: item.annotation_class_label
             };
           });
-          // console.log('GOLR success', response, requestParams, data, result);
+
           return result;
         },
         function (error) {
-          console.log('GOLR error: ', self.golrURLBase, field.lookup.requestParams, error);
+          console.log('GOLR error: ', self.golrURLBase, requestParams, error);
         }
       );
   }
