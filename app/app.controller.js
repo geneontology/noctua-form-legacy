@@ -51,7 +51,7 @@ export default class AppController {
       //  appCtrl.summaryGrid.gridOptions.expandableRowScope = appCtrl;
       appCtrl.summaryGrid.setGrid(data.gridData.annotons)
       appCtrl.summaryGrid.registerApi();
-      appCtrl.summaryGrid.expandAll();
+      // appCtrl.summaryGrid.expandAll();
     });
 
 
@@ -64,13 +64,7 @@ export default class AppController {
     // this.lookup.isaClosure(2, "CHEBI:23367", 'GO:0071079')
     // this.lookup.isaClosure(3, "GO:0032991", 'GO:0006869')
     // this.lookup.isaClosure(4, "GO:0008150", 'GO:0005575')
-    // this.lookup.isaClosure(5, "GO:0008150", 'GO:0006869')
-
-
-
-    this.selected = undefined;
-    this.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
-
+    // this.lookup.isaClosure(5, "GO:0008150", 'GO:000686
 
 
 
@@ -80,6 +74,13 @@ export default class AppController {
   };
   setView(view) {
     this.viewMode.selected = view;
+  }
+
+
+
+  onSelected(m, item, model, label) {
+    m = item;
+    console.log(m, "aa", item, "m", model, "l", label);
   }
 
   openGuideMeDialog(ev) {

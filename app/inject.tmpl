@@ -9,7 +9,7 @@
           {{appCtrl.graph.title[0].value()}} ({{appCtrl.graph.model_id}})
         </div>
         <span flex></span>
-        <md-button ng-if="false" class="" ng-click="appCtrl.openGuideMeDialog($event)">
+        <md-button class="" ng-click="appCtrl.openGuideMeDialog($event)">
           .
         </md-button>
         <md-button ng-click="appCtrl.formGrid.initalizeFormData()">
@@ -116,7 +116,7 @@
                   ng-required="appCtrl.formGrid.annotonPresentation.geneProduct.term.control.required" typeahead-append-to-body="true"
                   xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP" typeahead-no-results="noResultsGP"
                   typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length="1" xtypeahead-is-open="isOpen"
-                  typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected('GP', $item, $model, $label, $event)"
+                  typeahead-is-open="'true'" typeahead-on-select="appCtrl.onSelected(appCtrl.formGrid.annotonPresentation.geneProduct.term.control.value, $item, $model, $label, $event)"
                   class="typeaheadcontrol" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
               </md-input-container>
               <div class="no-results" ng-show="appCtrl.editingModel.GP.length > 2 && noResultsGP">
@@ -220,7 +220,6 @@
             </md-button>
           </div>
         </div>
-        <!-- TABLE FORM  -->
         <div id="sae-fd-section" class="sae-table-form sae-form-section" layout="column" layout-align="start stretch">
           <div class="sae-section-header" layout="row" layout-align="start start" flex>
             <div class="sae-section-heading">
@@ -345,14 +344,14 @@
                               Search Database
                             </md-button>
                           </md-menu-item>
-                          <md-menu-item hide>
+                          <md-menu-item>
                             <md-button class="" ng-click="appCtrl.openLinkToExistingDialog($event, entity)">
                               Choose From an Existing Activity
                             </md-button>
                           </md-menu-item>
                           <md-menu-item ng-if="entity.treeLevel===0">
                             <md-button class="" ng-click="appCtrl.toggleIsComplement(entity)">
-                              NOT
+                              NOT Qualifier
                             </md-button>
                           </md-menu-item>
                           <md-menu-item ng-if="entity.treeLevel===0">
@@ -402,185 +401,187 @@
             Start New Model
           </md-button>
         </div>
-        <div id="sae-molecular-activities" class="sae-container sae-summary" layout="column" layout-align="start stretch">
-          <div>
-            <h2>
-              Molecular Activities in the Model
-            </h2>
-          </div>
-          <div ng-if="appCtrl.summaryData.annotons.length===0">
-            <div class="alert alert-info">
-              No Annoton Models
-            </div>
-          </div>
-          <div class="sae-container sae-summary" layout="row" layout-align="start" layout-wrap>
-            <div ng-repeat="summaryRow in appCtrl.summaryData.annotons" class="sae-card-widget p-10" flex="33">
-              <div class="sae-card md-whiteframe-2dp" ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
-            'sae-error': !summaryRow.annoton.parser.clean }" layout-fill>
-                <div class="sae-card-header" layout="row" layout-align="start start" flex>
-                  <div class="sae-term sae-term-mf">
-                    <span class="sae-fa-stack fa-stack fa-lg">
-                      <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
-                      <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.simple.name" class="sae-fa-sm fa fa-cube fa-stack-1x"></i>
-                      <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.complex.name" class="sae-fa-sm fa fa-cubes fa-stack-1x"></i>
-                    </span>
-                  </div>
-                  <div class="sae-card-heading" flex>
-                    <div class="sae-heading-title sae-ellipsis">
-                      {{summaryRow.mf}}
-                    </div>
-                    <div class="sae-heading-subtitle sae-ellipsis">
-                      <span class="sae-predicate">enabled by: </span>
-                      <strong> {{summaryRow.gp}}</strong>
-                    </div>
-                  </div>
-                </div>
-                <div class="sae-card-body">
-                  <div class="sae-card-row" layout="row">
-                    <div class="sae-term sae-term-cc">
-                      <span class="sae-fa-stack fa-stack fa-lg">
-                        <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
-                        <i class="sae-fa-sm fa fa-map-marker fa-stack-1x"></i>
-                      </span>
-                    </div>
-                    <div class="sae-term-description" flex>
-                      <span class="sae-predicate">occurs in</span>
-                      <div class="sae-ellipsis">
-                        {{summaryRow.cc?summaryRow.cc: 'no data'}}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="sae-card-row" layout="row">
-                    <div class="sae-term sae-term-bp">
-                      <span class="sae-fa-stack fa-stack fa-lg">
-                        <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
-                        <i class="sae-fa-sm fa fa-object-group fa-stack-1x"></i>
-                      </span>
-                    </div>
-                    <div class="sae-term-description" flex>
-                      <span class="sae-predicate">part of</span>
-                      <div class="sae-ellipsis">
-                        {{summaryRow.bp?summaryRow.bp: 'no data'}}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="sae-card-footer" layout="row" layout-align="start center" flex ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
-          'sae-error': !summaryRow.annoton.parser.clean }">
-                  <md-button ng-if="!summaryRow.annoton.parser.clean" class="" ng-click="appCtrl.dialogService.openAnnotonErrorsDialog($event, summaryRow.annoton, summaryRow.annoton.parser.errors)">
-                    <span class="text-danger">
-                      {{summaryRow.annoton.parser.errors.length}} error(s)
-                    </span>
-                  </md-button>
-                  <span flex></span>
-                  <md-button ng-if="true" class="ae-action-button" ng-click="appCtrl.dialogService.openViewSummaryDialog($event, summaryRow)">
-                    View
-                  </md-button>
-                  <md-menu md-position-mode="target-right target">
-                    <md-button aria-label="More Otions" class="md-icon-button sae-action-button" ng-click="$mdMenu.open($event)">
-                      <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
-                    </md-button>
-                    <md-menu-content width="2">
-                      <md-menu-item>
-                        <md-button class="" ng-click="appCtrl.formGrid.cloneForm(summaryRow.annoton)">
-                          <md-icon md-font-icon="fa fa-clone"></md-icon> Clone
-                        </md-button>
-                      </md-menu-item>
-                      <md-menu-item>
-                        <md-button class="" ng-click="appCtrl.graph.deleteAnnoton(summaryRow.annoton, $event)">
-                          <md-icon md-font-icon="fa fa-trash"></md-icon> Delete
-                        </md-button>
-                      </md-menu-item>
-                    </md-menu-content>
-                  </md-menu>
-                </div>
-              </div>
-            </div>
+      </div>
+    </div>
+    <div class="sae-summary-grid">
+      <div id="sae-molecular-activities" layout="column" layout-align="start stretch">
+        <div>
+          <h2>
+            Molecular Activities in the Model
+          </h2>
+        </div>
+        <div ng-if="appCtrl.summaryData.annotons.length===0">
+          <div class="alert alert-info">
+            No Annoton Models
           </div>
         </div>
-        <div class="sae-container sae-summary" layout="column" layout-align="start stretch">
-          <div>
-            <h2>
-              CC Only Annotations
-            </h2>
-          </div>
-          <div ng-if="appCtrl.summaryData.ccComponents.length===0">
-            <div class="alert alert-info">
-              CC Only Annotations
-            </div>
-          </div>
-          <div class="sae-container sae-summary" layout="row" layout-align="start" layout-wrap>
-            <div ng-repeat="summaryRow in appCtrl.summaryData.ccComponents" ng-if="summaryRow.annoton.ccOnlyVerified" class="sae-card-widget p-10"
-              flex="33">
-              <div class="sae-card-1 md-whiteframe-2dp" ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
-            'sae-error': !summaryRow.annoton.parser.clean }" layout-fill>
-                <div class="sae-card-header" layout="row" layout-align="start start" flex>
+        <div class="sae-container sae-summary" layout="row" layout-align="start" layout-wrap>
+          <div ng-repeat="summaryRow in appCtrl.summaryData.annotons" class="sae-card-widget p-10" flex="33">
+            <div class="sae-card md-whiteframe-2dp" ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
+          'sae-error': !summaryRow.annoton.parser.clean }" layout-fill>
+              <div class="sae-card-header" layout="row" layout-align="start start" flex>
+                <div class="sae-term sae-term-mf">
+                  <span class="sae-fa-stack fa-stack fa-lg">
+                    <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
+                    <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.simple.name" class="sae-fa-sm fa fa-cube fa-stack-1x"></i>
+                    <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.complex.name" class="sae-fa-sm fa fa-cubes fa-stack-1x"></i>
+                  </span>
+                </div>
+                <div class="sae-card-heading" flex>
+                  <div class="sae-heading-title sae-ellipsis">
+                    {{summaryRow.mf}}
+                  </div>
+                  <div class="sae-heading-subtitle sae-ellipsis">
+                    <span class="sae-predicate">enabled by: </span>
+                    <strong> {{summaryRow.gp}}</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="sae-card-body">
+                <div class="sae-card-row" layout="row">
                   <div class="sae-term sae-term-cc">
                     <span class="sae-fa-stack fa-stack fa-lg">
                       <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
-                      <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.simple.name" class="sae-fa-sm fa fa-cube fa-stack-1x"></i>
-                      <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.complex.name" class="sae-fa-sm fa fa-cubes fa-stack-1x"></i>
+                      <i class="sae-fa-sm fa fa-map-marker fa-stack-1x"></i>
                     </span>
                   </div>
-                  <div class="sae-card-heading" flex>
-                    <div class="sae-heading-title sae-ellipsis">
-                      <strong>{{summaryRow.gp}}</strong>
+                  <div class="sae-term-description" flex>
+                    <span class="sae-predicate">occurs in</span>
+                    <div class="sae-ellipsis">
+                      {{summaryRow.cc?summaryRow.cc: 'no data'}}
                     </div>
                   </div>
                 </div>
-                <div class="sae-card-body">
-                  <div class="sae-card-row" layout="row">
-                    <div class="sae-term sae-term-bp">
-                      <span class="sae-fa-stack fa-stack fa-lg">
-                        <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
-                        <i class="sae-fa-sm fa fa-object-group fa-stack-1x"></i>
-                      </span>
-                    </div>
-                    <div class="sae-term-description" flex>
-                      <span class="sae-predicate">part of</span>
-                      <div class="sae-ellipsis">
-                        {{summaryRow.cc?summaryRow.cc: 'no data'}}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="sae-card-footer" layout="row" layout-align="start center" flex ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
-          'sae-error': !summaryRow.annoton.parser.clean }">
-                  <md-button ng-if="!summaryRow.annoton.parser.clean" class="" ng-click="appCtrl.dialogService.openAnnotonErrorsDialog($event, summaryRow.annoton, summaryRow.annoton.parser.errors)">
-                    <span class="text-danger">
-                      {{summaryRow.annoton.parser.errors.length}} error(s)
+                <div class="sae-card-row" layout="row">
+                  <div class="sae-term sae-term-bp">
+                    <span class="sae-fa-stack fa-stack fa-lg">
+                      <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
+                      <i class="sae-fa-sm fa fa-object-group fa-stack-1x"></i>
                     </span>
-                  </md-button>
-                  <span flex></span>
-                  <md-button ng-if="true" class="ae-action-button" ng-click="appCtrl.dialogService.openViewSummaryDialog($event, summaryRow)">
-                    View
-                  </md-button>
-                  <md-menu md-position-mode="target-right target">
-                    <md-button aria-label="More Otions" class="md-icon-button sae-action-button" ng-click="$mdMenu.open($event)">
-                      <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
-                    </md-button>
-                    <md-menu-content width="2">
-                      <md-menu-item>
-                        <md-button class="" ng-click="appCtrl.graph.deleteAnnoton(summaryRow.annoton)">
-                          <md-icon md-font-icon="fa fa-trash"></md-icon> Delete
-                        </md-button>
-                      </md-menu-item>
-                    </md-menu-content>
-                  </md-menu>
+                  </div>
+                  <div class="sae-term-description" flex>
+                    <span class="sae-predicate">part of</span>
+                    <div class="sae-ellipsis">
+                      {{summaryRow.bp?summaryRow.bp: 'no data'}}
+                    </div>
+                  </div>
                 </div>
+              </div>
+              <div class="sae-card-footer" layout="row" layout-align="start center" flex ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
+        'sae-error': !summaryRow.annoton.parser.clean }">
+                <md-button ng-if="!summaryRow.annoton.parser.clean" class="" ng-click="appCtrl.dialogService.openAnnotonErrorsDialog($event, summaryRow.annoton, summaryRow.annoton.parser.errors)">
+                  <span class="text-danger">
+                    {{summaryRow.annoton.parser.errors.length}} error(s)
+                  </span>
+                </md-button>
+                <span flex></span>
+                <md-button ng-if="true" class="ae-action-button" ng-click="appCtrl.dialogService.openViewSummaryDialog($event, summaryRow)">
+                  View
+                </md-button>
+                <md-menu md-position-mode="target-right target">
+                  <md-button aria-label="More Otions" class="md-icon-button sae-action-button" ng-click="$mdMenu.open($event)">
+                    <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
+                  </md-button>
+                  <md-menu-content width="2">
+                    <md-menu-item>
+                      <md-button class="" ng-click="appCtrl.formGrid.cloneForm(summaryRow.annoton)">
+                        <md-icon md-font-icon="fa fa-clone"></md-icon> Clone
+                      </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                      <md-button class="" ng-click="appCtrl.graph.deleteAnnoton(summaryRow.annoton, $event)">
+                        <md-icon md-font-icon="fa fa-trash"></md-icon> Delete
+                      </md-button>
+                    </md-menu-item>
+                  </md-menu-content>
+                </md-menu>
               </div>
             </div>
           </div>
-          <h2>
-            Molecular Activities in the Model (Table View)
-          </h2>
-          <br>
-          <div class="sae-summary-grid">
-            <div ui-grid="appCtrl.summaryGrid.gridOptions" ui-grid-tree-view ui-grid-resize-columns ui-grid-auto-resize ui-grid-pinning
-              ui-grid-move-columns class="grid">
+        </div>
+      </div>
+    </div>
+    <div class="sae-summary-grid" layout="column" layout-align="start stretch">
+      <div>
+        <h2>
+          CC Only Annotations
+        </h2>
+      </div>
+      <div ng-if="appCtrl.summaryData.ccComponents.length===0">
+        <div class="alert alert-info">
+          No CC Only Annotations found
+        </div>
+      </div>
+      <div class="sae-container sae-summary" layout="row" layout-align="start" layout-wrap>
+        <div ng-repeat="summaryRow in appCtrl.summaryData.ccComponents" ng-if="summaryRow.annoton.ccOnlyVerified" class="sae-card-widget p-10"
+          flex="33">
+          <div class="sae-card-1 md-whiteframe-2dp" ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
+          'sae-error': !summaryRow.annoton.parser.clean }" layout-fill>
+            <div class="sae-card-header" layout="row" layout-align="start start" flex>
+              <div class="sae-term sae-term-cc">
+                <span class="sae-fa-stack fa-stack fa-lg">
+                  <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
+                  <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.simple.name" class="sae-fa-sm fa fa-cube fa-stack-1x"></i>
+                  <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.complex.name" class="sae-fa-sm fa fa-cubes fa-stack-1x"></i>
+                </span>
+              </div>
+              <div class="sae-card-heading" flex>
+                <div class="sae-heading-title sae-ellipsis">
+                  <strong>{{summaryRow.gp}}</strong>
+                </div>
+              </div>
+            </div>
+            <div class="sae-card-body">
+              <div class="sae-card-row" layout="row">
+                <div class="sae-term sae-term-bp">
+                  <span class="sae-fa-stack fa-stack fa-lg">
+                    <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
+                    <i class="sae-fa-sm fa fa-object-group fa-stack-1x"></i>
+                  </span>
+                </div>
+                <div class="sae-term-description" flex>
+                  <span class="sae-predicate">part of</span>
+                  <div class="sae-ellipsis">
+                    {{summaryRow.cc?summaryRow.cc: 'no data'}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sae-card-footer" layout="row" layout-align="start center" flex ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
+        'sae-error': !summaryRow.annoton.parser.clean }">
+              <md-button ng-if="!summaryRow.annoton.parser.clean" class="" ng-click="appCtrl.dialogService.openAnnotonErrorsDialog($event, summaryRow.annoton, summaryRow.annoton.parser.errors)">
+                <span class="text-danger">
+                  {{summaryRow.annoton.parser.errors.length}} error(s)
+                </span>
+              </md-button>
+              <span flex></span>
+              <md-button ng-if="true" class="ae-action-button" ng-click="appCtrl.dialogService.openViewSummaryDialog($event, summaryRow)">
+                View
+              </md-button>
+              <md-menu md-position-mode="target-right target">
+                <md-button aria-label="More Otions" class="md-icon-button sae-action-button" ng-click="$mdMenu.open($event)">
+                  <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
+                </md-button>
+                <md-menu-content width="2">
+                  <md-menu-item>
+                    <md-button class="" ng-click="appCtrl.graph.deleteAnnoton(summaryRow.annoton)">
+                      <md-icon md-font-icon="fa fa-trash"></md-icon> Delete
+                    </md-button>
+                  </md-menu-item>
+                </md-menu-content>
+              </md-menu>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="sae-summary-table">
+      <h2>
+        Molecular Activities in the Model (Table View)
+      </h2>
+      <div ui-grid="appCtrl.summaryGrid.gridOptions" ui-grid-resize-columns ui-grid-auto-resize ui-grid-pinning ui-grid-move-columns
+        class="grid">
       </div>
     </div>
   </div>

@@ -320,7 +320,7 @@ export default class GraphService {
     each(graph.all_nodes(), function (node) {
       //isaClosure(a, b)
       //let termId = self.getNodeId(node)
-      console.log('--- ', node);
+      //console.log('--- ', node);
     });
   }
 
@@ -343,7 +343,7 @@ export default class GraphService {
       if (!data) {
         annoton.parser.parseNodeOntology(node, data);
       }
-      console.log("node closure", data, node);
+      // console.log("node closure", data, node);
       deferred.resolve(data);
     });
 
@@ -639,6 +639,7 @@ export default class GraphService {
 
   filterCCOnly(annotons) {
     const self = this;
+    let result = [];
     let promises = [];
 
     each(annotons, function (annoton) {
@@ -654,7 +655,7 @@ export default class GraphService {
     self.$q.all(promises).then(function (data) {
 
       each(annotons, function (annoton) {
-
+        //result.push(annoton);
       });
     });
   }

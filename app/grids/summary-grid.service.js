@@ -207,7 +207,7 @@ export default class SummaryGridService {
             reference: node.evidence[0].reference.control.value,
             with: node.evidence[0].with.control.value,
             assignedBy: node.evidence[0].assignedBy.control.value,
-            $$treeLevel: node.treeLevel,
+            // $$treeLevel: node.treeLevel,
             annoton: node,
           })
 
@@ -219,7 +219,7 @@ export default class SummaryGridService {
               reference: node.evidence[i].reference.control.value,
               with: node.evidence[i].with.control.value,
               assignedBy: node.evidence[i].assignedBy.control.value,
-              $$treeLevel: node.treeLevel,
+              // $$treeLevel: node.treeLevel,
               //  annoton: node,
             })
           }

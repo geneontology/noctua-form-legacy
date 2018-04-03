@@ -15,7 +15,7 @@
   <md-dialog-content>
     <div layout="row">
       <div flex="70" layout="column">
-        <div class="toggle-options">
+        <div ng-if="false" class="toggle-options">
           <md-button class="md-primary md-raised" ng-click="appCtrl.toggleMobileStepText();">Toggle MobileStepText</md-button>
           <md-button class="md-primary md-raised" ng-click="appCtrl.toggleVertical();">Toggle Vertical</md-button>
           <md-button class="md-primary md-raised" ng-click="appCtrl.toggleLinear();">Toggle Linear</md-button>
@@ -76,20 +76,21 @@
                 </md-radio-button>
               </md-radio-group>
 
-              <h1>Choose model type </h1>
-              <div ng-repeat="annotonModelType in appCtrl.saeConstants.annotonModelType.options">
-                <md-button ng-click="appCtrl.formGrid.setAnnotonModelType(appCtrl.formGrid.annoton, annotonModelType)">
+              <h1>Choose Model type </h1>
+              <md-radio-group ng-model="appCtrl.formGrid.annoton.annotonModelType" ng-change="appCtrl.formGrid.setAnnotonModelType(appCtrl.formGrid.annoton, annotonModelType)">
+                <md-radio-button ng-repeat="annotonModelType in appCtrl.saeConstants.annotonModelType.options" value="annotonModelType.label"
+                  class="md-primary">
                   {{annotonModelType.label}}
-                </md-button>
-              </div>
+                </md-radio-button>
+              </md-radio-group>
             </md-step-body>
             <md-step-actions>
-              <md-button class="md-primary md-raised" ng-click="appCtrl.selectCampaign();">Continue</md-button>
+              <md-button class="md-primary md-raised" ng-click="appCtrl.nextStep();">Continue</md-button>
               <md-button class="md-primary" ng-click="appCtrl.cancel();">Cancel</md-button>
             </md-step-actions>
           </md-step>
 
-          <md-step md-label="Create an group">
+          <md-step md-label="Create MF">
             <md-step-body>
               <md-input-container>
                 <label>Username</label>
@@ -118,7 +119,7 @@
             </md-step-actions>
           </md-step>
 
-          <md-step md-label="Create an ad">
+          <md-step md-label="Create BP">
             <md-step-body>
               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur nobis saepe facere suscipit atque, sapiente,
                 natus mollitia ipsum odit accusamus repellendus deserunt. Odio sit similique, labore maxime voluptatibus,
@@ -155,7 +156,7 @@
             </md-step-actions>
           </md-step>
 
-          <md-step md-label="Publish the ad" md-optional="Optional">
+          <md-step md-label="Submit" md-optional="Optional">
             <md-step-body>
               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur nobis saepe facere suscipit atque, sapiente,
                 natus mollitia ipsum odit accusamus repellendus deserunt. Odio sit similique, labore maxime voluptatibus,
