@@ -3,6 +3,13 @@ const each = require('lodash/forEach');
 
 var bbop = require('bbop-core');
 var amigo = require('amigo2');
+var golr_conf = require('golr-conf');
+var gconf = new golr_conf.conf(amigo.data.golr);
+var gserv = "http://golr.berkeleybop.org/";
+var impl_engine = require('bbop-rest-manager').node;
+var golr_manager = require('bbop-manager-golr');
+var golr_response = require('bbop-response-golr');
+var engine = new impl_engine(golr_response);
 
 import {
   read
@@ -31,10 +38,15 @@ export default class LookupService {
 
   }
 
+  escapeGolrValue(str) {
+    var pattern = /([\!\*\+\-\=\<\>\&\|\(\)\[\]\{\}\^\~\?\:\\/"])/g;
+    return str.replace(pattern, "\\$1");
+  }
+
   golrLookup(searchText, requestParams) {
     const self = this;
 
-    requestParams.q = searchText + '*';
+    requestParams.q = self.escapeGolrValue(searchText) + '*';
 
     return this.$http.jsonp(
         self.trusted, {
@@ -57,6 +69,32 @@ export default class LookupService {
           console.log('GOLR error: ', self.golrURLBase, requestParams, error);
         }
       );
+  }
+
+  golrLookupManager() {
+    const self = this;
+    let manager = new golr_manager(this.$sce.trustAsResourceUrl(gserv), gconf, engine, 'async');
+    manager.set_personality('annotation');
+    manager.add_query_filter('document_category', 'annotation', ['*']);
+
+    manager.add_query_filter('regulates_closure', 'GO:0048666');
+    manager.add_query_filter('taxon_subset_closure', 'NCBITaxon:9606');
+    manager.add_query_filter('evidence_subset_closure', 'ECO:0000006');
+
+    var promise = manager.search();
+    promise.then(function (resp) {
+
+      // Process our response instance using bbop-response-golr.
+      if (resp.success()) {
+        us.each(resp.documents(), function (doc) {
+
+          // Slightly contrived use if resp.get_doc_field().
+          var id = doc['id'];
+          var refs = resp.get_doc_field(id, 'reference');
+          console.log(refs.join("\n"));
+        });
+      }
+    });
   }
 
   companionLookup(gp, aspect, params) {
