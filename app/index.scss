@@ -605,6 +605,11 @@ ul li.error-reason {
     height: 1000px;
     width: 100%;
   }
+  .ui-grid-top-panel {
+    .ui-grid-header-cell-label {
+      font-size: 8px !important;
+    }
+  }
   .ui-grid-viewport .ui-grid-cell-contents {
     word-wrap: break-word;
     white-space: normal !important;
@@ -612,6 +617,7 @@ ul li.error-reason {
   .ui-grid-row,
   .ui-grid-cell {
     height: auto !important;
+    font-size: 10px;
   }
   .ui-grid-row div[role=row] {
     display: flex;
