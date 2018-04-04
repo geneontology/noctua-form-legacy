@@ -6,10 +6,11 @@ var amigo = require('amigo2');
 var golr_conf = require('golr-conf');
 var gconf = new golr_conf.conf(amigo.data.golr);
 var gserv = "http://golr.berkeleybop.org/";
-var impl_engine = require('bbop-rest-manager').node;
+var impl_engine = require('bbop-rest-manager').jquery;
 var golr_manager = require('bbop-manager-golr');
 var golr_response = require('bbop-response-golr');
 var engine = new impl_engine(golr_response);
+engine.use_jsonp(true)
 
 import {
   read
@@ -36,6 +37,8 @@ export default class LookupService {
     this.golrURLBase = `${global_golr_neo_server}/select`;
     this.trusted = this.$sce.trustAsResourceUrl(this.golrURLBase);
 
+    this.golrLookupManager();
+
   }
 
   escapeGolrValue(str) {
@@ -43,10 +46,17 @@ export default class LookupService {
     return str.replace(pattern, "\\$1");
   }
 
+  buildQ(str) {
+    let manager = new golr_manager(gserv, gconf, engine, 'async');
+
+    manager.set_comfy_query(str);
+    return manager.get_query(str);
+  }
+
   golrLookup(searchText, requestParams) {
     const self = this;
 
-    requestParams.q = self.escapeGolrValue(searchText) + '*';
+    requestParams.q = self.buildQ(searchText);
 
     return this.$http.jsonp(
         self.trusted, {
@@ -71,28 +81,34 @@ export default class LookupService {
       );
   }
 
-  golrLookupManager() {
+  golrLookupManager(searchText, requestParams) {
     const self = this;
-    let manager = new golr_manager(this.$sce.trustAsResourceUrl(gserv), gconf, engine, 'async');
-    manager.set_personality('annotation');
-    manager.add_query_filter('document_category', 'annotation', ['*']);
+    let manager = new golr_manager(gserv, gconf, engine, 'async');
+    // manager.jsonpCallbackParam: 'json.wrf'
 
-    manager.add_query_filter('regulates_closure', 'GO:0048666');
-    manager.add_query_filter('taxon_subset_closure', 'NCBITaxon:9606');
-    manager.add_query_filter('evidence_subset_closure', 'ECO:0000006');
+    manager.set_query(searchText);
+
+
+
+    manager.set_personality('annotation');
+    manager.add_query_filter('document_category', 'ontology_class', ['*']);
+
+    manager.add_query_filter('isa_closure', 'CHEBI:33695');
 
     var promise = manager.search();
-    promise.then(function (resp) {
+    promise.then(function (response) {
 
       // Process our response instance using bbop-response-golr.
-      if (resp.success()) {
-        us.each(resp.documents(), function (doc) {
-
-          // Slightly contrived use if resp.get_doc_field().
-          var id = doc['id'];
-          var refs = resp.get_doc_field(id, 'reference');
-          console.log(refs.join("\n"));
+      if (response.success()) {
+        var data = response.documents();
+        var result = data.map(function (item) {
+          return {
+            id: item.annotation_class,
+            label: item.annotation_class_label
+          };
         });
+
+        return result;
       }
     });
   }
