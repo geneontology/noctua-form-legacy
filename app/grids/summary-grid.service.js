@@ -182,7 +182,7 @@ export default class SummaryGridService {
       // enableCellEditOnFocus: false,
       multiSelect: false,
       // minRowsToShow: 1,
-      //rowTemplate: './grid-templates/summary/row-template.html',
+      rowTemplate: './grid-templates/summary/row-template.html',
       showTreeExpandNoChildren: false,
       enableRowSelection: true,
       //subGridVariable will be available in subGrid scope
@@ -221,7 +221,10 @@ export default class SummaryGridService {
     const self = this;
     let gridData = [];
 
-    each(annotonData, function (row) {
+    let colors = ["#EEE", '#e0eee0'];
+
+    each(annotonData, function (row, key) {
+      row.color = colors[key % 2];
       self.setGridDFS(row, gridData, row.annoton.edges.mf)
     });
     self.gridOptions.data = gridData;
@@ -237,6 +240,8 @@ export default class SummaryGridService {
 
         if (node.id !== 'mc' && node.target.id !== 'gp' && term.id) {
           gridData.push({
+            color: row.color,
+            id: 1,
             gp: row.gp,
             relationship: extension ? '' : node.edge.label,
             extRelationship: extension ? node.edge.label : '',

@@ -37,7 +37,7 @@ export default class LookupService {
     this.golrURLBase = `${global_golr_neo_server}/select`;
     this.trusted = this.$sce.trustAsResourceUrl(this.golrURLBase);
 
-    this.golrLookupManager();
+    //  this.golrLookupManager();
 
   }
 
