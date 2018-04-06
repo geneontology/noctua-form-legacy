@@ -53,6 +53,9 @@ export default class GraphService {
       groups: [],
       selectedGroup: {}
     }
+    this.modelInfo = {
+      graphEditorUrl: ""
+    }
   }
 
   initialize() {
@@ -113,6 +116,8 @@ export default class GraphService {
     });
 
     function rebuild(resp) {
+
+      console.log(model, resp)
       var noctua_graph = model.graph;
       self.graph = new noctua_graph();
       self.model_id = local_id = global_id = resp.data().id;
@@ -120,6 +125,8 @@ export default class GraphService {
 
       self.modelTitle = null;
       self.modelState = null;
+
+      self.createGraphUrls(self.model_id);
       let annotations = self.graph.get_annotations_by_key(annotationTitleKey);
       let stateAnnotations = self.graph.get_annotations_by_key('state');
 
@@ -158,6 +165,25 @@ export default class GraphService {
     manager.get_model(this.model_id);
   }
 
+  createGraphUrls(modelId) {
+    const self = this;
+
+    let params = {
+      'barista_token': this.barista_token
+    }
+
+    function parameterize(params) {
+      return Object.keys(params).map(key => key + '=' + params[key]).join('&');
+    }
+
+    self.modelInfo.noctuaUrl = window.location.origin + "?" + (this.loggedIn ? parameterize(params) : '');
+
+    self.modelInfo.owlUrl = window.location.origin + "/download/" + modelId + "/owl";
+    self.modelInfo.gpadUrl = window.location.origin + "/download/" + modelId + "/gpad";
+    self.modelInfo.graphEditorUrl = window.location.origin + "/editor/graph/" + modelId + "?" + (this.loggedIn ? parameterize(params) : '');
+
+  }
+
   getUserInfo() {
     const self = this;
     let url = self.barista_location + "/user_info_by_token/" + self.barista_token;
@@ -165,6 +191,7 @@ export default class GraphService {
     return this.$http.get(url)
       .then(function (response) {
         if (response.data && response.data.groups.length > 0) {
+          self.userInfo.name = response.data['nickname'];
           self.userInfo.groups = response.data['groups'];
           self.userInfo.selectedGroup = self.userInfo.groups[0];
           self.manager.use_groups([self.userInfo.selectedGroup.id]);

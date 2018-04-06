@@ -85,6 +85,20 @@ body {
 }
 */
 
+.sae-breadcrumbs {
+  .sae-breadcrumb {
+    font-size: 20px;
+    color: #777;
+    &.sae-active {
+      color: #000;
+    }
+  }
+  md-icon {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
 .sae-description {
   padding: 30px 10px;
   ms-widget {
@@ -146,8 +160,8 @@ i {
 md-toolbar {
   &.sae-toolbar {
     &.sae-toolbar-1 {
-      background-color: transparent;
-      color: rgba(#000, 0.87);
+      // background-color: transparent;
+      // color: rgba(#000, 0.87);
       md-toolbars-tools {
         padding: 0;
       }

@@ -15,7 +15,7 @@ pre.pre-scrollable {
 
 .ui-grid-cell-contents {
   font-size: 12px;
-  xborder: 1px solid green;
+  xborder: 1px solid rgb(33, 56, 33);
   word-wrap: break-word;
   white-space: normal !important;
 }
@@ -48,7 +48,9 @@ I need to explicitly tweak the classes. There has to be a better way.
 */
 
 .navbar {
-  height: 50px;
+  height: 0;
+  display: none;
+  visibility: hidden;
   background-color: #005888 !important;
   border: none;
   color: #EEE !important;
@@ -89,6 +91,16 @@ I need to explicitly tweak the classes. There has to be a better way.
   background-color: #7a4242 !important;
 }
 
+.sae-login {
+  background-color: #307e3d !important;
+  color: #FFF;
+}
+
+.sae-logout {
+  background-color: #7a4242 !important;
+  color: #FFF;
+}
+
 .tv-container .input-group.input-group-sm .form-control {
   height: 35px;
 }
@@ -107,6 +119,22 @@ I need to explicitly tweak the classes. There has to be a better way.
 ul li.error-reason {
   font-weight: 500;
   color: darkslateblue;
+}
+
+.sae-navbar {
+  @include deep-height(50px);
+  background-color: #005888 !important;
+  border: none;
+  color: #EEE !important;
+  a {
+    color: #DDD !important;
+    &:hover {
+      color: #FFF !important;
+    }
+  }
+  .navbar-collapse {
+    padding: 0;
+  }
 }
 
 /*Tools*/

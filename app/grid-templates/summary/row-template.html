@@ -1,6 +1,5 @@
 <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + '-' + col.uid + '-cell'"
     class="ui-grid-cell" ng-class="{ 'ui-grid-row-header-cell': col.isRowHeader, 
-    'sae-row-status-1': row.entity.status===1,
-    'sae-row-status-2': row.entity.status===2 }" ng-style="{'background-color':row.entity.color}" role="{{col.isRowHeader ? 'rowheader' : 'gridcell'}}"
+    'sae-row-status-1': row.entity.errors.length>0 }" ng-style="{'background-color':row.entity.color}" role="{{col.isRowHeader ? 'rowheader' : 'gridcell'}}"
     ui-grid-cell>
 </div>

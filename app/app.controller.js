@@ -52,6 +52,9 @@ export default class AppController {
       appCtrl.summaryGrid.setGrid(data.gridData.annotons)
       appCtrl.summaryGrid.registerApi();
       // appCtrl.summaryGrid.expandAll();
+
+
+      console.log('poo', appCtrl.graph.modelInfo.graphEditorUrl);
     });
 
 

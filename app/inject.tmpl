@@ -3,26 +3,99 @@
 <!-- Main "app". -->
 <div ng-strict-di ng-app="TVApp" ng-cloak>
   <div ng-controller="AppController as appCtrl" ng-form="patternForm" class="tv-container">
-    <div class="sae-subheader" layout="column" layout-align="center center">
-      <div class="sae-container" layout="row">
-        <div class="sae-title">
-          {{appCtrl.graph.title[0].value()}} ({{appCtrl.graph.model_id}})
+    <md-toolbar class="md-menu-toolbar">
+      <div layout="row" flex>
+        <md-toolbar-filler layout layout-align="center center">
+          <md-icon md-font-icon="icon-go-logo"></md-icon>
+        </md-toolbar-filler>
+        <div flex="100">
+          <div class="sae-breadcrumbs md-toolbar-tools" layout="row">
+            <div class="sae-breadcrumb">
+              <a ng-href="{{appCtrl.graph.modelInfo.noctuaUrl}}" target="_blank">
+                Noctua
+              </a>
+            </div>
+            <md-icon md-font-icon="icon-chevron-right"></md-icon>
+            <h2 class="sae-breadcrumb">
+              Activity Creator Form
+            </h2>
+            <md-icon md-font-icon="icon-chevron-right"></md-icon>
+            <h2 ng-if="appCtrl.graph.modelTitle" class="sae-breadcrumb sae-active md-truncate">
+              {{appCtrl.graph.modelTitle}}
+            </h2>
+            <h2 ng-if="!appCtrl.graph.modelTitle" class="sae-active md-truncate">
+              Untitled Model
+            </h2>
+          </div>
+          <md-menu-bar>
+            <md-menu>
+              <md-button aria-label="Open" ng-click="$mdMenu.open($event)">
+                Open
+                <b class="caret"></b>
+              </md-button>
+              <md-menu-content width="3">
+                <md-menu-item>
+                  <md-button ng-href="{{appCtrl.graph.modelInfo.graphEditorUrl}}" target="_blank" class="">
+                    Graph Editor
+                  </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                  <md-button ng-href="{{appCtrl.graph.modelInfo.owlUrl}}" target="_blank" class="">
+                    OWL
+                  </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                  <md-button ng-href="{{appCtrl.graph.modelInfo.gpadUrl}}" target="_blank" class="">
+                    GPAD
+                  </md-button>
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>
+            <md-menu>
+              <md-button aria-label="Open" ng-click="$mdMenu.open($event)">
+                Details
+                <b class="caret"></b>
+              </md-button>
+              <md-menu-content ng-click="$event.stopPropagation()" width="4">
+                <strong>Model ID:</strong> {{appCtrl.graph.model_id}}
+              </md-menu-content>
+            </md-menu>
+            <md-button class="sae-success" ng-click="appCtrl.startGuide()">
+              Take a Tour
+            </md-button>
+            <md-button class="" ng-click="appCtrl.openGuideMeDialog($event)">
+              .
+            </md-button>
+            <md-button ng-click="appCtrl.formGrid.initalizeFormData()">
+              .
+            </md-button>
+          </md-menu-bar>
         </div>
-        <span flex></span>
-        <md-button class="" ng-click="appCtrl.openGuideMeDialog($event)">
-          .
-        </md-button>
-        <md-button ng-click="appCtrl.formGrid.initalizeFormData()">
-          .
-        </md-button>
+        <div flex></div>
+        <div layout layout-align="center center">
+          <md-menu>
+            <md-button aria-label="Open" ng-click="$mdMenu.open($event)">
+              {{appCtrl.graph.userInfo.name}}
+              <b class="caret"></b>
+            </md-button>
+            <md-menu-content width="3">
+              <md-menu-item>
+                <md-button ng-href="{{appCtrl.graph.modelInfo.graphEditorUrl}}" target="_blank" class="">
+                  Graph Editor
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+          <md-button ng-if="appCtrl.graph.loggedIn" class="sae-logout" aria-label="Favorite">
+            Log Out
+          </md-button>
+          <md-button ng-if="!appCtrl.graph.loggedIn" class="sae-login" aria-label="Favorite">
+            Log In
+          </md-button>
+        </div>
       </div>
-    </div>
-    <div class="sae-body" layout="column" layout-align="start center">
-      <div>
-        <md-button class="sae-success" ng-click="appCtrl.startGuide()">
-          Take a Tour
-        </md-button>
-      </div>
+    </md-toolbar>
+    <div ng-if="appCtrl.graph.loggedIn" class="sae-body" layout="column" layout-align="start center">
       <div class="sae-annoton-form sae-container" layout="column" layout-align="start stretch">
         <div id="sae-model-section" class="sae-gp sae-form-section md-whiteframe-2dp" layout="column" layout-align="start stretch"
           flex>
@@ -291,7 +364,6 @@
                         <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[entity.term + 'e']">
                           <i class="fa fa-spinner fa-spin fa-fw"></i>
                         </div>
-
                         <md-input-container class="md-block">
                           <div ng-if="entity.evidence.length>1" class="sae-more-evidence-link">
                             <a ng-click="appCtrl.dialogService.openAddEvidenceDialog($event, entity)">
@@ -401,6 +473,11 @@
             Start New Model
           </md-button>
         </div>
+      </div>
+    </div>
+    <div ng-if="!appCtrl.graph.loggedIn">
+      <div class="alert alert-info">
+        Not Logged In
       </div>
     </div>
     <div class="sae-summary-grid">

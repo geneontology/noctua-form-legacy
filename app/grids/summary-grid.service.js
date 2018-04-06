@@ -54,20 +54,6 @@ export default class SummaryGridService {
       enableHiding: true,
       enableColumnMenu: false
     }, {
-      name: 'qualifier',
-      displayName: 'Qualifier',
-      width: 50,
-      field: 'qualifier',
-      resizable: false,
-      //headerCellTemplate: './grid-templates/header-cell-template.html',
-      enableCellEdit: false,
-      enableCellSelection: false,
-      enableCellEditOnFocus: false,
-      enableSorting: false,
-      allowCellFocus: false,
-      enableHiding: true,
-      enableColumnMenu: false
-    }, {
       name: 'term',
       displayName: 'Term',
       width: 150,
@@ -243,24 +229,22 @@ export default class SummaryGridService {
             color: row.color,
             id: 1,
             gp: row.gp,
-            relationship: extension ? '' : node.edge.label,
+            relationship: extension ? '' : node.target.isComplement ? 'NOT ' : node.edge.label,
             extRelationship: extension ? node.edge.label : '',
             term: extension ? '' : term.label,
             extension: extension ? term.label : '',
             aspect: node.target.aspect,
-            qualifier: node.target.isComplement ? 'NOT' : '',
             evidence: node.target.evidence[0].evidence.control.value.label,
             reference: node.target.evidence[0].reference.control.value,
             with: node.target.evidence[0].with.control.value,
             assignedBy: node.target.evidence[0].assignedBy.control.value,
             // $$treeLevel: node.treeLevel,
-            annoton: node.target,
+            node: node.target,
           })
 
           for (let i = 1; i < node.target.evidence.length; i++) {
             gridData.push({
               gp: row.gp,
-              label: "''",
               evidence: node.target.evidence[i].evidence.control.value.label,
               reference: node.target.evidence[i].reference.control.value,
               with: node.target.evidence[i].with.control.value,
