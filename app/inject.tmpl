@@ -3,13 +3,13 @@
 <!-- Main "app". -->
 <div ng-strict-di ng-app="TVApp" ng-cloak>
   <div ng-controller="AppController as appCtrl" ng-form="patternForm" class="tv-container">
-    <md-toolbar class="md-menu-toolbar">
+    <md-toolbar class="sae-navbar md-menu-toolbar">
       <div layout="row" flex>
         <md-toolbar-filler layout layout-align="center center">
           <md-icon md-font-icon="icon-go-logo"></md-icon>
         </md-toolbar-filler>
         <div flex="100">
-          <div class="sae-breadcrumbs md-toolbar-tools" layout="row">
+          <div class="sae-breadcrumbs md-toolbar-tools" layout="row" layout-align="start center">
             <div class="sae-breadcrumb">
               <a ng-href="{{appCtrl.graph.modelInfo.noctuaUrl}}" target="_blank">
                 Noctua
@@ -480,7 +480,27 @@
         Not Logged In
       </div>
     </div>
-    <div class="sae-summary-grid">
+
+    <div class="sae-section-header" layout="row" layout-align="start start" flex>
+      <div class="sae-section-heading">
+        View
+      </div>
+      <span flex></span>
+      <md-menu>
+        <md-button aria-label="View Options" class="md-icon-button" ng-click="$mdMenu.open($event)">
+          View Mode
+          <b class="caret"></b>
+        </md-button>
+        <md-menu-content width="2">
+          <md-menu-item ng-repeat="view in appCtrl.summaryViewMode.options">
+            <md-button class="" ng-click="appCtrl.setSummaryView(view)">
+              <md-icon md-font-icon="fa fa-trash"></md-icon> {{view.label}}
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </div>
+    <div ng-if="appCtrl.summaryViewMode.selected.id === appCtrl.summaryViewMode.options.grid.id" class="sae-summary-grid">
       <div id="sae-molecular-activities" layout="column" layout-align="start stretch">
         <div>
           <h2>
@@ -577,8 +597,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="sae-summary-grid" layout="column" layout-align="start stretch">
       <div>
         <h2>
           CC Only Annotations
@@ -652,8 +670,7 @@
         </div>
       </div>
     </div>
-
-    <div class="sae-summary-table">
+    <div ng-if="appCtrl.summaryViewMode.selected.id === appCtrl.summaryViewMode.options.table.id" class="sae-summary-table">
       <h2>
         Molecular Activities in the Model (Table View)
       </h2>

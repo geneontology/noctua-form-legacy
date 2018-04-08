@@ -27,15 +27,19 @@ export default class AppController {
     this.formGrid = formGrid;
     this.summaryGrid = summaryGrid;
 
-    this.viewMode = {
+    this.summaryViewMode = {
       options: {
-        grid: 1,
-        linear: 2,
-        table: 3,
-        graph: 4
+        table: {
+          id: 'table',
+          label: 'Table'
+        },
+        grid: {
+          id: 'grid',
+          label: 'Grid'
+        }
       }
     };
-    this.viewMode.selected = this.viewMode.options.table;
+    this.summaryViewMode.selected = this.summaryViewMode.options.table;
 
     var userNameInfo = document.getElementById('user_name_info');
     if (userNameInfo) {
@@ -75,8 +79,9 @@ export default class AppController {
   expandAll() {
     $scope.gridApi.treeBase.expandAllRows();
   };
-  setView(view) {
-    this.viewMode.selected = view;
+
+  setSummaryView(view) {
+    this.summaryViewMode.selected = view;
   }
 
 

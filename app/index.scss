@@ -122,15 +122,27 @@ ul li.error-reason {
 }
 
 .sae-navbar {
-  @include deep-height(50px);
-  background-color: #005888 !important;
-  border: none;
-  color: #EEE !important;
-  a {
-    color: #DDD !important;
-    &:hover {
-      color: #FFF !important;
+  // @include deep-height(80px); //background-color: #005888 !important;
+  // border: none;
+  // color: #EEE !important; 
+  .md-toolbar-tools {
+    @include deep-height(45px);
+  }
+  .sae-breadcrumb {
+    font-size: 18px;
+  }
+  md-menu-bar {
+    padding: 0 0 5px 5px;
+    .md-button {
+      margin: 0;
+      @include deep-height(30px);
+      line-height: 30px;
     }
+  }
+  a {
+    // color: #DDD !important;
+    //&:hover {
+    // color: #FFF !important;
   }
   .navbar-collapse {
     padding: 0;
@@ -635,7 +647,7 @@ ul li.error-reason {
   }
   .ui-grid-top-panel {
     .ui-grid-header-cell-label {
-      font-size: 8px !important;
+      font-size: 10px !important;
     }
   }
   .ui-grid-viewport .ui-grid-cell-contents {
