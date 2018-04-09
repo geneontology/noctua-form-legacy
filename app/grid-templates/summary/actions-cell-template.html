@@ -1,13 +1,23 @@
-<div class="ui-grid-cell-contents" title="TOOLTIP">
-    <div ng-if="grid.appScope.tvc.graph.loggedIn" class="text-center action-row">
-        <md-button hide class="md-icon-button" ng-click="grid.api.expandable.toggleRowExpansion(row.entity)" aria-label="Togle Expamd">
-            <i class="fa fa-pencil fa-plus"></i>
+<div class="ui-grid-cell-contents" title="TOOLTIP" layout="row">
+    <md-button ng-if="row.entity.node.errors.length>0" class="sae-action-button" ng-click="grid.appScope.dialogService.openAnnotonErrorsDialog($event, row.entity.annoton, row.entity.node.errors)">
+        <md-icon md-font-icon="fa fa-exclamation-triangle" class="text-danger"></md-icon>
+    </md-button>
+    <span flex></span>
+    <md-menu md-position-mode="target-right target">
+        <md-button aria-label="Open Annoton Model Type" class="sae-action-button" ng-click="$mdMenu.open($event)">
+            <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
         </md-button>
-        <md-button class="md-icon-button" aria-label="Edit Annoton" ng-click="grid.appScope.tvc.editRow(row.entity)">
-            <i class="fa fa-pencil fa-fw"></i>
-        </md-button>
-        <md-button class="md-icon-button" aria-label="Delete Annoton" ng-click="grid.appScope.tvc.deleteRow(row.entity)">
-            <i class="fa fa-trash-o fa-fw"></i>
-        </md-button>
-    </div>
+        <md-menu-content width="3">
+            <md-menu-item ng-if="row.entity.node.aspect">
+                <md-button class="" ng-click="grid.appScope.openPopulateReadonlyDialog($event, row.entity.annoton, row.entity.node)">
+                    Search Database
+                </md-button>
+            </md-menu-item>
+            <md-menu-item>
+                <md-button class="" ng-click="grid.appScope.openLinkToExistingDialog($event, row.entity.node)">
+                    Copy to Form
+                </md-button>
+            </md-menu-item>
+        </md-menu-content>
+    </md-menu>
 </div>

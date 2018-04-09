@@ -176,11 +176,13 @@ export default class GraphService {
       return Object.keys(params).map(key => key + '=' + params[key]).join('&');
     }
 
+    self.modelInfo.goUrl = 'http://www.geneontology.org/';
     self.modelInfo.noctuaUrl = window.location.origin + "?" + (this.loggedIn ? parameterize(params) : '');
-
     self.modelInfo.owlUrl = window.location.origin + "/download/" + modelId + "/owl";
     self.modelInfo.gpadUrl = window.location.origin + "/download/" + modelId + "/gpad";
     self.modelInfo.graphEditorUrl = window.location.origin + "/editor/graph/" + modelId + "?" + (this.loggedIn ? parameterize(params) : '');
+    self.modelInfo.logoutUrl = self.barista_location + '/logout?' + parameterize(params) + '&amp;return=' + window.location.origin + '/simple-annoton-editor?' + parameterize(params)
+    self.modelInfo.loginUrl = self.barista_location + '/login?return=' + window.location.origin + '/simple-annoton-editor';
 
   }
 
@@ -190,7 +192,7 @@ export default class GraphService {
 
     return this.$http.get(url)
       .then(function (response) {
-        if (response.data && response.data.groups.length > 0) {
+        if (response.data && response.data.groups && response.data.groups.length > 0) {
           self.userInfo.name = response.data['nickname'];
           self.userInfo.groups = response.data['groups'];
           self.userInfo.selectedGroup = self.userInfo.groups[0];

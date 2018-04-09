@@ -1,6 +1,6 @@
 @import "./scss/global.scss";
 @import "~bourbon/app/assets/stylesheets/bourbon";
-$sae-header-bg-color: #cbd9e6;
+$sae-header-bg-color: #DBE8F3;
 md-checkbox.md-checked.sae-primary .md-icon {
   background-color: $sae-primary-color;
 }
@@ -122,13 +122,18 @@ ul li.error-reason {
 
 .sae-navbar {
   // @include deep-height(80px); //background-color: #005888 !important;
-  // border: none;
-  // color: #EEE !important; 
+  border-bottom: #00A1E0 solid 4px; // color: #EEE !important; 
   .md-toolbar-tools {
     @include deep-height(45px);
   }
   .sae-breadcrumb {
-    font-size: 18px;
+    font-size: 16px;
+  }
+  md-toolbar-filler {
+    background-color: #FFF !important;
+    img {
+      height: 40px;
+    }
   }
   md-menu-bar {
     padding: 0 0 5px 5px;
@@ -662,6 +667,16 @@ ul li.error-reason {
   .ui-grid-cell {
     height: auto !important;
     font-size: 10px;
+    .sae-action-button {
+      margin: 0;
+      @include deep-height(20px);
+      line-height: 20px;
+      md-icon,
+      i {
+        @include sae-icon-size(14px);
+        line-height: 14px;
+      }
+    }
   }
   .ui-grid-row div[role=row] {
     display: flex;
@@ -677,11 +692,8 @@ ul li.error-reason {
     white-space: nowrap !important;
     background-color: transparent;
   }
-  .sae-row-status-1 {
-    background-color: #ce8a8a !important;
-  }
-  .sae-row-status-2 {
-    background-color: #e0bcbc !important;
+  .sae-row-error {
+    background-color: #e4c2c2 !important;
   }
   .ui-grid-row .ui-grid-cell {
     padding: 3px; //  background-color: inherit !important;

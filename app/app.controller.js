@@ -48,17 +48,19 @@ export default class AppController {
 
     appCtrl.formGrid.initalizeForm();
 
+    appCtrl.summaryGrid.setGridScope(appCtrl);
+
     $rootScope.$on('rebuilt', function (event, data) {
       appCtrl.summaryData = data.gridData;
-      // appCtrl.summaryGrid.gridOptions.data = data.gridData.annotons;
-      appCtrl.summaryGrid.gridOptions.appScopeProvider = appCtrl;
-      //  appCtrl.summaryGrid.gridOptions.expandableRowScope = appCtrl;
+      // appCtrl.summaryGrid.gridOptions.data = data.gridData.annotons; 
       appCtrl.summaryGrid.setGrid(data.gridData.annotons)
-      appCtrl.summaryGrid.registerApi();
+
+      //  appCtrl.summaryGrid.gridOptions.expandableRowScope = appCtrl;
+
+      //appCtrl.summaryGrid.registerApi();
       // appCtrl.summaryGrid.expandAll();
 
     });
-
 
 
 
@@ -81,8 +83,6 @@ export default class AppController {
   setSummaryView(view) {
     this.summaryViewMode.selected = view;
   }
-
-
 
   onSelected(m, item, model, label) {
     m = item;
@@ -139,6 +139,7 @@ export default class AppController {
 
     if (gpNode && gpNode.term.control.value.id) {
       let data = {
+        readonly: false,
         gpNode: gpNode,
         aspect: entity.aspect,
         entity: entity,
@@ -172,6 +173,23 @@ export default class AppController {
       errors.push(error);
       self.dialogService.openAnnotonErrorsDialog(ev, entity, errors)
     }
+
+  }
+
+  openPopulateReadonlyDialog(ev, annoton, entity) {
+    const self = this;
+    let gpNode = annoton.getNode('gp');
+
+    let data = {
+      readonly: true,
+      gpNode: gpNode,
+      aspect: entity.aspect,
+      entity: entity,
+      params: {
+        term: entity.term.control.value.id,
+      }
+    }
+    self.dialogService.openPopulateDialog(ev, data);
 
   }
 

@@ -3,10 +3,12 @@
 <!-- Main "app". -->
 <div ng-strict-di ng-app="TVApp" ng-cloak>
   <div ng-controller="AppController as appCtrl" ng-form="patternForm" class="tv-container">
-    <md-toolbar class="sae-navbar md-menu-toolbar">
+    <md-toolbar class="sae-navbar md-menu-toolbar md-whiteframe-2dp">
       <div layout="row" flex>
         <md-toolbar-filler layout layout-align="center center">
-          <md-icon md-font-icon="icon-go-logo"></md-icon>
+          <a ng-href="{{appCtrl.graph.modelInfo.goUrl}}" target="_blank">
+            <img ng-src="assets/images/go-logo.png">
+          </a>
         </md-toolbar-filler>
         <div flex="100">
           <div class="sae-breadcrumbs md-toolbar-tools" layout="row" layout-align="start center">
@@ -58,6 +60,10 @@
               </md-button>
               <md-menu-content ng-click="$event.stopPropagation()" width="4">
                 <strong>Model ID:</strong> {{appCtrl.graph.model_id}}
+                <br>
+                <strong>State:</strong> {{appCtrl.graph.modelState}}
+                <br>
+                <strong>Group:</strong> {{appCtrl.graph.userInfo.selectedGroup.label}}
               </md-menu-content>
             </md-menu>
             <md-button class="sae-success" ng-click="appCtrl.startGuide()">
@@ -78,18 +84,14 @@
               {{appCtrl.graph.userInfo.name}}
               <b class="caret"></b>
             </md-button>
-            <md-menu-content width="3">
-              <md-menu-item>
-                <md-button ng-href="{{appCtrl.graph.modelInfo.graphEditorUrl}}" target="_blank" class="">
-                  Graph Editor
-                </md-button>
-              </md-menu-item>
+            <md-menu-content ng-click="$event.stopPropagation()" width="4">
+              <strong>Group:</strong> {{appCtrl.graph.userInfo.selectedGroup.label}}
             </md-menu-content>
           </md-menu>
-          <md-button ng-if="appCtrl.graph.loggedIn" class="sae-logout" aria-label="Favorite">
+          <md-button ng-if="appCtrl.graph.loggedIn" ng-href="{{appCtrl.graph.modelInfo.logoutUrl}}" class="sae-logout" aria-label="Favorite">
             Log Out
           </md-button>
-          <md-button ng-if="!appCtrl.graph.loggedIn" class="sae-login" aria-label="Favorite">
+          <md-button ng-if="!appCtrl.graph.loggedIn" ng-href="{{appCtrl.graph.modelInfo.loginUrl}}" class="sae-login" aria-label="Favorite">
             Log In
           </md-button>
         </div>
@@ -672,8 +674,9 @@
     </div>
     <div ng-if="appCtrl.summaryViewMode.selected.id === appCtrl.summaryViewMode.options.table.id" class="sae-summary-table">
       <h2>
-        Molecular Activities in the Model (Table View)
+        Molecular Activities in the Model
       </h2>
+      <br>
       <div ui-grid="appCtrl.summaryGrid.gridOptions" ui-grid-resize-columns ui-grid-auto-resize ui-grid-pinning ui-grid-move-columns
         class="grid">
       </div>

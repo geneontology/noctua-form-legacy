@@ -8,7 +8,6 @@ export default class SummaryGridService {
     this.config = config;
     this.$timeout = $timeout;
     this.lookup = lookup;
-    this.annoton = this.config.createAnnotonModelFakeData();
 
     this.gridApi = null;
 
@@ -20,7 +19,6 @@ export default class SummaryGridService {
       minWidth: 100,
       maxWidth: 400,
       field: 'gp',
-      resizable: false,
       //headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -35,7 +33,6 @@ export default class SummaryGridService {
       minWidth: 50,
       maxWidth: 120,
       field: 'relationship',
-      resizable: false,
       //headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -50,7 +47,6 @@ export default class SummaryGridService {
       minWidth: 65,
       maxWidth: 65,
       field: 'aspect',
-      resizable: false,
       //headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
@@ -62,13 +58,12 @@ export default class SummaryGridService {
     }, {
       name: 'term',
       displayName: 'Term',
-      //width: '18%',
+      width: '15%',
       minWidth: 100,
       maxWidth: 400,
       field: 'term',
-      resizable: false,
       //headerCellTemplate: './grid-templates/header-cell-template.html',
-      cellTemplate: './grid-templates/summary/term-validator-cell-template.html',
+      //cellTemplate: './grid-templates/summary/term-validator-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -83,7 +78,6 @@ export default class SummaryGridService {
       minWidth: 120,
       maxWidth: 120,
       field: 'extRelationship',
-      resizable: false,
       //headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
@@ -95,13 +89,11 @@ export default class SummaryGridService {
     }, {
       name: 'extension',
       displayName: 'Extension',
-      width: '18%',
       minWidth: 100,
       maxWidth: 400,
       field: 'extension',
-      resizable: false,
       //headerCellTemplate: './grid-templates/header-cell-template.html',
-      cellTemplate: './grid-templates/summary/term-validator-cell-template.html',
+      //cellTemplate: './grid-templates/summary/term-validator-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -118,7 +110,7 @@ export default class SummaryGridService {
       minWidth: 100,
       maxWidth: 400,
       //headerCellTemplate: './grid-templates/header-cell-template.html',
-      cellTemplate: './grid-templates/summary/evidence-validator-cell-template.html',
+      // cellTemplate: './grid-templates/summary/evidence-validator-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -133,7 +125,6 @@ export default class SummaryGridService {
       minWidth: 80,
       maxWidth: 120,
       field: 'reference',
-      resizable: false,
       //headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
@@ -149,7 +140,6 @@ export default class SummaryGridService {
       minWidth: 100,
       maxWidth: 180,
       field: 'with',
-      resizable: false,
       //headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
@@ -165,8 +155,27 @@ export default class SummaryGridService {
       minWidth: 100,
       maxWidth: 200,
       field: 'assignedBy',
+      //headerCellTemplate: './grid-templates/header-cell-template.html',
+      enableCellEdit: false,
+      enableCellSelection: false,
+      enableCellEditOnFocus: false,
+      enableSorting: false,
+      allowCellFocus: false,
+      enableHiding: true,
+      enableColumnMenu: false
+    }, {
+      name: 'action',
+      displayName: '',
+      width: 100,
+      minWidth: 100,
+      maxWidth: 100,
+      field: 'action',
+      // enablePinning: true,
+      // pinnedRight: true,
       resizable: false,
       //headerCellTemplate: './grid-templates/header-cell-template.html',
+      cellTemplate: './grid-templates/summary/actions-cell-template.html',
+
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -195,11 +204,18 @@ export default class SummaryGridService {
 
       // keyDownOverrides: [{keyCode: 27}]
       columnDefs: this.columnDefs,
-      data: []
+      data: [],
+
     };
 
     this.registerApi();
   }
+
+  setGridScope(scope) {
+    const self = this;
+    self.gridOptions.appScopeProvider = scope;
+  }
+
 
   registerApi() {
     const self = this;
@@ -227,7 +243,7 @@ export default class SummaryGridService {
     const self = this;
     let gridData = [];
 
-    let colors = ["#EEE", '#e0eee0'];
+    let colors = ["#E9E9E9", '#F9F9F9'];
 
     each(annotonData, function (row, key) {
       row.color = colors[key % 2];
@@ -236,7 +252,31 @@ export default class SummaryGridService {
           let term = node.getTerm();
 
           if (node.id !== 'mc' && node.id !== 'gp' && term.id) {
-            self.foo(row, node, gridData);
+            self.setGridRow(row, node, gridData);
+          }
+        });
+      });
+      // gridData.push({
+      //    color: '#FFF',
+      //  });
+    });
+    self.gridOptions.data = gridData;
+  }
+
+  setGridCCOnly(annotonData) {
+    const self = this;
+    let gridData = self.gridOptions.data;
+
+    let colors = ["#DBE8F", '#F9F9F9'];
+
+    each(annotonData, function (row, key) {
+      row.color = colors[key % 2];
+      each(row.annotonPresentation.fd, function (nodeGroup) {
+        each(nodeGroup.nodes, function (node) {
+          let term = node.getTerm();
+
+          if (node.id !== 'mc' && node.id !== 'gp' && term.id) {
+            self.setGridRow(row, node, gridData);
           }
         });
       });
@@ -244,24 +284,7 @@ export default class SummaryGridService {
     self.gridOptions.data = gridData;
   }
 
-  setGridDFS(row, gridData, edge) {
-    const self = this;
-
-    if (edge && edge.nodes) {
-      each(row.annotonPresentation.fd, function (node) {
-        let term = node.target.getTerm();
-
-        if (node.target.id !== 'mc' && node.target.id !== 'gp' && term.id) {
-          self.foo(row, node.target, node.edge, gridData);
-        }
-
-        self.setGridDFS(row, node, gridData)
-      });
-    }
-
-  }
-
-  foo(row, node, gridData) {
+  setGridRow(row, node, gridData) {
     let extension = node.treeLevel > 0;
     let term = node.getTerm();
 
@@ -280,6 +303,7 @@ export default class SummaryGridService {
       assignedBy: node.evidence[0].assignedBy.control.value,
       // $$treeLevel: node.treeLevel,
       node: node,
+      annoton: row.annoton
     })
 
     for (let i = 1; i < node.evidence.length; i++) {
