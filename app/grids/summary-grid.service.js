@@ -16,9 +16,9 @@ export default class SummaryGridService {
     this.columnDefs = [{
       name: 'gp',
       displayName: 'Annotated Entity',
-      width: 150,
+      width: 250,
       minWidth: 100,
-      maxWidth: 200,
+      maxWidth: 400,
       field: 'gp',
       resizable: false,
       //headerCellTemplate: './grid-templates/header-cell-template.html',
@@ -31,7 +31,7 @@ export default class SummaryGridService {
     }, {
       name: 'relationship',
       displayName: 'Relationship',
-      width: 85,
+      width: 95,
       minWidth: 50,
       maxWidth: 120,
       field: 'relationship',
@@ -46,9 +46,9 @@ export default class SummaryGridService {
     }, {
       name: 'aspect',
       displayName: 'Aspect',
-      width: 55,
-      minWidth: 55,
-      maxWidth: 55,
+      width: 65,
+      minWidth: 65,
+      maxWidth: 65,
       field: 'aspect',
       resizable: false,
       //headerCellTemplate: './grid-templates/header-cell-template.html',
@@ -62,9 +62,9 @@ export default class SummaryGridService {
     }, {
       name: 'term',
       displayName: 'Term',
-      width: '20%',
+      //width: '18%',
       minWidth: 100,
-      maxWidth: 500,
+      maxWidth: 400,
       field: 'term',
       resizable: false,
       //headerCellTemplate: './grid-templates/header-cell-template.html',
@@ -79,9 +79,9 @@ export default class SummaryGridService {
     }, {
       name: 'extRelationship',
       displayName: 'Relationship(ext)',
-      width: 110,
-      minWidth: 110,
-      maxWidth: 110,
+      width: 120,
+      minWidth: 120,
+      maxWidth: 120,
       field: 'extRelationship',
       resizable: false,
       //headerCellTemplate: './grid-templates/header-cell-template.html',
@@ -95,9 +95,9 @@ export default class SummaryGridService {
     }, {
       name: 'extension',
       displayName: 'Extension',
-      width: '20%',
+      width: '18%',
       minWidth: 100,
-      maxWidth: 500,
+      maxWidth: 400,
       field: 'extension',
       resizable: false,
       //headerCellTemplate: './grid-templates/header-cell-template.html',
@@ -116,7 +116,7 @@ export default class SummaryGridService {
       displayName: 'Evidence',
       width: '20%',
       minWidth: 100,
-      maxWidth: 500,
+      maxWidth: 400,
       //headerCellTemplate: './grid-templates/header-cell-template.html',
       cellTemplate: './grid-templates/summary/evidence-validator-cell-template.html',
       enableCellEdit: false,
@@ -129,7 +129,7 @@ export default class SummaryGridService {
     }, {
       name: 'reference',
       displayName: 'Reference',
-      width: 100,
+      width: 110,
       minWidth: 80,
       maxWidth: 120,
       field: 'reference',
@@ -145,7 +145,7 @@ export default class SummaryGridService {
     }, {
       name: 'with',
       displayName: 'With',
-      width: 120,
+      width: 110,
       minWidth: 100,
       maxWidth: 180,
       field: 'with',
@@ -161,7 +161,7 @@ export default class SummaryGridService {
     }, {
       name: 'assignedBy',
       displayName: 'Assigned By',
-      width: 120,
+      width: 110,
       minWidth: 100,
       maxWidth: 200,
       field: 'assignedBy',
@@ -231,7 +231,15 @@ export default class SummaryGridService {
 
     each(annotonData, function (row, key) {
       row.color = colors[key % 2];
-      self.setGridDFS(row, gridData, row.annoton.edges.mf)
+      each(row.annotonPresentation.fd, function (nodeGroup) {
+        each(nodeGroup.nodes, function (node) {
+          let term = node.getTerm();
+
+          if (node.id !== 'mc' && node.id !== 'gp' && term.id) {
+            self.foo(row, node, gridData);
+          }
+        });
+      });
     });
     self.gridOptions.data = gridData;
   }
@@ -240,45 +248,51 @@ export default class SummaryGridService {
     const self = this;
 
     if (edge && edge.nodes) {
-      each(edge.nodes, function (node) {
+      each(row.annotonPresentation.fd, function (node) {
         let term = node.target.getTerm();
-        let extension = node.target.treeLevel > 0;
 
-        if (node.id !== 'mc' && node.target.id !== 'gp' && term.id) {
-          gridData.push({
-            color: row.color,
-            id: 1,
-            gp: row.gp,
-            relationship: extension ? '' : node.target.isComplement ? 'NOT ' : node.edge.label,
-            extRelationship: extension ? node.edge.label : '',
-            term: extension ? '' : term.label,
-            extension: extension ? term.label : '',
-            aspect: node.target.aspect,
-            evidence: node.target.evidence[0].evidence.control.value.label,
-            reference: node.target.evidence[0].reference.control.value,
-            with: node.target.evidence[0].with.control.value,
-            assignedBy: node.target.evidence[0].assignedBy.control.value,
-            // $$treeLevel: node.treeLevel,
-            node: node.target,
-          })
-
-          for (let i = 1; i < node.target.evidence.length; i++) {
-            gridData.push({
-              gp: row.gp,
-              evidence: node.target.evidence[i].evidence.control.value.label,
-              reference: node.target.evidence[i].reference.control.value,
-              with: node.target.evidence[i].with.control.value,
-              assignedBy: node.target.evidence[i].assignedBy.control.value,
-              // $$treeLevel: node.treeLevel,
-              //  annoton: node,
-            })
-          }
+        if (node.target.id !== 'mc' && node.target.id !== 'gp' && term.id) {
+          self.foo(row, node.target, node.edge, gridData);
         }
 
-        self.setGridDFS(row, gridData, row.annoton.edges[node.target.id])
+        self.setGridDFS(row, node, gridData)
       });
     }
 
+  }
+
+  foo(row, node, gridData) {
+    let extension = node.treeLevel > 0;
+    let term = node.getTerm();
+
+    gridData.push({
+      color: row.color,
+      id: 1,
+      gp: node.id === 'mf' ? row.gp : '',
+      relationship: extension ? '' : node.isComplement ? 'NOT ' : node.relationship.label,
+      extRelationship: extension ? node.relationship.label : '',
+      term: extension ? '' : term.label,
+      extension: extension ? term.label : '',
+      aspect: node.aspect,
+      evidence: node.evidence[0].evidence.control.value.label,
+      reference: node.evidence[0].reference.control.value,
+      with: node.evidence[0].with.control.value,
+      assignedBy: node.evidence[0].assignedBy.control.value,
+      // $$treeLevel: node.treeLevel,
+      node: node,
+    })
+
+    for (let i = 1; i < node.evidence.length; i++) {
+      gridData.push({
+        gp: row.gp,
+        evidence: node.evidence[i].evidence.control.value.label,
+        reference: node.evidence[i].reference.control.value,
+        with: node.evidence[i].with.control.value,
+        assignedBy: node.evidence[i].assignedBy.control.value,
+        // $$treeLevel: node.treeLevel,
+        //  annoton: node,
+      })
+    }
   }
 
 

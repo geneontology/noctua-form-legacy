@@ -57,8 +57,6 @@ export default class AppController {
       appCtrl.summaryGrid.registerApi();
       // appCtrl.summaryGrid.expandAll();
 
-
-      console.log('poo', appCtrl.graph.modelInfo.graphEditorUrl);
     });
 
 

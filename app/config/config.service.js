@@ -55,6 +55,7 @@ export default class ConfigService {
       "mc": {
         'id': 'mc',
         "label": 'Macromolecular Complex',
+        "relationship": this.saeConstants.edge.hasPart,
         "displaySection": this.saeConstants.displaySection.gp,
         "displayGroup": this.saeConstants.displayGroup.mc,
         "lookupGroup": 'GO:0032991',
@@ -73,6 +74,7 @@ export default class ConfigService {
       },
       "gp": {
         "label": 'Gene Product',
+        "relationship": this.saeConstants.edge.enabledBy,
         "displaySection": this.saeConstants.displaySection.gp,
         "displayGroup": this.saeConstants.displayGroup.gp,
         "lookupGroup": 'CHEBI:33695',
@@ -93,6 +95,7 @@ export default class ConfigService {
       'mf': {
         "label": 'Molecular Function',
         'aspect': 'F',
+        "relationship": this.saeConstants.edge.enabledBy,
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.mf,
         "lookupGroup": 'GO:0003674',
@@ -111,6 +114,7 @@ export default class ConfigService {
       },
       'mf-1': {
         "label": 'Has Input (Gene Product/Chemical)',
+        "relationship": this.saeConstants.edge.hasInput,
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.mf,
         "lookupGroup": 'CHEBI:23367',
@@ -129,6 +133,7 @@ export default class ConfigService {
       },
       'mf-2': {
         "label": 'Happens During (Temporal Phase)',
+        "relationship": this.saeConstants.edge.happensDuring,
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.mf,
         "lookupGroup": 'GO:0044848',
@@ -148,6 +153,7 @@ export default class ConfigService {
       'cc': {
         "label": 'Cellular Component',
         'aspect': 'C',
+        "relationship": this.saeConstants.edge.occursIn,
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.cc,
         "lookupGroup": 'GO:0005575',
@@ -167,6 +173,7 @@ export default class ConfigService {
       'cc-1': {
         "label": 'Part Of (CC)',
         'aspect': 'C',
+        "relationship": this.saeConstants.edge.occursIn,
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.cc,
         "lookupGroup": 'GO:0005575',
@@ -185,6 +192,7 @@ export default class ConfigService {
       },
       'cc-1-1': {
         "label": 'Part Of (Cell Type)',
+        "relationship": this.saeConstants.edge.partOf,
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.cc,
         "lookupGroup": 'CL:0000003',
@@ -203,6 +211,7 @@ export default class ConfigService {
       },
       'cc-1-1-1': {
         "label": 'Part Of (Anatomy)',
+        "relationship": this.saeConstants.edge.partOf,
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.cc,
         "lookupGroup": 'UBERON:0000061',
@@ -222,6 +231,7 @@ export default class ConfigService {
       'bp': {
         "label": 'Biological Process',
         'aspect': 'P',
+        "relationship": this.saeConstants.edge.partOf,
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.bp,
         "lookupGroup": 'GO:0008150',
@@ -241,6 +251,7 @@ export default class ConfigService {
       'bp-1': {
         "label": 'Part Of (BP)',
         'aspect': 'P',
+        "relationship": this.saeConstants.edge.partOf,
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.bp,
         "lookupGroup": 'GO:0008150',
@@ -260,6 +271,7 @@ export default class ConfigService {
       'bp-1-1': {
         "label": 'Part Of (BP)',
         'aspect': 'P',
+        "relationship": this.saeConstants.edge.partOf,
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.bp,
         "lookupGroup": 'GO:0008150',
@@ -565,6 +577,7 @@ export default class ConfigService {
     annotonNode.aspect = nodeData.aspect;
     annotonNode.ontologyClass = nodeData.ontologyClass;
     annotonNode.label = nodeData.label;
+    annotonNode.relationship = nodeData.relationship;
     annotonNode.displaySection = nodeData.displaySection;
     annotonNode.displayGroup = nodeData.displayGroup;
     annotonNode.lookupGroup = nodeData.lookupGroup;
@@ -586,6 +599,7 @@ export default class ConfigService {
     annotonNode.aspect = nodeData.aspect;
     annotonNode.ontologyClass = nodeData.ontologyClass;
     annotonNode.label = "has part (GP)";
+    annotonNode.relationship = nodeData.relationship;
     annotonNode.displaySection = nodeData.displaySection;
     annotonNode.displayGroup = nodeData.displayGroup;
     annotonNode.lookupGroup = nodeData.lookupGroup;

@@ -14,8 +14,7 @@ pre.pre-scrollable {
 }
 
 .ui-grid-cell-contents {
-  font-size: 12px;
-  xborder: 1px solid rgb(33, 56, 33);
+  font-size: 12px; //border: 1px solid rgb(33, 56, 33);
   word-wrap: break-word;
   white-space: normal !important;
 }
@@ -646,8 +645,13 @@ ul li.error-reason {
     width: 100%;
   }
   .ui-grid-top-panel {
-    .ui-grid-header-cell-label {
-      font-size: 10px !important;
+    .ui-grid-header-cell {
+      height: 50px;
+      line-height: 40px;
+      background-color: $sae-header-bg-color;
+      .ui-grid-header-cell-label {
+        font-size: 12px !important;
+      }
     }
   }
   .ui-grid-viewport .ui-grid-cell-contents {
@@ -686,7 +690,7 @@ ul li.error-reason {
   }
   .ui-grid-row .ui-grid-cell.ui-grid-cell {
     //  background-color: #7c7499;
-    //  border-bottom: solid 1px #d4d4d4;
+    border-bottom: solid 1px #d4d4d4;
   }
   .sae-row-level-0 {
     // background-color: rgba($primary-color, 0.2);
