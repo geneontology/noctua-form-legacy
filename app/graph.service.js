@@ -116,9 +116,8 @@ export default class GraphService {
     });
 
     function rebuild(resp) {
+      let noctua_graph = model.graph;
 
-      console.log(model, resp)
-      var noctua_graph = model.graph;
       self.graph = new noctua_graph();
       self.model_id = local_id = global_id = resp.data().id;
       self.graph.load_data_basic(resp.data());
@@ -140,19 +139,20 @@ export default class GraphService {
 
       // self.graphPreParse(self.graph);
       let annotons = self.graphToAnnotons(self.graph);
-      let ccComponents = self.graphToCCOnly(self.graph);
+      self.graphToCCOnly(self.graph).then(function (data) {
+        self.gridData = {
+          annotons: [...self.annotonsToTable(self.graph, annotons), ...self.ccComponentsToTable(self.graph, data)]
+        };
+
+        self.$timeout(() => {
+          self.$rootScope.$emit('rebuilt', {
+            gridData: self.gridData
+          });
+        }, 10);
+      });
 
       self.title = self.graph.get_annotations_by_key('title');
 
-      self.$timeout(() => {
-        self.gridData = {
-          annotons: self.annotonsToTable(self.graph, annotons),
-          ccComponents: self.ccComponentsToTable(self.graph, ccComponents)
-        };
-        self.$rootScope.$emit('rebuilt', {
-          gridData: self.gridData
-        });
-      }, 10);
     }
 
     manager.register('merge', function ( /* resp */ ) {
@@ -385,6 +385,7 @@ export default class GraphService {
 
     self.lookup.isaClosure(a, b).then(function (data) {
       if (data === true) {
+        console.log(a, b, true)
         annoton.ccOnlyVerified = true;
       }
       deferred.resolve(data);
@@ -408,42 +409,6 @@ export default class GraphService {
         }
       });
     }
-  }
-
-  xgraphPreParse(graph) {
-    const self = this;
-    let deferred = self.$q.defer();
-    var promises = [];
-
-    each(graph.all_nodes(), function (node) {
-      //isaClosure(a, b)
-      //let termId = self.getNodeId(node)
-      node.metadata({
-        a: 124555
-      });
-    });
-
-    each(graph.all_edges(), function (edge) {
-      //subject
-      let subjectNode = graph.get_node(edge.subject_id());
-      let subjectNodeTermId = self.getNodeId(subjectNode);
-      //object
-      let objectNode = graph.get_node(edge.object_id());
-      let objectNodeTermId = self.getNodeId(objectNode);
-      subjectNode.metadata({
-        a: 124
-      });
-
-      //self.foo(subjectNode, objectNode, edge.predicate_id(), promises);
-    });
-
-    self.$timeout(() => {
-      self.graphPreParseNodes(graph);
-    }, 10000);
-
-    self.$q.all(promises).then(function (data) {
-      //self.graphPreParseNodes(graph);
-    });
   }
 
 
@@ -599,7 +564,7 @@ export default class GraphService {
         //   }
 
         let evidence = self.edgeToEvidence(graph, e);
-        let ccEdgesIn = graph.get_edges_by_subject(ccId);
+        let ccEdgesIn = graph.get_edges_by_subject(gpId);
         let annotonNode = annoton.getNode('gp');
 
         annoton.parser = new AnnotonParser(self.saeConstants);
@@ -618,9 +583,7 @@ export default class GraphService {
       }
     });
 
-    self.filterCCOnly(annotons);
-
-    return annotons;
+    return self.filterCCOnly(annotons);
   }
 
   graphToCCOnlyDFS(graph, annoton, ccEdgesIn, annotonNode) {
@@ -668,24 +631,30 @@ export default class GraphService {
 
   filterCCOnly(annotons) {
     const self = this;
-    let result = [];
     let promises = [];
 
     each(annotons, function (annoton) {
       each(annoton.nodes, function (node) {
         let term = node.getTerm();
         if (term) {
-          promises.push(self.isaCCClosure(node.getTerm().id, "CHEBI:33695", annoton));
-          promises.push(self.isaCCClosure(node.getTerm().id, "GO:0032991", annoton));
+          if (annoton.annotonType === self.saeConstants.annotonType.options.simple.name) {
+            promises.push(self.isaCCClosure(node.getTerm().id, "CHEBI:33695", annoton));
+          } else {
+            promises.push(self.isaCCClosure(node.getTerm().id, "GO:0032991", annoton));
+          }
         }
       });
     });
 
-    self.$q.all(promises).then(function (data) {
+    return self.$q.all(promises).then(function (data) {
+      let result = []
 
       each(annotons, function (annoton) {
-        //result.push(annoton);
+        if (annoton.ccOnlyVerified) {
+          result.push(annoton)
+        }
       });
+      return result;
     });
   }
 

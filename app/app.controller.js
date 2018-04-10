@@ -52,8 +52,9 @@ export default class AppController {
 
     $rootScope.$on('rebuilt', function (event, data) {
       appCtrl.summaryData = data.gridData;
-      // appCtrl.summaryGrid.gridOptions.data = data.gridData.annotons; 
       appCtrl.summaryGrid.setGrid(data.gridData.annotons)
+
+
 
       //  appCtrl.summaryGrid.gridOptions.expandableRowScope = appCtrl;
 
@@ -61,8 +62,6 @@ export default class AppController {
       // appCtrl.summaryGrid.expandAll();
 
     });
-
-
 
     graph.initialize();
     this.config.createJoyrideSteps();

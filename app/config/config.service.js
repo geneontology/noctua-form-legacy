@@ -353,6 +353,20 @@ export default class ConfigService {
         nodes: [
           'cc', 'cc-1', 'cc-1-1', 'cc-1-1-1'
         ],
+        overrides: {
+          'cc': {
+            id: 'cc',
+            relationship: this.saeConstants.edge.partOf
+          },
+          'cc-1': {
+            id: 'cc-1',
+            relationship: this.saeConstants.edge.partOf
+          },
+          'cc-1-1': {
+            id: 'cc-1-1',
+            relationship: this.saeConstants.edge.partOf
+          }
+        },
         triples: [{
           subject: 'cc',
           object: 'cc-1',
@@ -562,6 +576,7 @@ export default class ConfigService {
       let node = annoton.getNode(overridesData.id);
       overridesData.term ? node.setTerm(overridesData.term) : angular.noop;
       overridesData.display ? node.setDisplay(overridesData.display) : angular.noop;
+      overridesData.relationship ? node.relationship = overridesData.relationship : angular.noop;
     });
 
     return annoton;

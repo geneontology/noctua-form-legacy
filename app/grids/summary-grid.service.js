@@ -263,7 +263,7 @@ export default class SummaryGridService {
     self.gridOptions.data = gridData;
   }
 
-  setGridCCOnly(annotonData) {
+  addCCOnly(annotonData) {
     const self = this;
     let gridData = self.gridOptions.data;
 
@@ -285,13 +285,24 @@ export default class SummaryGridService {
   }
 
   setGridRow(row, node, gridData) {
+    const self = this;
     let extension = node.treeLevel > 0;
     let term = node.getTerm();
+
+    let displayGp = function (annoton, node) {
+      switch (row.annoton.annotonModelType) {
+        case self.saeConstants.annotonModelType.options.default.name:
+          return node.id === 'mf';
+        case self.saeConstants.annotonModelType.options.ccOnly.name:
+          return node.id === 'cc';
+      }
+      return false;
+    }
 
     gridData.push({
       color: row.color,
       id: 1,
-      gp: node.id === 'mf' ? row.gp : '',
+      gp: displayGp(row.annoton, node) ? row.gp : '',
       relationship: extension ? '' : node.isComplement ? 'NOT ' : node.relationship.label,
       extRelationship: extension ? node.relationship.label : '',
       term: extension ? '' : term.label,
