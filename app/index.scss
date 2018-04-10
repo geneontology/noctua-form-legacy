@@ -120,6 +120,12 @@ ul li.error-reason {
   color: darkslateblue;
 }
 
+.sae-menu-heading {
+  margin: 0;
+  padding: 10px 14px;
+  background-color: #E2E2E2;
+}
+
 .sae-navbar {
   // @include deep-height(80px); //background-color: #005888 !important;
   border-bottom: #00A1E0 solid 2px; // color: #EEE !important; 

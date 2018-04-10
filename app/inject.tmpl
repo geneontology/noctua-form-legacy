@@ -53,6 +53,15 @@
                     GPAD
                   </md-button>
                 </md-menu-item>
+
+                <h6 class="sae-menu-heading">
+                  Workbenches</h6>
+                <md-menu-item ng-repeat="workbench in appCtrl.graph.modelInfo.workbenches">
+                  <md-button ng-href="{{workbench.url}}" target="_blank" class="">
+                    {{workbench.label}}
+                  </md-button>
+                </md-menu-item>
+              </md-menu-content>
               </md-menu-content>
             </md-menu>
             <md-menu>

@@ -191,6 +191,32 @@ export default class GraphService {
     self.modelInfo.logoutUrl = self.barista_location + '/logout?' + parameterize(baristaParams) + '&amp;return=' + window.location.origin + '/workbench/simple-annoton-editor?' + parameterize(baristaParams)
     self.modelInfo.loginUrl = self.barista_location + '/login?return=' + window.location.origin + '/workbench/simple-annoton-editor';
 
+    //Workbenches 
+    self.modelInfo.workbenches = [{
+      label: 'Annotation Preview',
+      url: window.location.origin + '/workbench/annpreview?' + (this.loggedIn ? parameterize(Object.assign({}, modelIdParams, baristaParams)) : ''),
+    }, {
+      label: 'Function Companion',
+      url: window.location.origin + '/workbench/companion?' + (this.loggedIn ? parameterize(Object.assign({}, modelIdParams, baristaParams)) : ''),
+    }, {
+      label: 'Cytoscape Layout Tool',
+      url: window.location.origin + '/workbench/cytoview?' + (this.loggedIn ? parameterize(Object.assign({}, modelIdParams, baristaParams)) : ''),
+    }, {
+      label: "Gosling (Noctua's little GOOSE)",
+      url: window.location.origin + '/workbench/gosling-model?' + (this.loggedIn ? parameterize(Object.assign({}, modelIdParams, baristaParams)) : ''),
+    }, {
+      label: 'Inference Explanations',
+      url: window.location.origin + '/workbench/inferredrelations?' + (this.loggedIn ? parameterize(Object.assign({}, modelIdParams, baristaParams)) : ''),
+    }, {
+      label: 'Macromolecular Complex Creator',
+      url: window.location.origin + '/workbench/mmcc?' + (this.loggedIn ? parameterize(Object.assign({}, modelIdParams, baristaParams)) : ''),
+    }, {
+      label: 'Pathway View',
+      url: window.location.origin + '/workbench/pathwayview?' + (this.loggedIn ? parameterize(Object.assign({}, modelIdParams, baristaParams)) : ''),
+    }, {
+      label: 'Annotation Preview',
+      url: window.location.origin + '/workbench/simple-annoton-editor?' + (this.loggedIn ? parameterize(Object.assign({}, modelIdParams, baristaParams)) : ''),
+    }]
   }
 
   getUserInfo() {
