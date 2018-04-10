@@ -20,7 +20,7 @@ export default class FormGridService {
     const self = this;
 
     self.annoton = self.config.createAnnotonModel(
-      annotonType.name,
+      annotonType,
       annoton.annotonModelType,
       annoton
     )
@@ -32,7 +32,7 @@ export default class FormGridService {
 
     self.annoton = self.config.createAnnotonModel(
       annoton.annotonType,
-      annotonModelType.name,
+      annotonModelType,
       annoton)
     self.initalizeForm();
   }

@@ -19,7 +19,9 @@
             </div>
             <md-icon md-font-icon="icon-chevron-right"></md-icon>
             <h2 class="sae-breadcrumb">
-              Activity Creator Form
+              <a ng-href="{{appCtrl.graph.modelInfo.saeUrl}}">
+                Activity Creator Form
+              </a>
             </h2>
             <md-icon md-font-icon="icon-chevron-right"></md-icon>
             <h2 ng-if="appCtrl.graph.modelTitle" class="sae-breadcrumb sae-active md-truncate">
@@ -171,7 +173,7 @@
               </md-button>
               <md-menu-content width="3">
                 <md-menu-item ng-repeat="annotonType in appCtrl.saeConstants.annotonType.options">
-                  <md-button ng-click="appCtrl.formGrid.setAnnotonType(appCtrl.formGrid.annoton, annotonType)">
+                  <md-button ng-click="appCtrl.formGrid.setAnnotonType(appCtrl.formGrid.annoton, annotonType.name)">
                     {{annotonType.label}}
                   </md-button>
                 </md-menu-item>
@@ -308,7 +310,7 @@
               </md-button>
               <md-menu-content width="3">
                 <md-menu-item ng-repeat="annotonModelType in appCtrl.saeConstants.annotonModelType.options">
-                  <md-button ng-click="appCtrl.formGrid.setAnnotonModelType(appCtrl.formGrid.annoton, annotonModelType)">
+                  <md-button ng-click="appCtrl.formGrid.setAnnotonModelType(appCtrl.formGrid.annoton, annotonModelType.name)">
                     {{annotonModelType.label}}
                   </md-button>
                 </md-menu-item>

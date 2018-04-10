@@ -62,6 +62,8 @@ export default class GraphService {
     const self = this;
 
     self.getUserInfo();
+    self.createGraphUrls(self.model_id);
+
     this.engine = new jquery_engine(barista_response);
     this.engine.method('POST');
     var manager = new minerva_manager(
@@ -168,8 +170,12 @@ export default class GraphService {
   createGraphUrls(modelId) {
     const self = this;
 
-    let params = {
+    let baristaParams = {
       'barista_token': this.barista_token
+    }
+
+    let modelIdParams = {
+      'model_id': modelId
     }
 
     function parameterize(params) {
@@ -177,12 +183,13 @@ export default class GraphService {
     }
 
     self.modelInfo.goUrl = 'http://www.geneontology.org/';
-    self.modelInfo.noctuaUrl = window.location.origin + "?" + (this.loggedIn ? parameterize(params) : '');
+    self.modelInfo.noctuaUrl = window.location.origin + "?" + (this.loggedIn ? parameterize(baristaParams) : '');
     self.modelInfo.owlUrl = window.location.origin + "/download/" + modelId + "/owl";
     self.modelInfo.gpadUrl = window.location.origin + "/download/" + modelId + "/gpad";
-    self.modelInfo.graphEditorUrl = window.location.origin + "/editor/graph/" + modelId + "?" + (this.loggedIn ? parameterize(params) : '');
-    self.modelInfo.logoutUrl = self.barista_location + '/logout?' + parameterize(params) + '&amp;return=' + window.location.origin + '/simple-annoton-editor?' + parameterize(params)
-    self.modelInfo.loginUrl = self.barista_location + '/login?return=' + window.location.origin + '/simple-annoton-editor';
+    self.modelInfo.graphEditorUrl = window.location.origin + "/editor/graph/" + modelId + "?" + (this.loggedIn ? parameterize(baristaParams) : '');
+    self.modelInfo.saeUrl = window.location.origin + '/workbench/simple-annoton-editor?' + (this.loggedIn ? parameterize(Object.assign({}, modelIdParams, baristaParams)) : '');
+    self.modelInfo.logoutUrl = self.barista_location + '/logout?' + parameterize(baristaParams) + '&amp;return=' + window.location.origin + '/workbench/simple-annoton-editor?' + parameterize(baristaParams)
+    self.modelInfo.loginUrl = self.barista_location + '/login?return=' + window.location.origin + '/workbench/simple-annoton-editor';
 
   }
 
