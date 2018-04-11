@@ -126,6 +126,7 @@ export default class SummaryGridService {
       maxWidth: 120,
       field: 'reference',
       //headerCellTemplate: './grid-templates/header-cell-template.html',
+      cellTemplate: './grid-templates/summary/link-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -141,6 +142,7 @@ export default class SummaryGridService {
       maxWidth: 180,
       field: 'with',
       //headerCellTemplate: './grid-templates/header-cell-template.html',
+      cellTemplate: './grid-templates/summary/link-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -156,6 +158,7 @@ export default class SummaryGridService {
       maxWidth: 200,
       field: 'assignedBy',
       //headerCellTemplate: './grid-templates/header-cell-template.html',
+      cellTemplate: './grid-templates/summary/link-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -263,27 +266,6 @@ export default class SummaryGridService {
     self.gridOptions.data = gridData;
   }
 
-  addCCOnly(annotonData) {
-    const self = this;
-    let gridData = self.gridOptions.data;
-
-    let colors = ["#DBE8F", '#F9F9F9'];
-
-    each(annotonData, function (row, key) {
-      row.color = colors[key % 2];
-      each(row.annotonPresentation.fd, function (nodeGroup) {
-        each(nodeGroup.nodes, function (node) {
-          let term = node.getTerm();
-
-          if (node.id !== 'mc' && node.id !== 'gp' && term.id) {
-            self.setGridRow(row, node, gridData);
-          }
-        });
-      });
-    });
-    self.gridOptions.data = gridData;
-  }
-
   setGridRow(row, node, gridData) {
     const self = this;
     let extension = node.treeLevel > 0;
@@ -309,9 +291,9 @@ export default class SummaryGridService {
       extension: extension ? term.label : '',
       aspect: node.aspect,
       evidence: node.evidence[0].evidence.control.value.label,
-      reference: node.evidence[0].reference.control.value,
-      with: node.evidence[0].with.control.value,
-      assignedBy: node.evidence[0].assignedBy.control.value,
+      reference: node.evidence[0].reference.control.link,
+      with: node.evidence[0].with.control.link,
+      assignedBy: node.evidence[0].assignedBy.control.link,
       // $$treeLevel: node.treeLevel,
       node: node,
       annoton: row.annoton
@@ -321,9 +303,9 @@ export default class SummaryGridService {
       gridData.push({
         gp: row.gp,
         evidence: node.evidence[i].evidence.control.value.label,
-        reference: node.evidence[i].reference.control.value,
-        with: node.evidence[i].with.control.value,
-        assignedBy: node.evidence[i].assignedBy.control.value,
+        reference: node.evidence[i].reference.control.link,
+        with: node.evidence[i].with.control.link,
+        assignedBy: node.evidence[i].assignedBy.control.link,
         // $$treeLevel: node.treeLevel,
         //  annoton: node,
       })

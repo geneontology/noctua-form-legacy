@@ -71,8 +71,12 @@ export default class Evidence {
     return this.with.control.value;
   }
 
-  setAssignedBy(value) {
+  setAssignedBy(value, link) {
     this.assignedBy.control.value = value;
+    this.assignedBy.control.link = {
+      label: value,
+      url: link
+    }
   }
 
   setEvidenceLookup(value) {
@@ -89,12 +93,18 @@ export default class Evidence {
 
   setReference(value, link) {
     this.reference.control.value = value;
-    this.reference.control.link = link;
+    this.reference.control.link = {
+      label: value,
+      url: link
+    }
   }
 
   setWith(value, link) {
     this.with.control.value = value;
-    this.with.control.link = link;
+    this.with.control.link = {
+      label: value,
+      url: link
+    }
   }
 
 
@@ -104,6 +114,7 @@ export default class Evidence {
     self.evidence.control.value = null;
     self.reference.control.value = null;
     self.with.control.value = null;
+    self.assignedBy.value = null;
   }
 
   copyValues(node) {
@@ -112,6 +123,7 @@ export default class Evidence {
     self.evidence.control.value = node.evidence.control.value;
     self.reference.control.value = node.reference.control.value;
     self.with.control.value = node.with.control.value;
+    self.assignedBy.control.value = node.assignedBy.control.value;
   }
 
   enableSubmit(errors, node) {

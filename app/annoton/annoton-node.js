@@ -197,9 +197,6 @@ export default class AnnotonNode {
     return result;
   }
 
-
-  //addError
-
   static isType(typeId, id) {
     let n = typeId.toLowerCase();
     if (n.includes(id)) {

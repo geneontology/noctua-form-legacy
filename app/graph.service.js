@@ -43,6 +43,7 @@ export default class GraphService {
     this.barista_token = local_barista_token;
     this.collapsible_relations = local_collapsible_relations;
     this.engine = null;
+    this.linker = new amigo.linker();
     this.manager = null;
     this.graph = null;
     this.loggedIn = local_barista_token && (local_barista_token.length > 0);
@@ -74,13 +75,9 @@ export default class GraphService {
 
     this.manager = manager;
 
-    function _shields_up() {
-      // console.log('_shields_up');
-    }
+    function _shields_up() {}
 
-    function _shields_down() {
-      // console.log('_shields_down');
-    }
+    function _shields_down() {}
 
     // Internal registrations.
     manager.register('prerun', _shields_up);
@@ -99,8 +96,6 @@ export default class GraphService {
 
     // Likely the result of serious unhappiness on Minerva.
     manager.register('error', function (resp /*, man */ ) {
-      // Do something different if we think that this is a
-      // permissions issue.
       var perm_flag = 'InsufficientPermissionsException';
       var token_flag = 'token';
       if (resp.message() && resp.message().indexOf(perm_flag) !== -1) {
@@ -139,7 +134,6 @@ export default class GraphService {
         self.modelState = stateAnnotations[0].value(); // there should be only one
       }
 
-      // self.graphPreParse(self.graph);
       let annotons = self.graphToAnnotons(self.graph);
       self.graphToCCOnly(self.graph).then(function (data) {
         self.gridData = {
@@ -154,7 +148,6 @@ export default class GraphService {
       });
 
       self.title = self.graph.get_annotations_by_key('title');
-
     }
 
     manager.register('merge', function ( /* resp */ ) {
@@ -239,47 +232,6 @@ export default class GraphService {
     self.manager.add_model();
   }
 
-  setGolr() {
-    // var term_id = _param(req, 'term_id', null);
-    var term_id = "";
-
-    // Setup manager and basic.
-    var gconf = new golr_conf.conf(amigo.data.golr);
-    var engine = new node_engine(golr_response);
-    var manager = new golr_manager(local_golr_server, gconf, engine, 'async');
-    manager.set_personality('ontology');
-    manager.set_facet_limit(0); // care not about facets
-    manager.add_query_filter('document_category', 'ontology_class');
-
-    // Let's get information by target.
-    var max_result_count = 100;
-    manager.set_results_count(max_result_count);
-    manager.set_targets([term_id], ['annotation_class']);
-
-    // Failure callbacks.
-    manager.register('error', function (resp, man) {});
-
-    // Success callback.
-    manager.register('search', function (resp, man) {
-
-      // See what we got.
-      if (resp.documents().length === 0) {
-        console.log('Unknown ID: ' + term_id);
-      } else if (resp.documents().length > 1) {
-        console.log('Ambiguous ID: ' + term_id);
-      } else {
-        // Good response.
-        console.log('Found information for: ' + term_id);
-        console.log(resp.get_doc(0));
-      }
-
-      //res.json(envl.structure());
-    });
-
-    // Trigger async try.
-    manager.search();
-  }
-
   getNodeLabel(node) {
     var label = '';
     if (node) {
@@ -362,11 +314,15 @@ export default class GraphService {
 
         let sources = annotationNode.get_annotations_by_key('source');
         let withs = annotationNode.get_annotations_by_key('with');
+        let assignedBys = annotationNode.get_annotations_by_key('providedBy');
         if (sources.length > 0) {
-          evidence.setReference(sources[0].value());
+          evidence.setReference(sources[0].value(), self.linker.url(sources[0].value()));
         }
         if (withs.length > 0) {
-          evidence.setWith(withs[0].value());
+          evidence.setWith(withs[0].value(), self.linker.url(withs[0].value()));
+        }
+        if (assignedBys.length > 0) {
+          evidence.setAssignedBy(assignedBys[0].value(), assignedBys[0].value());
         }
         result.push(evidence);
       }
@@ -426,24 +382,6 @@ export default class GraphService {
 
     return deferred.promise;
   }
-
-  foo(subjectNode, objectNode, predicateId, promises) {
-    const self = this;
-
-    let subjectTermId = self.getNodeId(subjectNode);
-    let objectTermId = self.getNodeId(objectNode);
-
-    if (self.config.closureCheck[predicateId]) {
-      each(self.config.closureCheck[predicateId].nodes, function (node) {
-        if (node.object) {
-          promises.push(self.isaClosure(node.object.id, objectTermId, objectNode));
-        } else {
-          promises.push(self.isaClosure(node.subject.id, subjectTermId, subjectNode));
-        }
-      });
-    }
-  }
-
 
   graphPreParse(graph) {
     const self = this;
@@ -574,7 +512,6 @@ export default class GraphService {
     self.$q.all(promises).then(function (data) {});
   }
 
-
   graphToCCOnly(graph) {
     const self = this;
     var annotons = [];
@@ -690,7 +627,6 @@ export default class GraphService {
       return result;
     });
   }
-
 
   graphToAnnatonDFSError(annoton, annotonNode) {
     const self = this;
@@ -906,13 +842,11 @@ export default class GraphService {
 
   }
 
-
   saveModelGroup() {
     const self = this
 
     self.manager.use_groups([self.userInfo.selectedGroup.id]);
   }
-
 
   saveModelAnnotation(key, value) {
     const self = this;
