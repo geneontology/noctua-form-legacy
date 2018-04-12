@@ -8,6 +8,7 @@
 import _ from 'lodash';
 const each = require('lodash/forEach');
 import AnnotonError from "./annoton/parser/annoton-error.js";
+import Util from "./util/util.js";
 
 export default class AppController {
   constructor(saeConstants, uiGridTreeViewConstants, $scope, $rootScope, $http, $timeout, $mdDialog, $mdToast, config, joyrideService, dialogService, graph, lookup, formGrid, summaryGrid) {
@@ -100,6 +101,23 @@ export default class AppController {
     }
 
     self.dialogService.openGuideMeDialog(ev, data, success);
+  }
+
+  openSelectEvidenceDialog(ev, entity) {
+    const self = this;
+
+    let evidences = Util.getUniqueEvidences(self.summaryData.annotons);
+    let data = {
+      node: entity,
+      evidences: evidences
+    }
+
+    let success = function (selected) {
+      entity.copyEvidence(selected.evidences);
+    }
+
+
+    self.dialogService.openSelectEvidenceDialog(ev, data, success);
   }
 
   openCreateFromExistingDialog(ev, entity) {

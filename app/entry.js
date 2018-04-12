@@ -34,7 +34,7 @@ import AppController from 'app.controller';
 import BeforeSaveDialogController from './dialogs/before-save/before-save-dialog.controller.js';
 import LinkToExistingDialogController from './dialogs/link-to-existing/link-to-existing-dialog.controller.js'
 import CreateFromExistingDialogController from './dialogs/create-from-existing/create-from-existing-dialog.controller.js'
-import SelectEvidenceDialogController from './dialogs/create-from-existing/select-evidence/select-evidence-dialog.controller.js'
+import SelectEvidenceDialogController from './dialogs/select-evidence/select-evidence-dialog.controller.js'
 import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
 import AnnotonErrorsDialogController from './dialogs/annoton-errors/annoton-errors-dialog.controller.js';
 import EditAnnotonDialogController from './dialogs/edit-annoton/edit-annoton-dialog.controller.js';

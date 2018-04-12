@@ -34,7 +34,7 @@
           <md-menu-bar>
             <md-menu>
               <md-button aria-label="Open" ng-click="$mdMenu.open($event)">
-                Open
+                View
                 <b class="caret"></b>
               </md-button>
               <md-menu-content width="3">
@@ -53,7 +53,6 @@
                     GPAD
                   </md-button>
                 </md-menu-item>
-
                 <h6 class="sae-menu-heading">
                   Workbenches</h6>
                 <md-menu-item ng-repeat="workbench in appCtrl.graph.modelInfo.workbenches">
@@ -417,6 +416,11 @@
                           <md-menu-item>
                             <md-button class="" ng-click="entity.clearValues()">
                               Clear Node
+                            </md-button>
+                          </md-menu-item>
+                          <md-menu-item>
+                            <md-button class="" ng-click="appCtrl.openSelectEvidenceDialog($event, entity)">
+                              Clone Evidence
                             </md-button>
                           </md-menu-item>
                           <md-menu-item>

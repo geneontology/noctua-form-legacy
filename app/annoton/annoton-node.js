@@ -148,8 +148,24 @@ export default class AnnotonNode {
     const self = this;
 
     self.term.control.value = node.term.control.value;
-    // if()
     self.evidence = node.evidence;
+  }
+
+  copyEvidence(evidences) {
+    const self = this;
+
+    each(evidences, function (srcEvidence, i) {
+      let destEvidence;
+
+      if (i === 0) {
+        destEvidence = self.evidence[0];
+      } else {
+        destEvidence = self.addEvidence()
+      }
+
+      destEvidence.copyValues(srcEvidence);
+
+    });
   }
 
   selectEdge(edge) {

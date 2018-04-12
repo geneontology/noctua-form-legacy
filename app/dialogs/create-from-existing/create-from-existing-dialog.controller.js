@@ -30,7 +30,8 @@ export default class CreateFromExistingDialogController {
         const self = this;
 
         let data = {
-            node: node
+            node: node,
+            evidences: node.evidence
         }
 
         let success = function (selected) {

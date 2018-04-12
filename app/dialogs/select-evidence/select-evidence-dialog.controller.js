@@ -34,19 +34,25 @@ export default class SelectEvidenceDialogController {
         return self.selected.evidences.indexOf(evidence) > -1;
     };
 
-    isNodeIndeterminate(node) {
+    isNodeIndeterminate() {
         const self = this;
         return (self.selected.evidences.length !== 0 &&
-            self.selected.evidences.length !== data.evidences.length);
+            self.selected.evidences.length !== self.data.evidences.length);
     };
 
-    toggleAll(node) {
+    isNodeChecked() {
         const self = this;
 
-        if (self.selected.evidences.length === node.evidences.length) {
+        return (self.selected.evidences.length === self.data.evidences.length);
+    };
+
+    toggleNode() {
+        const self = this;
+
+        if (self.selected.evidences.length === self.data.evidences.length) {
             self.selected.evidences = [];
         } else if (self.selected.evidences.length === 0 || self.selected.evidences.length > 0) {
-            self.selected.evidences = node.evidences.slice(0);
+            self.selected.evidences = self.data.evidences.slice(0);
         }
     };
 

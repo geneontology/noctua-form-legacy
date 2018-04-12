@@ -1040,5 +1040,6 @@ export default class GraphService {
 
     });
   }
+
 }
 GraphService.$inject = ['saeConstants', 'config', '$http', '$q', '$rootScope', '$timeout', '$mdDialog', 'dialogService', 'lookup', 'formGrid'];

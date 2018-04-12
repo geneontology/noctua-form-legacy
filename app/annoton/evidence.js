@@ -111,19 +111,19 @@ export default class Evidence {
   clearValues() {
     const self = this;
 
-    self.evidence.control.value = null;
-    self.reference.control.value = null;
-    self.with.control.value = null;
-    self.assignedBy.value = null;
+    self.setEvidence(null);
+    self.setReference(null);
+    self.setWith(null);
+    self.setAssignedBy(null);
   }
 
-  copyValues(node) {
+  copyValues(evidence) {
     const self = this;
 
-    self.evidence.control.value = node.evidence.control.value;
-    self.reference.control.value = node.reference.control.value;
-    self.with.control.value = node.with.control.value;
-    self.assignedBy.control.value = node.assignedBy.control.value;
+    self.setEvidence(evidence.getEvidence());
+    self.setReference(evidence.getReference());
+    self.setWith(evidence.getWith());
+    self.setAssignedBy(evidence.getAssignedBy());
   }
 
   enableSubmit(errors, node) {

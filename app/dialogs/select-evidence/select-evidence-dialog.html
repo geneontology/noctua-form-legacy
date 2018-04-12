@@ -20,8 +20,8 @@
             <br>
             <div class="sae-populate-group md-whiteframe-1dp" layout="column">
                 <div class="sae-populate-group-header" layout="column" flex>
-                    <md-checkbox class="sae-primary m-0" ng-checked="annotonCtrl.isRowChecked(row)" md-indeterminate="annotonCtrl.isRowIndeterminate(row)"
-                        ng-click="annotonCtrl.toggleRow(row)" aria-label="Term Checkbox">
+                    <md-checkbox class="sae-primary m-0" ng-checked="annotonCtrl.isNodeChecked()" md-indeterminate="annotonCtrl.isNodeIndeterminate()"
+                        ng-click="annotonCtrl.toggleNode()" aria-label="Term Checkbox">
                         {{row.term.label}}
                     </md-checkbox>
                 </div>
@@ -42,9 +42,9 @@
                             Assigned By
                         </div>
                     </div>
-                    <div ng-repeat="evidence in annotonCtrl.data.node.evidence" class="sae-populate-row" layout="row">
+                    <div ng-repeat="evidence in annotonCtrl.data.evidences" class="sae-populate-row" layout="row">
                         <div class="sae-checkbox-container">
-                            <md-checkbox class="sae-primary m-0" ng-checked="annotonCtrl.exists(node)" ng-click="annotonCtrl.toggleEvidence(evidence)"
+                            <md-checkbox class="sae-primary m-0" ng-checked="annotonCtrl.exists(evidence)" ng-click="annotonCtrl.toggleEvidence(evidence)"
                                 aria-label="Term Label">
                             </md-checkbox>
                         </div>
