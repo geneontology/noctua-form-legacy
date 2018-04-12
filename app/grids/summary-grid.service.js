@@ -283,7 +283,6 @@ export default class SummaryGridService {
 
     gridData.push({
       color: row.color,
-      id: 1,
       gp: displayGp(row.annoton, node) ? row.gp : '',
       relationship: extension ? '' : node.isComplement ? 'NOT ' : node.relationship.label,
       extRelationship: extension ? node.relationship.label : '',
@@ -295,38 +294,20 @@ export default class SummaryGridService {
       with: node.evidence[0].with.control.link,
       assignedBy: node.evidence[0].assignedBy.control.link,
       // $$treeLevel: node.treeLevel,
-      node: node,
-      annoton: row.annoton
+
     })
 
     for (let i = 1; i < node.evidence.length; i++) {
       gridData.push({
-        gp: row.gp,
+        color: row.color,
         evidence: node.evidence[i].evidence.control.value.label,
         reference: node.evidence[i].reference.control.link,
         with: node.evidence[i].with.control.link,
         assignedBy: node.evidence[i].assignedBy.control.link,
-        // $$treeLevel: node.treeLevel,
-        //  annoton: node,
+        node: node,
+        annoton: row.annoton
       })
     }
-  }
-
-
-  setSubGridEdit(row) {
-    const self = this;
-    self.$timeout(function () {
-
-      row.subGridOptions = JSON.parse(JSON.stringify(self._subGridEditOptions));
-      // row.subGridOptions.data = row.annoton.nodes;
-
-      self.gridApi.core.notifyDataChange(this.uiGridConstants.dataChange.ALL)
-      self.gridApi.core.handleWindowResize();
-    });
-  }
-
-  showErrorColumn() {
-    return true;
   }
 
 }
