@@ -106,16 +106,25 @@ export default class AppController {
   openSelectEvidenceDialog(ev, entity) {
     const self = this;
 
-    let evidences = Util.getUniqueEvidences(self.summaryData.annotons);
+    let evidences = Util.addUniqueEvidencesFromAnnoton(self.formGrid.annoton);
+    Util.getUniqueEvidences(self.summaryData.annotons, evidences);
+
+    let gpNode = self.formGrid.annotonPresentation.geneProduct;
+
     let data = {
+      readonly: false,
+      gpNode: gpNode,
+      aspect: entity.aspect,
       node: entity,
-      evidences: evidences
+      evidences: evidences,
+      params: {
+        term: entity.term.control.value.id,
+      }
     }
 
     let success = function (selected) {
       entity.copyEvidence(selected.evidences);
     }
-
 
     self.dialogService.openSelectEvidenceDialog(ev, data, success);
   }
@@ -165,6 +174,7 @@ export default class AppController {
           evidence: entity.evidence[0].evidence.control.value.id
         }
       }
+
       let success = function (selected) {
         entity.setTerm(selected.term);
         entity.resetEvidence();

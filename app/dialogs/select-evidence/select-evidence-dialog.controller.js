@@ -1,6 +1,6 @@
 import _ from 'lodash';
 const each = require('lodash/forEach');
-
+import Util from "../../util/util.js";
 
 export default class SelectEvidenceDialogController {
     constructor($scope, $rootScope, $mdDialog, lookup, data) {
@@ -13,6 +13,7 @@ export default class SelectEvidenceDialogController {
         this.selected = {
             evidences: []
         };
+        this.externalNodesIncluded = false;
     }
 
 
@@ -55,6 +56,17 @@ export default class SelectEvidenceDialogController {
             self.selected.evidences = self.data.evidences.slice(0);
         }
     };
+
+    includeExternalNodes() {
+        const self = this;
+
+        if (self.data.gpNode && self.data.gpNode.term.control.value.id) {
+            self.lookup.companionLookup(self.data.gpNode.term.control.value.id, self.data.aspect, self.data.params).then(function (data) {
+                self.data.externalEvidences = Util.addUniqueEvidences(self.data.evidences, data);
+                self.externalNodesIncluded = true;
+            });
+        }
+    }
 
     closeDialog() {
         this.$mdDialog.cancel();

@@ -22,7 +22,7 @@
                 <div class="sae-populate-group-header" layout="column" flex>
                     <md-checkbox class="sae-primary m-0" ng-checked="annotonCtrl.isNodeChecked()" md-indeterminate="annotonCtrl.isNodeIndeterminate()"
                         ng-click="annotonCtrl.toggleNode()" aria-label="Term Checkbox">
-                        {{row.term.label}}
+                        (Un)Select All
                     </md-checkbox>
                 </div>
                 <div class="sae-populate-group-body" layout="column" flex>
@@ -43,6 +43,75 @@
                         </div>
                     </div>
                     <div ng-repeat="evidence in annotonCtrl.data.evidences" class="sae-populate-row" layout="row">
+                        <div class="sae-checkbox-container">
+                            <md-checkbox class="sae-primary m-0" ng-checked="annotonCtrl.exists(evidence)" ng-click="annotonCtrl.toggleEvidence(evidence)"
+                                aria-label="Term Label">
+                            </md-checkbox>
+                        </div>
+                        <div flex="40">
+                            <div class="sae-ellipsis">
+                                {{evidence.evidence.control.value.label}}
+                            </div>
+                        </div>
+                        <div flex="20">
+                            <div class="sae-ellipsis">
+                                <a ng-href="{{evidence.reference.control.link.url}}" target="_blank">
+                                    {{evidence.reference.control.link.label}}
+                                </a>
+                            </div>
+                        </div>
+                        <div flex="20">
+                            <div class="sae-ellipsis">
+                                <a ng-href="{{evidence.with.control.link.url}}" target="_blank">
+                                    {{evidence.with.control.link.label}}
+                                </a>
+                            </div>
+                        </div>
+                        <div flex>
+                            <div class="sae-ellipsis">
+                                {{evidence.assignedBy.control.value}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <md-button class="" ng-click="annotonCtrl.includeExternalNodes()">
+                Add External
+            </md-button>
+
+            <div ng-if="annotonCtrl.externalNodesIncluded" class="sae-populate-group md-whiteframe-1dp p-15" layout="column">
+                <h3>
+                    Filter Summary
+                </h3>
+                <div>
+                    <strong>Gene Product </strong> {{annotonCtrl.data.gpNode.term.control.value.label}}
+                </div>
+                <div ng-if="annotonCtrl.data.params.term">
+                    <strong>Term </strong> {{annotonCtrl.data.node.term.control.value.label}}
+                </div>
+                <br>
+                <h3>
+                    Results
+                </h3>
+                <div class="sae-populate-group-body" layout="column" flex>
+                    <div class="sae-populate-row-header" layout="row">
+                        <div class="sae-checkbox-container">
+                        </div>
+                        <div flex="40">
+                            Evidence
+                        </div>
+                        <div flex="20">
+                            Reference
+                        </div>
+                        <div flex="20">
+                            With
+                        </div>
+                        <div flex>
+                            Assigned By
+                        </div>
+                    </div>
+                    <div ng-repeat="evidence in annotonCtrl.data.externalEvidences" class="sae-populate-row" layout="row">
                         <div class="sae-checkbox-container">
                             <md-checkbox class="sae-primary m-0" ng-checked="annotonCtrl.exists(evidence)" ng-click="annotonCtrl.toggleEvidence(evidence)"
                                 aria-label="Term Label">
