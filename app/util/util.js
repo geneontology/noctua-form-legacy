@@ -8,10 +8,21 @@ export default class Util {
     static getUniqueEvidences(annotons) {
         let result = [];
 
+        function find(data, evidence) {
+            return _.find(data, function (x) {
+                console.log(x.isEvidenceEqual(evidence))
+                return x.isEvidenceEqual(evidence)
+            })
+        }
+
         each(annotons, function (annotonData) {
             each(annotonData.annoton.nodes, function (node) {
                 each(node.evidence, function (evidence) {
-                    result.push(evidence);
+                    if (evidence.hasValue()) {
+                        if (!find(result, evidence)) {
+                            result.push(evidence);
+                        }
+                    }
                 });
             });
         });

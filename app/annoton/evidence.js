@@ -71,6 +71,12 @@ export default class Evidence {
     return this.with.control.value;
   }
 
+  hasValue() {
+    const self = this;
+
+    return this.evidence.control.value.id;
+  }
+
   setAssignedBy(value, link) {
     this.assignedBy.control.value = value;
     this.assignedBy.control.link = {
@@ -125,6 +131,20 @@ export default class Evidence {
     self.setWith(evidence.getWith());
     self.setAssignedBy(evidence.getAssignedBy());
   }
+
+  isEvidenceEqual(evidence) {
+    const self = this;
+    let result = true;
+
+
+    result = result && _.isEqual(self.getEvidence(), evidence.getEvidence());
+    result = result && _.isEqual(self.getReference(), evidence.getReference());
+    result = result && _.isEqual(self.getWith(), evidence.getWith());
+
+    // console.log(result, '-', self.getEvidence(), evidence.getEvidence())
+    return result;
+  }
+
 
   enableSubmit(errors, node) {
     const self = this;
