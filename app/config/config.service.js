@@ -151,7 +151,7 @@ export default class ConfigService {
         }
       },
       'cc': {
-        "label": 'Cellular Component',
+        "label": 'MF occurs in Cellular Component',
         'aspect': 'C',
         "relationship": this.saeConstants.edge.occursIn,
         "displaySection": this.saeConstants.displaySection.fd,
@@ -229,7 +229,7 @@ export default class ConfigService {
         }
       },
       'bp': {
-        "label": 'Biological Process',
+        "label": 'MF part of Biological Process',
         'aspect': 'P',
         "relationship": this.saeConstants.edge.partOf,
         "displaySection": this.saeConstants.displaySection.fd,
@@ -356,6 +356,7 @@ export default class ConfigService {
         overrides: {
           'cc': {
             id: 'cc',
+            label: "GP part of Cellular Component",
             relationship: this.saeConstants.edge.partOf
           },
           'cc-1': {
@@ -576,6 +577,7 @@ export default class ConfigService {
       let node = annoton.getNode(overridesData.id);
       overridesData.term ? node.setTerm(overridesData.term) : angular.noop;
       overridesData.display ? node.setDisplay(overridesData.display) : angular.noop;
+      overridesData.label ? node.label = overridesData.label : angular.noop;
       overridesData.relationship ? node.relationship = overridesData.relationship : angular.noop;
     });
 

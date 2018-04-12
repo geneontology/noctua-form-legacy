@@ -413,11 +413,8 @@
                           <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
                         </md-button>
                         <md-menu-content width="3">
-                          <md-menu-item>
-                            <md-button class="" ng-click="entity.clearValues()">
-                              Clear Node
-                            </md-button>
-                          </md-menu-item>
+                          <h6 class="sae-menu-heading">
+                            Evidence</h6>
                           <md-menu-item>
                             <md-button class="" ng-click="appCtrl.openSelectEvidenceDialog($event, entity)">
                               Clone Evidence
@@ -428,16 +425,14 @@
                               More Evidence
                             </md-button>
                           </md-menu-item>
-                          <md-menu-item ng-if="entity.aspect">
-                            <md-button class="" ng-click="appCtrl.openPopulateDialog($event, entity)">
-                              Search Database
-                            </md-button>
-                          </md-menu-item>
                           <md-menu-item>
-                            <md-button class="" ng-click="appCtrl.openLinkToExistingDialog($event, entity)">
-                              Choose From an Existing Activity
+                            <md-button class="" ng-click="appCtrl.addNDEvidence(entity.evidence[0])">
+                              Add ND Reference
                             </md-button>
                           </md-menu-item>
+                          <h6 class="sae-menu-heading">
+                            Term
+                          </h6>
                           <md-menu-item ng-if="entity.treeLevel===0">
                             <md-button class="" ng-click="appCtrl.toggleIsComplement(entity)">
                               NOT Qualifier
@@ -445,12 +440,25 @@
                           </md-menu-item>
                           <md-menu-item ng-if="entity.treeLevel===0">
                             <md-button class="" ng-click="appCtrl.addRootNode(entity)">
-                              Root Node
+                              Root Term
                             </md-button>
                           </md-menu-item>
                           <md-menu-item>
-                            <md-button class="" ng-click="appCtrl.addNDEvidence(entity.evidence[0])">
-                              Add ND Reference
+                            <md-button class="" ng-click="entity.clearValues()">
+                              Clear
+                            </md-button>
+                          </md-menu-item>
+                          <h6 class="sae-menu-heading">
+                            Search
+                          </h6>
+                          <md-menu-item ng-if="entity.aspect==='P'">
+                            <md-button class="" ng-click="appCtrl.openLinkToExistingDialog($event, entity)">
+                              Choose From an Existing Process
+                            </md-button>
+                          </md-menu-item>
+                          <md-menu-item ng-if="entity.aspect">
+                            <md-button class="" ng-click="appCtrl.openPopulateDialog($event, entity)">
+                              Search Database
                             </md-button>
                           </md-menu-item>
                         </md-menu-content>

@@ -29,17 +29,11 @@
                     <div class="sae-populate-row-header" layout="row">
                         <div class="sae-checkbox-container">
                         </div>
-                        <div flex="40">
+                        <div flex="60">
                             Evidence
                         </div>
-                        <div flex="20">
+                        <div flex="40">
                             Reference
-                        </div>
-                        <div flex="20">
-                            With
-                        </div>
-                        <div flex>
-                            Assigned By
                         </div>
                     </div>
                     <div ng-repeat="evidence in annotonCtrl.data.evidences" class="sae-populate-row" layout="row">
@@ -48,26 +42,26 @@
                                 aria-label="Term Label">
                             </md-checkbox>
                         </div>
-                        <div flex="40">
+                        <div flex="60">
                             <div class="sae-ellipsis">
                                 {{evidence.evidence.control.value.label}}
                             </div>
                         </div>
-                        <div flex="20">
+                        <div flex="40">
                             <div class="sae-ellipsis">
                                 <a ng-href="{{evidence.reference.control.link.url}}" target="_blank">
                                     {{evidence.reference.control.link.label}}
                                 </a>
                             </div>
                         </div>
-                        <div flex="20">
+                        <div ng-if="false" flex="20">
                             <div class="sae-ellipsis">
                                 <a ng-href="{{evidence.with.control.link.url}}" target="_blank">
                                     {{evidence.with.control.link.label}}
                                 </a>
                             </div>
                         </div>
-                        <div flex>
+                        <div ng-if="false" flex>
                             <div class="sae-ellipsis">
                                 {{evidence.assignedBy.control.value}}
                             </div>
@@ -77,7 +71,7 @@
             </div>
 
             <md-button class="" ng-click="annotonCtrl.includeExternalNodes()">
-                Add External
+                Add From External
             </md-button>
 
             <div ng-if="annotonCtrl.externalNodesIncluded" class="sae-populate-group md-whiteframe-1dp p-15" layout="column">
@@ -98,17 +92,11 @@
                     <div class="sae-populate-row-header" layout="row">
                         <div class="sae-checkbox-container">
                         </div>
-                        <div flex="40">
+                        <div flex="60">
                             Evidence
                         </div>
-                        <div flex="20">
+                        <div flex="40">
                             Reference
-                        </div>
-                        <div flex="20">
-                            With
-                        </div>
-                        <div flex>
-                            Assigned By
                         </div>
                     </div>
                     <div ng-repeat="evidence in annotonCtrl.data.externalEvidences" class="sae-populate-row" layout="row">
@@ -127,18 +115,6 @@
                                 <a ng-href="{{evidence.reference.control.link.url}}" target="_blank">
                                     {{evidence.reference.control.link.label}}
                                 </a>
-                            </div>
-                        </div>
-                        <div flex="20">
-                            <div class="sae-ellipsis">
-                                <a ng-href="{{evidence.with.control.link.url}}" target="_blank">
-                                    {{evidence.with.control.link.label}}
-                                </a>
-                            </div>
-                        </div>
-                        <div flex>
-                            <div class="sae-ellipsis">
-                                {{evidence.assignedBy.control.value}}
                             </div>
                         </div>
                     </div>
