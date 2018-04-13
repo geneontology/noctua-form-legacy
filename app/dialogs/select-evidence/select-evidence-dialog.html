@@ -49,9 +49,12 @@
                         </div>
                         <div flex="40">
                             <div class="sae-ellipsis">
-                                <a ng-href="{{evidence.reference.control.link.url}}" target="_blank">
+                                <a ng-if="evidence.reference.control.link.url" ng-href="{{evidence.reference.control.link.url}}" target="_blank">
                                     {{evidence.reference.control.link.label}}
                                 </a>
+                                <span ng-if="!evidence.reference.control.link.url">
+                                    {{evidence.reference.control.value}}
+                                </span>
                             </div>
                         </div>
                         <div ng-if="false" flex="20">
