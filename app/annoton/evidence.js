@@ -123,13 +123,13 @@ export default class Evidence {
     self.setAssignedBy(null);
   }
 
-  copyValues(evidence) {
+  copyValues(evidence, except) {
     const self = this;
 
     self.setEvidence(evidence.getEvidence());
-    self.setReference(evidence.getReference());
-    self.setWith(evidence.getWith());
-    self.setAssignedBy(evidence.getAssignedBy());
+    !_.includes(except, 'reference') ? self.setReference(evidence.getReference()) : angular.noop;
+    !_.includes(except, 'with') ? self.setWith(evidence.getWith()) : angular.noop;
+    !_.includes(except, 'assignedBy') ? self.setAssignedBy(evidence.getAssignedBy()) : angular.noop;;
   }
 
   isEvidenceEqual(evidence) {

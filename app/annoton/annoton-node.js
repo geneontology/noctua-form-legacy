@@ -151,7 +151,7 @@ export default class AnnotonNode {
     self.evidence = node.evidence;
   }
 
-  copyEvidence(evidences) {
+  copyEvidence(evidences, except) {
     const self = this;
 
     each(evidences, function (srcEvidence, i) {
@@ -163,7 +163,7 @@ export default class AnnotonNode {
         destEvidence = self.addEvidence()
       }
 
-      destEvidence.copyValues(srcEvidence);
+      destEvidence.copyValues(srcEvidence, except);
 
     });
   }

@@ -123,7 +123,7 @@ export default class AppController {
     }
 
     let success = function (selected) {
-      entity.copyEvidence(selected.evidences);
+      entity.copyEvidence(selected.evidences, ['with', 'assignedBy']);
     }
 
     self.dialogService.openSelectEvidenceDialog(ev, data, success);

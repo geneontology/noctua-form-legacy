@@ -19,6 +19,17 @@ export default class Annoton extends SaeGraph {
     this.id = uuid();
   }
 
+  getGPNode() {
+    const self = this;
+
+    if (self.annotonType === 'simple') {
+      return self.getNode('gp');
+    } else {
+      return self.getNode('mc');
+    }
+    return null;
+  }
+
   copyValues(srcAnnoton) {
     const self = this;
 

@@ -743,6 +743,8 @@ export default class GraphService {
       } else {
         node.saveMeta.term = reqs.add_individual(node.term.control.value.id);
       }
+
+      node.modelId = node.saveMeta.term;
     }
   }
 
@@ -768,17 +770,25 @@ export default class GraphService {
           edgeNode.edge.id
         ]);
 
+
         if (edgeNode.target.id === 'gp') {
           each(node.evidence, function (evidence) {
-            let evidenceWith = evidence.with.control.value ? evidence.with.control.value : null;
+            let evidenceReference = evidence.reference.control.value ? evidence.reference.control.value.split(",") : [];
+            let evidenceWith = evidence.with.control.value ? evidence.with.control.value.split(",") : [];
 
-            reqs.add_evidence(evidence.evidence.control.value.id, [evidence.reference.control.value], evidenceWith, edgeNode.target.saveMeta.edge);
+            reqs.add_evidence(evidence.evidence.control.value.id, evidenceReference, evidenceWith, edgeNode.target.saveMeta.edge);
           });
         } else {
           each(edgeNode.target.evidence, function (evidence) {
-            let evidenceWith = evidence.with.control.value ? evidence.with.control.value : null;
-
-            reqs.add_evidence(evidence.evidence.control.value.id, [evidence.reference.control.value], evidenceWith, edgeNode.target.saveMeta.edge);
+            let evidenceReference = evidence.reference.control.value ? evidence.reference.control.value.split(",") : [];
+            let evidenceWith = evidence.with.control.value ? evidence.with.control.value.split(",") : [];
+            if (edgeNode.target.aspect === 'P') {
+              let gpNode = annoton.getGPNode();
+              if (gpNode && gpNode.modelId) {
+                evidenceWith.push(gpNode.modelId)
+              }
+            }
+            reqs.add_evidence(evidence.evidence.control.value.id, evidenceReference, evidenceWith, edgeNode.target.saveMeta.edge);
           });
         }
       }
