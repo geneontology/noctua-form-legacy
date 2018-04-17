@@ -357,7 +357,7 @@
                         <md-input-container class="md-block">
                           <div ng-if="entity.modelId" class="sae-node-link">
                             <a class="sae-ellipsis" ng-click="appCtrl.openLinkToExistingDialog($event, entity)">
-                              linked To Existing
+                              Linked To Existing
                             </a>
                           </div>
                           <input aria-label="term" type="text" ng-model="entity.term.control.value" ng-model-options="{allowInvalid: true}" tabindex="0"
@@ -379,7 +379,7 @@
                         <md-input-container class="md-block">
                           <div ng-if="entity.evidence.length>1" class="sae-more-evidence-link">
                             <a ng-click="appCtrl.dialogService.openAddEvidenceDialog($event, entity)">
-                              +{{entity.evidence.length-1}} evidence(s)
+                              + {{entity.evidence.length-1}} evidence(s)
                             </a>
                           </div>
                           <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value" ng-trim="false" tabindex="0"

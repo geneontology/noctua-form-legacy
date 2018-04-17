@@ -92,7 +92,7 @@ export default class FormGridService {
 
     self.annotonPresentation.extra.push(result);
 
-    return result;
+    return result[displaySectionId];
 
   }
 

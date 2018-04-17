@@ -12,6 +12,8 @@ export default class AnnotonSectionDialogController {
         vm.graph = graph;
         vm.formGrid = formGrid;
         vm.data = data;
+
+        console.log(data)
     }
 
     closeDialog() {
