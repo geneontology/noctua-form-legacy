@@ -129,6 +129,26 @@ ul li.error-reason {
 .sae-navbar {
   // @include deep-height(80px); //background-color: #005888 !important;
   border-bottom: #00A1E0 solid 2px; // color: #EEE !important; 
+  .md-button {
+    @include deep-height(40px);
+    line-height: 40px;
+  }
+  .sae-name-button {
+    @include deep-height(40px);
+    text-align: left;
+    text-transform: initial;
+    line-height: 20px;
+    font-size: 12px;
+    .sae-info {
+      margin-right: 5px;
+      max-width: 150px;
+      overflow: hidden;
+      .sae-group-name {
+        font-size: 10px;
+        color: #888;
+      }
+    }
+  }
   .md-toolbar-tools {
     @include deep-height(45px);
   }

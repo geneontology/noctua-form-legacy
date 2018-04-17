@@ -90,18 +90,27 @@
         <div flex></div>
         <div layout layout-align="center center">
           <md-menu>
-            <md-button aria-label="Open" ng-click="$mdMenu.open($event)">
-              {{appCtrl.graph.userInfo.name}}
-              <b class="caret"></b>
+            <md-button class="sae-name-button" aria-label="Open" ng-click="$mdMenu.open($event)">
+              <div layout="row" layout-align="start center">
+                <div class="sae-info" layout="column" layout-align="start start">
+                  <div class="sae-name sae-ellipsis">
+                    {{appCtrl.graph.userInfo.name}}
+                  </div>
+                  <div class="sae-group-name sae-ellipsis">
+                    {{appCtrl.graph.userInfo.selectedGroup.label}}
+                  </div>
+                </div>
+                <b class="caret"></b>
+              </div>
             </md-button>
             <md-menu-content ng-click="$event.stopPropagation()" width="4">
               <strong>Group:</strong> {{appCtrl.graph.userInfo.selectedGroup.label}}
             </md-menu-content>
           </md-menu>
-          <md-button ng-if="appCtrl.graph.loggedIn" ng-href="{{appCtrl.graph.modelInfo.logoutUrl}}" class="sae-logout" aria-label="Favorite">
+          <md-button ng-if="false" ng-href="{{appCtrl.graph.modelInfo.logoutUrl}}" class="sae-logout" aria-label="Favorite">
             Log Out
           </md-button>
-          <md-button ng-if="!appCtrl.graph.loggedIn" ng-href="{{appCtrl.graph.modelInfo.loginUrl}}" class="sae-login" aria-label="Favorite">
+          <md-button ng-if="false" ng-href="{{appCtrl.graph.modelInfo.loginUrl}}" class="sae-login" aria-label="Favorite">
             Log In
           </md-button>
         </div>
