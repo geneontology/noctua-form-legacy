@@ -173,7 +173,7 @@ export default class ConfigService {
       'cc-1': {
         "label": 'Part Of (CC)',
         'aspect': 'C',
-        "relationship": this.saeConstants.edge.occursIn,
+        "relationship": this.saeConstants.edge.partOf,
         "displaySection": this.saeConstants.displaySection.fd,
         "displayGroup": this.saeConstants.displayGroup.cc,
         "lookupGroup": 'GO:0005575',
