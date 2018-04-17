@@ -240,8 +240,7 @@
               </div>
             </div>
             <md-chips ng-model="appCtrl.formGrid.annoton.complexAnnotonData.geneProducts" md-autocomplete-snap md-require-match=true>
-              <md-autocomplete md-selected-item="appCtrl.selectedItem" md-search-text="appCtrl.formGrid.annoton.complexAnnotonData.gpTemplateNode.term.control.value"
-                md-items="item in appCtrl.lookup.golrLookup($viewValue, appCtrl.formGrid.annoton.complexAnnotonData.gpTemplateNode.term.lookup.requestParams)"
+              <md-autocomplete md-selected-item="appCtrl.selectedItem" md-search-text="appCtrl.searchText" md-items="item in appCtrl.lookup.golrLookup(appCtrl.searchText, appCtrl.formGrid.annoton.complexAnnotonData.gpTemplateNode.term.lookup.requestParams)"
                 md-item-text="item.label" placeholder="Gene Products">
                 <span md-highlight-text="appCtrl.searchText">{{item.label}} :: {{item.id}}</span>
               </md-autocomplete>
