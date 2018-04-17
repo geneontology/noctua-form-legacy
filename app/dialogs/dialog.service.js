@@ -45,6 +45,20 @@ export default class DialogService {
     })
   }
 
+  openAnnotonSectionDialog(ev, data, success) {
+    this.$mdDialog.show({
+      controller: 'AnnotonSectionDialogController as annotonCtrl',
+      templateUrl: './dialogs/annoton-section/annoton-section-dialog.html',
+      targetEvent: ev,
+      clickOutsideToClose: false,
+      multiple: true,
+      locals: {
+        data: data
+      }
+    }).then(success)
+  }
+
+
   openViewSummaryDialog(ev, summaryRow) {
     this.$mdDialog.show({
       controller: 'ViewSummaryDialogController as annotonCtrl',

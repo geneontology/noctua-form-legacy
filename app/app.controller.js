@@ -55,8 +55,6 @@ export default class AppController {
       appCtrl.summaryData = data.gridData;
       appCtrl.summaryGrid.setGrid(data.gridData.annotons)
 
-
-
       //  appCtrl.summaryGrid.gridOptions.expandableRowScope = appCtrl;
 
       //appCtrl.summaryGrid.registerApi();
@@ -101,6 +99,23 @@ export default class AppController {
     }
 
     self.dialogService.openGuideMeDialog(ev, data, success);
+  }
+
+
+  openAnnotonSectionDialog(ev, entity) {
+    const self = this;
+
+    let displaySectionId = self.config.generateAnnotonSection(self.formGrid.annoton,
+      self.saeConstants.annotonModelType.options.ccOnly.name, entity);
+
+    let displaySection = self.formGrid.addAnnotonPresentation(self.formGrid.annoton, displaySectionId);
+
+    let data = {
+      displaySection: displaySection,
+      node: entity
+    }
+
+    self.dialogService.openAnnotonSectionDialog(ev, data);
   }
 
   openSelectEvidenceDialog(ev, entity) {

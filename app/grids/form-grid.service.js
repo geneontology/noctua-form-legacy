@@ -44,6 +44,7 @@ export default class FormGridService {
       geneProduct: annoton.getNode('gp'),
       gp: {},
       fd: {},
+      extra: []
     }
 
     each(annoton.nodes, function (node) {
@@ -67,35 +68,34 @@ export default class FormGridService {
 
   }
 
-  getAnnotonGuideMePresentation(annoton) {
+  addAnnotonPresentation(annoton, displaySectionId) {
     const self = this;
-
-    let result = {
-      geneProduct: annoton.getNode('gp'),
-      gp: {},
-      fd: {},
-    }
+    let result = {};
+    result[displaySectionId] = {};
 
     each(annoton.nodes, function (node) {
-      if (node.displaySection && node.displayGroup) {
-        if (!result[node.displaySection.id][node.displayGroup.id]) {
-          result[node.displaySection.id][node.displayGroup.id] = {
+      if (node.displaySection === displaySectionId && node.displayGroup) {
+        if (!result[displaySectionId][node.displayGroup.id]) {
+          result[displaySectionId][node.displayGroup.id] = {
             shorthand: node.displayGroup.shorthand,
             label: node.displayGroup.label,
             nodes: []
           };
         }
-        result[node.displaySection.id][node.displayGroup.id].nodes.push(node);
-        node.nodeGroup = result[node.displaySection.id][node.displayGroup.id];
+        result[displaySectionId][node.displayGroup.id].nodes.push(node);
+        node.nodeGroup = result[displaySectionId][node.displayGroup.id];
         if (node.isComplement) {
           node.nodeGroup.isComplement = true;
         }
       }
     });
 
+    self.annotonPresentation.extra.push(result);
+
     return result;
 
   }
+
 
   /**
    *  Populates the grid with GO Terms, MF, CC, BP as roots

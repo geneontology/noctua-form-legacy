@@ -4,6 +4,7 @@ import AnnotonError from "./annoton/parser/annoton-error.js";
 import Evidence from './annoton/evidence.js';
 
 const each = require('lodash/forEach');
+const uuid = require('uuid/v1');
 const annotationTitleKey = 'title';
 
 var model = require('bbop-graph-noctua');

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 const each = require('lodash/forEach');
-
+const uuid = require('uuid/v1');
 import AnnotonNode from './../annoton/annoton-node.js';
 import Annoton from './../annoton/annoton.js';
 
@@ -584,18 +584,50 @@ export default class ConfigService {
     return annoton;
   }
 
-  generateNode(id) {
+  generateAnnotonSection(annoton, modelType, connector) {
+    const self = this;
+    let overrides = {
+      displaySection: modelType + uuid(),
+    }
+
+    let modelIds = _.cloneDeep(self._modelRelationship);
+
+    each(modelIds[modelType].nodes, function (id) {
+      overrides.id = uuid();
+      annoton.addNode(self.generateNode(id, overrides));
+    });
+
+    each(modelIds[modelType].triples, function (triple) {
+      // annoton.addEdgeById(triple.subject, triple.object, triple.edge);
+      if (triple.edgeOption) {
+        //  annoton.addEdgeOptionById(triple.object, triple.edgeOption);
+      }
+    });
+
+    each(modelIds[modelType].overrides, function (overridesData) {
+      let node = annoton.getNode(overridesData.id);
+      overridesData.term ? node.setTerm(overridesData.term) : angular.noop;
+      overridesData.display ? node.setDisplay(overridesData.display) : angular.noop;
+      overridesData.label ? node.label = overridesData.label : angular.noop;
+      overridesData.relationship ? node.relationship = overridesData.relationship : angular.noop;
+    });
+
+    return overrides.displaySection;
+  }
+
+  generateNode(id, overrides) {
     const self = this;
 
     let nodeData = JSON.parse(JSON.stringify(self._annotonData[id]));
     let annotonNode = new AnnotonNode()
 
-    annotonNode.id = id;
+    annotonNode.primaryId = id;
+    annotonNode.id = (overrides && overrides.id) ? id + overrides.id : id;
     annotonNode.aspect = nodeData.aspect;
     annotonNode.ontologyClass = nodeData.ontologyClass;
     annotonNode.label = nodeData.label;
     annotonNode.relationship = nodeData.relationship;
-    annotonNode.displaySection = nodeData.displaySection;
+    annotonNode.displaySection = (overrides && overrides.displaySection) ? overrides.displaySection : nodeData.displaySection;
     annotonNode.displayGroup = nodeData.displayGroup;
     annotonNode.lookupGroup = nodeData.lookupGroup;
     annotonNode.treeLevel = nodeData.treeLevel;

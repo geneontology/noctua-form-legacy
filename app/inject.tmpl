@@ -443,6 +443,11 @@
                               Root Term
                             </md-button>
                           </md-menu-item>
+                          <md-menu-item ng-if="entity.aspect==='P'">
+                            <md-button class="" ng-click="appCtrl.openAnnotonSectionDialog($event, entity, true)">
+                              Add CC Component
+                            </md-button>
+                          </md-menu-item>
                           <md-menu-item>
                             <md-button class="" ng-click="entity.clearValues()">
                               Clear
@@ -490,9 +495,7 @@
         </div>
         <br>
         <div layout="row" class="sae-submit-row md-whiteframe-2dp">
-          <p>
-
-          </p>
+          <p> </p>
           <span flex></span>
           <md-button class="md-primary" ng-click="appCtrl.graph.addModel()">
             Start New Model
