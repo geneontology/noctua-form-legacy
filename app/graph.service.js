@@ -994,10 +994,59 @@ export default class GraphService {
     }
   }
 
+  saveGP(gp, success) {
+    const self = this;
+
+    let manager = new minerva_manager(
+      self.barista_location,
+      self.minerva_definition_name,
+      self.barista_token,
+      self.engine, 'async');
+
+    manager.register('manager_error',
+      function (resp) {
+        console.log('There was a manager error (' +
+          resp.message_type() + '): ' + resp.message());
+      }, 10);
+
+    manager.register('warning', function (resp /*, man */ ) {
+      alert('Warning: ' + resp.message() + '; ' +
+        'your operation was likely not performed');
+    }, 10);
+    manager.register('error', function (resp /*, man */ ) {
+      var perm_flag = 'InsufficientPermissionsException';
+      var token_flag = 'token';
+      if (resp.message() && resp.message().indexOf(perm_flag) !== -1) {
+        alert('Error: it seems like you do not have permission to ' +
+          'perform that operation. Did you remember to login?');
+      } else if (resp.message() && resp.message().indexOf(token_flag) !== -1) {
+        alert('Error: it seems like you have a bad token...');
+      } else {
+        console.log('error:', resp, resp.message_type(), resp.message());
+      }
+    }, 10);
+    manager.register('meta', function ( /* resp , man */ ) {
+      console.log('## a meta callback?');
+    });
+
+    manager.register('merge', function (resp) {
+      let individuals = resp.individuals();
+      if (individuals.length > 0) {
+        let gpResponse = individuals[0];
+        console.log('annn', gpResponse);
+
+        gp.modelId = gpResponse.id;
+        success(gpResponse);
+      }
+    }, 10);
+
+    let reqs = new minerva_requests.request_set(manager.user_token(), local_id);
+    reqs.add_individual(gp.getTerm().id);
+    return manager.request_with(reqs);
+  }
+
   saveAnnoton(annoton) {
     const self = this;
-    const manager = this.manager;
-    let reqs = new minerva_requests.request_set(manager.user_token(), local_id);
     let geneProduct;
 
     if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
@@ -1007,26 +1056,34 @@ export default class GraphService {
       geneProduct = annoton.getNode('gp');
     }
 
-    if (!this.modelTitle) {
-      const defaultTitle = 'Model involving ' + geneProduct.term.control.value.label;
-      reqs.add_annotation_to_model(annotationTitleKey, defaultTitle);
+    function success(gpIndividual) {
+      const manager = self.manager;
+      let reqs = new minerva_requests.request_set(manager.user_token(), local_id);
+
+      if (!self.modelTitle) {
+        const defaultTitle = 'Model involving ' + geneProduct.term.control.value.label;
+        reqs.add_annotation_to_model(annotationTitleKey, defaultTitle);
+      }
+
+      each(annoton.nodes, function (node) {
+        self.addIndividual(reqs, node);
+      });
+
+      each(annoton.nodes, function (node) {
+        self.addFact(reqs, annoton, node);
+      });
+
+      reqs.store_model(local_id);
+
+      if (self.userInfo.groups.length > 0) {
+        reqs.use_groups([self.userInfo.selectedGroup.id]);
+      }
+
+      return manager.request_with(reqs);
     }
 
-    each(annoton.nodes, function (node) {
-      self.addIndividual(reqs, node);
-    });
+    return self.saveGP(geneProduct, success);
 
-    each(annoton.nodes, function (node) {
-      self.addFact(reqs, annoton, node);
-    });
-
-    reqs.store_model(local_id);
-
-    if (self.userInfo.groups.length > 0) {
-      reqs.use_groups([self.userInfo.selectedGroup.id]);
-    }
-
-    return manager.request_with(reqs);
   }
 
   deleteAnnoton(annoton, ev) {
