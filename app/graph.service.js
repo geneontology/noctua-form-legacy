@@ -978,7 +978,7 @@ export default class GraphService {
 
           if (!ccNode.hasValue()) {
             if (cc1Node.hasValue()) {
-              annoton.addEdge(mfNode, cc1Node, self.saeConstants.edge.occursIn);
+              //annoton.addEdge(mfNode, cc1Node, self.saeConstants.edge.occursIn);
               ccNode.setTerm(self.saeConstants.rootNode[ccNode.id]);
               ccNode.evidence = cc1Node.evidence;
             } else if (cc11Node.hasValue()) {

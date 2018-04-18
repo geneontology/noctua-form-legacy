@@ -1,6 +1,6 @@
 @import "./scss/global.scss";
 @import "~bourbon/app/assets/stylesheets/bourbon";
-$sae-header-bg-color: #DBE8F3;
+//$sae-primary-color-2: #8b9dc3;
 md-checkbox.md-checked.sae-primary .md-icon {
   background-color: $sae-primary-color;
 }
@@ -100,35 +100,21 @@ I need to explicitly tweak the classes. There has to be a better way.
   color: #FFF;
 }
 
-.tv-container .input-group.input-group-sm .form-control {
-  height: 35px;
-}
-
-.tv-container .input-group-addon {
-  height: 30px;
-  min-width: 35px;
-  padding: 0 2px;
-  margin: 0;
-}
-
-.tv-container .ui-grid-row-summary .ui-grid-cell-contents {
-  font-size: 0.9em;
-}
-
-ul li.error-reason {
-  font-weight: 500;
-  color: darkslateblue;
-}
-
 .sae-menu-heading {
   margin: 0;
   padding: 10px 14px;
   background-color: #E2E2E2;
 }
 
+.sae-app {
+  background-color: #F7F7F7;
+  padding-top: 82px;
+}
+
 .sae-navbar {
-  // @include deep-height(80px); //background-color: #005888 !important;
-  border-bottom: #00A1E0 solid 2px; // color: #EEE !important; 
+  @include position(fixed, 0 0 0 null);
+  @include deep-height(80px); //background-color: #005888 !important;
+  border-bottom: $sae-primary-color-accent solid 3px; // color: #EEE !important; 
   .md-button {
     @include deep-height(40px);
     line-height: 40px;
@@ -205,8 +191,7 @@ ul li.error-reason {
 
 .sae-body {
   width: 100%;
-  padding: 20px;
-  background-color: #F2F2F2;
+  padding: 20px; ///background-color: #F2F2F2;
 }
 
 .sae-toolbar {
@@ -245,18 +230,18 @@ ul li.error-reason {
     width: 100%;
     background-color: #FFF;
     .sae-section-header {
-      height: 50px;
-      background-color: $sae-header-bg-color;
+      height: 40px;
+      background-color: $sae-primary-color-light;
       border-bottom: #DDD solid 1px;
       .sae-section-heading {
         padding-left: 8px;
-        font-weight: 500;
-        font-size: 18px;
-        line-height: 50px;
-        color: #222;
+        font-weight: bold;
+        font-size: 12px;
+        line-height: 40px;
+        color: #555;
       }
       .sae-action-button {
-        margin: 5px;
+        margin: 0px;
         height: 40px; // line-height: 36px;
       }
     }
@@ -354,14 +339,14 @@ ul li.error-reason {
 }
 
 .sae-summary-grid {
-  background-color: #E2E2E2;
+  //background-color: #E2E2E2;
   padding: 30px 20px;
   .sae-panel {
     background-color: #FFF;
   }
   .sae-panel-header {
     height: 60px;
-    background-color: rgba($sae-header-bg-color, 0.4);
+    background-color: rgba($sae-primary-color-light, 0.4);
     border-bottom: #DDD solid 1px;
     &.sae-error {
       background-color: rgba(#f8d7da, 0.5);
@@ -612,7 +597,7 @@ ul li.error-reason {
     border-bottom: #555 solid 1px;
     .sae-summary-group-heading {
       @include deep-width(65px);
-      border-right: #555 solid 1px; //background-color: rgba($sae-header-bg-color, 0.2);
+      border-right: #555 solid 1px; //background-color: rgba($sae-primary-color-light, 0.2);
       font-size: 18px;
       font-weight: bold;
     }
@@ -662,7 +647,7 @@ ul li.error-reason {
 }
 
 .sae-summary-table {
-  background-color: #F7F7F7;
+  //background-color: #F7F7F7;
   padding: 30px 20px;
   md-icon,
   i {
@@ -677,18 +662,18 @@ ul li.error-reason {
   }
   .ui-grid-top-panel {
     .ui-grid-header-cell {
-      //
-      line-height: 40px;
-      background-color: $sae-header-bg-color;
+      background-color: $sae-primary-color-light; //background-color: #00A1E0;
+      //color: #DDD;
       .ui-grid-cell-contents {
-        height: 50px;
-        line-height: 18px;
+        display: flex;
+        align-items: center;
+        height: 40px;
+        line-height: 15px;
         white-space: normal !important;
         overflow: hidden;
       }
       .ui-grid-header-cell-label {
-        font-size: 10px !important;
-        white-space: normal;
+        font-size: 10px !important; //  white-space: normal;
       }
     }
   }
@@ -730,7 +715,10 @@ ul li.error-reason {
     }
   }
   .sae-row-error {
-    background-color: #e4c2c2 !important;
+    background-color: #eed2d2 !important;
+  }
+  .sae-row-divider {
+    border-top: #777 solid 5px;
   }
   .ui-grid-row .ui-grid-cell {
     padding: 3px; //  background-color: inherit !important;
@@ -742,13 +730,13 @@ ul li.error-reason {
     border-bottom: solid 1px #d4d4d4;
   }
   .sae-row-level-0 {
-    // background-color: rgba($primary-color, 0.2);
+    // background-color: rgba($sae-primary-color, 0.2);
   }
   .sae-row-level-1 {
-    // background-color: rgba($primary-color, 0.1);
+    // background-color: rgba($sae-primary-color, 0.1);
   }
   .sae-row-level-2 {
-    //background-color: rgba($primary-color, 0.05);
+    //background-color: rgba($sae-primary-color, 0.05);
   }
   .ui-grid-cell {
     .sae-error {

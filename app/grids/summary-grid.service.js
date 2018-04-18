@@ -247,7 +247,7 @@ export default class SummaryGridService {
     const self = this;
     let gridData = [];
 
-    let colors = ["#E9E9E9", '#F9F9F9'];
+    let colors = ["#F2F2F2", '#F9F9F9'];
 
     each(annotonData, function (row, key) {
       row.color = colors[key % 2];
