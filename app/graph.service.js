@@ -921,19 +921,19 @@ export default class GraphService {
 
   annotonAdjustments(annoton) {
     const self = this;
-    let infos = self.checkIfNodeExist(annoton);
+    let infos = []; //self.checkIfNodeExist(annoton);
 
     switch (annoton.annotonModelType) {
       case self.saeConstants.annotonModelType.options.default.name:
         {
           let mfNode = annoton.getNode('mf');
           let ccNode = annoton.getNode('cc');
-          let cclNode = annoton.getNode('cc-1');
+          let cc1Node = annoton.getNode('cc-1');
           let cc11Node = annoton.getNode('cc-1-1');
+          let cc111Node = annoton.getNode('cc-1-1-1');
 
           if (!ccNode.hasValue()) {
-            if (cclNode.hasValue()) {
-              annoton.addEdge(mfNode, cclNode, self.saeConstants.edge.occursIn);
+            if (cc1Node.hasValue()) {
               let meta = {
                 aspect: cc1Node.label,
                 subjectNode: {
@@ -974,15 +974,21 @@ export default class GraphService {
           let ccNode = annoton.getNode('cc');
           let cc1Node = annoton.getNode('cc-1');
           let cc11Node = annoton.getNode('cc-1-1');
+          let cc111Node = annoton.getNode('cc-1-1');
 
           if (!ccNode.hasValue()) {
             if (cc1Node.hasValue()) {
+              annoton.addEdge(mfNode, cc1Node, self.saeConstants.edge.occursIn);
               ccNode.setTerm(self.saeConstants.rootNode[ccNode.id]);
               ccNode.evidence = cc1Node.evidence;
             } else if (cc11Node.hasValue()) {
               ccNode.setTerm(self.saeConstants.rootNode[ccNode.id]);
               ccNode.evidence = cc11Node.evidence;
-              annoton.addEdge(ccNode, cc11Node, self.saeConstants.edge.partOf);
+              annoton.addEdge(mfNode, cc11Node, self.saeConstants.edge.partOf);
+            } else if (cc111Node.hasValue()) {
+              ccNode.setTerm(self.saeConstants.rootNode[ccNode.id]);
+              ccNode.evidence = cc111Node.evidence;
+              annoton.addEdge(mfNode, cc111Node, self.saeConstants.edge.partOf);
             }
           }
           break;

@@ -412,7 +412,12 @@ export default class ConfigService {
             term: {
               id: 'GO:0003674',
               label: 'molecular_function'
-            }
+            },
+            evidence: {
+              id: this.saeConstants.evidenceAutoPopulate.nd.evidence.id,
+              label: this.saeConstants.evidenceAutoPopulate.nd.evidence.label,
+            },
+            reference: this.saeConstants.evidenceAutoPopulate.nd.reference
           }
         },
         triples: [{
@@ -579,6 +584,8 @@ export default class ConfigService {
       overridesData.display ? node.setDisplay(overridesData.display) : angular.noop;
       overridesData.label ? node.label = overridesData.label : angular.noop;
       overridesData.relationship ? node.relationship = overridesData.relationship : angular.noop;
+      overridesData.evidence ? node.evidence[0].setEvidence(overridesData.evidence) : angular.noop;
+      overridesData.reference ? node.evidence[0].setReference(overridesData.reference) : angular.noop;
     });
 
     return annoton;
