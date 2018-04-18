@@ -320,7 +320,11 @@ export default class GraphService {
           evidence.setReference(sources[0].value(), self.linker.url(sources[0].value()));
         }
         if (withs.length > 0) {
-          evidence.setWith(withs[0].value(), self.linker.url(withs[0].value()));
+          if (withs[0].value().startsWith('gomodel')) {
+            evidence.setWith(withs[0].value());
+          } else {
+            evidence.setWith(withs[0].value(), self.linker.url(withs[0].value()));
+          }
         }
         if (assignedBys.length > 0) {
           evidence.setAssignedBy(assignedBys[0].value(), assignedBys[0].value());

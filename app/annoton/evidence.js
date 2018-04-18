@@ -107,10 +107,13 @@ export default class Evidence {
 
   setWith(value, link) {
     this.with.control.value = value;
-    this.with.control.link = {
-      label: value,
-      url: link
+    if (link) {
+      this.with.control.link = {
+        label: value,
+        url: link
+      }
     }
+
   }
 
 
