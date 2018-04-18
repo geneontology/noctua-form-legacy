@@ -15,11 +15,12 @@ export default class SummaryGridService {
     this.columnDefs = [{
       name: 'gp',
       displayName: 'Annotated Entity',
-      width: 250,
+      width: 200,
       minWidth: 100,
       maxWidth: 400,
       field: 'gp',
       //headerCellTemplate: './grid-templates/header-cell-template.html',
+      cellTemplate: './grid-templates/summary/gp-cell-template.html',
       enableCellSelection: false,
       enableCellEditOnFocus: false,
       enableSorting: false,
@@ -28,9 +29,9 @@ export default class SummaryGridService {
       enableColumnMenu: false
     }, {
       name: 'relationship',
-      displayName: 'Relationship',
-      width: 95,
-      minWidth: 50,
+      displayName: 'Relationship (to MF)',
+      width: 80,
+      minWidth: 80,
       maxWidth: 120,
       field: 'relationship',
       //headerCellTemplate: './grid-templates/header-cell-template.html',
@@ -42,10 +43,10 @@ export default class SummaryGridService {
       enableColumnMenu: false
     }, {
       name: 'aspect',
-      displayName: 'Aspect',
-      width: 65,
-      minWidth: 65,
-      maxWidth: 65,
+      displayName: 'Asp.',
+      width: 35,
+      minWidth: 35,
+      maxWidth: 35,
       field: 'aspect',
       //headerCellTemplate: './grid-templates/header-cell-template.html',
       enableCellEdit: false,
@@ -73,9 +74,9 @@ export default class SummaryGridService {
       enableColumnMenu: false
     }, {
       name: 'extRelationship',
-      displayName: 'Relationship(ext)',
-      width: 120,
-      minWidth: 120,
+      displayName: 'Relationship (ext)',
+      width: 80,
+      minWidth: 80,
       maxWidth: 120,
       field: 'extRelationship',
       //headerCellTemplate: './grid-templates/header-cell-template.html',
@@ -106,7 +107,7 @@ export default class SummaryGridService {
       field: 'evidence',
       originalName: 'evidence',
       displayName: 'Evidence',
-      width: '20%',
+      width: '18%',
       minWidth: 100,
       maxWidth: 400,
       //headerCellTemplate: './grid-templates/header-cell-template.html',
@@ -259,9 +260,6 @@ export default class SummaryGridService {
           }
         });
       });
-      // gridData.push({
-      //    color: '#FFF',
-      //  });
     });
     self.gridOptions.data = gridData;
   }
@@ -271,20 +269,11 @@ export default class SummaryGridService {
     let extension = node.treeLevel > 0;
     let term = node.getTerm();
 
-    let displayGp = function (annoton, node) {
-      switch (row.annoton.annotonModelType) {
-        case self.saeConstants.annotonModelType.options.default.name:
-          return node.id === 'mf';
-        case self.saeConstants.annotonModelType.options.ccOnly.name:
-          return node.id === 'cc';
-      }
-      return false;
-    }
-
     gridData.push({
       color: row.color,
-      gp: displayGp(row.annoton, node) ? row.gp : '',
-      relationship: extension ? '' : node.isComplement ? 'NOT ' : node.relationship.label,
+      displayEnabledBy: self.tableCanDisplayEnabledBy(node),
+      gp: self.tableDisplayGp(row, node),
+      relationship: extension ? '' : self.tableDisplayExtension(node),
       extRelationship: extension ? node.relationship.label : '',
       term: extension ? '' : term.label,
       extension: extension ? term.label : '',
@@ -293,6 +282,7 @@ export default class SummaryGridService {
       reference: node.evidence[0].reference.control.link,
       with: node.evidence[0].with.control.link,
       assignedBy: node.evidence[0].assignedBy.control.link,
+      node: node,
       // $$treeLevel: node.treeLevel,
 
     })
@@ -307,6 +297,41 @@ export default class SummaryGridService {
         node: node,
         annoton: row.annoton
       })
+    }
+  }
+
+
+  //These are for the table view
+  tableDisplayGp(row, node) {
+    const self = this;
+    let display = false;
+
+    switch (row.annoton.annotonModelType) {
+      case self.saeConstants.annotonModelType.options.default.name:
+        display = node.id === 'mf';
+        break;
+      case self.saeConstants.annotonModelType.options.ccOnly.name:
+        display = node.id === 'cc';
+        break;
+    }
+    return display ? row.gp : '';
+  }
+
+  tableCanDisplayEnabledBy(node) {
+    const self = this;
+
+    return node.relationship.id === self.saeConstants.edge.enabledBy.id
+  }
+
+  tableDisplayExtension(node) {
+    const self = this;
+
+    if (node.id === 'mf') {
+      return '';
+    } else if (node.isComplement) {
+      return 'NOT ' + node.relationship.label;
+    } else {
+      return node.relationship.label;
     }
   }
 

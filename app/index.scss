@@ -677,11 +677,18 @@ ul li.error-reason {
   }
   .ui-grid-top-panel {
     .ui-grid-header-cell {
-      height: 50px;
+      //
       line-height: 40px;
       background-color: $sae-header-bg-color;
+      .ui-grid-cell-contents {
+        height: 50px;
+        line-height: 18px;
+        white-space: normal !important;
+        overflow: hidden;
+      }
       .ui-grid-header-cell-label {
-        font-size: 12px !important;
+        font-size: 10px !important;
+        white-space: normal;
       }
     }
   }
@@ -717,6 +724,10 @@ ul li.error-reason {
   .ui-grid-cell-contents {
     white-space: nowrap !important;
     background-color: transparent;
+    .sae-gb-enabledby {
+      color: #888;
+      font-size: 10px;
+    }
   }
   .sae-row-error {
     background-color: #e4c2c2 !important;
