@@ -113,6 +113,7 @@ I need to explicitly tweak the classes. There has to be a better way.
 
 .sae-navbar {
   @include position(fixed, 0 0 0 null);
+  position: fixed !important;
   @include deep-height(80px); //background-color: #005888 !important;
   border-bottom: $sae-primary-color-accent solid 3px; // color: #EEE !important; 
   .md-button {
@@ -647,7 +648,7 @@ I need to explicitly tweak the classes. There has to be a better way.
 }
 
 .sae-summary-table {
-  //background-color: #F7F7F7;
+  background-color: #F7F7F7;
   padding: 30px 20px;
   md-icon,
   i {
@@ -718,16 +719,16 @@ I need to explicitly tweak the classes. There has to be a better way.
     background-color: #eed2d2 !important;
   }
   .sae-row-divider {
-    border-top: #777 solid 5px;
+    border-top: #BBB solid 5px;
   }
   .ui-grid-row .ui-grid-cell {
-    padding: 3px; //  background-color: inherit !important;
-    //  color: inherit !important;
+    padding: 3px;
+    background-color: inherit; //  color: inherit !important;
     //   border: none;
   }
   .ui-grid-row .ui-grid-cell.ui-grid-cell {
     //  background-color: #7c7499;
-    border-bottom: solid 1px #d4d4d4;
+    border: solid 1px #CCC;
   }
   .sae-row-level-0 {
     // background-color: rgba($sae-primary-color, 0.2);

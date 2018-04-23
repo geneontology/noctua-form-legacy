@@ -247,10 +247,7 @@ export default class SummaryGridService {
     const self = this;
     let gridData = [];
 
-    let colors = ["#F2F2F2", '#F9F9F9'];
-
     each(annotonData, function (row, key) {
-      row.color = colors[key % 2];
       each(row.annotonPresentation.fd, function (nodeGroup) {
         each(nodeGroup.nodes, function (node) {
           let term = node.getTerm();
@@ -270,7 +267,6 @@ export default class SummaryGridService {
     let term = node.getTerm();
 
     gridData.push({
-      color: row.color,
       displayEnabledBy: self.tableCanDisplayEnabledBy(node),
       gp: self.tableDisplayGp(row, node),
       relationship: extension ? '' : self.tableDisplayExtension(node),
@@ -289,7 +285,6 @@ export default class SummaryGridService {
 
     for (let i = 1; i < node.evidence.length; i++) {
       gridData.push({
-        color: row.color,
         evidence: node.evidence[i].evidence.control.value.label,
         reference: node.evidence[i].reference.control.link,
         with: node.evidence[i].with.control.link,
