@@ -722,13 +722,13 @@ I need to explicitly tweak the classes. There has to be a better way.
     border-top: #BBB solid 5px;
   }
   .ui-grid-row .ui-grid-cell {
-    padding: 3px;
+    padding: 3px; //  
     background-color: inherit; //  color: inherit !important;
     //   border: none;
   }
   .ui-grid-row .ui-grid-cell.ui-grid-cell {
     //  background-color: #7c7499;
-    border: solid 1px #CCC;
+    border-bottom: solid 1px #d4d4d4;
   }
   .sae-row-level-0 {
     // background-color: rgba($sae-primary-color, 0.2);
