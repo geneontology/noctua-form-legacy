@@ -4,6 +4,7 @@ import AnnotonError from "./annoton/parser/annoton-error.js";
 import Evidence from './annoton/evidence.js';
 
 const each = require('lodash/forEach');
+const forOwn = require('lodash/forOwn');
 const uuid = require('uuid/v1');
 const annotationTitleKey = 'title';
 
@@ -964,6 +965,51 @@ export default class GraphService {
     return infos;
   }
 
+  createSave(srcAnnoton) {
+    const self = this;
+    let destAnnoton = new Annoton();
+
+    let skipNodeDFS = function (sourceId, edge) {
+      const self = this;
+      let srcEdge = destAnnoton.edges[sourceId];
+
+      if (srcEdge) {
+        each(srcEdge.nodes, function (srcNode) {
+          if (srcNode.target.hasValue()) {
+            destAnnoton.addEdgeById(sourceId, srcNode.target.id, srcNode.edge);
+          } else {
+            skipNodeDFS(sourceId, srcNode.edge);
+          }
+        });
+      }
+    }
+
+    each(srcAnnoton.nodes, function (srcNode) {
+      if (srcNode.hasValue()) {
+        let destNode = self.config.generateNode(srcNode.id);
+
+        destNode.copyValues(srcNode);
+        destAnnoton.addNode(destNode);
+      }
+    });
+
+    forOwn(srcAnnoton.edges, function (srcEdge, key) {
+      each(srcEdge.nodes, function (srcNode) {
+        if (srcNode.target.hasValue()) {
+          destAnnoton.addEdgeById(key, srcNode.target.id, srcNode.edge);
+        } else {
+          skipNodeDFS(key, srcNode.edge);
+        }
+      });
+    });
+
+    console.log('create save', destAnnoton);
+
+    return destAnnoton;
+  }
+
+
+
   adjustAnnoton(annoton) {
     const self = this;
 
@@ -977,18 +1023,25 @@ export default class GraphService {
           let cc111Node = annoton.getNode('cc-1-1');
 
           if (!ccNode.hasValue()) {
+            each(ccNode.edges, function (edge) {
+              //  foo(edge.target);
+            });
+
             if (cc1Node.hasValue()) {
-              //annoton.addEdge(mfNode, cc1Node, self.saeConstants.edge.occursIn);
               ccNode.setTerm(self.saeConstants.rootNode[ccNode.id]);
+              // annoton.addEdge(mfNode, ccNode, self.saeConstants.edge.occursIn);
+              // annoton.addEdge(ccNode, cc1Node, self.saeConstants.edge.partOf);
               ccNode.evidence = cc1Node.evidence;
             } else if (cc11Node.hasValue()) {
               ccNode.setTerm(self.saeConstants.rootNode[ccNode.id]);
-              ccNode.evidence = cc11Node.evidence;
-              annoton.addEdge(mfNode, cc11Node, self.saeConstants.edge.partOf);
+              //  ccNode.evidence = cc11Node.evidence;
+              //   annoton.addEdge(mfNode, ccNode, self.saeConstants.edge.occursIn);
+              //  annoton.addEdge(ccNode, cc11Node, self.saeConstants.edge.partOf);
             } else if (cc111Node.hasValue()) {
               ccNode.setTerm(self.saeConstants.rootNode[ccNode.id]);
               ccNode.evidence = cc111Node.evidence;
-              annoton.addEdge(mfNode, cc111Node, self.saeConstants.edge.partOf);
+              //  annoton.addEdge(mfNode, ccNode, self.saeConstants.edge.occursIn);
+              //  annoton.addEdge(ccNode, cc111Node, self.saeConstants.edge.partOf);
             }
           }
           break;
@@ -1002,6 +1055,8 @@ export default class GraphService {
           break;
         }
     }
+
+    return self.createSave(annoton);
   }
 
   saveGP(gp, success) {

@@ -16,7 +16,6 @@ export default class SaeGraph {
   addNode(node) {
     this.nodes.push(node);
     this.edges[node.id] = {}
-    this.edges[node.id] = {}
     this.edges[node.id]['nodes'] = [];
   };
 
@@ -30,6 +29,7 @@ export default class SaeGraph {
       this.removeEdge(adjacentNode, node);
     }
   };
+
   addEdge(source, target, edge) {
     let node = {
       edge: edge,

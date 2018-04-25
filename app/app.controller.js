@@ -241,8 +241,8 @@ export default class AppController {
 
     let saveAnnoton = function (selected) {
       //self.formGrid.linkFormNode(entity, selected.node);
-      self.graph.adjustAnnoton(self.formGrid.annoton)
-      self.graph.saveAnnoton(self.formGrid.annoton).then(function (data) {
+      let annoton = self.graph.adjustAnnoton(self.formGrid.annoton)
+      self.graph.saveAnnoton(annoton).then(function (data) {
         self.formGrid.clearForm();
         self.dialogService.openSuccessfulSaveToast();
       });
@@ -250,6 +250,8 @@ export default class AppController {
 
     infos = self.graph.annotonAdjustments(self.formGrid.annoton);
 
+
+    // self.graph.createSave(self.formGrid.annoton);
     //temporarily off
     if (infos.length > 0) {
       let data = {
@@ -258,7 +260,7 @@ export default class AppController {
       };
 
       self.dialogService.openBeforeSaveDialog(null, data, saveAnnoton);
-      // saveAnnoton();
+      /// saveAnnoton();
     } else {
       saveAnnoton();
     }
