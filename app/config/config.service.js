@@ -699,7 +699,7 @@ export default class ConfigService {
         "label": "direct assay evidence used in manual assertion (ECO:0000314)"
       },
       "reference": "PMID:1234",
-      "with": ""
+      "with": "PMID:123445"
     }, {
       "id": "mf-1",
       "term": {
@@ -711,7 +711,7 @@ export default class ConfigService {
         "label": "direct assay evidence used in manual assertion (ECO:0000314)"
       },
       "reference": "PMID:1234",
-      "with": ""
+      "with": "PMID:12"
     }, {
       "id": "mf-2",
       "term": {
@@ -723,7 +723,7 @@ export default class ConfigService {
         "label": "direct assay evidence used in manual assertion (ECO:0000314)"
       },
       "reference": "PMID:1234",
-      "with": ""
+      "with": "PMID:1234"
     }, {
       "id": "bp",
       "term": {
@@ -734,7 +734,7 @@ export default class ConfigService {
         "id": "ECO:0000314",
         "label": "direct assay evidence used in manual assertion (ECO:0000314)"
       },
-      "reference": "PMID:1234",
+      "reference": "PMID:12345",
       "with": ""
     }, {
       "id": "bp-1",
@@ -746,8 +746,8 @@ export default class ConfigService {
         "id": "ECO:0000314",
         "label": "direct assay evidence used in manual assertion (ECO:0000314)"
       },
-      "reference": "PMID:1234",
-      "with": ""
+      "reference": "PMID:123456",
+      "with": "PMID:1234|PMID:1444"
     }, {
       "id": "bp-1-1",
       "term": {
@@ -758,8 +758,8 @@ export default class ConfigService {
         "id": "ECO:0000314",
         "label": "direct assay evidence used in manual assertion (ECO:0000314)"
       },
-      "reference": "PMID:1234",
-      "with": ""
+      "reference": "PMID:1234567",
+      "with": "PMID:12,PMID:444"
     }, {
       "id": "cc",
       "term": {
@@ -783,7 +783,7 @@ export default class ConfigService {
         "label": "direct assay evidence used in manual assertion (ECO:0000314)"
       },
       "reference": "PMID:1234",
-      "with": ""
+      "with": "PMID:1234"
     }, {
       "id": "cc-1",
       "term": {
@@ -807,7 +807,7 @@ export default class ConfigService {
         "label": "direct assay evidence used in manual assertion (ECO:0000314)"
       },
       "reference": "PMID:1234",
-      "with": ""
+      "with": "PMID:12344444"
     }, {
       "id": "cc-1-1-1",
       "term": {
@@ -819,7 +819,7 @@ export default class ConfigService {
         "label": "direct assay evidence used in manual assertion (ECO:0000314)"
       },
       "reference": "PMID:1234",
-      "with": ""
+      "with": "PMID:12344777"
     }]
 
     each(nodes, function (node) {
@@ -828,6 +828,7 @@ export default class ConfigService {
       annotonNode.setTerm(node.term);
       annotonNode.evidence[0].setEvidence(node.evidence);
       annotonNode.evidence[0].setReference(node.reference);
+      annotonNode.evidence[0].setWith(node.with);
     });
     return annoton;
   }

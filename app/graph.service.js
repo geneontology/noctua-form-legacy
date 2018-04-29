@@ -779,21 +779,21 @@ export default class GraphService {
 
         if (edgeNode.target.id === 'gp') {
           each(node.evidence, function (evidence) {
-            let evidenceReference = evidence.reference.control.value ? evidence.reference.control.value.split(",") : [];
-            let evidenceWith = evidence.with.control.value ? evidence.with.control.value.split(",") : [];
+            let evidenceReference = evidence.reference.control.value;
+            let evidenceWith = evidence.with.control.value;
 
             reqs.add_evidence(evidence.evidence.control.value.id, evidenceReference, evidenceWith, edgeNode.target.saveMeta.edge);
           });
         } else {
           each(edgeNode.target.evidence, function (evidence) {
-            let evidenceReference = evidence.reference.control.value ? evidence.reference.control.value.split(",") : [];
-            let evidenceWith = evidence.with.control.value ? evidence.with.control.value.split(",") : [];
-            if (edgeNode.target.aspect === 'P') {
-              let gpNode = annoton.getGPNode();
-              if (gpNode && gpNode.modelId) {
-                evidenceWith.push(gpNode.modelId)
-              }
-            }
+            let evidenceReference = evidence.reference.control.value;
+            let evidenceWith = evidence.with.control.value;
+            // if (edgeNode.target.aspect === 'P') {
+            //  let gpNode = annoton.getGPNode();
+            //  if (gpNode && gpNode.modelId) {
+            // evidenceWith.push(gpNode.modelId)
+            //  }
+            // }
             reqs.add_evidence(evidence.evidence.control.value.id, evidenceReference, evidenceWith, edgeNode.target.saveMeta.edge);
           });
         }
@@ -1098,7 +1098,6 @@ export default class GraphService {
       let individuals = resp.individuals();
       if (individuals.length > 0) {
         let gpResponse = individuals[0];
-        console.log('annn', gpResponse);
 
         gp.modelId = gpResponse.id;
         success(gpResponse);

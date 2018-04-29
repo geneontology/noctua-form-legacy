@@ -143,7 +143,7 @@ export default class SummaryGridService {
       maxWidth: 180,
       field: 'with',
       //headerCellTemplate: './grid-templates/header-cell-template.html',
-      cellTemplate: './grid-templates/summary/link-cell-template.html',
+      // cellTemplate: './grid-templates/summary/link-cell-template.html',
       enableCellEdit: false,
       enableCellSelection: false,
       enableCellEditOnFocus: false,
@@ -276,7 +276,7 @@ export default class SummaryGridService {
       aspect: node.aspect,
       evidence: node.evidence[0].evidence.control.value.label,
       reference: node.evidence[0].reference.control.link,
-      with: node.evidence[0].with.control.link,
+      with: node.evidence[0].with.control.value,
       assignedBy: node.evidence[0].assignedBy.control.link,
       node: node,
       // $$treeLevel: node.treeLevel,
@@ -287,7 +287,7 @@ export default class SummaryGridService {
       gridData.push({
         evidence: node.evidence[i].evidence.control.value.label,
         reference: node.evidence[i].reference.control.link,
-        with: node.evidence[i].with.control.link,
+        with: node.evidence[i].with.control.value,
         assignedBy: node.evidence[i].assignedBy.control.link,
         node: node,
         annoton: row.annoton

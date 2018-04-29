@@ -152,7 +152,7 @@ export default class Evidence {
   enableSubmit(errors, node) {
     const self = this;
     let result = true;
-    var pattern = new RegExp("^.+:.+$");
+    var pattern = new RegExp("^\\w+\\s*:\\s*\\d+$");
 
 
     if (!self.evidence.control.value.id) {
@@ -177,7 +177,7 @@ export default class Evidence {
       result = false;
     } else if (self.reference.control.value) {
 
-      let found = self.reference.control.value.match(pattern);
+      let found = self.reference.control.value.trim().match(pattern);
       self.reference.control.required = true;
       if (!found) {
         let meta = {
