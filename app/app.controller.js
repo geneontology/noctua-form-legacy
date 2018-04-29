@@ -40,6 +40,7 @@ export default class AppController {
         }
       }
     };
+
     this.summaryViewMode.selected = this.summaryViewMode.options.table;
 
     var userNameInfo = document.getElementById('user_name_info');
@@ -54,26 +55,12 @@ export default class AppController {
     $rootScope.$on('rebuilt', function (event, data) {
       appCtrl.summaryData = data.gridData;
       appCtrl.summaryGrid.setGrid(data.gridData.annotons)
-
-      //  appCtrl.summaryGrid.gridOptions.expandableRowScope = appCtrl;
-
-      //appCtrl.summaryGrid.registerApi();
-      // appCtrl.summaryGrid.expandAll();
-
     });
 
     graph.initialize();
     this.config.createJoyrideSteps();
-    //graph.setGolr();
-    // this.lookup.isaClosure(1, "CL:0000003", 'CL:0010015')
-    // this.lookup.isaClosure(2, "CHEBI:23367", 'GO:0071079')
-    // this.lookup.isaClosure(3, "GO:0032991", 'GO:0006869')
-    // this.lookup.isaClosure(4, "GO:0008150", 'GO:0005575')
-    // this.lookup.isaClosure(5, "GO:0008150", 'GO:000686
-
-
-
   }
+
   expandAll() {
     $scope.gridApi.treeBase.expandAllRows();
   };
@@ -138,7 +125,7 @@ export default class AppController {
     }
 
     let success = function (selected) {
-      entity.copyEvidence(selected.evidences, ['with', 'assignedBy']);
+      entity.copyEvidence(selected.evidences, ['assignedBy']);
     }
 
     self.dialogService.openSelectEvidenceDialog(ev, data, success);
@@ -249,8 +236,6 @@ export default class AppController {
     }
 
     infos = self.graph.annotonAdjustments(self.formGrid.annoton);
-
-
     // self.graph.createSave(self.formGrid.annoton);
     //temporarily off
     if (infos.length > 0) {

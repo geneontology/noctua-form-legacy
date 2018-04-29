@@ -12,7 +12,7 @@ export default class Util {
 
         function find(data, evidence) {
             return _.find(data, function (x) {
-                console.log(x.isEvidenceEqual(evidence))
+                // console.log(x.isEvidenceEqual(evidence))
                 return x.isEvidenceEqual(evidence)
             })
         }
@@ -34,7 +34,7 @@ export default class Util {
 
     static evidenceExists(data, evidence) {
         return _.find(data, function (x) {
-            console.log(x.isEvidenceEqual(evidence))
+            // console.log(x.isEvidenceEqual(evidence))
             return x.isEvidenceEqual(evidence)
         })
     }

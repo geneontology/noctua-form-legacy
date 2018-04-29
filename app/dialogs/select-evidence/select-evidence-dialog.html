@@ -29,11 +29,14 @@
                     <div class="sae-populate-row-header" layout="row">
                         <div class="sae-checkbox-container">
                         </div>
-                        <div flex="60">
+                        <div flex="50">
                             Evidence
                         </div>
-                        <div flex="40">
+                        <div flex="30">
                             Reference
+                        </div>
+                        <div flex="20">
+                            With
                         </div>
                     </div>
                     <div ng-repeat="evidence in annotonCtrl.data.evidences" class="sae-populate-row" layout="row">
@@ -42,12 +45,12 @@
                                 aria-label="Term Label">
                             </md-checkbox>
                         </div>
-                        <div flex="60">
+                        <div flex="50">
                             <div class="sae-ellipsis">
                                 {{evidence.evidence.control.value.label}}
                             </div>
                         </div>
-                        <div flex="40">
+                        <div flex="30">
                             <div class="sae-ellipsis">
                                 <a ng-if="evidence.reference.control.link.url" ng-href="{{evidence.reference.control.link.url}}" target="_blank">
                                     {{evidence.reference.control.link.label}}
@@ -57,11 +60,14 @@
                                 </span>
                             </div>
                         </div>
-                        <div ng-if="false" flex="20">
+                        <div flex="20">
                             <div class="sae-ellipsis">
-                                <a ng-href="{{evidence.with.control.link.url}}" target="_blank">
+                                <a ng-if="evidence.with.control.link.url" ng-href="{{evidence.with.control.link.url}}" target="_blank">
                                     {{evidence.with.control.link.label}}
                                 </a>
+                                <span ng-if="!evidence.with.control.link.url">
+                                    {{evidence.with.control.value}}
+                                </span>
                             </div>
                         </div>
                         <div ng-if="false" flex>
@@ -95,11 +101,14 @@
                     <div class="sae-populate-row-header" layout="row">
                         <div class="sae-checkbox-container">
                         </div>
-                        <div flex="60">
+                        <div flex="50">
                             Evidence
                         </div>
-                        <div flex="40">
+                        <div flex="20">
                             Reference
+                        </div>
+                        <div>
+                            With
                         </div>
                     </div>
                     <div ng-repeat="evidence in annotonCtrl.data.externalEvidences" class="sae-populate-row" layout="row">
@@ -108,7 +117,7 @@
                                 aria-label="Term Label">
                             </md-checkbox>
                         </div>
-                        <div flex="40">
+                        <div flex="50">
                             <div class="sae-ellipsis">
                                 {{evidence.evidence.control.value.label}}
                             </div>
@@ -117,6 +126,13 @@
                             <div class="sae-ellipsis">
                                 <a ng-href="{{evidence.reference.control.link.url}}" target="_blank">
                                     {{evidence.reference.control.link.label}}
+                                </a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="sae-ellipsis">
+                                <a ng-href="{{evidence.with.control.link.url}}" target="_blank">
+                                    {{evidence.with.control.link.label}}
                                 </a>
                             </div>
                         </div>
