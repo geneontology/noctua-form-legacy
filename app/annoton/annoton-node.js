@@ -37,6 +37,7 @@ export default class AnnotonNode {
     };
     this.evidence = [];
     this.assignedBy = null;
+    this.termRequiredList = ['mf'];
     this.evidenceRequiredList = ['mf', 'bp', 'cc', 'mf-1', 'mf-2', 'bp-1', 'bp-1-1', 'cc-1', 'cc-1-1', 'c-1-1-1']
     this.evidenceNotRequiredList = []; // ['GO:0003674', 'GO:0008150', 'GO:0005575'];
     this.errors = [];
@@ -185,12 +186,12 @@ export default class AnnotonNode {
     return result;
   }
 
-  enableSubmit(errors) {
+  enableSubmit(errors, annoton) {
     const self = this;
     let result = true;
 
 
-    if (self.id === 'mf' && !self.term.control.value.id) {
+    if (self.termRequiredList.includes(self.id) && !self.term.control.value.id) {
       self.term.control.required = true;
       let meta = {
         aspect: self.label

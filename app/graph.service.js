@@ -1008,8 +1008,6 @@ export default class GraphService {
     return destAnnoton;
   }
 
-
-
   adjustAnnoton(annoton) {
     const self = this;
 
@@ -1051,6 +1049,10 @@ export default class GraphService {
           let mfNode = annoton.getNode('mf');
           let bpNode = annoton.getNode('bp');
 
+          mfNode.setTerm({
+            id: 'GO:0003674',
+            label: 'molecular_function'
+          });
           mfNode.evidence = bpNode.evidence;
           break;
         }

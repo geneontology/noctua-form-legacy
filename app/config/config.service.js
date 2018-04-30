@@ -404,20 +404,12 @@ export default class ConfigService {
         ],
         overrides: {
           mf: {
+            termRequiredList: [],
             id: 'mf',
             display: {
               displaySection: '',
               displayGroup: '',
-            },
-            term: {
-              id: 'GO:0003674',
-              label: 'molecular_function'
-            },
-            evidence: {
-              id: this.saeConstants.evidenceAutoPopulate.nd.evidence.id,
-              label: this.saeConstants.evidenceAutoPopulate.nd.evidence.label,
-            },
-            reference: this.saeConstants.evidenceAutoPopulate.nd.reference
+            }
           }
         },
         triples: [{
@@ -580,6 +572,7 @@ export default class ConfigService {
 
     each(modelIds[modelType].overrides, function (overridesData) {
       let node = annoton.getNode(overridesData.id);
+      overridesData.termRequiredList ? node.termRequiredList = overridesData.termRequiredList : angular.noop;
       overridesData.term ? node.setTerm(overridesData.term) : angular.noop;
       overridesData.display ? node.setDisplay(overridesData.display) : angular.noop;
       overridesData.label ? node.label = overridesData.label : angular.noop;
