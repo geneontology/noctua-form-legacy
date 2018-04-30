@@ -969,16 +969,17 @@ export default class GraphService {
     const self = this;
     let destAnnoton = new Annoton();
 
-    let skipNodeDFS = function (sourceId, edge) {
+    let skipNodeDFS = function (sourceId, targetId) {
       const self = this;
-      let srcEdge = destAnnoton.edges[sourceId];
+      let srcEdge = srcAnnoton.edges[targetId];
 
       if (srcEdge) {
         each(srcEdge.nodes, function (srcNode) {
-          if (srcNode.target.hasValue()) {
+          let nodeExist = destAnnoton.getNode(sourceId) && destAnnoton.getNode(srcNode.target.id);
+          if (nodeExist && srcNode.target.hasValue()) {
             destAnnoton.addEdgeById(sourceId, srcNode.target.id, srcNode.edge);
           } else {
-            skipNodeDFS(sourceId, srcNode.edge);
+            skipNodeDFS(sourceId, srcNode.target.id);
           }
         });
       }
@@ -995,10 +996,11 @@ export default class GraphService {
 
     forOwn(srcAnnoton.edges, function (srcEdge, key) {
       each(srcEdge.nodes, function (srcNode) {
-        if (srcNode.target.hasValue()) {
+        let nodeExist = destAnnoton.getNode(key);
+        if (nodeExist && srcNode.target.hasValue()) {
           destAnnoton.addEdgeById(key, srcNode.target.id, srcNode.edge);
         } else {
-          skipNodeDFS(key, srcNode.edge);
+          skipNodeDFS(key, srcNode.target.id);
         }
       });
     });
@@ -1018,28 +1020,18 @@ export default class GraphService {
           let ccNode = annoton.getNode('cc');
           let cc1Node = annoton.getNode('cc-1');
           let cc11Node = annoton.getNode('cc-1-1');
-          let cc111Node = annoton.getNode('cc-1-1');
+          let cc111Node = annoton.getNode('cc-1-1-1');
 
           if (!ccNode.hasValue()) {
-            each(ccNode.edges, function (edge) {
-              //  foo(edge.target);
-            });
-
             if (cc1Node.hasValue()) {
               ccNode.setTerm(self.saeConstants.rootNode[ccNode.id]);
-              // annoton.addEdge(mfNode, ccNode, self.saeConstants.edge.occursIn);
-              // annoton.addEdge(ccNode, cc1Node, self.saeConstants.edge.partOf);
               ccNode.evidence = cc1Node.evidence;
             } else if (cc11Node.hasValue()) {
               ccNode.setTerm(self.saeConstants.rootNode[ccNode.id]);
-              //  ccNode.evidence = cc11Node.evidence;
-              //   annoton.addEdge(mfNode, ccNode, self.saeConstants.edge.occursIn);
-              //  annoton.addEdge(ccNode, cc11Node, self.saeConstants.edge.partOf);
+              ccNode.evidence = cc11Node.evidence;
             } else if (cc111Node.hasValue()) {
               ccNode.setTerm(self.saeConstants.rootNode[ccNode.id]);
               ccNode.evidence = cc111Node.evidence;
-              //  annoton.addEdge(mfNode, ccNode, self.saeConstants.edge.occursIn);
-              //  annoton.addEdge(ccNode, cc111Node, self.saeConstants.edge.partOf);
             }
           }
           break;
