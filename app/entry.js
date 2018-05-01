@@ -31,6 +31,9 @@ import 'font-awesome/css/font-awesome.min.css';
 
 import AppController from 'app.controller';
 //Dialogs
+import ConnectActivityDialogController from './dialogs/connect-activity/connect-activity-dialog.controller.js';
+import PreviewAnnotonDialogController from './dialogs/preview-annoton/preview-annoton-dialog.controller.js';
+
 import AnnotonSectionDialogController from './dialogs/annoton-section/annoton-section-dialog.controller.js';
 import BeforeSaveDialogController from './dialogs/before-save/before-save-dialog.controller.js';
 import LinkToExistingDialogController from './dialogs/link-to-existing/link-to-existing-dialog.controller.js'
@@ -306,6 +309,9 @@ app.constant('saeConstants', {
 });
 
 app.controller('AppController', AppController);
+app.controller('ConnectActivityDialogController', ConnectActivityDialogController)
+app.controller('PreviewAnnotonDialogController', PreviewAnnotonDialogController)
+
 app.controller('AnnotonSectionDialogController', AnnotonSectionDialogController)
 app.controller('BeforeSaveDialogController', BeforeSaveDialogController)
 app.controller('CreateFromExistingDialogController', CreateFromExistingDialogController);

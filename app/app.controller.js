@@ -88,6 +88,31 @@ export default class AppController {
     self.dialogService.openGuideMeDialog(ev, data, success);
   }
 
+
+  openConnectActivityDialog(ev, annoton, entity) {
+    const self = this;
+
+    let data = {
+      summaryData: self.summaryData,
+      annoton: annoton,
+      entity: entity
+    }
+
+    self.dialogService.openConnectActivityDialog(ev, data);
+  }
+
+  openPreviewAnnotonDialog(ev, annoton, entity) {
+    const self = this;
+
+    let data = {
+      summaryData: self.summaryData,
+      annoton: annoton,
+      entity: entity
+    }
+
+    self.dialogService.openPreviewAnnotonDialog(ev, data);
+  }
+
   openAddEvidenceDialog(ev, entity) {
     const self = this;
 

@@ -8,6 +8,11 @@
             <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
         </md-button>
         <md-menu-content width="3">
+            <md-menu-item ng-if="row.entity.node.aspect === 'F'">
+                <md-button class="" ng-click="grid.appScope.openConnectActivityDialog($event, row.entity.annoton, row.entity.node)">
+                    Connect Activity
+                </md-button>
+            </md-menu-item>
             <md-menu-item ng-if="row.entity.node.aspect">
                 <md-button class="" ng-click="grid.appScope.openPopulateReadonlyDialog($event, row.entity.annoton, row.entity.node)">
                     Search Database

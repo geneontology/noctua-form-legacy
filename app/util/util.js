@@ -5,6 +5,23 @@ import Evidence from "../annoton/evidence.js";
 
 export default class Util {
 
+    static getMFNodes(annotons) {
+        let result = [];
+
+        each(annotons, function (annotonData) {
+            each(annotonData.annoton.nodes, function (node) {
+                if (node.id === 'mf') {
+                    result.push({
+                        node: node,
+                        annoton: annotonData.annoton
+                    })
+                }
+            });
+        });
+
+        return result;
+    }
+
     static getUniqueEvidences(annotons, result) {
         if (!result) {
             result = [];

@@ -8,6 +8,35 @@ export default class DialogService {
 
   }
 
+  openConnectActivityDialog(ev, data) {
+    this.$mdDialog.show({
+      controller: 'ConnectActivityDialogController as annotonCtrl',
+      templateUrl: './dialogs/connect-activity/connect-activity-dialog.html',
+      targetEvent: ev,
+      clickOutsideToClose: false,
+      locals: {
+        data: data
+      }
+    })
+  }
+
+  openPreviewAnnotonDialog(ev, data) {
+    this.$mdDialog.show({
+      controller: 'PreviewAnnotonDialogController as annotonCtrl',
+      templateUrl: './dialogs/preview-annoton/preview-annoton-dialog.html',
+      targetEvent: ev,
+      clickOutsideToClose: false,
+      locals: {
+        data: data
+      }
+    })
+  }
+
+
+
+
+
+
   openBeforeSaveDialog(ev, data, success) {
     this.$mdDialog.show({
       controller: 'BeforeSaveDialogController as annotonCtrl',
