@@ -389,7 +389,7 @@
                         </div>
                         <md-input-container class="md-block">
                           <div ng-if="entity.evidence.length>1" class="sae-more-evidence-link">
-                            <a ng-click="appCtrl.dialogService.openAddEvidenceDialog($event, entity)">
+                            <a ng-click="appCtrl.openAddEvidenceDialog($event, entity)">
                               + {{entity.evidence.length-1}} evidence(s)
                             </a>
                           </div>
@@ -432,7 +432,7 @@
                             </md-button>
                           </md-menu-item>
                           <md-menu-item>
-                            <md-button class="" ng-click="appCtrl.dialogService.openAddEvidenceDialog($event, entity)">
+                            <md-button class="" ng-click="appCtrl.openAddEvidenceDialog($event, entity)">
                               More Evidence
                             </md-button>
                           </md-menu-item>

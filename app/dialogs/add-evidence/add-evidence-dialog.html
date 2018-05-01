@@ -3,7 +3,7 @@
         <div class="md-toolbar-tools sae-container">
             <div class="sae-heading-title">
                 <span class="ellipsis">
-                    Add Evidence - {{annotonCtrl.entity.label }}
+                    Add Evidence - {{annotonCtrl.data.entity.label }}
                 </span>
             </div>
             <span flex></span>
@@ -17,13 +17,13 @@
             <div class="sae-table-form sae-form-section" layout="column" layout-align="start stretch">
                 <div class="sae-section-body pv-15" layout="column" layout-align="start stretch">
                     <div class="sae-term-group " layout="column">
-                        <div ng-repeat="evidence in annotonCtrl.entity.evidence" class="ph-15 sae-annoton-group-entity" layout="entity">
+                        <div ng-repeat="evidence in annotonCtrl.data.entity.evidence" class="ph-15 sae-annoton-group-entity" layout="row">
                             <div class="typeaheadcontainer" flex="60">
                                 <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItems[evidence.term + 'e']">
                                     <i class="fa fa-spinner fa-spin fa-fw"></i>
                                 </div>
                                 <md-input-container class="md-block">
-                                    <input aria-label="evidence" type="text" ng-model="evidence.evidence.control.value" ng-trim="false" tabindex="0" ng-blur="noResults[annotonCtrl.entity.term + 'e'] = false"
+                                    <input aria-label="evidence" type="text" ng-model="evidence.evidence.control.value" ng-trim="false" tabindex="0" ng-blur="noResults[annotonCtrl.data.entity.term + 'e'] = false"
                                         uib-typeahead="term as term.label for term in annotonCtrl.lookup.golrLookup($viewValue, evidence.evidence.lookup.requestParams)"
                                         xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItems[term + 'e']"
                                         typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html"
@@ -35,16 +35,17 @@
                                     No Results Found
                                 </div>
                             </div>
+
                             <div class="" flex="20">
                                 <md-input-container class="md-block">
-                                    <input ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!evidence.evidence.control.value" ng-model="evidence.reference.control.value"
-                                        type="text" class="" placeholder="Reference" aria-label="reference">
+                                    <input tabindex="0" ng-trim="true" ng-model-options="{allowInvalid: true}" ng-model="evidence.reference.control.value" type="text"
+                                        ng-required="evidence.reference.control.required" class="" placeholder="Reference" aria-label="reference">
                                 </md-input-container>
                             </div>
-                            <div class="">
+
+                            <div class="" flex="15">
                                 <md-input-container class="md-block">
-                                    <input ng-pattern="/^.+:.+$/" tabindex="0" ng-disabled="!evidence.evidence.control.value" ng-model="evidence.evidence.with.control.value"
-                                        type="text" class="" placeholder="With" aria-label="With"> </md-input-container>
+                                    <input tabindex="0" ng-trim="true" ng-model="evidence.with.control.value" type="text" class="" placeholder="With" aria-label="With"> </md-input-container>
                             </div>
                             <span flex></span>
                             <md-menu md-position-mode="target-right target">
@@ -53,20 +54,25 @@
                                 </md-button>
                                 <md-menu-content width="3">
                                     <md-menu-item>
-                                        <md-button class="" ng-click="annotonCtrl.entity.clearValues()">
+                                        <md-button class="" ng-click="annotonCtrl.data.entity.clearValues()">
                                             Clear Row
                                         </md-button>
                                     </md-menu-item>
                                     <md-menu-item>
-                                        <md-button class="" ng-click="annotonCtrl.entity.removeEvidence(evidence)">
+                                        <md-button class="" ng-click="annotonCtrl.data.entity.removeEvidence(evidence)">
                                             Remove Evidence
+                                        </md-button>
+                                    </md-menu-item>
+                                    <md-menu-item>
+                                        <md-button class="" ng-click="annotonCtrl.openSelectEvidenceDialog($event, annotonCtrl.data.entity)">
+                                            Clone Evidence
                                         </md-button>
                                     </md-menu-item>
                                 </md-menu-content>
                             </md-menu>
                         </div>
                         <div>
-                            <md-button ng-click="annotonCtrl.entity.addEvidence()">
+                            <md-button ng-click="annotonCtrl.data.entity.addEvidence()" class="md-primary">
                                 Add
                             </md-button>
                         </div>
@@ -75,7 +81,7 @@
             </div>
         </div>
     </md-dialog-content>
-    <md-dialog-actions layout="entity">
+    <md-dialog-actions layout="row">
         <span flex></span>
         <md-button ng-click="annotonCtrl.closeDialog()" class="md-raised" aria-label="Cancel">
             Done

@@ -152,20 +152,20 @@ export default class AnnotonNode {
     self.evidence = node.evidence;
   }
 
-  copyEvidence(evidences, except) {
+  addEvidences(evidences, except) {
     const self = this;
+    let evidenceCount = self.evidence.length;
 
     each(evidences, function (srcEvidence, i) {
       let destEvidence;
 
-      if (i === 0) {
+      if (!self.evidence[0].hasValue()) {
         destEvidence = self.evidence[0];
       } else {
         destEvidence = self.addEvidence()
       }
 
       destEvidence.copyValues(srcEvidence, except);
-
     });
   }
 
@@ -205,9 +205,9 @@ export default class AnnotonNode {
 
     if (self.term.control.value.id && self.evidenceRequiredList.includes(self.id) &&
       !self.evidenceNotRequiredList.includes(self.term.control.value.id)) {
-      each(self.evidence, function (evidence) {
+      each(self.evidence, function (evidence, key) {
         if (self.term.control.value.id)
-          result = evidence.enableSubmit(errors, self) && result;
+          result = evidence.enableSubmit(errors, self, key + 1) && result;
       })
     }
 

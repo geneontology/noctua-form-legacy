@@ -88,6 +88,18 @@ export default class AppController {
     self.dialogService.openGuideMeDialog(ev, data, success);
   }
 
+  openAddEvidenceDialog(ev, entity) {
+    const self = this;
+
+    let data = {
+      summaryData: self.summaryData,
+      annoton: self.formGrid.annoton,
+      entity: entity
+    }
+
+    self.dialogService.openAddEvidenceDialog(ev, data);
+  }
+
 
   openAnnotonSectionDialog(ev, entity) {
     const self = this;
@@ -125,7 +137,7 @@ export default class AppController {
     }
 
     let success = function (selected) {
-      entity.copyEvidence(selected.evidences, ['assignedBy']);
+      entity.addEvidences(selected.evidences, ['assignedBy']);
     }
 
     self.dialogService.openSelectEvidenceDialog(ev, data, success);

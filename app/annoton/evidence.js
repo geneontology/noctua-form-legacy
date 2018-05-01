@@ -149,7 +149,7 @@ export default class Evidence {
   }
 
 
-  enableSubmit(errors, node) {
+  enableSubmit(errors, node, position) {
     const self = this;
     let result = true;
     var pattern = new RegExp("^\\w+\\s*:\\s*\\d+$");
@@ -160,7 +160,7 @@ export default class Evidence {
       let meta = {
         aspect: node.label
       }
-      let error = new AnnotonError(1, "No evidence for '" + node.label + "'", meta)
+      let error = new AnnotonError(1, "No evidence for '" + node.label + "': evidence(" + position + ")", meta)
       errors.push(error);
       result = false;
     } else {
@@ -172,7 +172,7 @@ export default class Evidence {
       let meta = {
         aspect: node.label
       }
-      let error = new AnnotonError(1, "You provided an evidence for '" + node.label + "' but no reference", meta)
+      let error = new AnnotonError(1, "You provided an evidence for '" + node.label + "' but no reference: evidence(" + position + ")", meta)
       errors.push(error);
       result = false;
     } else if (self.reference.control.value) {
@@ -183,7 +183,7 @@ export default class Evidence {
         let meta = {
           aspect: node.label
         }
-        let error = new AnnotonError(1, "The proper format for references in a GO annotation is 'DB:accession_number '", meta)
+        let error = new AnnotonError(1, "The proper format for references in a GO annotation is 'DB:accession_number': evidence(" + position + ")", meta)
         errors.push(error);
         result = false;
       }

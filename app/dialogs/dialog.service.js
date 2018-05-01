@@ -83,14 +83,14 @@ export default class DialogService {
     })
   }
 
-  openAddEvidenceDialog(ev, entity) {
+  openAddEvidenceDialog(ev, data) {
     this.$mdDialog.show({
       controller: 'AddEvidenceDialogController as annotonCtrl',
       templateUrl: './dialogs/add-evidence/add-evidence-dialog.html',
       targetEvent: ev,
       clickOutsideToClose: false,
       locals: {
-        entity: entity
+        data: data
       }
     })
   }
