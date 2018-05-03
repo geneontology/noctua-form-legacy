@@ -8,6 +8,7 @@ export default class AnnotonParser {
     this.saeConstants = saeConstants;
     this.rules = [];
     this.errors = [];
+    this.warnings = [];
     this.clean = true;
   }
 
@@ -37,7 +38,7 @@ export default class AnnotonParser {
               label: self.getNodeLabel(graph, edge.object_id())
             },
           }
-          error = new AnnotonError(3, "More than 1 " + predicateLabel + " found", meta)
+          error = new AnnotonError('error', 3, "More than 1 " + predicateLabel + " found", meta)
           self.errors.push(error);
           result = false;
         }
@@ -63,7 +64,7 @@ export default class AnnotonParser {
               label: self.getNodeLabel(graph, edge.object_id())
             },
           }
-          error = new AnnotonError(2, "Not accepted triple ", meta);
+          error = new AnnotonError('error', 2, "Not accepted triple ", meta);
           self.errors.push(error);
           node.errors.push(error);
           result = false;
@@ -98,7 +99,7 @@ export default class AnnotonParser {
           label: node.term.control.value.label
         }
       }
-      error = new AnnotonError(4, "Wrong ontology class. Expected " + JSON.stringify(node.lookupGroup), meta);
+      error = new AnnotonError('error', 4, "Wrong ontology class. Expected " + JSON.stringify(node.lookupGroup), meta);
       self.errors.push(error);
       node.errors.push(error);
       result = false;
@@ -122,7 +123,7 @@ export default class AnnotonParser {
             label: node.term.control.value.label
           }
         }
-        error = new AnnotonError(4, "Wrong ontology class " + prefix + ". Expected " + JSON.stringify(node.term.ontologyClass), meta);
+        error = new AnnotonError('error', 4, "Wrong ontology class " + prefix + ". Expected " + JSON.stringify(node.term.ontologyClass), meta);
         self.errors.push(error);
         node.errors.push(error);
         result = false;
@@ -142,9 +143,28 @@ export default class AnnotonParser {
         label: node.term.control.value.label
       }
     }
-    let error = new AnnotonError(4, "Incorrect association between term and relationship" + JSON.stringify(node.lookupGroup), meta);
+    let error = new AnnotonError('error', 4, "Incorrect association between term and relationship" + JSON.stringify(node.lookupGroup), meta);
     self.errors.push(error);
     node.errors.push(error);
+
+    self.clean = false;
+  }
+
+  setNodeWarning(node) {
+    const self = this;
+    let result = true;
+    let meta = {
+      aspect: node.label,
+      subjectNode: {
+        label: node.term.control.value.label
+      }
+    }
+    let error = new AnnotonError('warning', 1, "There was an error before ", meta);
+    self.errors.push(error);
+    node.errors.push(error);
+
+    self.warnings.push(error);
+    node.warnings.push(error);
 
     self.clean = false;
   }

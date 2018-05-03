@@ -42,6 +42,7 @@ export default class AnnotonNode {
     this.evidenceRequiredList = ['mf', 'bp', 'cc', 'mf-1', 'mf-2', 'bp-1', 'bp-1-1', 'cc-1', 'cc-1-1', 'c-1-1-1']
     this.evidenceNotRequiredList = []; // ['GO:0003674', 'GO:0008150', 'GO:0005575'];
     this.errors = [];
+    this.warnings = [];
     this.status = '0';
 
   }
@@ -197,7 +198,7 @@ export default class AnnotonNode {
       let meta = {
         aspect: self.label
       }
-      let error = new AnnotonError(1, "A '" + self.label + "' is required", meta)
+      let error = new AnnotonError('error', 1, "A '" + self.label + "' is required", meta)
       errors.push(error);
       result = false;
     } else {

@@ -535,7 +535,7 @@ export default class GraphService {
         } else {
           //for error
           annoton.parser.setNodeOntologyError(annotonNode);
-          self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode);
+          self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, true);
         }
         annotons.push(annoton);
       }
@@ -546,7 +546,7 @@ export default class GraphService {
     return annotons;
   }
 
-  graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode) {
+  graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, isDoomed) {
     const self = this;
     let edge = annoton.getEdges(annotonNode.id);
 
@@ -578,11 +578,17 @@ export default class GraphService {
             let closureRange = self.lookup.getLocalClosureRange(subjectNode.term.id, self.config.closureCheck[predicateId]);
 
             if (closureRange) {
+              isDoomed = true;
               //annoton.parser.parseNodeOntology(node.target, subjectNode.term.id);
             } else {
               annoton.parser.setNodeOntologyError(node.target);
             }
-            self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target);
+
+            if (isDoomed) {
+              annoton.parser.setNodeWarning(node.target);
+
+            }
+            self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target, isDoomed);
           }
         }
       });
@@ -1043,7 +1049,7 @@ export default class GraphService {
         });
 
         if (meta.linkedNodes.length > 0) {
-          let info = new AnnotonError(5, "Instance exists " + srcNode.term.control.value.label, meta);
+          let info = new AnnotonError('error', 5, "Instance exists " + srcNode.term.control.value.label, meta);
 
           infos.push(info);
         }
@@ -1081,7 +1087,7 @@ export default class GraphService {
                   label: cc1Node.term.control.value.label
                 },
               }
-              let info = new AnnotonError(2, "No CC found, added  ", meta);
+              let info = new AnnotonError('error', 2, "No CC found, added  ", meta);
 
               infos.push(info);
             } else if (cc11Node.hasValue()) {}

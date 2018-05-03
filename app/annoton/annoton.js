@@ -115,7 +115,7 @@ export default class Annoton extends SaeGraph {
         let meta = {
           aspect: self.label
         }
-        let error = new AnnotonError(1, "A '" + gp.label + "' is required", meta)
+        let error = new AnnotonError('error', 1, "A '" + gp.label + "' is required", meta)
         self.submitErrors.push(error);
         result = false;
       }
@@ -126,7 +126,7 @@ export default class Annoton extends SaeGraph {
         let meta = {
           aspect: self.complexAnnotonData.mcNode.label
         }
-        let error = new AnnotonError(1, "A '" + self.complexAnnotonData.mcNode.label + "' is required", meta)
+        let error = new AnnotonError('error', 1, "A '" + self.complexAnnotonData.mcNode.label + "' is required", meta)
         self.submitErrors.push(error);
         result = false;
       }
@@ -135,7 +135,7 @@ export default class Annoton extends SaeGraph {
         let meta = {
           aspect: self.complexAnnotonData.mcNode.label
         }
-        let error = new AnnotonError(1, "At least one gene product 'has part' is required if you choose macromolecular complex", meta)
+        let error = new AnnotonError('error', 1, "At least one gene product 'has part' is required if you choose macromolecular complex", meta)
         self.submitErrors.push(error);
         result = false;
       }

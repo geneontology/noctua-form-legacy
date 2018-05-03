@@ -234,7 +234,7 @@ export default class AppController {
       let meta = {
         aspect: gpNode ? gpNode.label : 'Gene Product'
       }
-      let error = new AnnotonError(1, "Please enter a gene product", meta)
+      let error = new AnnotonError('error', 1, "Please enter a gene product", meta)
       errors.push(error);
       self.dialogService.openAnnotonErrorsDialog(ev, entity, errors)
     }
@@ -300,7 +300,7 @@ export default class AppController {
           let meta = {
             aspect: node.label
           }
-          let error = new AnnotonError(1, "Cannot add 'NOT', Remove '" + node.label + "'  value (" + node.term.control.value.label + ")", meta)
+          let error = new AnnotonError('error', 1, "Cannot add 'NOT', Remove '" + node.label + "'  value (" + node.term.control.value.label + ")", meta)
           errors.push(error);
         }
       }
