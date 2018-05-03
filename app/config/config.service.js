@@ -445,6 +445,37 @@ export default class ConfigService {
           }
         }
       },
+      connector: {
+        nodes: [
+          'mf', 'mf'
+        ],
+        overrides: {
+          mf: {
+            termRequiredList: [],
+            id: 'mf',
+            display: {
+              displaySection: '',
+              displayGroup: '',
+            }
+          }
+        },
+        triples: [{
+          subject: 'mf',
+          object: 'mf',
+          edge: this.saeConstants.edge.upstreamOfOrWithin,
+          edgeOption: {
+            selected: this.saeConstants.edge.upstreamOfOrWithin,
+            options: [
+              this.saeConstants.edge.upstreamOfOrWithin,
+              this.saeConstants.edge.upstreamOf,
+              this.saeConstants.edge.upstreamOfPositiveEffect,
+              this.saeConstants.edge.upstreamOfNegativeEffect,
+              this.saeConstants.edge.upstreamOfOrWithinPositiveEffect,
+              this.saeConstants.edge.upstreamOfOrWithinNegativeEffect,
+            ]
+          }
+        }],
+      },
     }
 
 
@@ -452,7 +483,7 @@ export default class ConfigService {
 
     this.closureCheck[this.saeConstants.edge.enabledBy.id] = {
       edge: this.saeConstants.edge.enabledBy,
-      nodes: [{
+      closures: [{
         object: this.saeConstants.closures.mf
       }, {
         subject: this.saeConstants.closures.gp
@@ -463,7 +494,7 @@ export default class ConfigService {
 
     this.closureCheck[this.saeConstants.edge.upstreamOf.id] = {
       edge: this.saeConstants.edge.upstreamOf,
-      nodes: [{
+      closures: [{
         object: this.saeConstants.closures.bp
       }, {
         subject: this.saeConstants.closures.mf
@@ -472,7 +503,7 @@ export default class ConfigService {
 
     this.closureCheck[this.saeConstants.edge.upstreamOfOrWithin.id] = {
       edge: this.saeConstants.edge.upstreamOfOrWithin,
-      nodes: [{
+      closures: [{
         object: this.saeConstants.closures.bp
       }, {
         subject: this.saeConstants.closures.mf
@@ -481,7 +512,7 @@ export default class ConfigService {
 
     this.closureCheck[this.saeConstants.edge.partOf.id] = {
       edge: this.saeConstants.edge.partOf,
-      nodes: [{
+      closures: [{
         subject: this.saeConstants.closures.bp
       }, {
         subject: this.saeConstants.closures.cl
@@ -502,7 +533,7 @@ export default class ConfigService {
 
     this.closureCheck[this.saeConstants.edge.occursIn.id] = {
       edge: this.saeConstants.edge.occursIn,
-      nodes: [{
+      closures: [{
         object: this.saeConstants.closures.bp
       }, {
         subject: this.saeConstants.closures.mf
@@ -511,7 +542,7 @@ export default class ConfigService {
 
     this.closureCheck[this.saeConstants.edge.hasInput.id] = {
       edge: this.saeConstants.edge.hasInput,
-      nodes: [{
+      closures: [{
         object: this.saeConstants.closures.mf
       }, {
         subject: this.saeConstants.closures.gp
@@ -522,7 +553,7 @@ export default class ConfigService {
 
     this.closureCheck[this.saeConstants.edge.happensDuring.id] = {
       edge: this.saeConstants.edge.happensDuring,
-      nodes: [{
+      closures: [{
         subject: this.saeConstants.closures.mf
       }, {
         object: this.saeConstants.closures.tp
@@ -531,12 +562,36 @@ export default class ConfigService {
 
     this.closureCheck[this.saeConstants.edge.hasPart.id] = {
       edge: this.saeConstants.edge.hasPart,
-      nodes: [{
+      closures: [{
         subject: this.saeConstants.closures.mc
       }, {
         object: this.saeConstants.closures.gp
       }]
     }
+  }
+
+  createAnnotonConnectorModel() {
+    const self = this;
+    let annoton = new Annoton();
+    let modelIds = _.cloneDeep(self._modelRelationship);
+    let edgeOption = {
+      selected: this.saeConstants.edge.upstreamOfOrWithin,
+      options: [
+        this.saeConstants.edge.upstreamOfOrWithin,
+        this.saeConstants.edge.upstreamOf,
+        this.saeConstants.edge.upstreamOfPositiveEffect,
+        this.saeConstants.edge.upstreamOfNegativeEffect,
+        this.saeConstants.edge.upstreamOfOrWithinPositiveEffect,
+        this.saeConstants.edge.upstreamOfOrWithinNegativeEffect,
+      ]
+    }
+
+    srcMFNode = annoton.addNode(self.generateNode('mf'));
+    targetMFNode = annoton.addNode(self.generateNode('mf'));
+    annoton.addEdgeOptionById(targetMFNode, edgeOption);
+    annoton.addEdge(srcMFNode, targetMFNode, annoton.edgeOption.selected);
+
+    return annoton;
   }
 
   createAnnotonModel(annotonType, modelType, srcAnnoton) {

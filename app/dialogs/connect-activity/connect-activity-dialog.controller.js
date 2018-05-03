@@ -3,13 +3,14 @@ const each = require('lodash/forEach');
 import Util from "../../util/util.js";
 
 export default class ConnectActivityDialogController {
-  constructor(saeConstants, $scope, $rootScope, $mdDialog, dialogService, graph, lookup, formGrid, data) {
+  constructor(saeConstants, config, $scope, $rootScope, $mdDialog, dialogService, graph, lookup, formGrid, data) {
     var vm = this;
     vm.saeConstants = saeConstants;
     vm.$scope = $scope;
     vm.$rootScope = $rootScope;
     vm.$mdDialog = $mdDialog;
     vm.dialogService = dialogService;
+    vm.config = config
     vm.lookup = lookup;
     vm.graph = graph;
     vm.formGrid = formGrid;
@@ -22,6 +23,7 @@ export default class ConnectActivityDialogController {
     const self = this;
 
     self.mfNodes = Util.getMFNodes(self.data.summaryData.annotons);
+    self.annoton = self.config.createAnnotonConnectorModel();
   }
 
   closeDialog() {
@@ -54,5 +56,9 @@ export default class ConnectActivityDialogController {
     self.dialogService.openSelectEvidenceDialog(ev, data, success);
   }
 
+  save(annoton) {
+    this.$mdDialog.hide(annoton);
+  }
+
 }
-ConnectActivityDialogController.$inject = ['saeConstants', '$scope', '$rootScope', '$mdDialog', 'dialogService', 'graph', 'lookup', 'formGrid', 'data'];
+ConnectActivityDialogController.$inject = ['saeConstants', 'config', '$scope', '$rootScope', '$mdDialog', 'dialogService', 'graph', 'lookup', 'formGrid', 'data'];

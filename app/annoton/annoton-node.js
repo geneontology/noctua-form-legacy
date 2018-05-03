@@ -30,6 +30,7 @@ export default class AnnotonNode {
         "requestParams": null
       }
     };
+    this.closures = [];
     this.edgeOption;
     this._evidenceMeta = {
       lookupBase: "",

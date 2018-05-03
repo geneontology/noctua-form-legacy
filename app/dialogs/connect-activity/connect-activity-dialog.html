@@ -21,9 +21,9 @@
                             <div class="" flex="50">
                                 <md-input-container class="md-block" flex="">
                                     <label>Relationship</label>
-                                    <md-select ng-model="annotonCtrl.graph.modelState" ng-change="annotonCtrl.graph.saveModelAnnotation('state', annotonCtrl.graph.modelState)">
-                                        <md-option ng-value="causalEdge.term" ng-repeat="causalEdge in annotonCtrl.saeConstants.causalEdges">
-                                            {{causalEdge.name}}
+                                    <md-select ng-model="annotonCtrl.mfNode.edgeOption.selected" ng-change="annotonCtrl.mfNode.selectEdge(appCtrl.formGrid.annoton, entity.edgeOption.selected)">
+                                        <md-option ng-value="edgeOption" ng-repeat="edgeOption in annotonCtrl.mfNode.edgeOption.options">
+                                            {{edgeOption.label}}
                                         </md-option>
                                     </md-select>
                                 </md-input-container>

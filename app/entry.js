@@ -218,8 +218,8 @@ app.constant('saeConstants', {
     "mc": 'GO:0032991'
   },
   canDuplicateEdges: [{
-    name: 'hasPart',
-    term: 'BFO:0000051'
+    label: 'hasPart',
+    id: 'BFO:0000051'
   }],
   evidenceAutoPopulate: {
     nd: {
@@ -244,6 +244,7 @@ app.constant('saeConstants', {
       'label': 'cellular_component'
     }
   },
+
   closures: {
     mf: {
       'id': 'GO:0003674',
@@ -271,38 +272,38 @@ app.constant('saeConstants', {
     }
   },
   causalEdges: [{
-    name: 'causally upstream of or within',
-    term: 'RO:0002418'
+    label: 'regulates',
+    id: 'RO:0002211'
   }, {
-    name: 'causally upstream of',
-    term: 'RO:0002411'
+    label: 'causally upstream of or within',
+    id: 'RO:0002418'
   }, {
-    name: 'causally upstream of, positive effect',
-    term: 'RO:0002304'
+    label: 'causally upstream of',
+    id: 'RO:0002411'
   }, {
-    name: 'causally upstream of, negative effect',
-    term: 'RO:0002305'
+    label: 'causally upstream of, positive effect',
+    id: 'RO:0002304'
   }, {
-    name: 'immediately causally upstream of',
-    term: 'RO:0002412'
+    label: 'causally upstream of, negative effect',
+    id: 'RO:0002305'
   }, {
-    name: 'directly provides input for',
-    term: 'RO:0002413'
+    label: 'immediately causally upstream of',
+    id: 'RO:0002412'
   }, {
-    name: 'regulates',
-    term: 'RO:0002211'
+    label: 'directly provides input for',
+    id: 'RO:0002413'
   }, {
-    name: 'negatively regulates',
-    term: 'RO:0002212'
+    label: 'negatively regulates',
+    id: 'RO:0002212'
   }, {
-    name: 'directly negatively regulates',
-    term: 'RO:0002630'
+    label: 'directly negatively regulates',
+    id: 'RO:0002630'
   }, {
-    name: 'positively regulates',
-    term: 'RO:0002213'
+    label: 'positively regulates',
+    id: 'RO:0002213'
   }, {
     name: 'directly positively regulates',
-    term: 'RO:0002629'
+    id: 'RO:0002629'
   }],
   rootMF: 'GO:0003674',
   noDataECO: 'ECO:0000035',

@@ -59,6 +59,8 @@ export default class GraphService {
     this.modelInfo = {
       graphEditorUrl: ""
     }
+
+    this.allNodes = {};
   }
 
   initialize() {
@@ -135,8 +137,9 @@ export default class GraphService {
       if (stateAnnotations.length > 0) {
         self.modelState = stateAnnotations[0].value(); // there should be only one
       }
-
+      self.graphPreParseNodes(self.graph);
       let annotons = self.graphToAnnotons(self.graph);
+
       self.graphToCCOnly(self.graph).then(function (data) {
         self.gridData = {
           annotons: [...self.annotonsToTable(self.graph, annotons), ...self.ccComponentsToTable(self.graph, data)]
@@ -341,10 +344,46 @@ export default class GraphService {
     const self = this;
     var promises = [];
 
-    each(graph.all_nodes(), function (node) {
-      //isaClosure(a, b)
-      //let termId = self.getNodeId(node)
-      //console.log('--- ', node);
+
+    each(graph.get_nodes(), function (node) {
+      let termId = self.getNodeId(node);
+      promises.push(self.isaClosurePreParse(termId, self.saeConstants.closures.bp.id, node));
+
+      each(graph.get_edges_by_subject(node.id()), function (e) {
+        let predicateId = e.predicate_id();
+        //if (e.predicate_id() === self.saeConstants.edge.enabledBy.id) {
+        let termId = self.getNodeId(node);
+
+        let objectNode = graph.get_node(e.object_id())
+        let objectTermId = self.getNodeId(objectNode);
+        if (self.config.closureCheck[predicateId]) {
+          each(self.config.closureCheck[predicateId].closures, function (closure) {
+            if (closure.subject) {
+              promises.push(self.isaClosurePreParse(termId, closure.subject, node));
+            }
+
+            if (objectTermId && closure.object) {
+              promises.push(self.isaClosurePreParse(objectTermId, closure.object, node));
+            }
+          });
+        }
+
+
+        // console.log('--- ', mfId, gpId, e.predicate_id());
+        // }
+      });
+
+      //  isaClosure(a, b)
+      //
+      // console.log('--- ', self.allNodes);
+    });
+
+    self.$q.all(promises).then(function (data) {
+      console.log('done', data, self.allNodes)
+
+      each(data, function (entity) {
+        //entity.annoton.parser.parseNodeOntology(entity.node);
+      });
     });
   }
 
@@ -353,7 +392,37 @@ export default class GraphService {
     let deferred = self.$q.defer();
 
     self.lookup.isaClosure(a, b).then(function (data) {
-      deferred.resolve(data);
+      deferred.resolve({
+        node: node,
+        result: data
+      });
+    });
+
+    return deferred.promise;
+  }
+
+  isaClosurePreParse(a, b, node) {
+    const self = this;
+    let deferred = self.$q.defer();
+
+    self.lookup.isaClosure(a, b).then(function (data) {
+      let nodeId = node.id();
+
+      if (!self.allNodes[nodeId]) {
+        self.allNodes[nodeId] = []
+      }
+
+      self.allNodes[nodeId].push({
+        nodeId: nodeId,
+        termId: a,
+        closure: b,
+        isaClosure: data
+      });
+
+      deferred.resolve({
+        node: node,
+        result: data
+      });
     });
 
     return deferred.promise;
@@ -364,11 +433,16 @@ export default class GraphService {
     let deferred = self.$q.defer();
 
     self.lookup.isaClosure(a, b).then(function (data) {
-      if (!data) {
-        annoton.parser.parseNodeOntology(node, data);
+      if (data) {
+        node.closures.push(a);
+        //annoton.parser.parseNodeOntology(node, data);
       }
       // console.log("node closure", data, node);
-      deferred.resolve(data);
+      deferred.resolve({
+        annoton: annoton,
+        node: node,
+        result: data
+      });
     });
 
     return deferred.promise;
@@ -392,17 +466,11 @@ export default class GraphService {
   graphPreParse(graph) {
     const self = this;
 
-    each(graph.all_edges(), function (edge) {
+    each(graph.all_nodes(), function (edge) {
       let subjectNode = graph.get_node(edge.subject_id());
       let objectNode = graph.get_node(edge.object_id());
 
-      objectNode.metadata({
-        b: 1245678
-      });
 
-      subjectNode.metadata({
-        a: 124
-      });
     });
 
     each(graph.all_nodes(), function (node) {
@@ -500,6 +568,9 @@ export default class GraphService {
 
     annoton.parser.parseCardinality(graph, annotonNode, mfEdgesIn, edge.nodes);
 
+    //return self.filterBPOnly(annotons);
+    return annoton;
+
   }
 
   parseNodeClosure(annotons) {
@@ -511,11 +582,26 @@ export default class GraphService {
         let term = node.getTerm();
         if (term) {
           promises.push(self.isaNodeClosure(node.lookupGroup, term.id, node, annoton));
+
+          forOwn(annoton.edges, function (srcEdge, key) {
+            each(srcEdge.nodes, function (srcNode) {
+              //  let nodeExist = destAnnoton.getNode(key);
+              //  if (nodeExist && srcNode.target.hasValue()) {
+              //   destAnnoton.addEdgeById(key, srcNode.target.id, srcNode.edge);
+              //   }
+            });
+          });
         }
       });
     });
 
-    self.$q.all(promises).then(function (data) {});
+    self.$q.all(promises).then(function (data) {
+      console.log('done node clodure', data)
+
+      each(data, function (entity) {
+        entity.annoton.parser.parseNodeOntology(entity.node);
+      });
+    });
   }
 
   graphToCCOnly(graph) {
@@ -602,6 +688,41 @@ export default class GraphService {
     });
 
     //  annoton.parser.parseCardinality(graph, annotonNode, ccEdgesIn, edge.nodes);
+
+  }
+
+  filterBPOnly(graph, annotons) {
+    const self = this;
+    let destNodes = [];
+    let bpEdges = [
+      this.saeConstants.edge.upstreamOfOrWithin.id,
+      this.saeConstants.edge.upstreamOf.id,
+      this.saeConstants.edge.upstreamOfPositiveEffect.id,
+      this.saeConstants.edge.upstreamOfNegativeEffect,
+      this.saeConstants.edge.upstreamOfOrWithinPositiveEffect,
+      this.saeConstants.edge.upstreamOfOrWithinNegativeEffect,
+    ];
+
+    each(annotons, function (annoton) {
+      each(annoton.nodes, function (node) {
+        let term = node.getTerm();
+        if (term.id === self.saeConstants.rootNode.mf.id) {
+          destNodes.push({
+            annoton: annoton,
+            node: node
+          });
+        }
+      });
+    });
+
+    each(graph.all_edges(), function (e) {
+      if (_.includes(bpEdges, e.predicate_id())) {
+        let mfId = e.subject_id();
+        if (_.includes(destNodes, mfId)) {
+          let gpId = e.object_id();
+        }
+      }
+    });
 
   }
 

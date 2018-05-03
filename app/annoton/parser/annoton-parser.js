@@ -84,12 +84,12 @@ export default class AnnotonParser {
   }
 
 
-  parseNodeOntology(node, isaClosure) {
+  parseNodeOntology(node) {
     const self = this;
     let result = true;
     let error = "";
 
-    if (!isaClosure) {
+    if (!_.includes(node.closures, node.lookupGroup)) {
       let meta = {
         aspect: node.label,
         subjectNode: {
@@ -139,14 +139,14 @@ export default class AnnotonParser {
   allowedEdge(predicateId) {
     const self = this;
     return _.find(self.saeConstants.causalEdges, function (edge) {
-      return edge.term === predicateId
+      return edge.id === predicateId
     });
   }
 
   canDuplicateEdge(predicateId) {
     const self = this;
     return _.find(self.saeConstants.canDuplicateEdges, function (edge) {
-      return edge.term === predicateId
+      return edge.id === predicateId
     });
   }
 

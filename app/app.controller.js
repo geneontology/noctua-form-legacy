@@ -125,7 +125,6 @@ export default class AppController {
     self.dialogService.openAddEvidenceDialog(ev, data);
   }
 
-
   openAnnotonSectionDialog(ev, entity) {
     const self = this;
 

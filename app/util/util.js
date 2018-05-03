@@ -5,7 +5,7 @@ import Evidence from "../annoton/evidence.js";
 
 export default class Util {
 
-    static getMFNodes(annotons) {
+    static getMFNodes(annotons, except) {
         let result = [];
 
         each(annotons, function (annotonData) {
