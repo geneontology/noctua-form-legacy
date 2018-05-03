@@ -486,6 +486,8 @@ export default class ConfigService {
       closures: [{
         object: this.saeConstants.closures.mf
       }, {
+        object: this.saeConstants.closures.gp
+      }, {
         subject: this.saeConstants.closures.gp
       }, {
         subject: this.saeConstants.closures.mc
@@ -543,11 +545,13 @@ export default class ConfigService {
     this.closureCheck[this.saeConstants.edge.hasInput.id] = {
       edge: this.saeConstants.edge.hasInput,
       closures: [{
-        object: this.saeConstants.closures.mf
+        object: this.saeConstants.closures.gpHasInput
       }, {
-        subject: this.saeConstants.closures.gp
+        subject: this.saeConstants.closures.gpHasInput
       }, {
-        subject: this.saeConstants.closures.mc
+        subject: this.saeConstants.closures.mf
+      }, {
+        object: this.saeConstants.closures.mc
       }]
     };
 
@@ -638,6 +642,8 @@ export default class ConfigService {
 
     return annoton;
   }
+
+
 
   generateAnnotonSection(annoton, modelType, connector) {
     const self = this;

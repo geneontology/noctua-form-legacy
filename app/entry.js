@@ -253,6 +253,9 @@ app.constant('saeConstants', {
       'id': 'GO:0005575',
     },
     gp: {
+      'id': 'CHEBI:33695',
+    },
+    gpHasInput: {
       'id': 'CHEBI:23367',
     },
     mc: {

@@ -381,14 +381,13 @@ export default class LookupService {
 
   getLocalClosureRange(term, closureRange) {
     const self = this;
-    let data;
-    result = {};
+    let result;
 
     if (closureRange) {
       each(closureRange.closures, function (closure) {
         if (closure.object) {
-          let check = self.localClosureExist(term, closure.object.id);
-          if (check && check.isaClosure) {
+          let data = self.localClosureExist(term, closure.object.id);
+          if (data && data.isaClosure) {
             result = data;
           }
         }

@@ -368,7 +368,6 @@ export default class GraphService {
       each(graph.get_edges_by_subject(node.id()), function (e) {
         let predicateId = e.predicate_id();
         //if (e.predicate_id() === self.saeConstants.edge.enabledBy.id) {
-        let termId = self.getNodeId(node);
 
         let objectNode = graph.get_node(e.object_id())
         let objectTermId = self.getNodeId(objectNode);
@@ -494,30 +493,33 @@ export default class GraphService {
         let gpId = e.object_id();
         let mfSubjectNode = self.subjectToTerm(graph, mfId);
         let gpObjectNode = self.subjectToTerm(graph, gpId);
-        let annoton = null;
+        let gpVerified = false;
+        let annoton = self.config.createAnnotonModel(
+          self.saeConstants.annotonType.options.simple.name,
+          self.saeConstants.annotonModelType.options.default.name
+        );
 
         if (self.lookup.getLocalClosure(gpObjectNode.term.id, self.saeConstants.closures.gp.id)) {
-          annoton = self.config.createAnnotonModel(
-            self.saeConstants.annotonType.options.simple.name,
-            self.saeConstants.annotonModelType.options.default.name
-          );
+          gpVerified = true;
         } else if (self.lookup.getLocalClosure(gpObjectNode.term.id, self.saeConstants.closures.mc.id)) {
+          gpVerified = true;
           annoton = self.config.createAnnotonModel(
             self.saeConstants.annotonType.options.complex.name,
             self.saeConstants.annotonModelType.options.default.name
           );
         }
 
-        if (annoton) {
-          let evidence = self.edgeToEvidence(graph, e);
-          let mfEdgesIn = graph.get_edges_by_subject(mfId);
-          let annotonNode = annoton.getNode('mf');
-          annotonNode.setTerm(mfSubjectNode.term);
-          annotonNode.setEvidence(evidence);
-          annotonNode.setIsComplement(mfSubjectNode.isComplement);
-          annotonNode.modelId = mfId;
+        let evidence = self.edgeToEvidence(graph, e);
+        let mfEdgesIn = graph.get_edges_by_subject(mfId);
+        let annotonNode = annoton.getNode('mf');
+        annotonNode.setTerm(mfSubjectNode.term);
+        annotonNode.setEvidence(evidence);
+        annotonNode.setIsComplement(mfSubjectNode.isComplement);
+        annotonNode.modelId = mfId;
 
-          annoton.parser = new AnnotonParser(self.saeConstants);
+        annoton.parser = new AnnotonParser(self.saeConstants);
+
+        if (gpVerified) {
 
           if (self.lookup.getLocalClosure(mfSubjectNode.term.id, self.saeConstants.closures.mf.id)) {
 
@@ -526,11 +528,16 @@ export default class GraphService {
             if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
               annoton.populateComplexData();
             }
-            annotons.push(annoton);
+
           } else {
             annoton.parser.setNodeOntologyError(annotonNode);
           }
+        } else {
+          //for error
+          annoton.parser.setNodeOntologyError(annotonNode);
+          self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode);
         }
+        annotons.push(annoton);
       }
     });
 
@@ -568,12 +575,12 @@ export default class GraphService {
             node.target.setIsComplement(subjectNode.isComplement)
 
             //self.check
-            let closureRange = self.lookup.getLocalClosureRange(node.term.id, self.config.closureCheck[predicateId]);
+            let closureRange = self.lookup.getLocalClosureRange(subjectNode.term.id, self.config.closureCheck[predicateId]);
 
             if (closureRange) {
               //annoton.parser.parseNodeOntology(node.target, subjectNode.term.id);
             } else {
-              annoton.parser.setNodeOntologyError(node);
+              annoton.parser.setNodeOntologyError(node.target);
             }
             self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target);
           }
@@ -614,7 +621,7 @@ export default class GraphService {
       console.log('done node clodure', data)
 
       each(data, function (entity) {
-        entity.annoton.parser.parseNodeOntology(entity.node);
+        // entity.annoton.parser.parseNodeOntology(entity.node);
       });
     });
   }
@@ -822,15 +829,6 @@ export default class GraphService {
     row.evidence = mfNode.evidence
 
     return row;
-  }
-
-  getUniProt() {
-    const self = this;
-    self.$http.get('https://www.uniprot.org/uniprot/Q8IVM8.xml')
-      .then(function (r) {
-        console.log('data uni', r)
-      });
-
   }
 
   ccComponentsToTable(graph, annotons) {
