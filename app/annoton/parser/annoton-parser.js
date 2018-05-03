@@ -84,6 +84,8 @@ export default class AnnotonParser {
   }
 
 
+
+
   parseNodeOntology(node) {
     const self = this;
     let result = true;
@@ -129,6 +131,22 @@ export default class AnnotonParser {
 
     self.clean &= result;
     return result;
+  }
+
+  setNodeOntologyError(node) {
+    const self = this;
+    let result = true;
+    let meta = {
+      aspect: node.label,
+      subjectNode: {
+        label: node.term.control.value.label
+      }
+    }
+    let error = new AnnotonError(4, "Incorrect association between term and relationship" + JSON.stringify(node.lookupGroup), meta);
+    self.errors.push(error);
+    node.errors.push(error);
+
+    self.clean = false;
   }
 
   printErrors() {

@@ -367,7 +367,7 @@ export default class LookupService {
     return (_.find(self.localClosures, data));
   }
 
-  getLocalClosure(term, closure, isaClosure) {
+  getLocalClosure(term, closure) {
     const self = this;
     let data = self.localClosureExist(term, closure);
 
@@ -377,6 +377,25 @@ export default class LookupService {
       //we4 don't know locally
       return undefined;
     }
+  }
+
+  getLocalClosureRange(term, closureRange) {
+    const self = this;
+    let data;
+    result = {};
+
+    if (closureRange) {
+      each(closureRange.closures, function (closure) {
+        if (closure.object) {
+          let check = self.localClosureExist(term, closure.object.id);
+          if (check && check.isaClosure) {
+            result = data;
+          }
+        }
+      });
+    }
+
+    return result;
   }
 
 

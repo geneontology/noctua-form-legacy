@@ -214,9 +214,6 @@ app.constant('saeConstants', {
       label: 'acts upstream of or within, negative effect'
     },
   },
-  "closure": {
-    "mc": 'GO:0032991'
-  },
   canDuplicateEdges: [{
     label: 'hasPart',
     id: 'BFO:0000051'

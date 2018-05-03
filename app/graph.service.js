@@ -139,20 +139,29 @@ export default class GraphService {
       if (stateAnnotations.length > 0) {
         self.modelState = stateAnnotations[0].value(); // there should be only one
       }
-      self.graphPreParseNodes(self.graph);
-      let annotons = self.graphToAnnotons(self.graph);
+      self.graphPreParse(self.graph);
 
-      self.graphToCCOnly(self.graph).then(function (data) {
-        self.gridData = {
-          annotons: [...self.annotonsToTable(self.graph, annotons), ...self.ccComponentsToTable(self.graph, data)]
-        };
 
-        self.$timeout(() => {
-          self.$rootScope.$emit('rebuilt', {
-            gridData: self.gridData
-          });
-        }, 10);
-      });
+      self.graphPreParse(self.graph).then(function (data) {
+          let deferred = self.$q.defer();
+          deferred.resolve(data);
+          return deferred.promise;
+        })
+        .then(function (data) {
+          return self.graphToCCOnly(self.graph);
+        })
+        .then(function (data) {
+          let annotons = self.graphToAnnotons(self.graph);
+          self.gridData = {
+            annotons: [...self.annotonsToTable(self.graph, annotons), ...self.ccComponentsToTable(self.graph, data)]
+          };
+
+          self.$timeout(() => {
+            self.$rootScope.$emit('rebuilt', {
+              gridData: self.gridData
+            });
+          }, 10);
+        });
 
       self.title = self.graph.get_annotations_by_key('title');
     }
@@ -347,7 +356,7 @@ export default class GraphService {
     return result;
   }
 
-  graphPreParseNodes(graph) {
+  graphPreParse(graph) {
     const self = this;
     var promises = [];
 
@@ -385,7 +394,7 @@ export default class GraphService {
       // console.log('--- ', self.allNodes);
     });
 
-    self.$q.all(promises).then(function (data) {
+    return self.$q.all(promises).then(function (data) {
       console.log('all nodes', data, self.allNodes)
       console.log('all closures', self.lookup.getAllLocalClosures())
 
@@ -473,20 +482,7 @@ export default class GraphService {
     return deferred.promise;
   }
 
-  graphPreParse(graph) {
-    const self = this;
 
-    each(graph.all_nodes(), function (edge) {
-      let subjectNode = graph.get_node(edge.subject_id());
-      let objectNode = graph.get_node(edge.object_id());
-
-
-    });
-
-    each(graph.all_nodes(), function (node) {
-      //   console.log(node)
-    });
-  }
 
   graphToAnnotons(graph) {
     const self = this;
@@ -500,43 +496,41 @@ export default class GraphService {
         let gpObjectNode = self.subjectToTerm(graph, gpId);
         let annoton = null;
 
-        if (gpObjectNode.term.id && gpObjectNode.term.id.startsWith('GO')) {
+        if (self.lookup.getLocalClosure(gpObjectNode.term.id, self.saeConstants.closures.gp.id)) {
+          annoton = self.config.createAnnotonModel(
+            self.saeConstants.annotonType.options.simple.name,
+            self.saeConstants.annotonModelType.options.default.name
+          );
+        } else if (self.lookup.getLocalClosure(gpObjectNode.term.id, self.saeConstants.closures.mc.id)) {
           annoton = self.config.createAnnotonModel(
             self.saeConstants.annotonType.options.complex.name,
             self.saeConstants.annotonModelType.options.default.name
           );
-        } else {
-          annoton = self.config.createAnnotonModel(
-            self.saeConstants.annotonType.options.simple.name,
-            self.saeConstants.annotonModelType.options.default.name
-          );
         }
 
+        if (annoton) {
+          let evidence = self.edgeToEvidence(graph, e);
+          let mfEdgesIn = graph.get_edges_by_subject(mfId);
+          let annotonNode = annoton.getNode('mf');
+          annotonNode.setTerm(mfSubjectNode.term);
+          annotonNode.setEvidence(evidence);
+          annotonNode.setIsComplement(mfSubjectNode.isComplement);
+          annotonNode.modelId = mfId;
 
-        if (self.allNodes[mfId] && false) {
-          annoton = self.config.createAnnotonModel(
-            self.saeConstants.annotonType.options.simple.name,
-            self.saeConstants.annotonModelType.options.default.name
-          );
+          annoton.parser = new AnnotonParser(self.saeConstants);
+
+          if (self.lookup.getLocalClosure(mfSubjectNode.term.id, self.saeConstants.closures.mf.id)) {
+
+            self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode);
+
+            if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
+              annoton.populateComplexData();
+            }
+            annotons.push(annoton);
+          } else {
+            annoton.parser.setNodeOntologyError(annotonNode);
+          }
         }
-
-        let evidence = self.edgeToEvidence(graph, e);
-        let mfEdgesIn = graph.get_edges_by_subject(mfId);
-        let annotonNode = annoton.getNode('mf');
-
-        annoton.parser = new AnnotonParser(self.saeConstants);
-
-        annotonNode.setTerm(mfSubjectNode.term);
-        annotonNode.setEvidence(evidence);
-        annotonNode.setIsComplement(mfSubjectNode.isComplement)
-        annotonNode.modelId = mfId;
-
-        self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode);
-
-        if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
-          annoton.populateComplexData();
-        }
-        annotons.push(annoton);
       }
     });
 
@@ -574,9 +568,12 @@ export default class GraphService {
             node.target.setIsComplement(subjectNode.isComplement)
 
             //self.check
+            let closureRange = self.lookup.getLocalClosureRange(node.term.id, self.config.closureCheck[predicateId]);
 
-            if (subjectNode.term && subjectNode.term.id) {
+            if (closureRange) {
               //annoton.parser.parseNodeOntology(node.target, subjectNode.term.id);
+            } else {
+              annoton.parser.setNodeOntologyError(node);
             }
             self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target);
           }
