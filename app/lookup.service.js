@@ -37,6 +37,8 @@ export default class LookupService {
     this.golrURLBase = `${global_golr_neo_server}/select`;
     this.trusted = this.$sce.trustAsResourceUrl(this.golrURLBase);
 
+    this.localClosures = [];
+
     //  this.golrLookupManager();
 
   }
@@ -335,35 +337,55 @@ export default class LookupService {
       }, 20);
     });
 
+
+
+
     // return matches;
   }
+
+  //Closures
+  addLocalClosure(term, closure, isaClosure) {
+    const self = this;
+    let data = {
+      term: term,
+      closure: closure,
+      isaClosure: isaClosure
+    }
+
+    if (!self.localClosureExist(term, closure)) {
+      self.localClosures.push(data);
+    }
+  }
+
+  localClosureExist(term, closure) {
+    const self = this;
+    let data = {
+      term: term,
+      closure: closure
+    }
+
+    return (_.find(self.localClosures, data));
+  }
+
+  getLocalClosure(term, closure, isaClosure) {
+    const self = this;
+    let data = self.localClosureExist(term, closure);
+
+    if (data) {
+      return data.isaClosure;
+    } else {
+      //we4 don't know locally
+      return undefined;
+    }
+  }
+
+
+  getAllLocalClosures() {
+    const self = this;
+
+    return self.localClosures;
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 LookupService.$inject = ['$http', '$q', '$timeout', '$location', '$sce', '$rootScope', '$mdDialog'];

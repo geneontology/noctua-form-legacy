@@ -61,6 +61,8 @@ export default class GraphService {
     }
 
     this.allNodes = {};
+
+    this.localClosures = [];
   }
 
   initialize() {
@@ -217,6 +219,11 @@ export default class GraphService {
     }]
   }
 
+
+  getLocalClosure(a, b) {
+
+  }
+
   getUserInfo() {
     const self = this;
     let url = self.barista_location + "/user_info_by_token/" + self.barista_token;
@@ -359,11 +366,11 @@ export default class GraphService {
         if (self.config.closureCheck[predicateId]) {
           each(self.config.closureCheck[predicateId].closures, function (closure) {
             if (closure.subject) {
-              promises.push(self.isaClosurePreParse(termId, closure.subject, node));
+              promises.push(self.isaClosurePreParse(termId, closure.subject.id, node));
             }
 
             if (objectTermId && closure.object) {
-              promises.push(self.isaClosurePreParse(objectTermId, closure.object, node));
+              promises.push(self.isaClosurePreParse(objectTermId, closure.object.id, node));
             }
           });
         }
@@ -379,7 +386,8 @@ export default class GraphService {
     });
 
     self.$q.all(promises).then(function (data) {
-      console.log('done', data, self.allNodes)
+      console.log('all nodes', data, self.allNodes)
+      console.log('all closures', self.lookup.getAllLocalClosures())
 
       each(data, function (entity) {
         //entity.annoton.parser.parseNodeOntology(entity.node);
@@ -418,6 +426,8 @@ export default class GraphService {
         closure: b,
         isaClosure: data
       });
+
+      self.lookup.addLocalClosure(a, b, data);
 
       deferred.resolve({
         node: node,
@@ -487,15 +497,23 @@ export default class GraphService {
         let mfId = e.subject_id();
         let gpId = e.object_id();
         let mfSubjectNode = self.subjectToTerm(graph, mfId);
-        let gpSubjectNode = self.subjectToTerm(graph, gpId);
+        let gpObjectNode = self.subjectToTerm(graph, gpId);
         let annoton = null;
 
-        if (gpSubjectNode.term.id && gpSubjectNode.term.id.startsWith('GO')) {
+        if (gpObjectNode.term.id && gpObjectNode.term.id.startsWith('GO')) {
           annoton = self.config.createAnnotonModel(
             self.saeConstants.annotonType.options.complex.name,
             self.saeConstants.annotonModelType.options.default.name
           );
         } else {
+          annoton = self.config.createAnnotonModel(
+            self.saeConstants.annotonType.options.simple.name,
+            self.saeConstants.annotonModelType.options.default.name
+          );
+        }
+
+
+        if (self.allNodes[mfId] && false) {
           annoton = self.config.createAnnotonModel(
             self.saeConstants.annotonType.options.simple.name,
             self.saeConstants.annotonModelType.options.default.name
