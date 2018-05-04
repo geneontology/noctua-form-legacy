@@ -12,7 +12,7 @@ export default class AnnotonParser {
     this.clean = true;
   }
 
-  parseCardinality(graph, node, sourceEdges, targetEdges) {
+  parseCardinality(graph, node, sourceEdges, objectEdges) {
     const self = this;
 
     let edges2 = [];
@@ -34,7 +34,7 @@ export default class AnnotonParser {
             edge: {
               label: predicateLabel
             },
-            targetNode: {
+            objectNode: {
               label: self.getNodeLabel(graph, edge.object_id())
             },
           }
@@ -43,7 +43,7 @@ export default class AnnotonParser {
           result = false;
         }
 
-        let v = _.find(targetEdges, function (node) {
+        let v = _.find(objectEdges, function (node) {
           return node.edge.id === predicateId
         });
 
@@ -60,7 +60,7 @@ export default class AnnotonParser {
             edge: {
               label: predicateLabel
             },
-            targetNode: {
+            objectNode: {
               label: self.getNodeLabel(graph, edge.object_id())
             },
           }
@@ -132,6 +132,30 @@ export default class AnnotonParser {
 
     self.clean &= result;
     return result;
+  }
+
+  setCardinalityError(subjectNode, objectNodeTerm, predicateId) {
+    const self = this;
+    let result = true;
+    let meta = {
+      aspect: '',
+      subjectNode: {
+        label: subjectNode.term.control.value.label
+      },
+      edge: {
+        label: predicateId
+      },
+      objectNode: {
+        label: objectNodeTerm.id
+      },
+    }
+    let error = new AnnotonError('error', 2, "Incorrect association between " +
+      meta.subjectNode.label + ' and ' + meta.objectNode.label, meta);
+
+    self.errors.push(error);
+    subjectNode.errors.push(error);
+
+    self.clean = false;
   }
 
   setNodeOntologyError(node) {

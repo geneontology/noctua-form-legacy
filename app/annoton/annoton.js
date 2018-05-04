@@ -87,7 +87,7 @@ export default class Annoton extends SaeGraph {
     self.complexAnnotonData.geneProducts = [];
 
     each(edge.nodes, function (node) {
-      self.complexAnnotonData.geneProducts.push(node.target.term.control.value);
+      self.complexAnnotonData.geneProducts.push(node.object.term.control.value);
     });
   }
 

@@ -534,7 +534,7 @@ export default class GraphService {
           }
         } else {
           //for error
-          annoton.parser.setNodeOntologyError(annotonNode);
+          annoton.parser.setCardinalityError(annotonNode, gpObjectNode, self.saeConstants.edge.enabledBy.id);
           self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, true);
         }
         annotons.push(annoton);
@@ -564,31 +564,31 @@ export default class GraphService {
 
       each(edge.nodes, function (node) {
         if (predicateId === node.edge.id) {
-          if (predicateId === self.saeConstants.edge.hasPart.id && toMFObject !== node.target.id) {
+          if (predicateId === self.saeConstants.edge.hasPart.id && toMFObject !== node.object.id) {
             //do nothing
           } else {
             let subjectNode = self.subjectToTerm(graph, toMFObject);
 
-            node.target.modelId = toMFObject;
-            node.target.setEvidence(evidence);
-            node.target.setTerm(subjectNode.term);
-            node.target.setIsComplement(subjectNode.isComplement)
+            node.object.modelId = toMFObject;
+            node.object.setEvidence(evidence);
+            node.object.setTerm(subjectNode.term);
+            node.object.setIsComplement(subjectNode.isComplement)
 
             //self.check
             let closureRange = self.lookup.getLocalClosureRange(subjectNode.term.id, self.config.closureCheck[predicateId]);
 
             if (closureRange) {
-              isDoomed = true;
-              //annoton.parser.parseNodeOntology(node.target, subjectNode.term.id);
+
+              //annoton.parser.parseNodeOntology(node.object, subjectNode.term.id);
             } else {
-              annoton.parser.setNodeOntologyError(node.target);
+              isDoomed = true;
+              annoton.parser.setNodeOntologyError(node.object);
             }
 
             if (isDoomed) {
-              annoton.parser.setNodeWarning(node.target);
-
+              annoton.parser.setNodeWarning(node.object)
             }
-            self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target, isDoomed);
+            self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.object, isDoomed);
           }
         }
       });
@@ -614,8 +614,8 @@ export default class GraphService {
           forOwn(annoton.edges, function (srcEdge, key) {
             each(srcEdge.nodes, function (srcNode) {
               //  let nodeExist = destAnnoton.getNode(key);
-              //  if (nodeExist && srcNode.target.hasValue()) {
-              //   destAnnoton.addEdgeById(key, srcNode.target.id, srcNode.edge);
+              //  if (nodeExist && srcNode.object.hasValue()) {
+              //   destAnnoton.addEdgeById(key, srcNode.object.id, srcNode.edge);
               //   }
             });
           });
@@ -627,7 +627,7 @@ export default class GraphService {
       console.log('done node clodure', data)
 
       each(data, function (entity) {
-        // entity.annoton.parser.parseNodeOntology(entity.node);
+        entity.annoton.parser.parseNodeOntology(entity.node);
       });
     });
   }
@@ -694,22 +694,22 @@ export default class GraphService {
 
       each(edge.nodes, function (node) {
         if (predicateId === node.edge.id) {
-          if (predicateId === self.saeConstants.edge.hasPart.id && toMFObject !== node.target.id) {
+          if (predicateId === self.saeConstants.edge.hasPart.id && toMFObject !== node.object.id) {
             //do nothing
           } else {
             let subjectNode = self.subjectToTerm(graph, toMFObject);
 
-            node.target.modelId = toMFObject;
-            node.target.setEvidence(evidence);
-            node.target.setTerm(subjectNode.term);
-            node.target.setIsComplement(subjectNode.isComplement)
+            node.object.modelId = toMFObject;
+            node.object.setEvidence(evidence);
+            node.object.setTerm(subjectNode.term);
+            node.object.setIsComplement(subjectNode.isComplement)
 
             //self.check
 
             if (subjectNode.term && subjectNode.term.id) {
-              //   annoton.parser.parseNodeOntology(node.target, subjectNode.term.id);
+              //   annoton.parser.parseNodeOntology(node.object, subjectNode.term.id);
             }
-            self.graphToCCOnlyDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.target);
+            self.graphToCCOnlyDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.object);
           }
         }
       });
@@ -788,8 +788,8 @@ export default class GraphService {
     let edge = annoton.getEdges(annotonNode.id);
 
     each(edge.nodes, function (node) {
-      node.target.status = 2;
-      self.graphToAnnatonDFSError(annoton, node.target);
+      node.object.status = 2;
+      self.graphToAnnatonDFSError(annoton, node.object);
     });
   }
 
@@ -905,36 +905,36 @@ export default class GraphService {
 
     each(edge.nodes, function (edgeNode) {
       let subject = node.saveMeta.term;
-      let target = edgeNode.target.saveMeta.term;
-      if (subject && target && edge) {
-        if (edgeNode.target.edgeOption) {
-          edgeNode.edge = edgeNode.target.edgeOption.selected
+      let object = edgeNode.object.saveMeta.term;
+      if (subject && object && edge) {
+        if (edgeNode.object.edgeOption) {
+          edgeNode.edge = edgeNode.object.edgeOption.selected
         }
-        edgeNode.target.saveMeta.edge = reqs.add_fact([
+        edgeNode.object.saveMeta.edge = reqs.add_fact([
           node.saveMeta.term,
-          edgeNode.target.saveMeta.term,
+          edgeNode.object.saveMeta.term,
           edgeNode.edge.id
         ]);
 
 
-        if (edgeNode.target.id === 'gp') {
+        if (edgeNode.object.id === 'gp') {
           each(node.evidence, function (evidence) {
             let evidenceReference = evidence.reference.control.value;
             let evidenceWith = evidence.with.control.value;
 
-            reqs.add_evidence(evidence.evidence.control.value.id, evidenceReference, evidenceWith, edgeNode.target.saveMeta.edge);
+            reqs.add_evidence(evidence.evidence.control.value.id, evidenceReference, evidenceWith, edgeNode.object.saveMeta.edge);
           });
         } else {
-          each(edgeNode.target.evidence, function (evidence) {
+          each(edgeNode.object.evidence, function (evidence) {
             let evidenceReference = evidence.reference.control.value;
             let evidenceWith = evidence.with.control.value;
-            // if (edgeNode.target.aspect === 'P') {
+            // if (edgeNode.object.aspect === 'P') {
             //  let gpNode = annoton.getGPNode();
             //  if (gpNode && gpNode.modelId) {
             // evidenceWith.push(gpNode.modelId)
             //  }
             // }
-            reqs.add_evidence(evidence.evidence.control.value.id, evidenceReference, evidenceWith, edgeNode.target.saveMeta.edge);
+            reqs.add_evidence(evidence.evidence.control.value.id, evidenceReference, evidenceWith, edgeNode.object.saveMeta.edge);
           });
         }
       }
@@ -1083,7 +1083,7 @@ export default class GraphService {
                 edge: {
                   label: self.saeConstants.edge.occursIn
                 },
-                targetNode: {
+                objectNode: {
                   label: cc1Node.term.control.value.label
                 },
               }
@@ -1109,17 +1109,17 @@ export default class GraphService {
     const self = this;
     let destAnnoton = new Annoton();
 
-    let skipNodeDFS = function (sourceId, targetId) {
+    let skipNodeDFS = function (sourceId, objectId) {
       const self = this;
-      let srcEdge = srcAnnoton.edges[targetId];
+      let srcEdge = srcAnnoton.edges[objectId];
 
       if (srcEdge) {
         each(srcEdge.nodes, function (srcNode) {
-          let nodeExist = destAnnoton.getNode(sourceId) && destAnnoton.getNode(srcNode.target.id);
-          if (nodeExist && srcNode.target.hasValue()) {
-            destAnnoton.addEdgeById(sourceId, srcNode.target.id, srcNode.edge);
+          let nodeExist = destAnnoton.getNode(sourceId) && destAnnoton.getNode(srcNode.object.id);
+          if (nodeExist && srcNode.object.hasValue()) {
+            destAnnoton.addEdgeById(sourceId, srcNode.object.id, srcNode.edge);
           } else {
-            skipNodeDFS(sourceId, srcNode.target.id);
+            skipNodeDFS(sourceId, srcNode.object.id);
           }
         });
       }
@@ -1137,10 +1137,10 @@ export default class GraphService {
     forOwn(srcAnnoton.edges, function (srcEdge, key) {
       each(srcEdge.nodes, function (srcNode) {
         let nodeExist = destAnnoton.getNode(key);
-        if (nodeExist && srcNode.target.hasValue()) {
-          destAnnoton.addEdgeById(key, srcNode.target.id, srcNode.edge);
+        if (nodeExist && srcNode.object.hasValue()) {
+          destAnnoton.addEdgeById(key, srcNode.object.id, srcNode.edge);
         } else {
-          skipNodeDFS(key, srcNode.target.id);
+          skipNodeDFS(key, srcNode.object.id);
         }
       });
     });

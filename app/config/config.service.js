@@ -536,7 +536,9 @@ export default class ConfigService {
     this.closureCheck[this.saeConstants.edge.occursIn.id] = {
       edge: this.saeConstants.edge.occursIn,
       closures: [{
-        object: this.saeConstants.closures.bp
+        object: this.saeConstants.closures.cc
+      }, {
+        subject: this.saeConstants.closures.cc
       }, {
         subject: this.saeConstants.closures.mf
       }]
@@ -591,9 +593,9 @@ export default class ConfigService {
     }
 
     srcMFNode = annoton.addNode(self.generateNode('mf'));
-    targetMFNode = annoton.addNode(self.generateNode('mf'));
-    annoton.addEdgeOptionById(targetMFNode, edgeOption);
-    annoton.addEdge(srcMFNode, targetMFNode, annoton.edgeOption.selected);
+    objectMFNode = annoton.addNode(self.generateNode('mf'));
+    annoton.addEdgeOptionById(objectMFNode, edgeOption);
+    annoton.addEdge(srcMFNode, objectMFNode, annoton.edgeOption.selected);
 
     return annoton;
   }

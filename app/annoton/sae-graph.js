@@ -30,30 +30,30 @@ export default class SaeGraph {
     }
   };
 
-  addEdge(source, target, edge) {
+  addEdge(source, object, edge) {
     let node = {
       edge: edge,
-      target: target,
+      object: object,
     }
     this.edges[source.id]['nodes'].push(node);
     this.numberOfEdges++;
   };
 
-  addEdgeById(sourceId, targetId, edge) {
+  addEdgeById(sourceId, objectId, edge) {
     let source = this.getNode(sourceId);
-    let target = this.getNode(targetId);
-    this.addEdge(source, target, edge)
+    let object = this.getNode(objectId);
+    this.addEdge(source, object, edge)
   };
 
   getEdges(id) {
     return this.edges[id];
   };
 
-  removeEdge(source, target) {
-    var targetNodes = self.edges[source.id]['nodes']
-    if (targetNodes) {
-      _.remove(targetNodes, function (targetNodes) {
-        return targetNode.id === target.id
+  removeEdge(source, object) {
+    var objectNodes = self.edges[source.id]['nodes']
+    if (objectNodes) {
+      _.remove(objectNodes, function (objectNodes) {
+        return objectNode.id === object.id
       });
       this.numberOfEdges--;
     }
