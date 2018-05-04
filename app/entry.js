@@ -214,6 +214,12 @@ app.constant('saeConstants', {
       label: 'acts upstream of or within, negative effect'
     },
   },
+  noDuplicateEdges: [
+    'RO:0002333',
+    'RO:0002092',
+    'BFO:0000066',
+    'BFO:0000050'
+  ],
   canDuplicateEdges: [{
     label: 'hasPart',
     id: 'BFO:0000051'

@@ -12,20 +12,20 @@ export default class AnnotonParser {
     this.clean = true;
   }
 
+
   parseCardinality(graph, node, sourceEdges, objectEdges) {
     const self = this;
 
-    let edges2 = [];
+    let edges = [];
     let result = true;
     let error = ""
 
     each(sourceEdges, function (edge) {
       let predicateId = edge.predicate_id();
       let predicateLabel = self.getPredicateLabel(predicateId);
-      let allowedEdge = self.allowedEdge(predicateId);
 
-      if (!allowedEdge) {
-        if (_.includes(edges2, predicateId)) {
+      if (_.includes(self.saeConstants.noDuplicateEdges, predicateId)) {
+        if (_.includes(edges, predicateId)) {
           let meta = {
             aspect: node.label,
             subjectNode: {
@@ -40,34 +40,10 @@ export default class AnnotonParser {
           }
           error = new AnnotonError('error', 3, "More than 1 " + predicateLabel + " found", meta)
           self.errors.push(error);
-          result = false;
-        }
-
-        let v = _.find(objectEdges, function (node) {
-          return node.edge.id === predicateId
-        });
-
-        if (v) {
-          if (!self.canDuplicateEdge(predicateId)) {
-            edges2.push(predicateId);
-          }
-        } else {
-          let meta = {
-            aspect: node.label,
-            subjectNode: {
-              label: node.term.control.value.label
-            },
-            edge: {
-              label: predicateLabel
-            },
-            objectNode: {
-              label: self.getNodeLabel(graph, edge.object_id())
-            },
-          }
-          error = new AnnotonError('error', 2, "Not accepted triple ", meta);
-          self.errors.push(error);
           node.errors.push(error);
           result = false;
+        } else {
+          edges.push(predicateId);
         }
       }
     });
@@ -178,7 +154,7 @@ export default class AnnotonParser {
     const self = this;
     let result = true;
     let meta = {
-      aspect: node.label,
+      aspect: '',
       subjectNode: {
         label: node.term.control.value.label
       }
@@ -203,6 +179,70 @@ export default class AnnotonParser {
     return _.find(self.saeConstants.causalEdges, function (edge) {
       return edge.id === predicateId
     });
+  }
+
+  parseCardinalityTemp(graph, node, sourceEdges, objectEdges) {
+    const self = this;
+
+    let edges2 = [];
+    let result = true;
+    let error = ""
+
+    each(sourceEdges, function (edge) {
+      let predicateId = edge.predicate_id();
+      let predicateLabel = self.getPredicateLabel(predicateId);
+      let allowedEdge = self.allowedEdge(predicateId);
+
+      if (!allowedEdge) {
+        if (_.includes(edges2, predicateId)) {
+          let meta = {
+            aspect: node.label,
+            subjectNode: {
+              label: node.term.control.value.label
+            },
+            edge: {
+              label: predicateLabel
+            },
+            objectNode: {
+              label: self.getNodeLabel(graph, edge.object_id())
+            },
+          }
+          error = new AnnotonError('error', 3, "More than 1 " + predicateLabel + " found.", meta)
+          self.errors.push(error);
+          result = false;
+        }
+
+        let v = _.find(objectEdges, function (node) {
+          return node.edge.id === predicateId
+        });
+
+        if (v) {
+          if (!self.canDuplicateEdge(predicateId)) {
+            edges2.push(predicateId);
+          }
+        } else {
+          let meta = {
+            aspect: node.label,
+            subjectNode: {
+              label: node.term.control.value.label
+            },
+            edge: {
+              label: predicateLabel
+            },
+            objectNode: {
+              label: self.getNodeLabel(graph, edge.object_id())
+            },
+          }
+          error = new AnnotonError('error', 2, "Not accepted triple ", meta);
+          self.errors.push(error);
+          node.errors.push(error);
+          result = false;
+        }
+      }
+    });
+
+    self.clean &= result;
+    return result;
   }
 
   canDuplicateEdge(predicateId) {

@@ -494,6 +494,7 @@ export default class GraphService {
         let mfSubjectNode = self.subjectToTerm(graph, mfId);
         let gpObjectNode = self.subjectToTerm(graph, gpId);
         let gpVerified = false;
+        let isDoomed = false
         let annoton = self.config.createAnnotonModel(
           self.saeConstants.annotonType.options.simple.name,
           self.saeConstants.annotonModelType.options.default.name
@@ -520,23 +521,24 @@ export default class GraphService {
         annoton.parser = new AnnotonParser(self.saeConstants);
 
         if (gpVerified) {
-
-          if (self.lookup.getLocalClosure(mfSubjectNode.term.id, self.saeConstants.closures.mf.id)) {
-
-            self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode);
-
-            if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
-              annoton.populateComplexData();
-            }
-
-          } else {
-            annoton.parser.setNodeOntologyError(annotonNode);
+          if (!self.lookup.getLocalClosure(mfSubjectNode.term.id, self.saeConstants.closures.mf.id)) {
+            isDoomed = true;
           }
         } else {
-          //for error
           annoton.parser.setCardinalityError(annotonNode, gpObjectNode.term, self.saeConstants.edge.enabledBy.id);
           self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, true);
         }
+
+        if (isDoomed) {
+          annoton.parser.setCardinalityError(annotonNode, gpObjectNode.term, self.saeConstants.edge.enabledBy.id);
+        }
+
+        self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, isDoomed);
+
+        if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
+          annoton.populateComplexData();
+        }
+
         annotons.push(annoton);
       }
     });
@@ -550,52 +552,50 @@ export default class GraphService {
     const self = this;
     let edge = annoton.getEdges(annotonNode.id);
 
-    each(mfEdgesIn, function (toMFEdge) {
-      if (!toMFEdge) {
-        return;
-      }
-      let predicateId = toMFEdge.predicate_id();
-      let evidence = self.edgeToEvidence(graph, toMFEdge);
-      let toMFObject = toMFEdge.object_id();
-
-      if (annotonNode.id === "mc" && predicateId === self.saeConstants.edge.hasPart.id) {
-        self.config.addGPAnnotonData(annoton, toMFObject);
-      }
-
-      each(edge.nodes, function (node) {
-        if (predicateId === node.edge.id) {
-          if (predicateId === self.saeConstants.edge.hasPart.id && toMFObject !== node.object.id) {
-            //do nothing
-          } else {
-            let subjectNode = self.subjectToTerm(graph, toMFObject);
-
-            node.object.modelId = toMFObject;
-            node.object.setEvidence(evidence);
-            node.object.setTerm(subjectNode.term);
-            node.object.setIsComplement(subjectNode.isComplement)
-
-            //self.check
-            let closureRange = self.lookup.getLocalClosureRange(subjectNode.term.id, self.config.closureCheck[predicateId]);
-
-            if (closureRange) {
-
-              //annoton.parser.parseNodeOntology(node.object, subjectNode.term.id);
-            } else {
-              isDoomed = true;
-              annoton.parser.setNodeOntologyError(node.object);
-            }
-
-            if (isDoomed) {
-              annoton.parser.setNodeWarning(node.object)
-            }
-            self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.object, isDoomed);
-          }
+    if (annoton.parser.parseCardinality(graph, annotonNode, mfEdgesIn, edge.nodes)) {
+      each(mfEdgesIn, function (toMFEdge) {
+        if (!toMFEdge) {
+          return;
         }
+        let predicateId = toMFEdge.predicate_id();
+        let evidence = self.edgeToEvidence(graph, toMFEdge);
+        let toMFObject = toMFEdge.object_id();
+
+        if (annotonNode.id === "mc" && predicateId === self.saeConstants.edge.hasPart.id) {
+          self.config.addGPAnnotonData(annoton, toMFObject);
+        }
+
+        each(edge.nodes, function (node) {
+          if (predicateId === node.edge.id) {
+            if (predicateId === self.saeConstants.edge.hasPart.id && toMFObject !== node.object.id) {
+              //do nothing
+            } else {
+              let subjectNode = self.subjectToTerm(graph, toMFObject);
+
+              node.object.modelId = toMFObject;
+              node.object.setEvidence(evidence);
+              node.object.setTerm(subjectNode.term);
+              node.object.setIsComplement(subjectNode.isComplement)
+
+              //self.check
+              let closureRange = self.lookup.getLocalClosureRange(subjectNode.term.id, self.config.closureCheck[predicateId]);
+
+              if (!closureRange) {
+                isDoomed = true;
+                annoton.parser.setCardinalityError(annotonNode, node.object.getTerm(), predicateId);
+              }
+
+              if (isDoomed) {
+                annoton.parser.setNodeWarning(node.object)
+              }
+
+              self.graphToAnnatonDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.object, isDoomed);
+            }
+          }
+        });
       });
-    });
 
-    annoton.parser.parseCardinality(graph, annotonNode, mfEdgesIn, edge.nodes);
-
+    }
     //return self.filterBPOnly(annotons);
     return annoton;
 
@@ -627,7 +627,7 @@ export default class GraphService {
       console.log('done node clodure', data)
 
       each(data, function (entity) {
-        entity.annoton.parser.parseNodeOntology(entity.node);
+        //entity.annoton.parser.parseNodeOntology(entity.node);
       });
     });
   }

@@ -716,10 +716,10 @@ I need to explicitly tweak the classes. There has to be a better way.
         }
     }
     .sae-row-error {
-        background-color: #eed2d2 !important;
+        background-color: rgba(#f0cbcb, 0.5) !important;
     }
     .sae-row-warning {
-        background-color: #fcd9b9 !important;
+        background-color: rgba(#f6e3d1, 0.5) !important;
     }
     .sae-row-divider {
         border-top: #BBB solid 5px;
