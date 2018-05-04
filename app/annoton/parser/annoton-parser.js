@@ -143,10 +143,10 @@ export default class AnnotonParser {
         label: subjectNode.term.control.value.label
       },
       edge: {
-        label: predicateId
+        label: self.getPredicateLabel(predicateId)
       },
       objectNode: {
-        label: objectNodeTerm.id
+        label: objectNodeTerm.label
       },
     }
     let error = new AnnotonError('error', 2, "Incorrect association between " +

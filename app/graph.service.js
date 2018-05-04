@@ -534,7 +534,7 @@ export default class GraphService {
           }
         } else {
           //for error
-          annoton.parser.setCardinalityError(annotonNode, gpObjectNode, self.saeConstants.edge.enabledBy.id);
+          annoton.parser.setCardinalityError(annotonNode, gpObjectNode.term, self.saeConstants.edge.enabledBy.id);
           self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, true);
         }
         annotons.push(annoton);
