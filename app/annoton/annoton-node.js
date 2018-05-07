@@ -147,11 +147,34 @@ export default class AnnotonNode {
     self.addEvidence();
   }
 
+  deepCopyValues(node) {
+    const self = this;
+
+    self.term.control.value = node.term.control.value;
+    self.evidence = node.evidence;
+
+    self.modelId = node.modelId;
+    self.annoton = node.annoton;
+    self.ontologyClass = node.ontologyClass;
+    self.assignedBy = node.assignedBy;
+    self.termRequiredList = node.termRequiredList;
+    self.evidenceRequiredLis = node.evidenceRequiredList
+    self.evidenceNotRequiredList = node.evidenceNotRequiredList;
+    self.errors = node.errors;
+    self.warnings = node.warnings;
+    self.status = node.status;
+
+    self.edgeOption = node.edgeOption;
+    self.isComplement = node.isComplement;
+  }
+
   copyValues(node) {
     const self = this;
 
     self.term.control.value = node.term.control.value;
     self.evidence = node.evidence;
+    self.assignedBy = node.assignedBy;
+    self.isComplement = node.isComplement;
   }
 
   addEvidences(evidences, except) {

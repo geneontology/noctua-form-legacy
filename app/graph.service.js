@@ -547,7 +547,6 @@ export default class GraphService {
           }
         } else {
           annoton.parser.setCardinalityError(annotonNode, gpObjectNode.term, self.saeConstants.edge.enabledBy.id);
-          //  self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, true);
         }
 
         if (isDoomed) {
@@ -638,15 +637,22 @@ export default class GraphService {
 
     if (annoton.parser.parseCardinality(graph, annotonNode, mfEdgesIn, edge.nodes)) {
       each(mfEdgesIn, function (toMFEdge) {
-        if (!toMFEdge) {
-          return;
-        }
         let predicateId = toMFEdge.predicate_id();
         let evidence = self.edgeToEvidence(graph, toMFEdge);
         let toMFObject = toMFEdge.object_id();
 
         if (annotonNode.id === "mc" && predicateId === self.saeConstants.edge.hasPart.id) {
           self.config.addGPAnnotonData(annoton, toMFObject);
+        }
+
+        if (annoton.annotonModelType === self.saeConstants.annotonModelType.options.bpOnly.name) {
+          let causalEdge = _.find(self.saeConstants.causalEdges, {
+            id: predicateId
+          })
+
+          if (causalEdge) {
+            self.adjustBPOnly(annoton, causalEdge);
+          }
         }
 
         each(edge.nodes, function (node) {
@@ -861,8 +867,6 @@ export default class GraphService {
 
     let gpNode = annoton.getGPNode();
 
-    self.adjustBPOnly(annoton);
-
     let row = {
       gp: gpNode.term.control.value.label,
       original: JSON.parse(JSON.stringify(annoton)),
@@ -1028,14 +1032,17 @@ export default class GraphService {
 
   }
 
-  adjustBPOnly(annoton) {
+  adjustBPOnly(annoton, srcEdge) {
     const self = this;
     let mfNode = annoton.getNode('mf');
     let bpNode = annoton.getNode('bp');
 
+
+
     if (mfNode && bpNode && annoton.annotonModelType === self.saeConstants.annotonModelType.options.bpOnly.name) {
       mfNode.displaySection = self.saeConstants.displaySection.fd;
       mfNode.displayGroup = self.saeConstants.displayGroup.mf;
+      annoton.editEdge('mf', 'bp', srcEdge);
       bpNode.relationship = annoton.getEdge('mf', 'bp').edge;
     }
   }
@@ -1169,9 +1176,10 @@ export default class GraphService {
 
     each(srcAnnoton.nodes, function (srcNode) {
       if (srcNode.hasValue()) {
-        let destNode = self.config.generateNode(srcNode.id);
+        // let destNode = self.config.generateNode(srcNode.id);
 
-        destNode.copyValues(srcNode);
+        // destNode.copyValues(srcNode);
+        let destNode = srcNode;
         destAnnoton.addNode(destNode);
       }
     });

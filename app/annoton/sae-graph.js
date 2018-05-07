@@ -46,6 +46,13 @@ export default class SaeGraph {
     this.addEdge(source, object, edge)
   };
 
+  editEdge(subjectId, objectId, srcEdge) {
+    const self = this;
+    let destEdge = self.getEdge(subjectId, objectId);
+
+    destEdge.edge = srcEdge;
+  }
+
   getEdge(subjectId, objectId) {
     const self = this;
     let edge = self.edges[subjectId];
