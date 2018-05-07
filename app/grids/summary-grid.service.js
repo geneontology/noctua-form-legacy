@@ -303,6 +303,7 @@ export default class SummaryGridService {
 
     switch (row.annoton.annotonModelType) {
       case self.saeConstants.annotonModelType.options.default.name:
+      case self.saeConstants.annotonModelType.options.bpOnly.name:
         display = node.id === 'mf';
         break;
       case self.saeConstants.annotonModelType.options.ccOnly.name:

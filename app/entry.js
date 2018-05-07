@@ -80,6 +80,64 @@ app.config(['JSONFormatterConfigProvider', function (JSONFormatterConfigProvider
   JSONFormatterConfigProvider.hoverPreviewEnabled = true;
 }]);
 
+var edge = {
+  enabledBy: {
+    id: 'RO:0002333',
+    label: 'enabled by'
+  },
+  hasInput: {
+    id: 'RO:0002233',
+    label: 'has input'
+  },
+  happensDuring: {
+    id: 'RO:0002092',
+    label: 'happens during'
+  },
+  occursIn: {
+    id: 'BFO:0000066',
+    label: 'occurs in'
+  },
+  partOf: {
+    id: 'BFO:0000050',
+    label: 'part of'
+  },
+  hasPart: {
+    id: 'BFO:0000051',
+    label: 'has part'
+  },
+  upstreamOf: {
+    id: 'RO:0002411',
+    actsId: 'RO:0002263',
+    label: 'acts upstream of'
+  },
+  upstreamOfOrWithin: {
+    id: 'RO:0002418',
+    actsId: 'RO:0002264',
+    label: 'acts upstream of or within'
+  },
+  upstreamOfPositiveEffect: {
+    id: 'RO:0002304',
+    actsId: 'RO:0004034',
+    label: 'acts upstream of, positive effect'
+  },
+  upstreamOfNegativeEffect: {
+    id: 'RO:0002305',
+    actsId: 'RO:0004035',
+    label: 'acts upstream of, negative effect'
+  },
+  upstreamOfOrWithinPositiveEffect: {
+    id: 'RO:0002629',
+    actsId: 'RO:0004032',
+    label: 'acts upstream of or within, positive effect'
+  },
+  upstreamOfOrWithinNegativeEffect: {
+    id: 'RO:0002630',
+    actsId: 'RO:0004033',
+    label: 'acts upstream of or within, negative effect'
+  },
+}
+
+
 app.constant('saeConstants', {
   "annotonType": {
     "options": {
@@ -158,62 +216,7 @@ app.constant('saeConstants', {
       label: 'Location of Activity'
     }
   },
-  'edge': {
-    enabledBy: {
-      id: 'RO:0002333',
-      label: 'enabled by'
-    },
-    hasInput: {
-      id: 'RO:0002233',
-      label: 'has input'
-    },
-    happensDuring: {
-      id: 'RO:0002092',
-      label: 'happens during'
-    },
-    occursIn: {
-      id: 'BFO:0000066',
-      label: 'occurs in'
-    },
-    partOf: {
-      id: 'BFO:0000050',
-      label: 'part of'
-    },
-    hasPart: {
-      id: 'BFO:0000051',
-      label: 'has part'
-    },
-    upstreamOf: {
-      id: 'RO:0002411',
-      actsId: 'RO:0002263',
-      label: 'acts upstream of'
-    },
-    upstreamOfOrWithin: {
-      id: 'RO:0002418',
-      actsId: 'RO:0002264',
-      label: 'acts upstream of or within'
-    },
-    upstreamOfPositiveEffect: {
-      id: 'RO:0002304',
-      actsId: 'RO:0004034',
-      label: 'acts upstream of, positive effect'
-    },
-    upstreamOfNegativeEffect: {
-      id: 'RO:0002305',
-      actsId: 'RO:0004035',
-      label: 'acts upstream of, negative effect'
-    },
-    upstreamOfOrWithinPositiveEffect: {
-      id: 'RO:0002629',
-      actsId: 'RO:0004032',
-      label: 'acts upstream of or within, positive effect'
-    },
-    upstreamOfOrWithinNegativeEffect: {
-      id: 'RO:0002630',
-      actsId: 'RO:0004033',
-      label: 'acts upstream of or within, negative effect'
-    },
-  },
+  edge: edge,
   noDuplicateEdges: [
     'RO:0002333',
     'RO:0002092',

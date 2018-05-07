@@ -228,7 +228,7 @@ export default class LookupService {
     let deferred = self.$q.defer();
 
     let requestParams = {
-      q: b,
+      q: self.buildQ(b),
       defType: 'edismax',
       indent: 'on',
       qt: 'standard',

@@ -363,7 +363,6 @@ export default class GraphService {
 
     each(graph.get_nodes(), function (node) {
       let termId = self.getNodeId(node);
-      promises.push(self.isaClosurePreParse(termId, self.saeConstants.closures.bp.id, node));
 
       each(graph.get_edges_by_subject(node.id()), function (e) {
         let predicateId = e.predicate_id();
@@ -481,7 +480,36 @@ export default class GraphService {
     return deferred.promise;
   }
 
+  determineAnnotonType(gpObjectNode) {
+    const self = this;
 
+    if (self.lookup.getLocalClosure(gpObjectNode.term.id, self.saeConstants.closures.gp.id)) {
+      return self.saeConstants.annotonType.options.simple.name;
+    } else if (self.lookup.getLocalClosure(gpObjectNode.term.id, self.saeConstants.closures.mc.id)) {
+      return self.saeConstants.annotonType.options.complex.name;
+    }
+
+    return null;
+  }
+
+  determineAnnotonModelType(mfNode, mfEdgesIn) {
+    const self = this;
+    let result = self.saeConstants.annotonModelType.options.default.name;
+
+    if (mfNode.term.id === self.saeConstants.rootNode.mf.id) {
+      each(mfEdgesIn, function (toMFEdge) {
+        let predicateId = toMFEdge.predicate_id();
+
+        if (_.find(self.saeConstants.causalEdges, {
+            id: predicateId
+          })) {
+          result = self.saeConstants.annotonModelType.options.bpOnly.name;
+        }
+      });
+    }
+
+    return result;
+  }
 
   graphToAnnotons(graph) {
     const self = this;
@@ -491,27 +519,20 @@ export default class GraphService {
       if (e.predicate_id() === self.saeConstants.edge.enabledBy.id) {
         let mfId = e.subject_id();
         let gpId = e.object_id();
+        let evidence = self.edgeToEvidence(graph, e);
+        let mfEdgesIn = graph.get_edges_by_subject(mfId);
         let mfSubjectNode = self.subjectToTerm(graph, mfId);
         let gpObjectNode = self.subjectToTerm(graph, gpId);
         let gpVerified = false;
         let isDoomed = false
+        let annotonType = self.determineAnnotonType(gpObjectNode);
+        let annotonModelType = self.determineAnnotonModelType(mfSubjectNode, mfEdgesIn);
+
         let annoton = self.config.createAnnotonModel(
-          self.saeConstants.annotonType.options.simple.name,
-          self.saeConstants.annotonModelType.options.default.name
+          annotonType ? annotonType : self.saeConstants.annotonType.options.simple.name,
+          annotonModelType
         );
 
-        if (self.lookup.getLocalClosure(gpObjectNode.term.id, self.saeConstants.closures.gp.id)) {
-          gpVerified = true;
-        } else if (self.lookup.getLocalClosure(gpObjectNode.term.id, self.saeConstants.closures.mc.id)) {
-          gpVerified = true;
-          annoton = self.config.createAnnotonModel(
-            self.saeConstants.annotonType.options.complex.name,
-            self.saeConstants.annotonModelType.options.default.name
-          );
-        }
-
-        let evidence = self.edgeToEvidence(graph, e);
-        let mfEdgesIn = graph.get_edges_by_subject(mfId);
         let annotonNode = annoton.getNode('mf');
         annotonNode.setTerm(mfSubjectNode.term);
         annotonNode.setEvidence(evidence);
@@ -520,13 +541,13 @@ export default class GraphService {
 
         annoton.parser = new AnnotonParser(self.saeConstants);
 
-        if (gpVerified) {
+        if (annotonType) {
           if (!self.lookup.getLocalClosure(mfSubjectNode.term.id, self.saeConstants.closures.mf.id)) {
             isDoomed = true;
           }
         } else {
           annoton.parser.setCardinalityError(annotonNode, gpObjectNode.term, self.saeConstants.edge.enabledBy.id);
-          self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, true);
+          //  self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, true);
         }
 
         if (isDoomed) {
@@ -547,6 +568,69 @@ export default class GraphService {
 
     return annotons;
   }
+
+
+  graphToCCOnly(graph) {
+    const self = this;
+    var annotons = [];
+
+    each(graph.all_edges(), function (e) {
+      if (e.predicate_id() === self.saeConstants.edge.partOf.id) {
+        let predicateId = e.predicate_id();
+        let gpId = e.subject_id();
+        let ccId = e.object_id();
+        let evidence = self.edgeToEvidence(graph, e);
+        let gpEdgesIn = graph.get_edges_by_subject(gpId);
+        let ccObjectNode = self.subjectToTerm(graph, ccId);
+        let gpSubjectNode = self.subjectToTerm(graph, gpId);
+        let gpVerified = false;
+        let isDoomed = false
+        let annotonType = self.determineAnnotonType(gpSubjectNode);
+
+        let annoton = self.config.createAnnotonModel(
+          annotonType ? annotonType : self.saeConstants.annotonType.options.simple.name,
+          self.saeConstants.annotonModelType.options.ccOnly.name
+        );
+
+        let annotonNode = annoton.getNode('gp');
+        annotonNode.setTerm(gpSubjectNode.term);
+        annotonNode.setEvidence(evidence);
+        annotonNode.setIsComplement(gpSubjectNode.isComplement);
+        annotonNode.modelId = gpId;
+
+        annoton.parser = new AnnotonParser(self.saeConstants);
+
+        if (annotonType) {
+          let closureRange = self.lookup.getLocalClosureRange(ccObjectNode.term.id, self.config.closureCheck[predicateId]);
+
+          if (!closureRange) {
+            isDoomed = true;
+          }
+
+          if (isDoomed) {
+            annoton.parser.setCardinalityError(annotonNode, ccObjectNode.term, predicateId);
+          }
+
+          self.graphToAnnatonDFS(graph, annoton, gpEdgesIn, annotonNode, isDoomed);
+
+          if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
+            annoton.populateComplexData();
+          }
+
+          annotons.push(annoton);
+        } else {
+          annoton.parser.setCardinalityError(annotonNode, ccObjectNode.term, predicateId);
+          //  self.graphToAnnatonDFS(graph, annoton, ccEdgesIn, annotonNode, true);
+        }
+      }
+    });
+
+    self.parseNodeClosure(annotons);
+
+    return annotons;
+  }
+
+
 
   graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, isDoomed) {
     const self = this;
@@ -596,7 +680,7 @@ export default class GraphService {
       });
 
     }
-    //return self.filterBPOnly(annotons);
+
     return annoton;
 
   }
@@ -632,7 +716,7 @@ export default class GraphService {
     });
   }
 
-  graphToCCOnly(graph) {
+  graphToCCOnly2(graph) {
     const self = this;
     var annotons = [];
 
@@ -719,41 +803,6 @@ export default class GraphService {
 
   }
 
-  filterBPOnly(graph, annotons) {
-    const self = this;
-    let destNodes = [];
-    let bpEdges = [
-      this.saeConstants.edge.upstreamOfOrWithin.id,
-      this.saeConstants.edge.upstreamOf.id,
-      this.saeConstants.edge.upstreamOfPositiveEffect.id,
-      this.saeConstants.edge.upstreamOfNegativeEffect,
-      this.saeConstants.edge.upstreamOfOrWithinPositiveEffect,
-      this.saeConstants.edge.upstreamOfOrWithinNegativeEffect,
-    ];
-
-    each(annotons, function (annoton) {
-      each(annoton.nodes, function (node) {
-        let term = node.getTerm();
-        if (term.id === self.saeConstants.rootNode.mf.id) {
-          destNodes.push({
-            annoton: annoton,
-            node: node
-          });
-        }
-      });
-    });
-
-    each(graph.all_edges(), function (e) {
-      if (_.includes(bpEdges, e.predicate_id())) {
-        let mfId = e.subject_id();
-        if (_.includes(destNodes, mfId)) {
-          let gpId = e.object_id();
-        }
-      }
-    });
-
-  }
-
   filterCCOnly(annotons) {
     const self = this;
     let promises = [];
@@ -810,29 +859,16 @@ export default class GraphService {
     const self = this;
     let result = [];
 
-    let gpNode = null;
+    let gpNode = annoton.getGPNode();
 
-    if (annoton.annotonType === self.saeConstants.annotonType.options.simple.name) {
-      gpNode = annoton.getNode('gp');
-    } else {
-      gpNode = annoton.getNode('mc');
-    }
-    let mfNode = annoton.getNode('mf');
-    let bpNode = annoton.getNode('bp');
-    let ccNode = annoton.getNode('cc');
+    self.adjustBPOnly(annoton);
 
     let row = {
       gp: gpNode.term.control.value.label,
-      mf: mfNode.term.control.value.label,
-      bp: bpNode.term.control.value.label,
-      cc: ccNode.term.control.value.label,
       original: JSON.parse(JSON.stringify(annoton)),
       annoton: annoton,
       annotonPresentation: self.formGrid.getAnnotonPresentation(annoton),
     }
-
-    row.mf = mfNode.term.control.value.label;
-    row.evidence = mfNode.evidence
 
     return row;
   }
@@ -854,13 +890,7 @@ export default class GraphService {
     const self = this;
     let result = [];
 
-    let gpNode = null;
-
-    if (annoton.annotonType === self.saeConstants.annotonType.options.simple.name) {
-      gpNode = annoton.getNode('gp');
-    } else {
-      gpNode = annoton.getNode('mc');
-    }
+    let gpNode = annoton.getGPNode();
     let ccNode = annoton.getNode('cc');
 
     let row = {
@@ -996,6 +1026,18 @@ export default class GraphService {
 
     annoton = simpleAnnoton;
 
+  }
+
+  adjustBPOnly(annoton) {
+    const self = this;
+    let mfNode = annoton.getNode('mf');
+    let bpNode = annoton.getNode('bp');
+
+    if (mfNode && bpNode && annoton.annotonModelType === self.saeConstants.annotonModelType.options.bpOnly.name) {
+      mfNode.displaySection = self.saeConstants.displaySection.fd;
+      mfNode.displayGroup = self.saeConstants.displayGroup.mf;
+      bpNode.relationship = annoton.getEdge('mf', 'bp').edge;
+    }
   }
 
   saveModelGroup() {

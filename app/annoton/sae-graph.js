@@ -1,4 +1,5 @@
 import _ from 'lodash';
+const each = require('lodash/forEach');
 
 export default class SaeGraph {
   constructor() {
@@ -44,6 +45,22 @@ export default class SaeGraph {
     let object = this.getNode(objectId);
     this.addEdge(source, object, edge)
   };
+
+  getEdge(subjectId, objectId) {
+    const self = this;
+    let edge = self.edges[subjectId];
+    let result
+
+    if (edge) {
+      each(edge.nodes, function (node) {
+        if (objectId === node.object.id) {
+          result = node;
+        }
+      });
+    }
+
+    return result;
+  }
 
   getEdges(id) {
     return this.edges[id];
