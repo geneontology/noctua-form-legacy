@@ -426,7 +426,11 @@ export default class ConfigService {
               displaySection: '',
               displayGroup: '',
             }
-          }
+          },
+          'bc': {
+            id: 'bp',
+            label: "Biological Process",
+          },
         },
         triples: [{
           subject: 'mf',
@@ -447,8 +451,8 @@ export default class ConfigService {
               this.saeConstants.edge.upstreamOf,
               this.saeConstants.edge.upstreamOfPositiveEffect,
               this.saeConstants.edge.upstreamOfNegativeEffect,
-              this.saeConstants.edge.upstreamOfOrWithinPositiveEffect,
-              this.saeConstants.edge.upstreamOfOrWithinNegativeEffect,
+              // this.saeConstants.edge.upstreamOfOrWithinPositiveEffect,
+              //this.saeConstants.edge.upstreamOfOrWithinNegativeEffect,
             ]
           }
         }],
