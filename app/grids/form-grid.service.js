@@ -42,6 +42,7 @@ export default class FormGridService {
 
     let result = {
       geneProduct: annoton.getNode('gp'),
+      mcNode: annoton.getNode('mc'),
       gp: {},
       fd: {},
       extra: []

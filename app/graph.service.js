@@ -555,10 +555,6 @@ export default class GraphService {
 
         self.graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, isDoomed);
 
-        if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
-          annoton.populateComplexData();
-        }
-
         annotons.push(annoton);
       }
     });
@@ -939,7 +935,8 @@ export default class GraphService {
 
     each(edge.nodes, function (edgeNode) {
       let subject = node.saveMeta.term;
-      let object = edgeNode.object.saveMeta.term;
+      let object = edgeNode.object ? edgeNode.object.saveMeta.term : null;
+
       if (subject && object && edge) {
         if (edgeNode.object.edgeOption) {
           edgeNode.edge = edgeNode.object.edgeOption.selected
@@ -986,50 +983,6 @@ export default class GraphService {
     } else {
       reqs.use_groups([]);
     }
-  }
-
-  convertToComplex(annoton) {
-    const self = this;
-    let mcNode = annoton.getNode('mc');
-
-    mcNode.copyValues(annoton.complexAnnotonData.mcNode);
-
-    each(annoton.complexAnnotonData.geneProducts, function (geneProduct) {
-      let id = 'gp-' + annoton.nodes.length;
-      let node = self.config.addGPAnnotonData(annoton, id);
-      node.setTerm(geneProduct);
-    });
-
-  }
-
-  convertToSimple(annoton) {
-    const self = this;
-    let simpleAnnoton = self.config.createAnnotonModel(
-      annoton.annotonType,
-      annoton.annotonModelType
-    );
-    let mcNode = annoton.getNode('mc');
-    let mcEdge = annoton.getEdges('mc');
-
-    annoton.complexAnnotonData.mcNode.copyValues(mcNode);
-
-    each(simpleAnnoton.nodes, function (simpleNode) {
-      var node = annoton.getNode(node.id);
-      if (node) {
-        simpleNode.copyValues(node);
-      }
-    });
-
-    simpleAnnoton.complexAnnotonData.geneProducts = [];
-    each(mcEdge.nodes, function (node) {
-      var node = annoton.getNode(node.id);
-      if (node) {
-        simpleAnnoton.complexAnnotonData.geneProducts.push(node);
-      }
-    });
-
-    annoton = simpleAnnoton;
-
   }
 
   adjustBPOnly(annoton, srcEdge) {
@@ -1157,6 +1110,7 @@ export default class GraphService {
   createSave(srcAnnoton) {
     const self = this;
     let destAnnoton = new Annoton();
+    destAnnoton.copyStructure(srcAnnoton);
 
     let skipNodeDFS = function (sourceId, objectId) {
       const self = this;
@@ -1176,11 +1130,17 @@ export default class GraphService {
 
     each(srcAnnoton.nodes, function (srcNode) {
       if (srcNode.hasValue()) {
-        // let destNode = self.config.generateNode(srcNode.id);
-
-        // destNode.copyValues(srcNode);
         let destNode = srcNode;
-        destAnnoton.addNode(destNode);
+
+        if (destAnnoton.annotonType === self.saeConstants.annotonType.options.simple.name) {
+          if (srcNode.displayGroup !== self.saeConstants.displayGroup.mc) {
+            destAnnoton.addNode(destNode);
+          }
+        } else {
+          if (srcNode.id !== 'gp') {
+            destAnnoton.addNode(destNode);
+          }
+        }
       }
     });
 
@@ -1298,7 +1258,6 @@ export default class GraphService {
     let geneProduct;
 
     if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
-      self.convertToComplex(annoton);
       geneProduct = annoton.getNode('mc');
     } else {
       geneProduct = annoton.getNode('gp');
@@ -1330,7 +1289,9 @@ export default class GraphService {
       return manager.request_with(reqs);
     }
 
-    return self.saveGP(geneProduct, success);
+    //return self.saveGP(geneProduct, success);
+
+    return success();
 
   }
 

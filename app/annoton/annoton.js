@@ -30,11 +30,16 @@ export default class Annoton extends SaeGraph {
     return null;
   }
 
-  copyValues(srcAnnoton) {
+  copyStructure(srcAnnoton) {
     const self = this;
 
-    self.complexAnnotonData.geneProducts = srcAnnoton.complexAnnotonData.geneProducts;
-    self.complexAnnotonData.mcNode.copyValues(srcAnnoton.complexAnnotonData.mcNode);
+    self.annotonType = srcAnnoton.annotonType;
+    self.annotonModelType = srcAnnoton.annotonModelType;
+    self.complexAnnotonData = srcAnnoton.complexAnnotonData;
+  }
+
+  copyValues(srcAnnoton) {
+    const self = this;
 
     each(self.nodes, function (destNode) {
       let srcNode = srcAnnoton.getNode(destNode.id);
@@ -78,19 +83,6 @@ export default class Annoton extends SaeGraph {
     this.annotonModelType = type;
   }
 
-  populateComplexData() {
-    const self = this;
-
-    let edge = self.getEdges('mc');
-
-    self.complexAnnotonData.mcNode = self.getNode('mc');
-    self.complexAnnotonData.geneProducts = [];
-
-    each(edge.nodes, function (node) {
-      self.complexAnnotonData.geneProducts.push(node.object.term.control.value);
-    });
-  }
-
   addEdgeOptionById(id, edgeOption) {
     const self = this;
 
@@ -121,6 +113,7 @@ export default class Annoton extends SaeGraph {
       }
     }
 
+    /*
     if (self.annotonType === 'complex') {
       if (self.complexAnnotonData.mcNode.term.control.value && !self.complexAnnotonData.mcNode.term.control.value.id) {
         let meta = {
@@ -140,6 +133,7 @@ export default class Annoton extends SaeGraph {
         result = false;
       }
     }
+    */
 
     return result;
   }

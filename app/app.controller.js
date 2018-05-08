@@ -340,6 +340,14 @@ export default class AppController {
     }
   }
 
+  addHasPartGP(annoton) {
+
+    const self = this;
+
+    self.config.addGPAnnotonData(annoton);
+    self.formGrid.initalizeForm();
+  }
+
   startGuide() {
     const self = this;
     let canToggle = true;

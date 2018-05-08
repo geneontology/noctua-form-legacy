@@ -159,7 +159,7 @@ export default class AnnotonParser {
         label: node.term.control.value.label
       }
     }
-    let error = new AnnotonError('warning', 1, "There was an error before ", meta);
+    let error = new AnnotonError('warning', 1, "There was an error above ", meta);
     self.errors.push(error);
     node.errors.push(error);
 

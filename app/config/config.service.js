@@ -56,7 +56,7 @@ export default class ConfigService {
         'id': 'mc',
         "label": 'Macromolecular Complex',
         "relationship": this.saeConstants.edge.hasPart,
-        "displaySection": this.saeConstants.displaySection.gp,
+        "displaySection": this.saeConstants.displaySection.mc,
         "displayGroup": this.saeConstants.displayGroup.mc,
         "lookupGroup": 'GO:0032991',
         'treeLevel': 0,
@@ -293,9 +293,17 @@ export default class ConfigService {
     this._modelRelationship = {
       default: {
         nodes: [
-          'mf', 'mf-1', 'mf-2', 'bp', 'bp-1', 'bp-1-1', 'cc', 'cc-1', 'cc-1-1', 'cc-1-1-1'
+          'gp', 'mc', 'mf', 'mf-1', 'mf-2', 'bp', 'bp-1', 'bp-1-1', 'cc', 'cc-1', 'cc-1-1', 'cc-1-1-1'
         ],
         triples: [{
+          subject: 'mf',
+          object: 'mc',
+          edge: this.saeConstants.edge.enabledBy
+        }, {
+          subject: 'mf',
+          object: 'gp',
+          edge: this.saeConstants.edge.enabledBy
+        }, {
           subject: 'mf',
           object: 'bp',
           edge: this.saeConstants.edge.partOf
@@ -351,7 +359,7 @@ export default class ConfigService {
       },
       ccOnly: {
         nodes: [
-          'cc', 'cc-1', 'cc-1-1', 'cc-1-1-1'
+          'gp', 'mc', 'cc', 'cc-1', 'cc-1-1', 'cc-1-1-1'
         ],
         overrides: {
           'cc': {
@@ -369,6 +377,14 @@ export default class ConfigService {
           }
         },
         triples: [{
+          subject: 'gp',
+          object: 'cc',
+          edge: this.saeConstants.edge.partOf
+        }, {
+          subject: 'mc',
+          object: 'cc',
+          edge: this.saeConstants.edge.partOf
+        }, {
           subject: 'cc',
           object: 'cc-1',
           edge: this.saeConstants.edge.partOf
@@ -400,7 +416,7 @@ export default class ConfigService {
       },
       bpOnly: {
         nodes: [
-          'mf', 'bp'
+          'gp', 'mc', 'mf', 'bp'
         ],
         overrides: {
           mf: {
@@ -413,6 +429,14 @@ export default class ConfigService {
           }
         },
         triples: [{
+          subject: 'mf',
+          object: 'mc',
+          edge: this.saeConstants.edge.enabledBy
+        }, {
+          subject: 'mf',
+          object: 'gp',
+          edge: this.saeConstants.edge.enabledBy
+        }, {
           subject: 'mf',
           object: 'bp',
           edge: this.saeConstants.edge.upstreamOfOrWithin,
@@ -605,7 +629,7 @@ export default class ConfigService {
     let annoton = new Annoton();
     let modelIds = _.cloneDeep(self._modelRelationship);
 
-    let gp = modelIds[modelType][annotonType];
+    //  let gp = modelIds[modelType][annotonType];
 
     annoton.setAnnotonType(annotonType);
     annoton.setAnnotonModelType(modelType);
@@ -614,8 +638,10 @@ export default class ConfigService {
       annoton.addNode(self.generateNode(id));
     });
 
-    annoton.addNode(self.generateNode(gp.node));
-    annoton.addEdgeById(gp.triple.subject, gp.triple.object, gp.triple.edge);
+    // annoton.addNode(self.generateNode(gp.node));
+    //annoton.addEdgeById(gp.triple.subject, gp.triple.object, gp.triple.edge);
+
+    self.addGPAnnotonData(annoton);
 
     each(modelIds[modelType].triples, function (triple) {
       annoton.addEdgeById(triple.subject, triple.object, triple.edge);
@@ -623,9 +649,6 @@ export default class ConfigService {
         annoton.addEdgeOptionById(triple.object, triple.edgeOption);
       }
     });
-
-    annoton.complexAnnotonData.gpTemplateNode = self.generateNode('gp');
-    annoton.complexAnnotonData.mcNode = self.generateNode('mc')
 
     if (srcAnnoton) {
       annoton.copyValues(srcAnnoton);
@@ -644,8 +667,6 @@ export default class ConfigService {
 
     return annoton;
   }
-
-
 
   generateAnnotonSection(annoton, modelType, connector) {
     const self = this;
@@ -707,13 +728,17 @@ export default class ConfigService {
     let nodeData = JSON.parse(JSON.stringify(self._annotonData['gp']));
     let annotonNode = new AnnotonNode()
 
+    if (!id) {
+      id = 'gp' + uuid();
+    }
+
     annotonNode.id = id;
     annotonNode.aspect = nodeData.aspect;
     annotonNode.ontologyClass = nodeData.ontologyClass;
     annotonNode.label = "has part (GP)";
     annotonNode.relationship = nodeData.relationship;
-    annotonNode.displaySection = nodeData.displaySection;
-    annotonNode.displayGroup = nodeData.displayGroup;
+    annotonNode.displaySection = self.saeConstants.displaySection.gp;
+    annotonNode.displayGroup = self.saeConstants.displayGroup.mc;
     annotonNode.lookupGroup = nodeData.lookupGroup;
     annotonNode.treeLevel = 1;
     annotonNode.setTermLookup(nodeData.term.lookup.requestParams);
