@@ -125,7 +125,7 @@ export default class AnnotonParser {
         label: objectNodeTerm.label
       },
     }
-    let error = new AnnotonError('error', 2, "Incorrect association between " +
+    let error = new AnnotonError('error', 2, "Incorrect relationship between " +
       meta.subjectNode.label + ' and ' + meta.objectNode.label, meta);
 
     self.errors.push(error);
