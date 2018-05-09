@@ -664,7 +664,9 @@ export default class GraphService {
               //self.check
               let closureRange = self.lookup.getLocalClosureRange(subjectNode.term.id, self.config.closureCheck[predicateId]);
 
-              if (!closureRange) {
+              if (!closureRange && !_.find(self.saeConstants.causalEdges, {
+                  id: predicateId
+                })) {
                 isDoomed = true;
                 annoton.parser.setCardinalityError(annotonNode, node.object.getTerm(), predicateId);
               }
