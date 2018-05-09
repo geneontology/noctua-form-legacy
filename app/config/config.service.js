@@ -512,13 +512,11 @@ export default class ConfigService {
     this.closureCheck[this.saeConstants.edge.enabledBy.id] = {
       edge: this.saeConstants.edge.enabledBy,
       closures: [{
-        object: this.saeConstants.closures.mf
+        subject: this.saeConstants.closures.mf
       }, {
         object: this.saeConstants.closures.gp
       }, {
-        subject: this.saeConstants.closures.gp
-      }, {
-        subject: this.saeConstants.closures.mc
+        object: this.saeConstants.closures.mc
       }]
     };
 

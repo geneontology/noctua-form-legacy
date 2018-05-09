@@ -625,8 +625,6 @@ export default class GraphService {
     return annotons;
   }
 
-
-
   graphToAnnatonDFS(graph, annoton, mfEdgesIn, annotonNode, isDoomed) {
     const self = this;
     let edge = annoton.getEdges(annotonNode.id);
