@@ -38,9 +38,11 @@ export default class AnnotonParser {
               label: self.getNodeLabel(graph, edge.object_id())
             },
           }
-          error = new AnnotonError('error', 3, "More than 1 " + predicateLabel + " found", meta)
+          error = new AnnotonError('warning', 3, "More than 1 " + predicateLabel + " found", meta)
           self.errors.push(error);
           node.errors.push(error);
+          self.warnings.push(error);
+          node.warnings.push(error);
           result = false;
         } else {
           edges.push(predicateId);
@@ -207,8 +209,9 @@ export default class AnnotonParser {
               label: self.getNodeLabel(graph, edge.object_id())
             },
           }
-          error = new AnnotonError('error', 3, "More than 1 " + predicateLabel + " found.", meta)
+          error = new AnnotonError('warning', 3, "More than 1 " + predicateLabel + " found.", meta)
           self.errors.push(error);
+
           result = false;
         }
 

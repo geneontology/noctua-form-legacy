@@ -74,7 +74,7 @@ export default class Evidence {
   hasValue() {
     const self = this;
 
-    return this.evidence.control.value.id;
+    return self.evidence.control.value.id && self.reference.control.value;
   }
 
   setAssignedBy(value, link) {
