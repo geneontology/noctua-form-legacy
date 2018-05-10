@@ -592,6 +592,16 @@ export default class ConfigService {
       closures: [{
         object: this.saeConstants.closures.cc
       }, {
+        object: this.saeConstants.closures.cl
+      }, {
+        object: this.saeConstants.closures.ub
+      }, {
+        subject: this.saeConstants.closures.bp
+      }, {
+        subject: this.saeConstants.closures.cl
+      }, {
+        subject: this.saeConstants.closures.ub
+      }, {
         subject: this.saeConstants.closures.cc
       }, {
         subject: this.saeConstants.closures.mf
