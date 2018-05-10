@@ -310,7 +310,7 @@
                       <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
                     </md-button>
                     <md-menu-content width="3">
-                      <md-menu-item>
+                      <md-menu-item ng-if="false">
                         <md-button class="" ng-click="appCtrl.removeHasPartGP(appCtrl.formGrid.annoton, entity)">
                           Remove GP
                         </md-button>
@@ -503,7 +503,7 @@
                               Root Term
                             </md-button>
                           </md-menu-item>
-                          <md-menu-item ng-if="entity.aspect==='P'">
+                          <md-menu-item ng-if="false">
                             <md-button class="" ng-click="appCtrl.openAnnotonSectionDialog($event, entity, true)">
                               Add CC Component
                             </md-button>

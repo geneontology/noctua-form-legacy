@@ -434,6 +434,7 @@ export default class ConfigService {
           'cc-1-1': {
             id: 'cc-1-1',
             label: "occurs in (Cell Type)",
+            relationship: this.saeConstants.edge.occursIn,
             display: {
               displaySection: this.saeConstants.displaySection.fd,
               displayGroup: this.saeConstants.displayGroup.bp,
@@ -442,6 +443,7 @@ export default class ConfigService {
           },
           'cc-1-1-1': {
             id: 'cc-1-1-1',
+            relationship: this.saeConstants.edge.occursIn,
             display: {
               displaySection: this.saeConstants.displaySection.fd,
               displayGroup: this.saeConstants.displayGroup.bp,
