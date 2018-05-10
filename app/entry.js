@@ -42,6 +42,7 @@ import SelectEvidenceDialogController from './dialogs/select-evidence/select-evi
 import PopulateDialogController from './dialogs/populate/populate-dialog.controller.js';
 import AnnotonErrorsDialogController from './dialogs/annoton-errors/annoton-errors-dialog.controller.js';
 import EditAnnotonDialogController from './dialogs/edit-annoton/edit-annoton-dialog.controller.js';
+import EditAnnotonNodeDialogController from './dialogs/edit-annoton-node/edit-annoton-node-dialog.controller.js';
 import AddEvidenceDialogController from './dialogs/add-evidence/add-evidence-dialog.controller.js';
 import GeneListDialogController from './dialogs/gene-list/gene-list-dialog.controller.js';
 import ViewSummaryDialogController from './dialogs/view-summary/view-summary-dialog.controller.js';
@@ -328,6 +329,7 @@ app.controller('SelectEvidenceDialogController', SelectEvidenceDialogController)
 app.controller('PopulateDialogController', PopulateDialogController);
 app.controller('AnnotonErrorsDialogController', AnnotonErrorsDialogController)
 app.controller('EditAnnotonDialogController', EditAnnotonDialogController)
+app.controller('EditAnnotonNodeDialogController', EditAnnotonNodeDialogController)
 app.controller('GeneListDialogController', GeneListDialogController)
 app.controller('AddEvidenceDialogController', AddEvidenceDialogController)
 app.controller('ViewSummaryDialogController', ViewSummaryDialogController)

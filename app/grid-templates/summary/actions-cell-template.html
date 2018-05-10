@@ -8,7 +8,7 @@
             <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
         </md-button>
         <md-menu-content width="3">
-            <md-menu-item ng-if="fasle && row.entity.node.aspect === 'F'">
+            <md-menu-item ng-if="false && row.entity.node.aspect === 'F'">
                 <md-button class="" ng-click="grid.appScope.openConnectActivityDialog($event, row.entity.annoton, row.entity.node)">
                     Connect Activity
                 </md-button>
@@ -18,9 +18,14 @@
                     Search Database
                 </md-button>
             </md-menu-item>
-            <md-menu-item>
+            <md-menu-item ng-if="false">
                 <md-button class="" ng-click="grid.appScope.openLinkToExistingDialog($event, row.entity.node)">
                     Copy to Form
+                </md-button>
+            </md-menu-item>
+            <md-menu-item ng-if="false">
+                <md-button class="" ng-click="grid.appScope.openEditAnnotonNodeDialog($event, row.entity.annoton, row.entity.node)">
+                    Edit Row
                 </md-button>
             </md-menu-item>
         </md-menu-content>

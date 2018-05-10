@@ -656,8 +656,8 @@ export default class ConfigService {
       ]
     }
 
-    srcMFNode = annoton.addNode(self.generateNode('mf'));
-    objectMFNode = annoton.addNode(self.generateNode('mf'));
+    let srcMFNode = annoton.addNode(self.generateNode('mf'));
+    let objectMFNode = annoton.addNode(self.generateNode('mf'));
     annoton.addEdgeOptionById(objectMFNode, edgeOption);
     annoton.addEdge(srcMFNode, objectMFNode, annoton.edgeOption.selected);
 

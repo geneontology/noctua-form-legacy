@@ -74,6 +74,22 @@ export default class AppController {
     console.log(m, "aa", item, "m", model, "l", label);
   }
 
+
+  openEditAnnotonNodeDialog(ev, annoton, entity) {
+    const self = this;
+
+    let data = {
+      annoton: self.formGrid.annoton,
+      entity: self.formGrid.annoton.getNode('mf')
+    };
+
+    let success = function (selected) {
+      // self.formGrid.cloneForm(selected.annoton, selected.nodes);
+    }
+
+    self.dialogService.openEditAnnotonNodeDialog(ev, data, success);
+  }
+
   openGuideMeDialog(ev) {
     const self = this;
 

@@ -112,6 +112,18 @@ export default class DialogService {
     })
   }
 
+  openEditAnnotonNodeDialog(ev, data, success) {
+    this.$mdDialog.show({
+      controller: 'EditAnnotonNodeDialogController as annotonCtrl',
+      templateUrl: './dialogs/edit-annoton-node/edit-annoton-node-dialog.html',
+      targetEvent: ev,
+      clickOutsideToClose: false,
+      locals: {
+        data: data
+      }
+    }).then(success)
+  }
+
   openAddEvidenceDialog(ev, data) {
     this.$mdDialog.show({
       controller: 'AddEvidenceDialogController as annotonCtrl',
