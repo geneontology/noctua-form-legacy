@@ -439,7 +439,7 @@ export default class ConfigService {
               displaySection: this.saeConstants.displaySection.fd,
               displayGroup: this.saeConstants.displayGroup.bp,
             },
-            treeLevel: 2
+            treeLevel: 1
           },
           'cc-1-1-1': {
             id: 'cc-1-1-1',
@@ -681,6 +681,7 @@ export default class ConfigService {
 
     each(modelIds[modelType].overrides, function (overridesData) {
       let node = annoton.getNode(overridesData.id);
+      overridesData.treeLevel ? node.treeLevel = overridesData.treeLevel : angular.noop;;
       overridesData.termRequiredList ? node.termRequiredList = overridesData.termRequiredList : angular.noop;
       overridesData.term ? node.setTerm(overridesData.term) : angular.noop;
       overridesData.display ? node.setDisplay(overridesData.display) : angular.noop;
