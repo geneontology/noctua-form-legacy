@@ -152,8 +152,9 @@ I need to explicitly tweak the classes. There has to be a better way.
         padding: 0 0 5px 5px;
         .md-button {
             margin: 0;
+            font-size: 12px;
             @include deep-height(30px);
-            line-height: 30px;
+            line-height: 32px;
         }
     }
     a {

@@ -416,7 +416,7 @@ export default class ConfigService {
       },
       bpOnly: {
         nodes: [
-          'gp', 'mc', 'mf', 'bp'
+          'gp', 'mc', 'mf', 'bp', 'cc-1-1', 'cc-1-1-1'
         ],
         overrides: {
           mf: {
@@ -427,9 +427,27 @@ export default class ConfigService {
               displayGroup: '',
             }
           },
-          'bc': {
+          'bp': {
             id: 'bp',
             label: "Biological Process",
+          },
+          'cc-1-1': {
+            id: 'cc-1-1',
+            label: "occurs in (Cell Type)",
+            display: {
+              displaySection: this.saeConstants.displaySection.fd,
+              displayGroup: this.saeConstants.displayGroup.bp,
+            },
+            treeLevel: 2
+          },
+          'cc-1-1-1': {
+            id: 'cc-1-1-1',
+            display: {
+              displaySection: this.saeConstants.displaySection.fd,
+              displayGroup: this.saeConstants.displayGroup.bp,
+            },
+            label: "occurs in (Anatomy)",
+            treeLevel: 2
           },
         },
         triples: [{
@@ -440,6 +458,14 @@ export default class ConfigService {
           subject: 'mf',
           object: 'gp',
           edge: this.saeConstants.edge.enabledBy
+        }, {
+          subject: 'bp',
+          object: 'cc-1-1',
+          edge: this.saeConstants.edge.occursIn
+        }, {
+          subject: 'cc-1-1',
+          object: 'cc-1-1-1',
+          edge: this.saeConstants.edge.occursIn
         }, {
           subject: 'mf',
           object: 'bp',
@@ -631,17 +657,12 @@ export default class ConfigService {
     let annoton = new Annoton();
     let modelIds = _.cloneDeep(self._modelRelationship);
 
-    //  let gp = modelIds[modelType][annotonType];
-
     annoton.setAnnotonType(annotonType);
     annoton.setAnnotonModelType(modelType);
 
     each(modelIds[modelType].nodes, function (id) {
       annoton.addNode(self.generateNode(id));
     });
-
-    // annoton.addNode(self.generateNode(gp.node));
-    //annoton.addEdgeById(gp.triple.subject, gp.triple.object, gp.triple.edge);
 
     self.addGPAnnotonData(annoton);
 

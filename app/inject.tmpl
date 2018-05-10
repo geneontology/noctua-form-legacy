@@ -27,7 +27,7 @@
             <h2 ng-if="appCtrl.graph.modelTitle" class="sae-breadcrumb sae-active md-truncate">
               {{appCtrl.graph.modelTitle}}
             </h2>
-            <h2 ng-if="!appCtrl.graph.modelTitle" class="sae-active md-truncate">
+            <h2 ng-if="!appCtrl.graph.modelTitle" class="sae-breadcrumb sae-active md-truncate">
               Untitled Model
             </h2>
           </div>
@@ -589,7 +589,7 @@
       </md-menu>
     </div>
     <div ng-if="appCtrl.summaryViewMode.selected.id === appCtrl.summaryViewMode.options.grid.id" class="sae-summary-grid">
-      <div id="sae-molecular-activities" layout="column" layout-align="start stretch">
+      <div layout="column" layout-align="start stretch">
         <div>
           <h2>
             Molecular Activities in the Model
@@ -758,7 +758,8 @@
         </div>
       </div>
     </div>
-    <div ng-if="appCtrl.summaryViewMode.selected.id === appCtrl.summaryViewMode.options.table.id" class="sae-summary-table">
+    <div id="sae-molecular-activities" ng-if="appCtrl.summaryViewMode.selected.id === appCtrl.summaryViewMode.options.table.id"
+      class="sae-summary-table">
       <h2>
         Molecular Activities in the Model
       </h2>

@@ -313,9 +313,7 @@ app.constant('saeConstants', {
   }, {
     name: 'directly positively regulates',
     id: 'RO:0002629'
-  }],
-  rootMF: 'GO:0003674',
-  noDataECO: 'ECO:0000035',
+  }]
 });
 
 app.controller('AppController', AppController);

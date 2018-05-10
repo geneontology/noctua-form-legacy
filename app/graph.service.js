@@ -26,9 +26,6 @@ var local_minerva_definition_name = typeof global_minerva_definition_name !== 'u
 var local_barista_token = typeof global_barista_token !== 'undefined' ? global_barista_token : 'global_barista_token';
 var local_collapsible_relations = typeof global_collapsible_relations !== 'undefined' ? global_collapsible_relations : 'global_collapsible_relations';
 
-const rootMF = 'GO:0003674';
-const noDataECO = 'ECO:0000035';
-
 export default class GraphService {
   constructor(saeConstants, config, $http, $q, $rootScope, $timeout, $mdDialog, dialogService, lookup, formGrid) {
     this.config = config;
@@ -59,8 +56,6 @@ export default class GraphService {
     this.modelInfo = {
       graphEditorUrl: ""
     }
-
-    this.allNodes = {};
 
     this.localClosures = [];
   }
@@ -139,8 +134,6 @@ export default class GraphService {
       if (stateAnnotations.length > 0) {
         self.modelState = stateAnnotations[0].value(); // there should be only one
       }
-      self.graphPreParse(self.graph);
-
 
       self.graphPreParse(self.graph).then(function (data) {
           let deferred = self.$q.defer();
@@ -226,11 +219,6 @@ export default class GraphService {
       label: 'Annotation Preview',
       url: window.location.origin + '/workbench/simple-annoton-editor?' + (this.loggedIn ? parameterize(Object.assign({}, modelIdParams, baristaParams)) : ''),
     }]
-  }
-
-
-  getLocalClosure(a, b) {
-
   }
 
   getUserInfo() {
@@ -360,16 +348,14 @@ export default class GraphService {
     const self = this;
     var promises = [];
 
-
     each(graph.get_nodes(), function (node) {
       let termId = self.getNodeId(node);
 
       each(graph.get_edges_by_subject(node.id()), function (e) {
         let predicateId = e.predicate_id();
-        //if (e.predicate_id() === self.saeConstants.edge.enabledBy.id) {
-
         let objectNode = graph.get_node(e.object_id())
         let objectTermId = self.getNodeId(objectNode);
+
         if (self.config.closureCheck[predicateId]) {
           each(self.config.closureCheck[predicateId].closures, function (closure) {
             if (closure.subject) {
@@ -381,39 +367,16 @@ export default class GraphService {
             }
           });
         }
-
-
-        // console.log('--- ', mfId, gpId, e.predicate_id());
-        // }
       });
-
-      //  isaClosure(a, b)
-      //
-      // console.log('--- ', self.allNodes);
     });
 
     return self.$q.all(promises).then(function (data) {
-      console.log('all nodes', data, self.allNodes)
-      console.log('all closures', self.lookup.getAllLocalClosures())
+      // console.log('all closures', self.lookup.getAllLocalClosures())
 
-      each(data, function (entity) {
-        //entity.annoton.parser.parseNodeOntology(entity.node);
-      });
+      // each(data, function (entity) {
+      //entity.annoton.parser.parseNodeOntology(entity.node);
+      // });
     });
-  }
-
-  isaClosure(a, b, node) {
-    const self = this;
-    let deferred = self.$q.defer();
-
-    self.lookup.isaClosure(a, b).then(function (data) {
-      deferred.resolve({
-        node: node,
-        result: data
-      });
-    });
-
-    return deferred.promise;
   }
 
   isaClosurePreParse(a, b, node) {
@@ -422,17 +385,6 @@ export default class GraphService {
 
     self.lookup.isaClosure(a, b).then(function (data) {
       let nodeId = node.id();
-
-      if (!self.allNodes[nodeId]) {
-        self.allNodes[nodeId] = []
-      }
-
-      self.allNodes[nodeId].push({
-        nodeId: nodeId,
-        termId: a,
-        closure: b,
-        isaClosure: data
-      });
 
       self.lookup.addLocalClosure(a, b, data);
 
@@ -460,21 +412,6 @@ export default class GraphService {
         node: node,
         result: data
       });
-    });
-
-    return deferred.promise;
-  }
-
-  isaCCClosure(a, b, annoton) {
-    const self = this;
-    let deferred = self.$q.defer();
-
-    self.lookup.isaClosure(a, b).then(function (data) {
-      if (data === true) {
-        console.log(a, b, true)
-        annoton.ccOnlyVerified = true;
-      }
-      deferred.resolve(data);
     });
 
     return deferred.promise;
@@ -563,7 +500,6 @@ export default class GraphService {
 
     return annotons;
   }
-
 
   graphToCCOnly(graph) {
     const self = this;
@@ -715,122 +651,6 @@ export default class GraphService {
       each(data, function (entity) {
         //entity.annoton.parser.parseNodeOntology(entity.node);
       });
-    });
-  }
-
-  graphToCCOnly2(graph) {
-    const self = this;
-    var annotons = [];
-
-    each(graph.all_edges(), function (e) {
-      if (e.predicate_id() === self.saeConstants.edge.partOf.id) {
-        let gpId = e.subject_id();
-        let ccId = e.object_id();
-        let gpSubjectNode = self.subjectToTerm(graph, gpId);
-        let ccSubjectNode = self.subjectToTerm(graph, ccId);
-        let annoton = null;
-
-        //  if (gpSubjectNode.term.id && gpSubjectNode.term.id.startsWith('GO')) {
-        //  annoton = self.config.createComplexAnnotonModel();
-        // } else {
-        annoton = self.config.createAnnotonModel(
-          self.saeConstants.annotonType.options.simple.name,
-          self.saeConstants.annotonModelType.options.ccOnly.name
-        );
-        //   }
-
-        let evidence = self.edgeToEvidence(graph, e);
-        let ccEdgesIn = graph.get_edges_by_subject(gpId);
-        let annotonNode = annoton.getNode('gp');
-
-        annoton.parser = new AnnotonParser(self.saeConstants);
-
-        annotonNode.setTerm(gpSubjectNode.term);
-        annotonNode.setEvidence(evidence);
-        annotonNode.setIsComplement(gpSubjectNode.isComplement)
-        annotonNode.modelId = gpId;
-
-        self.graphToCCOnlyDFS(graph, annoton, ccEdgesIn, annotonNode);
-
-        if (annoton.annotonType === self.saeConstants.annotonType.options.complex.name) {
-          annoton.populateComplexData();
-        }
-        annotons.push(annoton);
-      }
-    });
-
-    return self.filterCCOnly(annotons);
-  }
-
-  graphToCCOnlyDFS(graph, annoton, ccEdgesIn, annotonNode) {
-    const self = this;
-    let edge = annoton.getEdges(annotonNode.id);
-
-    each(ccEdgesIn, function (toCCEdge) {
-      if (!toCCEdge) {
-        return;
-      }
-      let predicateId = toCCEdge.predicate_id();
-      let evidence = self.edgeToEvidence(graph, toCCEdge);
-      let toMFObject = toCCEdge.object_id();
-
-      if (annotonNode.id === "mc" && predicateId === self.saeConstants.edge.hasPart.id) {
-        self.config.addGPAnnotonData(annoton, toMFObject);
-      }
-
-      each(edge.nodes, function (node) {
-        if (predicateId === node.edge.id) {
-          if (predicateId === self.saeConstants.edge.hasPart.id && toMFObject !== node.object.id) {
-            //do nothing
-          } else {
-            let subjectNode = self.subjectToTerm(graph, toMFObject);
-
-            node.object.modelId = toMFObject;
-            node.object.setEvidence(evidence);
-            node.object.setTerm(subjectNode.term);
-            node.object.setIsComplement(subjectNode.isComplement)
-
-            //self.check
-
-            if (subjectNode.term && subjectNode.term.id) {
-              //   annoton.parser.parseNodeOntology(node.object, subjectNode.term.id);
-            }
-            self.graphToCCOnlyDFS(graph, annoton, graph.get_edges_by_subject(toMFObject), node.object);
-          }
-        }
-      });
-    });
-
-    //  annoton.parser.parseCardinality(graph, annotonNode, ccEdgesIn, edge.nodes);
-
-  }
-
-  filterCCOnly(annotons) {
-    const self = this;
-    let promises = [];
-
-    each(annotons, function (annoton) {
-      each(annoton.nodes, function (node) {
-        let term = node.getTerm();
-        if (term) {
-          if (annoton.annotonType === self.saeConstants.annotonType.options.simple.name) {
-            promises.push(self.isaCCClosure(node.getTerm().id, "CHEBI:33695", annoton));
-          } else {
-            promises.push(self.isaCCClosure(node.getTerm().id, "GO:0032991", annoton));
-          }
-        }
-      });
-    });
-
-    return self.$q.all(promises).then(function (data) {
-      let result = []
-
-      each(annotons, function (annoton) {
-        if (annoton.ccOnlyVerified) {
-          result.push(annoton)
-        }
-      });
-      return result;
     });
   }
 
