@@ -953,7 +953,7 @@ export default class GraphService {
         let destNode = srcNode;
 
         if (destAnnoton.annotonType === self.saeConstants.annotonType.options.simple.name) {
-          if (srcNode.displayGroup !== self.saeConstants.displayGroup.mc) {
+          if (srcNode.displayGroup.id !== self.saeConstants.displayGroup.mc.id) {
             destAnnoton.addNode(destNode);
           }
         } else {
