@@ -18,9 +18,14 @@
                     Search Database
                 </md-button>
             </md-menu-item>
+            <md-menu-item>
+                <md-button class="" ng-click="grid.appScope.formGrid.cloneForm(row.entity.annoton)">
+                    Copy to Form
+                </md-button>
+            </md-menu-item>
             <md-menu-item ng-if="false">
                 <md-button class="" ng-click="grid.appScope.openLinkToExistingDialog($event, row.entity.node)">
-                    Copy to Form
+                    Link to Form
                 </md-button>
             </md-menu-item>
             <md-menu-item ng-if="false">

@@ -279,6 +279,7 @@ export default class SummaryGridService {
       with: node.evidence[0].with.control.value,
       assignedBy: node.evidence[0].assignedBy.control.link,
       node: node,
+      annoton: row.annoton
       // $$treeLevel: node.treeLevel,
 
     })
