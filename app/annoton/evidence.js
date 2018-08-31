@@ -152,7 +152,7 @@ export default class Evidence {
   enableSubmit(errors, node, position) {
     const self = this;
     let result = true;
-    var pattern = new RegExp("^\\w+\\s*:\\s*\\d+$");
+    var pattern = new RegExp("^\\w+\\s*:.*$");
 
 
     if (!self.evidence.control.value.id) {
