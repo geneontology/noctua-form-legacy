@@ -97,7 +97,7 @@ export default class Annoton extends SaeGraph {
 
     each(self.nodes, function (node) {
       result = node.enableSubmit(self.submitErrors, self) && result;
-    })
+    });
 
     if (self.annotonType === 'simple') {
       let gp = self.getNode('gp');
@@ -112,6 +112,8 @@ export default class Annoton extends SaeGraph {
         result = false;
       }
     }
+
+    result = this.enableSubmitPostCheck(self.submitErrors, result);
 
     /*
     if (self.annotonType === 'complex') {
@@ -138,4 +140,29 @@ export default class Annoton extends SaeGraph {
     return result;
   }
 
+
+  enableSubmitPostCheck(errors, result) {
+    const self = this;
+
+    switch (self.annotonModelType) {
+      case "bpOnly":
+        {
+          let bp = self.getNode('bp');
+
+          if (bp && !bp.term.control.value.id) {
+            bp.term.control.required = true;
+            let meta = {
+              aspect: self.label
+            }
+            let error = new AnnotonError('error', 1, "A '" + bp.label + "' is required", meta)
+            errors.push(error);
+            result = false;
+          }
+
+          break;
+        }
+    }
+
+    return result;
+  }
 }
