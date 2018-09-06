@@ -127,12 +127,12 @@ var edge = {
     label: 'acts upstream of, negative effect'
   },
   upstreamOfOrWithinPositiveEffect: {
-    id: 'RO:0002629',
+    id: 'RO:0004032',
     actsId: 'RO:0004032',
     label: 'acts upstream of or within, positive effect'
   },
   upstreamOfOrWithinNegativeEffect: {
-    id: 'RO:0002630',
+    id: 'RO:0004046',
     actsId: 'RO:0004033',
     label: 'acts upstream of or within, negative effect'
   },
