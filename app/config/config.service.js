@@ -566,6 +566,15 @@ export default class ConfigService {
       }]
     }
 
+    this.closureCheck[this.saeConstants.edge.upstreamOfOrWithinPositiveEffect.id] = {
+      edge: this.saeConstants.edge.upstreamOfOrWithinPositiveEffect,
+      closures: [{
+        object: this.saeConstants.closures.bp
+      }, {
+        subject: this.saeConstants.closures.mf
+      }]
+    }
+
     this.closureCheck[this.saeConstants.edge.partOf.id] = {
       edge: this.saeConstants.edge.partOf,
       closures: [{

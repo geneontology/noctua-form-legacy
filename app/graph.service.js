@@ -810,8 +810,6 @@ export default class GraphService {
     let mfNode = annoton.getNode('mf');
     let bpNode = annoton.getNode('bp');
 
-
-
     if (mfNode && bpNode && annoton.annotonModelType === self.saeConstants.annotonModelType.options.bpOnly.name) {
       mfNode.displaySection = self.saeConstants.displaySection.fd;
       mfNode.displayGroup = self.saeConstants.displayGroup.mf;

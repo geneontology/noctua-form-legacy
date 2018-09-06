@@ -127,7 +127,7 @@ var edge = {
     label: 'acts upstream of, negative effect'
   },
   upstreamOfOrWithinPositiveEffect: {
-    id: 'RO:0004032',
+    id: 'RO:0004047',
     actsId: 'RO:0004032',
     label: 'acts upstream of or within, positive effect'
   },
@@ -292,10 +292,16 @@ app.constant('saeConstants', {
     id: 'RO:0002411'
   }, {
     label: 'causally upstream of, positive effect',
-    id: 'RO:0002304'
+    id: 'RO:0004032'
   }, {
     label: 'causally upstream of, negative effect',
     id: 'RO:0002305'
+  }, {
+    label: 'acts upstream of or within, positive effect',
+    id: 'RO:0004047'
+  }, {
+    label: 'acts upstream of or within, negative effect',
+    id: 'RO:0004046'
   }, {
     label: 'immediately causally upstream of',
     id: 'RO:0002412'
