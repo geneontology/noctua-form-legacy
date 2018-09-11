@@ -172,14 +172,31 @@ export default class AnnotonNode {
     const self = this;
 
     self.term.control.value = node.term.control.value;
-    self.evidence = node.evidence;
+
+    self.copyEvidence(node.evidence);
+    // self.evidence = node.evidence;
     self.assignedBy = node.assignedBy;
     self.isComplement = node.isComplement;
   }
 
   addEvidences(evidences, except) {
     const self = this;
-    let evidenceCount = self.evidence.length;
+
+    each(evidences, function (srcEvidence, i) {
+      let destEvidence;
+
+      if (!self.evidence[0].hasValue()) {
+        destEvidence = self.evidence[0];
+      } else {
+        destEvidence = self.addEvidence()
+      }
+
+      destEvidence.copyValues(srcEvidence, except);
+    });
+  }
+
+  copyEvidence(evidences, except) {
+    const self = this;
 
     each(evidences, function (srcEvidence, i) {
       let destEvidence;

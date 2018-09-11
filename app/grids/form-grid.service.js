@@ -24,6 +24,7 @@ export default class FormGridService {
       annoton.annotonModelType,
       annoton
     )
+
     self.initalizeForm();
   }
 
