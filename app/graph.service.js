@@ -646,7 +646,6 @@ export default class GraphService {
     });
 
     self.$q.all(promises).then(function (data) {
-      console.log('done node clodure', data)
 
       each(data, function (entity) {
         //entity.annoton.parser.parseNodeOntology(entity.node);

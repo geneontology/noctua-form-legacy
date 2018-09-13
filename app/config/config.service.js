@@ -443,12 +443,12 @@ export default class ConfigService {
           },
           'cc-1-1-1': {
             id: 'cc-1-1-1',
-            relationship: this.saeConstants.edge.occursIn,
+            relationship: this.saeConstants.edge.partOf,
             display: {
               displaySection: this.saeConstants.displaySection.fd,
               displayGroup: this.saeConstants.displayGroup.bp,
             },
-            label: "occurs in (Anatomy)",
+            label: "part of (Anatomy)",
             treeLevel: 2
           },
         },
