@@ -1,5 +1,6 @@
 @import "./scss/global.scss";
 @import "~bourbon/app/assets/stylesheets/bourbon";
+
 //$sae-primary-color-2: #8b9dc3;
 md-checkbox.md-checked.sae-primary .md-icon {
     background-color: $sae-primary-color;
@@ -45,7 +46,6 @@ div.input-group.input-group-sm div.no-results {
 styles aren't behaving properly, and because they don't go through the SCSS processor,
 I need to explicitly tweak the classes. There has to be a better way.
 */
-
 .navbar {
     height: 0;
     display: none;
@@ -53,12 +53,15 @@ I need to explicitly tweak the classes. There has to be a better way.
     background-color: #005888 !important;
     border: none;
     color: #EEE !important;
+
     a {
         color: #DDD !important;
+
         &:hover {
             color: #FFF !important;
         }
     }
+
     .navbar-collapse {
         padding: 0;
     }
@@ -116,40 +119,50 @@ I need to explicitly tweak the classes. There has to be a better way.
     position: fixed !important;
     @include deep-height(80px); //background-color: #005888 !important;
     border-bottom: $sae-primary-color-accent solid 3px; // color: #EEE !important; 
+
     .md-button {
         @include deep-height(40px);
         line-height: 40px;
     }
+
     .sae-name-button {
         @include deep-height(40px);
         text-align: left;
         text-transform: initial;
         line-height: 20px;
         font-size: 12px;
+
         .sae-info {
             margin-right: 5px;
             max-width: 150px;
             overflow: hidden;
+
             .sae-group-name {
                 font-size: 10px;
                 color: #888;
             }
         }
     }
+
     .md-toolbar-tools {
         @include deep-height(45px);
     }
+
     .sae-breadcrumb {
         font-size: 16px;
     }
+
     md-toolbar-filler {
         background-color: #FFF !important;
+
         img {
             height: 40px;
         }
     }
+
     md-menu-bar {
         padding: 0 0 5px 5px;
+
         .md-button {
             margin: 0;
             font-size: 12px;
@@ -157,18 +170,19 @@ I need to explicitly tweak the classes. There has to be a better way.
             line-height: 32px;
         }
     }
+
     a {
         // color: #DDD !important;
         //&:hover {
         // color: #FFF !important;
     }
+
     .navbar-collapse {
         padding: 0;
     }
 }
 
 /*Tools*/
-
 .sae-truncate {
     float: left;
     height: 30px;
@@ -184,6 +198,7 @@ I need to explicitly tweak the classes. There has to be a better way.
     padding: 0px 20px;
     height: 30px;
     background-color: $sae-primary-color; // border-bottom: #BBB solid 1px;
+
     .sae-title {
         line-height: 28px;
         color: #DDD;
@@ -193,7 +208,9 @@ I need to explicitly tweak the classes. There has to be a better way.
 
 .sae-body {
     width: 100%;
-    padding: 20px; ///background-color: #F2F2F2;
+    padding: 20px;
+    background-color: #EEE;
+    border-bottom: #BBB solid 1px;
 }
 
 .sae-toolbar {
@@ -202,6 +219,7 @@ I need to explicitly tweak the classes. There has to be a better way.
     width: 100%;
     background-color: #EEE;
     border-bottom: #BBB solid 1px;
+
     .sae-title {
         line-height: 38px;
         color: #555;
@@ -217,6 +235,7 @@ I need to explicitly tweak the classes. There has to be a better way.
         width: 100%;
         background-color: #F2F2F2;
         border-bottom: #BBB solid 1px;
+
         .sae-title {
             line-height: 38px;
             color: #555;
@@ -224,17 +243,21 @@ I need to explicitly tweak the classes. There has to be a better way.
             font-weight: bold;
         }
     }
+
     .sae-gp {
         background-color: #FFF;
     }
+
     .sae-form-section {
         margin: 10px 0;
         width: 100%;
         background-color: #FFF;
+
         .sae-section-header {
             height: 40px;
             background-color: $sae-primary-color-light;
             border-bottom: #DDD solid 1px;
+
             .sae-section-heading {
                 padding-left: 8px;
                 font-weight: bold;
@@ -242,87 +265,106 @@ I need to explicitly tweak the classes. There has to be a better way.
                 line-height: 40px;
                 color: #555;
             }
+
             .sae-action-button {
                 margin: 0px;
                 height: 40px; // line-height: 36px;
             }
         }
+
         .sae-section-body {
             //padding: 16px 14px;
         }
     }
+
     .sae-group-side-heading {
         @include deep-width(50px);
         background-color: #DDD;
         font-size: 10px;
         text-align: center;
     }
+
     .sae-term-group {
         // padding-bottom: 20px;
         margin-bottom: 3px;
         border-bottom: #CCC solid 1px;
         background-color: #FFF;
+
         .sae-group-heading {
             margin-bottom: 20px;
             height: 40px;
             font-weight: 500;
             font-size: 18px;
         }
+
         .sae-annoton-group-row {
             &.sae-row-disabled {
                 opacity: 0.2;
                 pointer-events: none;
             }
+
             &.sae-input-heading {
                 margin-top: 10px;
             }
         }
+
         .sae-action-button {
             margin: 8px 0 0 0;
             background-color: #FAFAFA;
             width: 35px;
             height: 35px;
+
             md-icon {
                 @include sae-icon-size(14px);
                 color: #AAA;
                 line-height: 18px;
             }
+
             &:hover {
                 background-color: #999;
+
                 md-icon {
                     color: #222;
                 }
             }
         }
     }
+
     .sae-table-form {
         width: 1148px;
+
         .sae-tree-input {
             $border-color: rgba(#000, 0.12);
             @include deep-width(20px);
             border-right: $border-color solid 1px;
+
             &.sae-level-0 {
                 border: none;
             }
         }
+
         md-input-container {
             margin: 0; //border-bottom: #555 solid 1px; 
             padding-top: 20px;
             padding-bottom: 8px;
+
             label {
                 top: 0px;
                 bottom: auto !important;
                 left: 5px;
             }
+
             .md-errors-spacer {
                 visibility: hidden;
                 display: none;
             }
+
             input {
                 padding-left: 5px;
             }
         }
     }
+
     .sae-submit-row {
         margin: 10px 0;
         padding: 10px 0;
@@ -343,43 +385,53 @@ I need to explicitly tweak the classes. There has to be a better way.
 .sae-summary-grid {
     //background-color: #E2E2E2;
     padding: 30px 20px;
+
     .sae-panel {
         background-color: #FFF;
     }
+
     .sae-panel-header {
         height: 60px;
         background-color: rgba($sae-primary-color-light, 0.4);
         border-bottom: #DDD solid 1px;
+
         &.sae-error {
             background-color: rgba(#f8d7da, 0.5);
         }
+
         &.sae-success {
             background-color: rgba(#c3e6cb, 0.5);
         }
+
         .sae-panel-heading {
             padding: 10px 0;
             height: 100%;
             padding-left: 8px;
+
             .sae-heading-title {
                 font-size: 14px;
                 color: #333;
                 margin-bottom: 5px;
             }
+
             .sae-heading-subtitle {
                 font-weight: 500;
                 font-size: 12px;
                 color: #555;
             }
         }
+
         .sae-action-button {
             margin: 0;
             width: 60px; // line-height: 36px;
             height: 60px; // border: #DDD solid 1px;
+
             md-icon {
                 @include sae-icon-size(16px);
                 line-height: 16px;
             }
         }
+
         .sae-error-button {
             font-size: 12px;
             margin: 0;
@@ -387,42 +439,52 @@ I need to explicitly tweak the classes. There has to be a better way.
             color: #8b3c3c;
         }
     }
+
     .sae-card {
         overflow: hidden;
         background-color: #FFF;
+
         &.sae-error {
             background-color: #ebcccc;
         }
+
         &.sae-success {
             // background-color: rgba(#c3e6cb, 0.5);
         }
+
         .sae-card-header {
             height: 60px;
             border-bottom: #DDD solid 1px;
+
             .sae-card-heading {
                 padding: 10px 8px;
                 height: 100%;
                 padding-left: 15px;
+
                 .sae-heading-title {
                     font-size: 14px;
                     color: #333;
                     margin-bottom: 5px;
                 }
+
                 .sae-heading-subtitle {
                     font-weight: 500;
                     font-size: 12px;
                     color: #555;
                 }
             }
+
             .sae-action-button {
                 margin: 0;
                 width: 60px; // line-height: 36px;
                 height: 60px; // border: #DDD solid 1px;
+
                 md-icon {
                     @include sae-icon-size(16px);
                     line-height: 16px;
                 }
             }
+
             .sae-error-button {
                 font-size: 12px;
                 margin: 0;
@@ -430,20 +492,24 @@ I need to explicitly tweak the classes. There has to be a better way.
                 color: #8b3c3c;
             }
         }
+
         .sae-card-footer {
             padding: 0 10px;
             height: 50px;
             border-top: #DDD solid 1px;
+
             .sae-action-button {
                 margin: 0;
                 width: 40px; // line-height: 36px;
                 height: 40px; // border: #DDD solid 1px;
+
                 md-icon {
                     @include sae-icon-size(20px);
                     line-height: 20px;
                 }
             }
         }
+
         .sae-term {
             @include deep-height(30px);
             @include deep-width(30px);
@@ -451,14 +517,17 @@ I need to explicitly tweak the classes. There has to be a better way.
             text-align: center;
             line-height: 30px;
             color: #CCC;
+
             &.sae-term-mf {
                 @include deep-height(40px);
                 @include deep-width(40px);
                 margin-top: 5px;
                 line-height: 40px;
+
                 .sae-fa-lg {
                     font-size: 30px;
                 }
+
                 .sae-fa-sm {
                     bottom: -5px;
                     right: -8px;
@@ -466,67 +535,82 @@ I need to explicitly tweak the classes. There has to be a better way.
                     font-size: 20px;
                 }
             }
+
             &.sae-term-cc {
                 .sae-fa-sm {
                     color: $sae-cc-color;
                 }
             }
+
             &.sae-term-bp {
                 .sae-fa-sm {
                     color: $sae-bp-color;
                 }
             }
         }
+
         .sae-card-row {
             padding: 8px 0;
             width: 100%;
             height: 50px;
             padding-left: 8px;
             border-bottom: #EEE solid 1px;
+
             .sae-term-description {
                 padding: 0 10px 0 16px;
             }
+
             .sae-predicate {
                 color: #888;
             }
         }
     }
+
     .sae-card-1 {
         overflow: hidden;
         background-color: #FFF;
+
         &.sae-error {
             background-color: #ebcccc;
         }
+
         &.sae-success {
             // background-color: rgba(#c3e6cb, 0.5);
         }
+
         .sae-card-header {
             height: 40px;
             border-bottom: #DDD solid 1px;
+
             .sae-card-heading {
                 padding: 10px 8px;
                 height: 100%;
                 padding-left: 15px;
+
                 .sae-heading-title {
                     font-size: 14px;
                     color: #333;
                     margin-bottom: 5px;
                 }
+
                 .sae-heading-subtitle {
                     font-weight: 500;
                     font-size: 12px;
                     color: #555;
                 }
             }
+
             .sae-action-button {
                 margin: 0;
                 width: 60px; // line-height: 36px;
                 height: 60px; // border: #DDD solid 1px;
+
                 md-icon {
                     @include sae-icon-size(16px);
                     line-height: 16px;
                 }
             }
+
             .sae-error-button {
                 font-size: 12px;
                 margin: 0;
@@ -534,20 +618,24 @@ I need to explicitly tweak the classes. There has to be a better way.
                 color: #8b3c3c;
             }
         }
+
         .sae-card-footer {
             padding: 0 10px;
             height: 50px;
             border-top: #DDD solid 1px;
+
             .sae-action-button {
                 margin: 0;
                 width: 40px; // line-height: 36px;
                 height: 40px; // border: #DDD solid 1px;
+
                 md-icon {
                     @include sae-icon-size(20px);
                     line-height: 20px;
                 }
             }
         }
+
         .sae-term {
             @include deep-height(30px);
             @include deep-width(30px);
@@ -555,14 +643,17 @@ I need to explicitly tweak the classes. There has to be a better way.
             text-align: center;
             line-height: 30px;
             color: #CCC;
+
             &.sae-term-mf {
                 @include deep-height(40px);
                 @include deep-width(40px);
                 margin-top: 5px;
                 line-height: 40px;
+
                 .sae-fa-lg {
                     font-size: 30px;
                 }
+
                 .sae-fa-sm {
                     bottom: -5px;
                     right: -8px;
@@ -570,75 +661,92 @@ I need to explicitly tweak the classes. There has to be a better way.
                     font-size: 20px;
                 }
             }
+
             &.sae-term-cc {
                 .sae-fa-sm {
                     color: $sae-cc-color;
                 }
             }
+
             &.sae-term-bp {
                 .sae-fa-sm {
                     color: $sae-bp-color;
                 }
             }
         }
+
         .sae-card-row {
             padding: 8px 0;
             width: 100%;
             height: 50px;
             padding-left: 8px;
             border-bottom: #EEE solid 1px;
+
             .sae-term-description {
                 padding: 0 10px 0 16px;
             }
+
             .sae-predicate {
                 color: #888;
             }
         }
     }
+
     .sae-summary-group {
         border-bottom: #555 solid 1px;
+
         .sae-summary-group-heading {
             @include deep-width(65px);
             border-right: #555 solid 1px; //background-color: rgba($sae-primary-color-light, 0.2);
             font-size: 18px;
             font-weight: bold;
         }
+
         .sae-summary-group-body {}
     }
+
     .sae-annoton-node {
         // height: 50px;
         //padding: 15px 10px;
         border-bottom: #CCC solid 1px;
+
         &.sae-error {
             background-color: rgba(#f8d7da, 0.5);
         }
+
         &.sae-error-sm {
             background-color: rgba(#f8d7da, 0.3);
         }
+
         .sae-annoton-node-heading {
             padding: 10px 0;
             height: 100%;
             padding-left: 8px;
+
             .sae-heading-title {
                 font-size: 14px;
                 color: #333;
                 margin-bottom: 5px;
             }
+
             .sae-heading-subtitle {
                 font-weight: 500;
                 font-size: 12px;
                 color: #555;
             }
         }
+
         .sae-error-button {
             @include deep-height(100%);
             font-size: 12px;
         }
     }
+
     .sae-fa-stack {
         .sae-fa-lg {
             font-size: 18px;
         }
+
         .sae-fa-sm {
             bottom: 0px;
             right: -8px;
@@ -651,20 +759,24 @@ I need to explicitly tweak the classes. There has to be a better way.
 .sae-summary-table {
     background-color: #F7F7F7;
     padding: 30px 20px;
+
     md-icon,
     i {
         @include sae-icon-size(initial);
         line-height: initial;
     }
+
     .grid {
         margin: 0;
         padding: 0; // 
         height: 10000px;
         width: 100%;
     }
+
     .ui-grid-top-panel {
         .ui-grid-header-cell {
             background-color: $sae-primary-color-light; //background-color: #00A1E0;
+
             //color: #DDD;
             .ui-grid-cell-contents {
                 display: flex;
@@ -674,23 +786,28 @@ I need to explicitly tweak the classes. There has to be a better way.
                 white-space: normal !important;
                 overflow: hidden;
             }
+
             .ui-grid-header-cell-label {
                 font-size: 10px !important; //  white-space: normal;
             }
         }
     }
+
     .ui-grid-viewport .ui-grid-cell-contents {
         word-wrap: break-word;
         white-space: normal !important;
     }
+
     .ui-grid-row,
     .ui-grid-cell {
         height: auto !important;
         font-size: 10px;
+
         .sae-action-button {
             margin: 0;
             @include deep-height(20px);
             line-height: 20px;
+
             md-icon,
             i {
                 @include sae-icon-size(14px);
@@ -698,55 +815,69 @@ I need to explicitly tweak the classes. There has to be a better way.
             }
         }
     }
+
     .ui-grid-row div[role=row] {
         display: flex;
         align-content: stretch;
     }
+
     .ui-grid,
     .ui-grid-viewport,
     .ui-grid-contents-wrapper,
     .ui-grid-canvas {
         // height: 100% !important;
     }
+
     .ui-grid-cell-contents {
         white-space: nowrap !important;
         background-color: transparent;
+
         .sae-gb-enabledby {
             color: #888;
             font-size: 10px;
         }
     }
+
     .sae-row-error {
         background-color: rgba(#f0cbcb, 0.5) !important;
     }
+
     .sae-row-warning {
         background-color: rgba(#f6e3d1, 0.5) !important;
     }
+
     .sae-row-divider {
         border-top: #BBB solid 5px;
     }
+
     .ui-grid-row .ui-grid-cell {
         padding: 3px; //  
         background-color: inherit; //  color: inherit !important;
         //   border: none;
     }
+
     .ui-grid-row .ui-grid-cell.ui-grid-cell {
         //  background-color: #7c7499;
         border-bottom: solid 1px #d4d4d4;
     }
+
     .sae-row-level-0 {
         // background-color: rgba($sae-primary-color, 0.2);
     }
+
     .sae-row-level-1 {
         // background-color: rgba($sae-primary-color, 0.1);
     }
+
     .sae-row-level-2 {
         //background-color: rgba($sae-primary-color, 0.05);
     }
+
     .ui-grid-cell {
         .sae-error {
             position: relative;
             background-color: #d49191 !important;
+
             .sae-cell-info-button {
                 @include position(absolute, 0 0 0 null);
                 background-color: #91d4a5 !important;
@@ -761,25 +892,30 @@ I need to explicitly tweak the classes. There has to be a better way.
     margin-top: 8px;
     margin-bottom: 8px; // border-bottom: #555 solid 1px;
     background-color: #FFF;
+
     .sae-populate-group-header {
         padding: 10px;
         border-bottom: #AAA solid 1px;
         font-size: 14px;
         font-weight: bold;
     }
+
     .sae-populate-group-body {
         .sae-checkbox-container {
             @include deep-width(30px);
         }
+
         .sae-populate-row-header {
             padding: 5px 10px 5px 20px;
             border-bottom: #CCC solid 1px;
             font-size: 10px;
             color: #888;
         }
+
         .sae-populate-row {
             padding: 5px 10px 5px 20px;
             border-bottom: #CCC solid 1px;
+
             &.sae-selected {
                 background-color: #91d4a5;
             }
@@ -793,110 +929,133 @@ md-dialog {
         background-color: #ECEFF1;
         width: 600px;
         overflow: hidden;
+
         .sae-container {
             width: 100%;
         }
+
         .sae-populate-group {
             background-color: transparent;
         }
+
         .sae-annoton-form {
             .sae-table-form {
                 width: 100%;
             }
         }
+
         md-toolbar {
             height: 50px;
             min-height: 50px;
             max-height: 50px;
         }
+
         md-dialog-content {
             padding: 0;
         }
     }
+
     &.sae-edit-annoton-dialog {
         //@include position(absolute, 40px 0 0 0);
         background-color: #ECEFF1;
         width: 1148px; //max-width: 100%;
         // min-height: 90%;
         overflow: hidden;
+
         .sae-container {
             width: 100%;
         }
+
         .sae-annoton-form {
             .sae-table-form {
                 width: 100%;
             }
         }
+
         md-toolbar {
             height: 50px;
             min-height: 50px;
             max-height: 50px; // background-color: rgba($gb-primary-color, 0.8);
         }
     }
+
     &.sae-companion-dialog {
         //@include position(absolute, 40px 0 0 0);
         background-color: #ECEFF1;
         width: 1148px; //max-width: 100%;
         // min-height: 90%;
         overflow: hidden;
+
         .sae-container {
             width: 100%;
         }
+
         .sae-annoton-form {
             .sae-table-form {
                 width: 100%;
             }
         }
+
         md-toolbar {
             height: 50px;
             min-height: 50px;
             max-height: 50px; // background-color: rgba($gb-primary-color, 0.8);
         }
     }
+
     &.sae-guide-me-dialog {
         @include position(absolute, 20px 10px 20px 20px);
         background-color: #ECEFF1; //width: 1148px; //max-width: 100%;
         @include deep-width(initial);
         @include deep-height(initial);
         overflow: hidden;
+
         .sae-container {
             width: 100%;
         }
+
         .sae-populate-group {
             padding-bottom: 20px;
             margin-top: 8px;
             margin-bottom: 8px; // border-bottom: #555 solid 1px;
             background-color: #FFF;
+
             .sae-populate-group-header {
                 padding: 10px;
                 border-bottom: #AAA solid 1px;
                 font-size: 14px;
                 font-weight: bold;
             }
+
             .sae-populate-group-body {
                 .sae-checkbox-container {
                     @include deep-width(30px);
                 }
+
                 .sae-populate-row-header {
                     padding: 5px 10px 5px 20px;
                     border-bottom: #CCC solid 1px;
                     font-size: 10px;
                     color: #888;
                 }
+
                 .sae-populate-row {
                     padding: 5px 10px 5px 20px;
                     border-bottom: #CCC solid 1px;
+
                     &.sae-selected {
                         background-color: #91d4a5;
                     }
                 }
             }
         }
+
         .sae-annoton-form {
             .sae-table-form {
                 width: 100%;
             }
         }
+
         md-toolbar {
             height: 50px;
             min-height: 50px;
@@ -914,6 +1073,7 @@ md-dialog {
     @include deep-width(85px);
     font-size: 8px;
     text-align: right;
+
     a {
         color: #0000EE;
         cursor: pointer;
@@ -928,6 +1088,7 @@ md-dialog {
     @include deep-width(85px);
     font-size: 8px;
     text-align: right;
+
     a {
         color: #0000EE;
         cursor: pointer;
@@ -936,6 +1097,7 @@ md-dialog {
 
 .sae-error-row {
     border-bottom: #CCC double 1px;
+
     .sae-number {
         padding: 18px 2px;
         @include deep-width(40px);
@@ -943,13 +1105,16 @@ md-dialog {
         font-size: 12px;
         text-align: center;
     }
+
     .sae-error-row-body {
         padding: 8px 10px 8px 10px;
     }
+
     .sae-heading {
         padding: 8px 0px;
         font-size: 14px;
     }
+
     .sae-node-card {
         padding: 5px;
         @include deep-height(65px);
@@ -959,15 +1124,18 @@ md-dialog {
         font-size: 10px;
         text-align: center;
         overflow: hidden;
+
         &.sae-lg {
             @include deep-height(100px);
             @include deep-width(150px);
         }
+
         &.sae-long {
             @include deep-height(60px);
             @include deep-width(300px);
         }
     }
+
     .sae-edge-card {
         .sae-line {
             padding-top: 15px;

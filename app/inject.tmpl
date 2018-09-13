@@ -180,8 +180,8 @@
             </div>
           </div>
         </div>
-        <div id="sae-gp-section" class="sae-table-form pb-15 sae-form-section md-whiteframe-2dp" layout="column" layout-align="start stretch"
-          flex>
+        <div id="sae-gp-section" class="sae-table-form pb-15 sae-form-section md-whiteframe-2dp" layout="column"
+          layout-align="start stretch" flex>
           <div class="sae-section-header" layout="row" layout-align="start start" flex>
             <div class="sae-section-heading">
               Gene Product
@@ -201,8 +201,8 @@
               </md-menu-content>
             </md-menu>
           </div>
-          <div ng-if="appCtrl.formGrid.annoton.annotonType === appCtrl.saeConstants.annotonType.options.simple.name" class="sae-section-body pt-15 ph-15"
-            layout="column" layout-align="start stretch">
+          <div ng-if="appCtrl.formGrid.annoton.annotonType === appCtrl.saeConstants.annotonType.options.simple.name"
+            class="sae-section-body pt-15 ph-15" layout="column" layout-align="start stretch">
             <div class="typeaheadcontainer" layout="row">
               <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItemsGP">
                 <i class="fa fa-spinner fa-spin fa-fw"></i>
@@ -211,10 +211,11 @@
                 <input aria-describedby="igGP" type="text" ng-model="appCtrl.formGrid.annotonPresentation.geneProduct.term.control.value"
                   ng-model-options="{allowInvalid: true}" ng-trim="false" placeholder="Gene Product" ng-blur="noResultsGP = false"
                   uib-typeahead="term as term.label + ' (' +term.id + ') ' for term in appCtrl.lookup.golrLookup($viewValue, appCtrl.formGrid.annotonPresentation.geneProduct.term.lookup.requestParams)"
-                  ng-required="appCtrl.formGrid.annotonPresentation.geneProduct.term.control.required" typeahead-append-to-body="true"
-                  xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP" typeahead-no-results="noResultsGP"
-                  typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length="1" xtypeahead-is-open="isOpen"
-                  typeahead-is-open="'true'" typeahead-on-select="appCtrl.onSelected(appCtrl.formGrid.annotonPresentation.geneProduct.term.control.value, $item, $model, $label, $event)"
+                  ng-required="appCtrl.formGrid.annotonPresentation.geneProduct.term.control.required"
+                  typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false"
+                  typeahead-loading="loadingItemsGP" typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html"
+                  typeahead-editable="true" typeahead-min-length="1" xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
+                  typeahead-on-select="appCtrl.onSelected(appCtrl.formGrid.annotonPresentation.geneProduct.term.control.value, $item, $model, $label, $event)"
                   class="typeaheadcontrol" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
               </md-input-container>
               <div class="no-results" ng-show="appCtrl.editingModel.GP.length > 2 && noResultsGP">
@@ -222,26 +223,28 @@
               </div>
             </div>
           </div>
-          <div ng-if="appCtrl.formGrid.annoton.annotonType === appCtrl.saeConstants.annotonType.options.complex.name" class="sae-section-body sae-term-group  pt-15 ph-15 pb-25"
-            layout="column" layout-align="start stretch">
+          <div ng-if="appCtrl.formGrid.annoton.annotonType === appCtrl.saeConstants.annotonType.options.complex.name"
+            class="sae-section-body sae-term-group  pt-15 ph-15 pb-25" layout="column" layout-align="start stretch">
             <div class="typeaheadcontainer">
               <div style="position:absolute;z-index:100;margin-left:4px;" ng-show="loadingItemsGP">
                 <i class="fa fa-spinner fa-spin fa-fw"></i>
               </div>
               <md-input-container class="md-block">
-                <input aria-describedby="igGP" type="text" ng-model="appCtrl.formGrid.annotonPresentation.mcNode.term.control.value" ng-trim="false"
-                  placeholder="Macromolecular Complex GO Term" ng-blur="noResultsGP = false" uib-typeahead="term as term.label + ' (' +term.id + ') ' for term in appCtrl.lookup.golrLookup($viewValue, appCtrl.formGrid.annotonPresentation.mcNode.term.lookup.requestParams)"
-                  typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false" typeahead-loading="loadingItemsGP"
-                  typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html" typeahead-editable="true"
-                  typeahead-min-length="1" xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected('GP', $item, $model, $label, $event)"
-                  class="typeaheadcontrol" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                <input aria-describedby="igGP" type="text" ng-model="appCtrl.formGrid.annotonPresentation.mcNode.term.control.value"
+                  ng-trim="false" placeholder="Macromolecular Complex GO Term" ng-blur="noResultsGP = false"
+                  uib-typeahead="term as term.label + ' (' +term.id + ') ' for term in appCtrl.lookup.golrLookup($viewValue, appCtrl.formGrid.annotonPresentation.mcNode.term.lookup.requestParams)"
+                  typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false"
+                  typeahead-loading="loadingItemsGP" typeahead-no-results="noResultsGP" typeahead-template-url="customTemplate.html"
+                  typeahead-editable="true" typeahead-min-length="1" xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
+                  typeahead-on-select="appCtrl.termSelected('GP', $item, $model, $label, $event)" class="typeaheadcontrol"
+                  ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
               </md-input-container>
               <div class="no-results" ng-show="appCtrl.editingModel.GP.length > 2 && noResultsGP">
                 No Results Found
               </div>
             </div>
-            <div ng-repeat="entity in appCtrl.formGrid.annotonPresentation.gp.mc.nodes" class="sae-annoton-group-row" layout="column"
-              ng-class="{'sae-input-heading' : entity.treeLevel===0,
+            <div ng-repeat="entity in appCtrl.formGrid.annotonPresentation.gp.mc.nodes" class="sae-annoton-group-row"
+              layout="column" ng-class="{'sae-input-heading' : entity.treeLevel===0,
                    'sae-row-disabled': !entity.enableRow()}">
               <div class="" layout="column" layout-align="start stretch">
 
@@ -257,13 +260,13 @@
                       <i class="fa fa-spinner fa-spin fa-fw"></i>
                     </div>
                     <md-input-container class="md-block">
-                      <input aria-label="term" type="text" ng-model="entity.term.control.value" ng-model-options="{allowInvalid: true}" tabindex="0"
-                        ng-trim="false" ng-required="entity.term.control.required" uib-typeahead="term as term.label for term in appCtrl.lookup.golrLookup($viewValue, entity.term.lookup.requestParams)"
+                      <input aria-label="term" type="text" ng-model="entity.term.control.value" ng-model-options="{allowInvalid: true}"
+                        tabindex="0" ng-trim="false" ng-required="entity.term.control.required" uib-typeahead="term as term.label for term in appCtrl.lookup.golrLookup($viewValue, entity.term.lookup.requestParams)"
                         typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false"
-                        typeahead-loading="loadingItems[term]" typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html"
-                        typeahead-editable="true" typeahead-min-length="1" xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
-                        typeahead-on-select="appCtrl.termSelected(term, $item, $model, $label, $event)" class="typeaheadcontrol"
-                        placeholder="{{entity.label}}" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                        typeahead-loading="loadingItems[term]" typeahead-no-results="noResults[term]"
+                        typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length="1"
+                        xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected(term, $item, $model, $label, $event)"
+                        class="typeaheadcontrol" placeholder="{{entity.label}}" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
                     </md-input-container>
                     <div class="no-results" ng-show="appCtrl.editingModel[term].length > 2 && noResults[term]">
                       No Results Foundd
@@ -279,14 +282,14 @@
                           + {{entity.evidence.length-1}} evidence(s)
                         </a>
                       </div>
-                      <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value" ng-trim="false" tabindex="0"
-                        ng-model-options="{allowInvalid: true}" ng-required="entity.evidence[0].evidence.control.required"
+                      <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value"
+                        ng-trim="false" tabindex="0" ng-model-options="{allowInvalid: true}" ng-required="entity.evidence[0].evidence.control.required"
                         uib-typeahead="term as term.label for term in appCtrl.lookup.golrLookup($viewValue, entity.evidence[0].evidence.lookup.requestParams)"
                         typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false"
-                        typeahead-loading="loadingItems[term + 'e']" typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html"
-                        typeahead-editable="true" typeahead-min-length="1" xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
-                        typeahead-on-select="appCtrl.termSelected(term + 'e', $item, $model, $label, $event)" class="typeaheadcontrol"
-                        placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                        typeahead-loading="loadingItems[term + 'e']" typeahead-no-results="noResults[term + 'e']"
+                        typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length="1"
+                        xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected(term + 'e', $item, $model, $label, $event)"
+                        class="typeaheadcontrol" placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
                     </md-input-container>
                     <div class="no-results" ng-show="appCtrl.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
                       No Results Found
@@ -301,12 +304,13 @@
                   </div>
                   <div class="" flex="15">
                     <md-input-container class="md-block">
-                      <input tabindex="0" ng-trim="true" ng-model="entity.evidence[0].with.control.value" type="text" class="" placeholder="With"
-                        aria-label="With"> </md-input-container>
+                      <input tabindex="0" ng-trim="true" ng-model="entity.evidence[0].with.control.value" type="text"
+                        class="" placeholder="With" aria-label="With"> </md-input-container>
                   </div>
                   <span flex></span>
                   <md-menu md-position-mode="target-right target">
-                    <md-button aria-label="Open Annoton Model Type" class="md-icon-button sae-action-button md-raised" ng-click="$mdMenu.open($event)">
+                    <md-button aria-label="Open Annoton Model Type" class="md-icon-button sae-action-button md-raised"
+                      ng-click="$mdMenu.open($event)">
                       <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
                     </md-button>
                     <md-menu-content width="3">
@@ -386,8 +390,10 @@
             </md-menu>
           </div>
           <div class="sae-section-body" layout="column" layout-align="start stretch">
-            <div ng-repeat="nodeGroup in appCtrl.formGrid.annotonPresentation.fd" class="sae-term-group md-whiteframe-1dp" layout="row">
-              <div ng-if="nodeGroup.isComplement" class="sae-group-side-heading" layout="column" layout-align="center center" flex>
+            <div ng-repeat="nodeGroup in appCtrl.formGrid.annotonPresentation.fd" class="sae-term-group md-whiteframe-1dp"
+              layout="row">
+              <div ng-if="nodeGroup.isComplement" class="sae-group-side-heading" layout="column" layout-align="center center"
+                flex>
                 <div>IS NOT</div>
               </div>
               <div class="pb-20" layout="column" flex>
@@ -420,13 +426,13 @@
                               Linked To Existing
                             </a>
                           </div>
-                          <input aria-label="term" type="text" ng-model="entity.term.control.value" ng-model-options="{allowInvalid: true}" tabindex="0"
-                            ng-trim="false" ng-required="entity.term.control.required" uib-typeahead="term as term.label for term in appCtrl.lookup.golrLookup($viewValue, entity.term.lookup.requestParams)"
+                          <input aria-label="term" type="text" ng-model="entity.term.control.value" ng-model-options="{allowInvalid: true}"
+                            tabindex="0" ng-trim="false" ng-required="entity.term.control.required" uib-typeahead="term as term.label for term in appCtrl.lookup.golrLookup($viewValue, entity.term.lookup.requestParams)"
                             typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false"
-                            typeahead-loading="loadingItems[term]" typeahead-no-results="noResults[term]" typeahead-template-url="customTemplate.html"
-                            typeahead-editable="true" typeahead-min-length="1" xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
-                            typeahead-on-select="appCtrl.termSelected(term, $item, $model, $label, $event)" class="typeaheadcontrol"
-                            placeholder="{{entity.label}}" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                            typeahead-loading="loadingItems[term]" typeahead-no-results="noResults[term]"
+                            typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length="1"
+                            xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected(term, $item, $model, $label, $event)"
+                            class="typeaheadcontrol" placeholder="{{entity.label}}" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
                         </md-input-container>
                         <div class="no-results" ng-show="appCtrl.editingModel[term].length > 2 && noResults[term]">
                           No Results Foundd
@@ -442,14 +448,14 @@
                               + {{entity.evidence.length-1}} evidence(s)
                             </a>
                           </div>
-                          <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value" ng-trim="false" tabindex="0"
-                            ng-model-options="{allowInvalid: true}" ng-required="entity.evidence[0].evidence.control.required"
+                          <input aria-label="evidence" type="text" ng-model="entity.evidence[0].evidence.control.value"
+                            ng-trim="false" tabindex="0" ng-model-options="{allowInvalid: true}" ng-required="entity.evidence[0].evidence.control.required"
                             uib-typeahead="term as term.label for term in appCtrl.lookup.golrLookup($viewValue, entity.evidence[0].evidence.lookup.requestParams)"
                             typeahead-append-to-body="true" xtypeahead-focus-on-select="true" xtypeahead-select-on-blur="false"
-                            typeahead-loading="loadingItems[term + 'e']" typeahead-no-results="noResults[term + 'e']" typeahead-template-url="customTemplate.html"
-                            typeahead-editable="true" typeahead-min-length="1" xtypeahead-is-open="isOpen" typeahead-is-open="'true'"
-                            typeahead-on-select="appCtrl.termSelected(term + 'e', $item, $model, $label, $event)" class="typeaheadcontrol"
-                            placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
+                            typeahead-loading="loadingItems[term + 'e']" typeahead-no-results="noResults[term + 'e']"
+                            typeahead-template-url="customTemplate.html" typeahead-editable="true" typeahead-min-length="1"
+                            xtypeahead-is-open="isOpen" typeahead-is-open="'true'" typeahead-on-select="appCtrl.termSelected(term + 'e', $item, $model, $label, $event)"
+                            class="typeaheadcontrol" placeholder="Evidence" ng-class="isOpen ? 'typeahead-is-open' : 'typeahead-is-closed'">
                         </md-input-container>
                         <div class="no-results" ng-show="appCtrl.editingModel[term + 'e'].length > 2 && noResults[term + 'e']">
                           No Results Found
@@ -458,18 +464,19 @@
                       <div class="" flex="15">
                         <md-input-container class="md-block">
                           <input tabindex="0" ng-trim="true" ng-model-options="{allowInvalid: true}" ng-model="entity.evidence[0].reference.control.value"
-                            type="text" ng-required="entity.evidence[0].reference.control.required" class="" placeholder="Reference"
-                            aria-label="reference">
+                            type="text" ng-required="entity.evidence[0].reference.control.required" class=""
+                            placeholder="Reference" aria-label="reference">
                         </md-input-container>
                       </div>
                       <div class="" flex="15">
                         <md-input-container class="md-block">
-                          <input tabindex="0" ng-trim="true" ng-model="entity.evidence[0].with.control.value" type="text" class="" placeholder="With"
-                            aria-label="With"> </md-input-container>
+                          <input tabindex="0" ng-trim="true" ng-model="entity.evidence[0].with.control.value" type="text"
+                            class="" placeholder="With" aria-label="With"> </md-input-container>
                       </div>
                       <span flex></span>
                       <md-menu md-position-mode="target-right target">
-                        <md-button aria-label="Open Annoton Model Type" class="md-icon-button sae-action-button md-raised" ng-click="$mdMenu.open($event)">
+                        <md-button aria-label="Open Annoton Model Type" class="md-icon-button sae-action-button md-raised"
+                          ng-click="$mdMenu.open($event)">
                           <md-icon md-font-icon="fa fa-ellipsis-v"></md-icon>
                         </md-button>
                         <md-menu-content width="3">
@@ -540,11 +547,12 @@
               Why is the "save" button disabled?
             </button>
             <span flex></span>
-            <md-button type="button" ng-disabled="false" ng-click="appCtrl.formGrid.clearForm()" class="md-raised" aria-label="Clear Form">
+            <md-button type="button" ng-disabled="false" ng-click="appCtrl.formGrid.clearForm()" class="md-raised"
+              aria-label="Clear Form">
               Clear
             </md-button>
-            <md-button type="button" ng-disabled="!appCtrl.formGrid.annoton.enableSubmit()" ng-click="appCtrl.saveAnnoton()" class="md-primary md-raised"
-              aria-label="Save Form">
+            <md-button type="button" ng-disabled="!appCtrl.formGrid.annoton.enableSubmit()" ng-click="appCtrl.saveAnnoton()"
+              class="md-primary md-raised" aria-label="Save Form">
               Save
             </md-button>
             <md-button ng-if="false" type="button" ng-disabled="!appCtrl.formGrid.annoton.enableSubmit()" ng-click="appCtrl.saveAnnoton(true)"
@@ -568,7 +576,7 @@
         Not Logged In
       </div>
     </div>
-
+    <!--
     <div class="sae-section-header" layout="row" layout-align="start start" flex>
       <div class="sae-section-heading">
         View
@@ -588,6 +596,8 @@
         </md-menu-content>
       </md-menu>
     </div>
+
+    -->
     <div ng-if="appCtrl.summaryViewMode.selected.id === appCtrl.summaryViewMode.options.grid.id" class="sae-summary-grid">
       <div layout="column" layout-align="start stretch">
         <div>
@@ -603,13 +613,16 @@
         <div class="sae-container sae-summary" layout="row" layout-align="start" layout-wrap>
           <div ng-repeat="summaryRow in appCtrl.summaryData.annotons" class="sae-card-widget p-10" flex="33">
             <div class="sae-card md-whiteframe-2dp" ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
-          'sae-error': !summaryRow.annoton.parser.clean }" layout-fill>
+          'sae-error': !summaryRow.annoton.parser.clean }"
+              layout-fill>
               <div class="sae-card-header" layout="row" layout-align="start start" flex>
                 <div class="sae-term sae-term-mf">
                   <span class="sae-fa-stack fa-stack fa-lg">
                     <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
-                    <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.simple.name" class="sae-fa-sm fa fa-cube fa-stack-1x"></i>
-                    <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.complex.name" class="sae-fa-sm fa fa-cubes fa-stack-1x"></i>
+                    <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.simple.name"
+                      class="sae-fa-sm fa fa-cube fa-stack-1x"></i>
+                    <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.complex.name"
+                      class="sae-fa-sm fa fa-cubes fa-stack-1x"></i>
                   </span>
                 </div>
                 <div class="sae-card-heading" flex>
@@ -699,13 +712,16 @@
         <div ng-repeat="summaryRow in appCtrl.summaryData.ccComponents" ng-if="summaryRow.annoton.ccOnlyVerified" class="sae-card-widget p-10"
           flex="33">
           <div class="sae-card-1 md-whiteframe-2dp" ng-class="{ 'sae-success': summaryRow.annoton.parser.clean,
-          'sae-error': !summaryRow.annoton.parser.clean }" layout-fill>
+          'sae-error': !summaryRow.annoton.parser.clean }"
+            layout-fill>
             <div class="sae-card-header" layout="row" layout-align="start start" flex>
               <div class="sae-term sae-term-cc">
                 <span class="sae-fa-stack fa-stack fa-lg">
                   <i class="sae-fa-lg icon-go-logo fa-stack-2x"></i>
-                  <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.simple.name" class="sae-fa-sm fa fa-cube fa-stack-1x"></i>
-                  <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.complex.name" class="sae-fa-sm fa fa-cubes fa-stack-1x"></i>
+                  <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.simple.name"
+                    class="sae-fa-sm fa fa-cube fa-stack-1x"></i>
+                  <i ng-if="summaryRow.annoton.annotonType===appCtrl.saeConstants.annotonType.options.complex.name"
+                    class="sae-fa-sm fa fa-cubes fa-stack-1x"></i>
                 </span>
               </div>
               <div class="sae-card-heading" flex>
@@ -764,8 +780,8 @@
         Annotations in the Model
       </h2>
       <br>
-      <div ui-grid="appCtrl.summaryGrid.gridOptions" ui-grid-resize-columns ui-grid-auto-resize ui-grid-pinning ui-grid-move-columns
-        class="grid">
+      <div ui-grid="appCtrl.summaryGrid.gridOptions" ui-grid-resize-columns ui-grid-auto-resize ui-grid-pinning
+        ui-grid-move-columns class="grid">
       </div>
     </div>
   </div>
