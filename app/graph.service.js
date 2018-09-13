@@ -27,10 +27,11 @@ var local_barista_token = typeof global_barista_token !== 'undefined' ? global_b
 var local_collapsible_relations = typeof global_collapsible_relations !== 'undefined' ? global_collapsible_relations : 'global_collapsible_relations';
 
 export default class GraphService {
-  constructor(saeConstants, config, $http, $q, $rootScope, $timeout, $mdDialog, dialogService, lookup, formGrid) {
+  constructor(saeConstants, config, $http, $window, $q, $rootScope, $timeout, $mdDialog, dialogService, lookup, formGrid) {
     this.config = config;
     this.saeConstants = saeConstants
     this.$http = $http;
+    this.$window = $window;
     this.$q = $q;
     this.$rootScope = $rootScope;
     this.$timeout = $timeout;
@@ -115,15 +116,27 @@ export default class GraphService {
 
     function rebuild(resp) {
       let noctua_graph = model.graph;
+      let prevModelId = self.model_id;
+      self.model_id = local_id = global_id = resp.data().id;
+
+      if (self.model_id && prevModelId !== self.model_id) {
+
+        console.log('ids', prevModelId, self.model_id)
+        self.createGraphUrls(self.model_id);
+        self.$window.location.href = self.modelInfo.saeUrl;
+        return;
+      }
 
       self.graph = new noctua_graph();
-      self.model_id = local_id = global_id = resp.data().id;
+
       self.graph.load_data_basic(resp.data());
 
       self.modelTitle = null;
       self.modelState = null;
 
       self.createGraphUrls(self.model_id);
+
+
       let annotations = self.graph.get_annotations_by_key(annotationTitleKey);
       let stateAnnotations = self.graph.get_annotations_by_key('state');
 
@@ -1136,4 +1149,4 @@ export default class GraphService {
   }
 
 }
-GraphService.$inject = ['saeConstants', 'config', '$http', '$q', '$rootScope', '$timeout', '$mdDialog', 'dialogService', 'lookup', 'formGrid'];
+GraphService.$inject = ['saeConstants', 'config', '$http', '$window', '$q', '$rootScope', '$timeout', '$mdDialog', 'dialogService', 'lookup', 'formGrid'];
