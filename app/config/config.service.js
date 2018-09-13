@@ -467,7 +467,7 @@ export default class ConfigService {
         }, {
           subject: 'cc-1-1',
           object: 'cc-1-1-1',
-          edge: this.saeConstants.edge.occursIn
+          edge: this.saeConstants.edge.partOf
         }, {
           subject: 'mf',
           object: 'bp',
