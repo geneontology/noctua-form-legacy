@@ -1,0 +1,7 @@
+menu-name: "Noctua form Legacy"
+page-name: "Noctua form 1.0"
+type: "model"
+help-link: "http://github.com/geneontology/noctua-form-legacy/issues"
+javascript:
+  - bundle.js
+css: []

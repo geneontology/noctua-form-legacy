@@ -8,7 +8,7 @@ var path = require('path');
 const ASSETS_LIMIT = typeof process.env.ASSETS_LIMIT !== 'undefined' ? parseInt(process.env.ASSETS_LIMIT, 10) : 5000; // limit bellow the assets will be inlines
 
 var nodeEnvironment = process.env.BUILD;
-var dist = path.join(__dirname, 'workbenches/simple-annoton-editor/public');
+var dist = path.join(__dirname, 'workbenches/noctua-form-legacy/public');
 var app = path.join(__dirname, 'app');
 var bs = path.join(__dirname, 'node_modules/bootstrap');
 var bss = path.join(__dirname, 'node_modules/bootstrap-sass');
@@ -26,7 +26,7 @@ var entryFile = './entry.js';
 var outputPath = dist;
 var outputFile = './bundle.js';
 var indexFile = 'index.ejs';
-var baseURL = (production || lproduction) ? '/simple-annoton-editor/' : '/';
+var baseURL = (production || lproduction) ? '/noctua-form-legacy/' : '/';
 
 var config = {
   context: app,
@@ -36,7 +36,7 @@ var config = {
   output: {
     path: outputPath,
     filename: outputFile,
-    publicPath: '/workbench/simple-annoton-editor/'
+    publicPath: '/workbench/noctua-form-legacy/'
   },
 
   resolve: {

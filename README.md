@@ -1,4 +1,4 @@
-# simple-annoton-editor
+# noctua-form-legacy
 
 A Noctua Workbench to allow entry and viewing of models in a tabular format.
 
@@ -10,7 +10,7 @@ A Noctua Workbench to allow entry and viewing of models in a tabular format.
 
 ### How to Build
 
-This creates the required workbench files in `workbenches/simple-annoton-editor/` that will be loaded by Noctua when the workbench is invoked.
+This creates the required workbench files in `workbenches/noctua-form-legacy/` that will be loaded by Noctua when the workbench is invoked.
 
 ```bash
 npm install
@@ -27,7 +27,7 @@ WORKBENCHES:
   type: list
   value:
     - 'workbenches'
-    - '../simple-annoton-editor/workbenches'
+    - '../noctua-form-legacy/workbenches'
 ```
 
 ### How to Dev
