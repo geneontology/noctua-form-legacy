@@ -1,10 +1,10 @@
 {
-  "name": "simple-annoton-editor",
+  "name": "noctua-form-legacy",
   "version": "0.1.1",
   "description": "A Noctua workbench (type='model') enabling viewing and editing models in a tabular format",
   "main": "index.js",
   "scripts": {
-    "clean": "rm -rf workbenches/simple-annoton-editor/public",
+    "clean": "rm -rf workbenches/noctua-form-legacy/public",
     "build": "npm run clean && BUILD=production node_modules/.bin/webpack --bail",
     "devbuild": "BUILD=lproduction node_modules/.bin/webpack --bail",
     "dev": "npm run clean && BUILD=development node_modules/.bin/webpack-dev-server --port 8089 --devtool=source-map --progress --colors",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/geneontology/simple-annoton-editor.git"
+    "url": "git+https://github.com/geneontology/noctua-form-legacy.git"
   },
   "keywords": [
     "noctua"
@@ -21,7 +21,7 @@
   "author": "Daniel Keith <dan@quantumclay.com> (https://doctorbud.com)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/geneontology/simple-annoton-editor/issues"
+    "url": "https://github.com/geneontology/noctua-form-legacy/issues"
   },
   "browserify": {
     "transform": [
@@ -44,7 +44,7 @@
       ]
     }
   },
-  "homepage": "https://github.com/geneontology/simple-annoton-editor#readme",
+  "homepage": "https://github.com/geneontology/noctua-form-legacy#readme",
   "devDependencies": {
     "autoprefixer": "^7.2.5",
     "babel-core": "^6.26.0",

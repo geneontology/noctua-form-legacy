@@ -1,7 +1,0 @@
-menu-name: "Noctua form"
-page-name: "Noctua form v0.1.1"
-type: "model"
-help-link: "http://github.com/geneontology/simple-annoton-editor/issues"
-javascript:
-  - bundle.js
-css: []

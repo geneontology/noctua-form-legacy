@@ -202,9 +202,9 @@ export default class GraphService {
     self.modelInfo.owlUrl = window.location.origin + "/download/" + modelId + "/owl";
     self.modelInfo.gpadUrl = window.location.origin + "/download/" + modelId + "/gpad";
     self.modelInfo.graphEditorUrl = window.location.origin + "/editor/graph/" + modelId + "?" + (this.loggedIn ? parameterize(baristaParams) : '');
-    self.modelInfo.saeUrl = window.location.origin + '/workbench/simple-annoton-editor?' + (this.loggedIn ? parameterize(Object.assign({}, modelIdParams, baristaParams)) : '');
-    self.modelInfo.logoutUrl = self.barista_location + '/logout?' + parameterize(baristaParams) + '&amp;return=' + window.location.origin + '/workbench/simple-annoton-editor?' + parameterize(baristaParams)
-    self.modelInfo.loginUrl = self.barista_location + '/login?return=' + window.location.origin + '/workbench/simple-annoton-editor';
+    self.modelInfo.saeUrl = window.location.origin + '/workbench/noctua-form-legacy?' + (this.loggedIn ? parameterize(Object.assign({}, modelIdParams, baristaParams)) : '');
+    self.modelInfo.logoutUrl = self.barista_location + '/logout?' + parameterize(baristaParams) + '&amp;return=' + window.location.origin + '/workbench/noctua-form-legacy?' + parameterize(baristaParams)
+    self.modelInfo.loginUrl = self.barista_location + '/login?return=' + window.location.origin + '/workbench/noctua-form-legacy';
 
     //Workbenches 
     self.modelInfo.workbenches = [{
@@ -230,7 +230,7 @@ export default class GraphService {
       url: window.location.origin + '/workbench/pathwayview?' + (this.loggedIn ? parameterize(Object.assign({}, modelIdParams, baristaParams)) : ''),
     }, {
       label: 'Annotation Preview',
-      url: window.location.origin + '/workbench/simple-annoton-editor?' + (this.loggedIn ? parameterize(Object.assign({}, modelIdParams, baristaParams)) : ''),
+      url: window.location.origin + '/workbench/noctua-form-legacy?' + (this.loggedIn ? parameterize(Object.assign({}, modelIdParams, baristaParams)) : ''),
     }]
   }
 
