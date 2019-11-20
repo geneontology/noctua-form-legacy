@@ -75,7 +75,7 @@
   },
   "dependencies": {
     "amigo2": "^2.4.3",
-    "angular": "^1.6.8",
+    "angular": "^1.7.9",
     "angular-animate": "^1.6.8",
     "angular-aria": "^1.6.8",
     "angular-joyride": "^1.0.10",
