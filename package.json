@@ -96,7 +96,7 @@
     "bootstrap-sass": "^3.3.7",
     "font-awesome": "^4.7.0",
     "golr-conf": "0.0.3",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "jsonformatter": "^0.6.0",
     "lodash": "^4.17.4",
     "material-steppers": "^2.0.0",
